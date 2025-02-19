@@ -16,4 +16,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Category> Categories { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        // Check constraint to ensure that either WalletId or CreditCardId is not null, but not both
+        modelBuilder.Entity<Transaction>()
+            .HasCheckConstraint(
+                "CK_Transactions_WalletOrCreditCard", 
+                "(\"WalletId\" IS NOT NULL AND \"CreditCardId\" IS NULL) OR (\"WalletId\" IS NULL AND \"CreditCardId\" IS NOT NULL)"
+                );    
+    }
 }
