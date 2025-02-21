@@ -5,7 +5,7 @@ namespace BusinessLogic.DTOs;
 public sealed class ApplicationUserDTO
 {
     [Required]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     [Required(ErrorMessage = "Please enter a username")]
     public string UserName { get; set; }
     [Required(ErrorMessage = "Please enter an email")]

@@ -1,12 +1,8 @@
-using DataAccess.Entities;
+using BusinessLogic.DTOs;
 
 namespace BusinessLogic.Services.IServices;
 
-public interface ICreditCardService
+public interface ICreditCardService : IBaseService<CreditCardDTO>
 { 
-      Task<CreditCard?> GetByIdAsync(int creditCardId);
-      Task<IEnumerable<CreditCard>> GetAllAsync(CreditCard creditCard);
-      Task AddAsync(CreditCard creditCard);
-      Task UpdateAsync(CreditCard creditCard);
-      Task RemoveAsync(CreditCard creditCard);
+
 }

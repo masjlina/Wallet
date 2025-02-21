@@ -1,12 +1,8 @@
-using DataAccess.Entities;
+using BusinessLogic.DTOs;
 
 namespace BusinessLogic.Services.IServices;
 
-public interface ITransactionService
+public interface ITransactionService : IBaseService<TransactionDTO>
 { 
-      Task<Transaction?> GetByIdAsync(int transactionId);
-      Task<IEnumerable<Transaction>> GetAllAsync(Transaction transaction);
-      Task AddAsync(Transaction transaction);
-      Task UpdateAsync(Transaction transaction);
-      Task RemoveAsync(Transaction transaction);
+
 }

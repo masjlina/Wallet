@@ -22,5 +22,5 @@ public sealed class WalletDTO : BaseEntity
     public decimal Cash {get; set;}
 
     public ICollection<int>? TransactionIds { get; set; } = new List<int>();
-    public ICollection<CreditCardDTO>? CreditCards { get; set; }
+    public ICollection<CreditCardDTO>? CreditCardDtos { get; set; }
 }

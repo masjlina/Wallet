@@ -1,12 +1,9 @@
-using DataAccess.Entities;
+using BusinessLogic.DTOs;
 
 namespace BusinessLogic.Services.IServices;
 
 public interface IApplicationUserService
 { 
-      Task<ApplicationUser?> GetByIdAsync(string applicationUserId);
-      Task<IEnumerable<ApplicationUser>> GetAllAsync(ApplicationUser applicationUser);
-      Task AddAsync(ApplicationUser applicationUser);
-      Task UpdateAsync(ApplicationUser applicationUser);
-      Task RemoveAsync(ApplicationUser applicationUser);
+    public Task<ApplicationUserDTO?> GetByIdAsync(string id);
+    public Task UpdateAsync(ApplicationUserDTO userDTO);
 }

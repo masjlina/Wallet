@@ -20,7 +20,7 @@ public sealed class TransactionDTO : BaseEntity
     // CreditCard
     public CreditCardDTO CreditCardDto { get; set; }
     // Wallet
-    public WalletDTO WalletDto { get; set; }
+    public WalletDTO WalletDTO { get; set; }
     // Category
-    public CategoryDTO? Category { get; set; }
+    public CategoryDTO? CategoryDTO { get; set; }
 }
