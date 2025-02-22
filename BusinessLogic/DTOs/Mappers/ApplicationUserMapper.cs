@@ -2,7 +2,7 @@ using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-public static class ApplicationUserMapper
+internal static class ApplicationUserMapper
 {
     public static ApplicationUserDTO ToApplicationUserDTO(this ApplicationUser user)
     {
@@ -13,7 +13,7 @@ public static class ApplicationUserMapper
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             AvatarUri = user.AvatarUri,
-            WalletDto = user.Wallet.ToWalletDTO(),
+            WalletDto = user.Wallet?.ToWalletDTO(),
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };

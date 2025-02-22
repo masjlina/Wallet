@@ -5,7 +5,7 @@ using DataAccess.Data;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessLogic.Services.Services;
+namespace BusinessLogic.Services;
 
 public class ApplicationUserService : IApplicationUserService
 {
@@ -27,7 +27,7 @@ public class ApplicationUserService : IApplicationUserService
 
             return user.ToApplicationUserDTO();
       }
-
+      
       public async Task UpdateAsync(ApplicationUserDTO userDTO)
       {
             _dbContext.Users.Update(userDTO.ToApplicationUser());
