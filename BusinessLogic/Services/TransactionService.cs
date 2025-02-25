@@ -18,43 +18,56 @@ public class TransactionService : ITransactionService
       
     public async Task<TransactionDTO?> GetByIdAsync(int transactionId)
     {
-        var transaction = await _dbContext.Transactions.FirstOrDefaultAsync(i =>  i.Id == transactionId);
-
-        if (transaction == null)
-        {
-            return new TransactionDTO();
-        }
-        
-        return transaction.ToTransactionDTO();
+        var transaction = await _dbContext.Transactions.FindAsync(transactionId);
+        return transaction?.ToTransactionDTO();
     }
 
     public async Task<IEnumerable<TransactionDTO>> GetAllAsync()
     {
         var transactions = await _dbContext.Transactions.ToListAsync();
-
-        if (transactions == null)
-        {
-            return new List<TransactionDTO>();
-        }
-        
         return transactions.Select(i => i.ToTransactionDTO());
     }
 
-    public async Task AddAsync(TransactionDTO transactionDTO)
+    public async Task<bool> AddAsync(TransactionDTO transactionDTO)
     {
+        var existingTransaction = await _dbContext.Transactions.FindAsync(transactionDTO.Id);
+        if (existingTransaction is not null)
+        {
+            return false;
+        }
+
         await _dbContext.Transactions.AddAsync(transactionDTO.ToTransaction());
         await _dbContext.SaveChangesAsync();
+
+        return true;
     }
 
-    public async Task UpdateAsync(TransactionDTO transactionDTO)
+    public async Task<bool> UpdateAsync(TransactionDTO transactionDTO)
     {
-        _dbContext.Transactions.Update(transactionDTO.ToTransaction());
+        var existingTransaction = await _dbContext.Transactions.FindAsync(transactionDTO.Id);
+        if (existingTransaction is null)
+        {
+            return false;
+        }
+
+        _dbContext.Entry(existingTransaction).CurrentValues.SetValues(transactionDTO.ToTransaction());
         await _dbContext.SaveChangesAsync();
+
+        return true;
     }
 
-    public async Task RemoveAsync(TransactionDTO transactionDTO)
+    public async Task<bool> RemoveAsync(int transactionId)
     {
-        _dbContext.Transactions.Remove(transactionDTO.ToTransaction());
+        var transaction = await _dbContext.Transactions.FindAsync(transactionId);
+        if (transaction is null)
+        {
+            return false;
+        }
+
+        _dbContext.Transactions.Remove(transaction);
         await _dbContext.SaveChangesAsync();
+
+        return true;
     }
+
 }

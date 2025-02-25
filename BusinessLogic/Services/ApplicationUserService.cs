@@ -18,19 +18,20 @@ public class ApplicationUserService : IApplicationUserService
       
       public async Task<ApplicationUserDTO?> GetByIdAsync(string userId)
       {
-            ApplicationUser? user = await _dbContext.Users.FirstOrDefaultAsync(i =>  i.Id == userId);
-
-            if (user == null)
-            {
-                  return new ApplicationUserDTO();
-            }
-
-            return user.ToApplicationUserDTO();
+            var user = await _dbContext.Users.FindAsync(userId);
+            return user?.ToApplicationUserDTO();
       }
       
-      public async Task UpdateAsync(ApplicationUserDTO userDTO)
+      public async Task<bool> UpdateAsync(ApplicationUserDTO userDTO)
       {
-            _dbContext.Users.Update(userDTO.ToApplicationUser());
+            var existingUser = await _dbContext.Users.FindAsync(userDTO.Id);
+            if (existingUser is null)
+            {
+                  return false;
+            }
+            _dbContext.Entry(existingUser).CurrentValues.SetValues(userDTO.ToApplicationUser());
             await _dbContext.SaveChangesAsync();
+
+            return false;
       }
 }

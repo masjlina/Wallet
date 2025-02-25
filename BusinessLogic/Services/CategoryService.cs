@@ -9,52 +9,64 @@ namespace BusinessLogic.Services;
 
 public class CategoryService : ICategoryService
 {
-      private readonly ApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-      public CategoryService(ApplicationDbContext dbContext)
-      {
-            _dbContext = dbContext;
-      }
+    public CategoryService(ApplicationDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
       
-      public async Task<CategoryDTO?> GetByIdAsync(int categoryId)
-      {
-            var category = await _dbContext.Categories.FirstOrDefaultAsync(i =>  i.Id == categoryId);
+    public async Task<CategoryDTO?> GetByIdAsync(int categoryId)
+    {
+        var category = await _dbContext.Categories.FindAsync(categoryId);
+        return category?.ToCategoryDTO();
+    }
 
-            if (category == null)
-            {
-                  return new CategoryDTO();
-            }
-            
-            return category.ToCategoryDTO();
-      }
+    public async Task<IEnumerable<CategoryDTO>> GetAllAsync()
+    {
+        var categories = await _dbContext.Categories.ToListAsync();
+        return categories.Select(i => i.ToCategoryDTO());
+    }
 
-      public async Task<IEnumerable<CategoryDTO>> GetAllAsync()
-      {
-            var categories = await _dbContext.Categories.ToListAsync();
+    public async Task<bool> AddAsync(CategoryDTO categoryDTO)
+    {
+        var existingCategory = await _dbContext.Categories.FindAsync(categoryDTO.Id);
+        if (existingCategory is not null)
+        {
+            return false;
+        }
+        
+        await _dbContext.Categories.AddAsync(categoryDTO.ToCategory());
+        await _dbContext.SaveChangesAsync();
 
-            if (categories == null)
-            {
-                  return new List<CategoryDTO>();
-            }
-            
-            return categories.Select(i => i.ToCategoryDTO());
-      }
+        return true;
+    }
 
-      public async Task AddAsync(CategoryDTO categoryDTO)
-      {
-            await _dbContext.Categories.AddAsync(categoryDTO.ToCategory());
-            await _dbContext.SaveChangesAsync();
-      }
+    public async Task<bool> UpdateAsync(CategoryDTO categoryDTO)
+    {
+        var existingCategory = await _dbContext.Categories.FindAsync(categoryDTO.Id);
+        if (existingCategory is null)
+        {
+            return false;
+        }
 
-      public async Task UpdateAsync(CategoryDTO categoryDTO)
-      {
-            _dbContext.Categories.Update(categoryDTO.ToCategory());
-            await _dbContext.SaveChangesAsync();
-      }
+        _dbContext.Entry(existingCategory).CurrentValues.SetValues(categoryDTO.ToCategory());
+        await _dbContext.SaveChangesAsync();
 
-      public async Task RemoveAsync(CategoryDTO categoryDTO)
-      {
-            _dbContext.Categories.Remove(categoryDTO.ToCategory());
-            await _dbContext.SaveChangesAsync();
-      }
+        return true;
+    }
+
+    public async Task<bool> RemoveAsync(int categoryId)
+    {
+        var category = await _dbContext.Categories.FindAsync(categoryId);
+        if (category is null)
+        {
+            return false;
+        }
+
+        _dbContext.Categories.Remove(category);
+        await _dbContext.SaveChangesAsync();
+
+        return true;
+    }
 }

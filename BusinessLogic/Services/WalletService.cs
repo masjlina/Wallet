@@ -2,6 +2,7 @@ using BusinessLogic.DTOs;
 using BusinessLogic.DTOs.Mappers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
+using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
@@ -17,43 +18,56 @@ public class WalletService : IWalletService
       
     public async Task<WalletDTO?> GetByIdAsync(int walletId)
     {
-        var wallet = await _dbContext.Wallets.FirstOrDefaultAsync(i =>  i.Id == walletId);
-
-        if (wallet == null)
-        {
-            return new WalletDTO();
-        }
+        var wallet = await _dbContext.Wallets.FindAsync(walletId);
         
-        return wallet.ToWalletDTO();
+        return wallet?.ToWalletDTO();
     }
 
     public async Task<IEnumerable<WalletDTO>> GetAllAsync()
     {
         var wallets = await _dbContext.Wallets.ToListAsync();
-
-        if (wallets == null)
-        {
-            return new List<WalletDTO>();
-        }
-        
         return wallets.Select(i => i.ToWalletDTO());
     }
 
-    public async Task AddAsync(WalletDTO wallet)
+    public async Task<bool> AddAsync(WalletDTO wallet)
     {
+        var existingWallet = await _dbContext.Wallets.FindAsync(wallet.Id);
+        if (existingWallet is not null)
+        {
+            return false;
+        }
+        
         await _dbContext.Wallets.AddAsync(wallet.ToWallet());
         await _dbContext.SaveChangesAsync();
+        
+        return true;
     }
 
-    public async Task UpdateAsync(WalletDTO wallet)
+    public async Task<bool> UpdateAsync(WalletDTO wallet)
     {
-        _dbContext.Wallets.Update(wallet.ToWallet());
+        var existingWallet = await _dbContext.Wallets.FindAsync(wallet.Id);
+        if (existingWallet is null)
+        {
+            return false;
+        }
+
+        _dbContext.Entry(existingWallet).CurrentValues.SetValues(wallet.ToWallet());
         await _dbContext.SaveChangesAsync();
+        
+        return true;
     }
 
-    public async Task RemoveAsync(WalletDTO wallet)
+    public async Task<bool> RemoveAsync(int walletId)
     {
-        _dbContext.Wallets.Remove(wallet.ToWallet());
+        Wallet? wallet = await _dbContext.Wallets.FindAsync(walletId);
+        if (wallet is null)
+        {
+            return false;
+        }
+        
+        _dbContext.Wallets.Remove(wallet);
         await _dbContext.SaveChangesAsync();
+
+        return true;
     }
 }
