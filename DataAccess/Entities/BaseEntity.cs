@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities;
 
-public abstract class BaseEntity
+public abstract class BaseEntity : IEntity<int>
 {
     [Key]
     public int Id { get; set; }

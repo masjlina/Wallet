@@ -1,37 +1,44 @@
+using BusinessLogic.DTOs.Mappers;
 using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-public static class WalletMapper
+public class WalletMapper : IMapper<Wallet, WalletDTO>
 {
-    public static WalletDTO ToWalletDTO(this Wallet wallet)
+    private readonly IMapper<CreditCard, CreditCardDTO> _creditCardMapper;
+    
+    public WalletMapper(IMapper<CreditCard, CreditCardDTO> creditCardMapper)
+    {
+        _creditCardMapper = creditCardMapper;
+    }
+
+    public WalletDTO ToDTO(Wallet wallet)
     {
         return new WalletDTO()
         {
             Id = wallet.Id,
             Name = wallet.Name,
-            CreatedAt = wallet.CreatedAt,
-            UpdatedAt = wallet.UpdatedAt,
-            CreditCardDtos = new List<CreditCardDTO>(wallet.CreditCards.ToList().Select(i => i.ToCreditCardDTO())),
-            ApplicationUserDto = wallet.ApplicationUser.ToApplicationUserDTO(),
+            CreditCardDtos = wallet.CreditCards != null ? new List<CreditCardDTO>(wallet.CreditCards.Select(i => _creditCardMapper.ToDTO(i))) : new List<CreditCardDTO>(),
             ApplicationUserId = wallet.ApplicationUserId,
             Cash = wallet.Cash,
-            TransactionIds = new List<int>(wallet.TransactionIds),
+            TransactionIds = new List<int>(wallet.TransactionIds ?? new List<int>()),
+            CreatedAt = wallet.CreatedAt,
+            UpdatedAt = wallet.UpdatedAt
         };
     }
     
-    public static Wallet ToWallet(this WalletDTO walletDTO)
+    public  Wallet ToEntity(WalletDTO walletDTO)
     {
         return new Wallet()
         {
             Id = walletDTO.Id,
             Name = walletDTO.Name,
-            CreatedAt = walletDTO.CreatedAt,
-            UpdatedAt = walletDTO.UpdatedAt,
             ApplicationUserId = walletDTO.ApplicationUserId,
             Cash = walletDTO.Cash,
             TransactionIds = walletDTO.TransactionIds,
-            CreditCards = walletDTO.CreditCardDtos.Select(i => i.ToCreditCard())
+            CreditCards = walletDTO.CreditCardDtos != null ? walletDTO.CreditCardDtos.Select(i => _creditCardMapper.ToEntity(i)) : new List<CreditCard>(),
+            CreatedAt = walletDTO.CreatedAt,
+            UpdatedAt = walletDTO.UpdatedAt
         };
     }
 }

@@ -2,21 +2,21 @@ using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-public static class CategoryMapper
+public class CategoryMapper : IMapper<Category, CategoryDTO>
 {
-    public static CategoryDTO ToCategoryDTO(this Category category)
+    public CategoryDTO ToDTO(Category entity)
     {
         return new CategoryDTO()
         {
-            Id = category.Id,
-            Name = category.Name,
-            PictureUri = category.PictureUri,
-            CreatedAt = category.CreatedAt,
-            UpdatedAt = category.UpdatedAt
+            Id = entity.Id,
+            Name = entity.Name,
+            PictureUri = entity.PictureUri,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt
         };
     }
-    
-    public static Category ToCategory(this CategoryDTO categoryDTO)
+
+    public Category ToEntity(CategoryDTO categoryDTO)
     {
         return new Category()
         {

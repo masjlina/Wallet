@@ -2,32 +2,40 @@ using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-public static class CreditCardMapper
+public class CreditCardMapper : IMapper<CreditCard, CreditCardDTO>
 {
-    public static CreditCardDTO ToCreditCardDTO(this CreditCard creditCard)
+    private readonly IMapper<Transaction, TransactionDTO> _transactionMapper;
+
+    public CreditCardMapper(IMapper<Transaction, TransactionDTO> transactionMapper)
+    {
+        _transactionMapper = transactionMapper;
+    }
+    
+    public  CreditCardDTO ToDTO(CreditCard creditCard)
     {
         return new CreditCardDTO()
         {
             Id = creditCard.Id,
             Name = creditCard.Name,
-            WalletDto = creditCard.Wallet.ToWalletDTO(),
             Balance = creditCard.Balance,
+            WalletId = creditCard.WalletId,
+            TransactionIds = new List<int>(creditCard.TransactionIds ?? new List<int>()),
             CreatedAt = creditCard.CreatedAt,
-            UpdatedAt = creditCard.UpdatedAt,
-            TransactionIds = new List<int>(creditCard.TransactionIds),
+            UpdatedAt = creditCard.UpdatedAt
         };
     }
     
-    public static CreditCard ToCreditCard(this CreditCardDTO creditCardDTO)
+    public  CreditCard ToEntity(CreditCardDTO creditCardDTO)
     {
         return new CreditCard()
         {
             Id = creditCardDTO.Id,
             Name = creditCardDTO.Name,
             Balance = creditCardDTO.Balance,
+            WalletId = creditCardDTO.WalletId,
+            TransactionIds = new List<int>(creditCardDTO.TransactionIds ?? new List<int>()),
             CreatedAt = creditCardDTO.CreatedAt,
-            UpdatedAt = creditCardDTO.UpdatedAt,
-            TransactionIds = new List<int>(creditCardDTO.TransactionIds)
+            UpdatedAt = creditCardDTO.UpdatedAt
         };
     }
 }

@@ -2,36 +2,43 @@ using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-public static class TransactionMapper
+public  class TransactionMapper : IMapper<Transaction, TransactionDTO>
 {
-    public static TransactionDTO ToTransactionDTO(this Transaction transaction)
+    private readonly IMapper<Category, CategoryDTO> _categoryMapper;
+
+    public TransactionMapper(IMapper<Category, CategoryDTO> categoryMapper)
+    {
+        _categoryMapper = categoryMapper;
+    }
+    public  TransactionDTO ToDTO( Transaction transaction)
     {
         return new TransactionDTO()
         {
             Id = transaction.Id,
             Name = transaction.Name,
-            CreatedAt = transaction.CreatedAt,
-            UpdatedAt = transaction.UpdatedAt,
-            WalletDTO = transaction.Wallet.ToWalletDTO(),
             Amount = transaction.Amount,
-            CategoryDTO = transaction.Category.ToCategoryDTO(),
+            WalletId = transaction.WalletId,
+            CreditCardId = transaction.CreditCardId,
+            CategoryDTO = _categoryMapper.ToDTO(transaction.Category ?? new Category()),
             Description = transaction.Description,
-            CreditCardDto = transaction.CreditCard.ToCreditCardDTO()
+            UpdatedAt = transaction.UpdatedAt,
+            CreatedAt = transaction.CreatedAt
         };
     }
     
-    public static Transaction ToTransaction(this TransactionDTO transactionDTO)
+    public Transaction ToEntity( TransactionDTO transactionDTO)
     {
         return new Transaction()
         {
             Id = transactionDTO.Id,
             Name = transactionDTO.Name,
-            CreatedAt = transactionDTO.CreatedAt,
-            UpdatedAt = transactionDTO.UpdatedAt,
             Amount = transactionDTO.Amount,
-            CategoryId = transactionDTO.CategoryDTO.Id,
+            WalletId = transactionDTO.WalletId,
+            CategoryId = transactionDTO.CategoryDTO?.Id ?? 0,
             Description = transactionDTO.Description,
-            CreditCardId = transactionDTO.CreditCardDto.Id
+            CreditCardId = transactionDTO.CreditCardId,
+            CreatedAt = transactionDTO.CreatedAt,
+            UpdatedAt = transactionDTO.UpdatedAt
         };
     }
 }

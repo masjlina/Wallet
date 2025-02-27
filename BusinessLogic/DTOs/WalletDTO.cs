@@ -12,8 +12,6 @@ public sealed class WalletDTO : BaseEntity
     // Foreign key
     [Required(ErrorMessage = "User required")]
     public string ApplicationUserId {get; set;}
-    [ForeignKey("ApplicationUserId")]
-    public ApplicationUserDTO ApplicationUserDto { get; set; }
     
     [Required(ErrorMessage = "Please enter a wallet name")]
     [MaxLength(50, ErrorMessage = "Wallet name must not exceed 50 characters")]

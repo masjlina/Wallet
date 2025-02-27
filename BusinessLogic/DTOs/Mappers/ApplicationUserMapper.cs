@@ -2,24 +2,31 @@ using DataAccess.Entities;
 
 namespace BusinessLogic.DTOs.Mappers;
 
-internal static class ApplicationUserMapper
+public class ApplicationUserMapper : IMapper<ApplicationUser, ApplicationUserDTO>
 {
-    public static ApplicationUserDTO ToApplicationUserDTO(this ApplicationUser user)
+    private readonly IMapper<Wallet, WalletDTO> _walletMapper;
+
+    public ApplicationUserMapper(IMapper<Wallet, WalletDTO> helper)
+    {
+        _walletMapper = helper;
+    }
+
+    public ApplicationUserDTO ToDTO(ApplicationUser user)
     {
         return new ApplicationUserDTO()
         {
             Id = user.Id,
-            UserName = user.UserName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
+            UserName = user.UserName ?? string.Empty,
+            Email = user.Email ?? string.Empty,
+            PhoneNumber = user.PhoneNumber ?? string.Empty,
             AvatarUri = user.AvatarUri,
-            WalletDto = user.Wallet?.ToWalletDTO(),
+            WalletDto = _walletMapper.ToDTO(user.Wallet ?? new Wallet()),
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };
     }
-    
-    public static ApplicationUser ToApplicationUser(this ApplicationUserDTO userDTO)
+
+    public ApplicationUser ToEntity(ApplicationUserDTO userDTO)
     {
         return new ApplicationUser()
         {
@@ -27,6 +34,7 @@ internal static class ApplicationUserMapper
             UserName = userDTO.UserName,
             Email = userDTO.Email,
             PhoneNumber = userDTO.PhoneNumber,
+            WalletId = userDTO.WalletDto?.Id ?? 0,
             AvatarUri = userDTO.AvatarUri,
             CreatedAt = userDTO.CreatedAt,
             UpdatedAt = userDTO.UpdatedAt

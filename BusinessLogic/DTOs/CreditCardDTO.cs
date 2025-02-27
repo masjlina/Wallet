@@ -10,7 +10,7 @@ public sealed class CreditCardDTO : BaseEntity
     public int Id { get; set; }
     
     [Required(ErrorMessage = "Wallet required")]
-    public WalletDTO WalletDto { get; set; }
+    public int WalletId { get; set; }
     
     [Required(ErrorMessage = "Please enter a card name")]
     [MaxLength(50, ErrorMessage = "Transaction name must not exceed 50 characters")]
