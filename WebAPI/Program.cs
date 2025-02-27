@@ -19,10 +19,10 @@ builder.Services.AddScoped<IMapper<Transaction, TransactionDTO>, TransactionMapp
 builder.Services.AddScoped<IMapper<Category, CategoryDTO>, CategoryMapper>();
 
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
-builder.Services.AddScoped<IGenericService<WalletDTO, int>, GenericService<Wallet, WalletDTO, int>>();
-builder.Services.AddScoped<IGenericService<CreditCardDTO, int>, GenericService<CreditCard, CreditCardDTO, int>>();
-builder.Services.AddScoped<IGenericService<TransactionDTO, int>, GenericService<Transaction, TransactionDTO, int>>();
-builder.Services.AddScoped<IGenericService<CategoryDTO, int>, GenericService<Category, CategoryDTO, int>>();
+builder.Services.AddScoped<IGenericService<WalletDTO>, GenericService<Wallet, WalletDTO>>();
+builder.Services.AddScoped<IGenericService<CreditCardDTO>, GenericService<CreditCard, CreditCardDTO>>();
+builder.Services.AddScoped<IGenericService<TransactionDTO>, GenericService<Transaction, TransactionDTO>>();
+builder.Services.AddScoped<IGenericService<CategoryDTO>, GenericService<Category, CategoryDTO>>();
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
@@ -40,6 +40,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseHttpsRedirection();
-app.MapControllers();
+app.UseEndpoints(endpoints => endpoints.MapControllers());
 
 app.Run();

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class TransactionService : GenericService<Transaction, TransactionDTO, int>, IGenericService<TransactionDTO, int>
+public class TransactionService : GenericService<Transaction, TransactionDTO>
 {
     public TransactionService(ApplicationDbContext dbContext, IMapper<Transaction, TransactionDTO> mapper) : base(dbContext, mapper)
     {

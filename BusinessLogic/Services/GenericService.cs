@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class GenericService<TEntity, TDto, TKey> : IGenericService<TDto, TKey>
-    where TEntity : class, IEntity<TKey>
+public class GenericService<TEntity, TDto> : IGenericService<TDto>
+    where TEntity : class, IEntity<int>
     where TDto : class
 {
     private readonly ApplicationDbContext _dbContext;
@@ -21,7 +21,7 @@ public class GenericService<TEntity, TDto, TKey> : IGenericService<TDto, TKey>
         _mapper = mapper;
     }
 
-    public async Task<TDto?> GetByIdAsync(TKey id)
+    public async Task<TDto?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Set<TEntity>().FindAsync(id);
         return entity != null ? _mapper.ToDTO(entity) : null;
@@ -58,7 +58,7 @@ public class GenericService<TEntity, TDto, TKey> : IGenericService<TDto, TKey>
         return true;
     }
 
-    public async Task<bool> RemoveAsync(TKey id)
+    public async Task<bool> RemoveAsync(int id)
     {
         var entity = await _dbContext.Set<TEntity>().FindAsync(id);
         if (entity == null)

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class CategoryService : GenericService<Category, CategoryDTO, int>, IGenericService<CategoryDTO, int>
+public class CategoryService : GenericService<Category, CategoryDTO>
 {
     public CategoryService(ApplicationDbContext dbContext, IMapper<Category, CategoryDTO> mapper) : base(dbContext, mapper)
     {

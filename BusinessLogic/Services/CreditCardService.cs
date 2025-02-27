@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class CreditCardService : GenericService<CreditCard, CreditCardDTO, int>, IGenericService<CreditCardDTO, int>
+public class CreditCardService : GenericService<CreditCard, CreditCardDTO>
 {
     public CreditCardService(ApplicationDbContext dbContext, IMapper<CreditCard, CreditCardDTO> mapper) : base(dbContext, mapper)
     {
