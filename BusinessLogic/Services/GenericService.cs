@@ -41,7 +41,11 @@ public class GenericService<TEntity, TDto> : IGenericService<TDto>
             return false;
 
         await _dbContext.Set<TEntity>().AddAsync(entity);
-        await _dbContext.SaveChangesAsync();
+        int result = await _dbContext.SaveChangesAsync();
+        
+        if (result == 0)
+            return false;
+        
         return true;
     }
 
@@ -54,7 +58,11 @@ public class GenericService<TEntity, TDto> : IGenericService<TDto>
             return false;
 
         _dbContext.Entry(existing).CurrentValues.SetValues(entity);
-        await _dbContext.SaveChangesAsync();
+        int result = await _dbContext.SaveChangesAsync();
+        
+        if (result == 0)
+            return false;
+        
         return true;
     }
 
@@ -65,7 +73,11 @@ public class GenericService<TEntity, TDto> : IGenericService<TDto>
             return false;
 
         _dbContext.Set<TEntity>().Remove(entity);
-        await _dbContext.SaveChangesAsync();
+        int result = await _dbContext.SaveChangesAsync();
+        
+        if (result == 0)
+            return false;
+        
         return true;
     }
 }

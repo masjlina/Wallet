@@ -18,9 +18,10 @@ public sealed class TransactionDTO : BaseEntity
     
     // Foreign Keys
     // CreditCard
-    public int CreditCardId { get; set; }
+    public int? CreditCardId { get; set; }
     // Wallet
-    public int WalletId { get; set; }
+    public int? WalletId { get; set; }
     // Category
+    public int? CategoryId { get; set; }
     public CategoryDTO? CategoryDTO { get; set; }
 }

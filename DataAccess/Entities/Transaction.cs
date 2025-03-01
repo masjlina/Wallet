@@ -15,15 +15,15 @@ public sealed class Transaction : BaseEntity
     
     // Foreign Keys
     // CreditCard
-    public int CreditCardId { get; set; }
+    public int? CreditCardId { get; set; }
     [ForeignKey("CreditCardId")]
-    public CreditCard CreditCard { get; set; }
+    public CreditCard? CreditCard { get; set; }
     // Wallet
-    public int WalletId { get; set; }
+    public int? WalletId { get; set; }
     [ForeignKey("WalletId")]
-    public Wallet Wallet { get; set; }
+    public Wallet? Wallet { get; set; }
     // Category
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
     [ForeignKey("CategoryId")]
     public Category? Category { get; set; }
 }
