@@ -8,7 +8,6 @@ public sealed class ApplicationUser : IdentityUser
 {
     public string? AvatarUri { get; set; } = "";
     
-    
     public int? WalletId { get; set; }
     [ForeignKey("WalletId")]
     public Wallet? Wallet { get; set; }

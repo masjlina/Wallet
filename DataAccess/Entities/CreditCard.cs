@@ -5,8 +5,6 @@ namespace DataAccess.Entities;
 
 public sealed class CreditCard : BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
     // Foreign key
     [Required]
     public int WalletId { get; set; }

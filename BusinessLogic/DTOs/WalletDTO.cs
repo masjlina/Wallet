@@ -7,8 +7,6 @@ namespace BusinessLogic.DTOs;
 
 public sealed class WalletDTO : BaseEntity
 {
-    public int Id {get; set; }
-    
     // Foreign key
     [Required(ErrorMessage = "User required")]
     public string ApplicationUserId {get; set;}

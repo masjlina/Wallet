@@ -7,7 +7,6 @@ namespace BusinessLogic.DTOs;
 
 public sealed class TransactionDTO : BaseEntity
 {
-    public int Id { get; set; }
     [Required(ErrorMessage = "Please enter a transaction name")]
     [MaxLength(50, ErrorMessage = "Transaction name must not exceed 50 characters")]
     public string Name { get; set; }

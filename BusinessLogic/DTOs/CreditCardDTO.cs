@@ -7,8 +7,6 @@ namespace BusinessLogic.DTOs;
 
 public sealed class CreditCardDTO : BaseEntity
 {
-    public int Id { get; set; }
-    
     [Required(ErrorMessage = "Wallet required")]
     public int WalletId { get; set; }
     

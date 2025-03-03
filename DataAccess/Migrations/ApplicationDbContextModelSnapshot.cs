@@ -123,7 +123,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CreditCard", b =>
@@ -157,7 +157,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("CreditCards");
+                    b.ToTable("CreditCards", (string)null);
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Transaction", b =>
@@ -201,7 +201,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Transactions", t =>
+                    b.ToTable("Transactions", null, t =>
                         {
                             t.HasCheckConstraint("CK_Transactions_WalletOrCreditCard", "(\"WalletId\" IS NOT NULL AND \"CreditCardId\" IS NULL) OR (\"WalletId\" IS NULL AND \"CreditCardId\" IS NOT NULL)");
                         });
@@ -239,7 +239,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallets", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

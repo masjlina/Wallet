@@ -5,9 +5,7 @@ namespace DataAccess.Entities;
 
 public sealed class Wallet : BaseEntity
 {
-    [Key]
-    public int Id {get; set; }
-    
+   
     // Foreign key
     [Required]
     public string ApplicationUserId {get; set;}
