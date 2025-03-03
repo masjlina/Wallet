@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/categories")]
 [ApiController]
 public class CategoryController : GenericController<CategoryDTO>
 {

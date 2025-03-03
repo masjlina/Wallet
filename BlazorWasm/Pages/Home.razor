@@ -1,7 +1,21 @@
 ﻿@page "/"
 
+@inject IGenericAdapter<CategoryDTO> _categoryAdapter;
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@foreach (CategoryDTO item in CategoryDTOs)
+{
+    <h1>- @item.Name</h1>
+    <br/>
+}
+fsadf
+@code
+{
+    private IEnumerable<CategoryDTO> CategoryDTOs { get; set; } = new List<CategoryDTO>();
 
-Welcome to your new app.
+    protected override async Task OnInitializedAsync()
+    {
+        CategoryDTOs = await _categoryAdapter.GetAll();
+    }
+}
+

@@ -2,12 +2,13 @@ using BusinessLogic.DTOs;
 using BusinessLogic.Services.IServices;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Controllers.IControllers;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
-public class ApplicationUserController : ControllerBase
+[Route("api/applicationUsers")]
+public class ApplicationUserController : ControllerBase, IApplicationUserController
 {
     private readonly IApplicationUserService _applicationUserService;
 
@@ -17,7 +18,7 @@ public class ApplicationUserController : ControllerBase
     }
 
     [HttpGet("{applicationUserId}")]
-    public async Task<ActionResult<ApplicationUserDTO>> Get(string applicationUserId)
+    public async Task<ActionResult<ApplicationUserDTO>> GetById(string applicationUserId)
     {
         ApplicationUserDTO? applicationUserDTO = await _applicationUserService.GetByIdAsync(applicationUserId);
 

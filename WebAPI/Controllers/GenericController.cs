@@ -4,7 +4,7 @@ using WebAPI.Controllers.IControllers;
 
 namespace WebAPI.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class GenericController<TDTO> : ControllerBase, IGenericController<TDTO> where TDTO : class, new()
 {
@@ -28,11 +28,11 @@ public class GenericController<TDTO> : ControllerBase, IGenericController<TDTO> 
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<TDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<TDTO>>> GetAll()
     {
         var entityDTOs = await _genericService.GetAllAsync();
         
-        return Ok(new List<TDTO>(entityDTOs));
+        return Ok(entityDTOs);
     }
 
     [HttpPost]

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/creditCards")]
 [ApiController]
 public class CreditCardController : GenericController<CreditCardDTO>
 {

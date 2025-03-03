@@ -5,7 +5,7 @@ namespace WebAPI.Controllers.IControllers;
 public interface IGenericController<TDTO> where TDTO : class
 {
     Task<ActionResult<TDTO>> Get(int id);
-    Task<ActionResult<List<TDTO>>> GetAll();
+    Task<ActionResult<IEnumerable<TDTO>>> GetAll();
     Task<IActionResult> Add(TDTO dto);
     Task<IActionResult> Update(TDTO dto);
     Task<IActionResult> Delete(int id);
