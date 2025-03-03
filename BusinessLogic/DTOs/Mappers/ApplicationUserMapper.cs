@@ -20,6 +20,7 @@ public class ApplicationUserMapper : IMapper<ApplicationUser, ApplicationUserDTO
             Email = user.Email ?? string.Empty,
             PhoneNumber = user.PhoneNumber ?? string.Empty,
             AvatarUri = user.AvatarUri,
+            WalletId = user.WalletId,
             WalletDto = _walletMapper.ToDTO(user.Wallet ?? new Wallet()),
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
@@ -34,7 +35,7 @@ public class ApplicationUserMapper : IMapper<ApplicationUser, ApplicationUserDTO
             UserName = userDTO.UserName,
             Email = userDTO.Email,
             PhoneNumber = userDTO.PhoneNumber,
-            WalletId = userDTO.WalletDto?.Id ?? 0,
+            WalletId = userDTO.WalletId ?? 0,
             AvatarUri = userDTO.AvatarUri,
             CreatedAt = userDTO.CreatedAt,
             UpdatedAt = userDTO.UpdatedAt

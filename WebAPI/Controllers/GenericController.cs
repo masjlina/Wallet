@@ -48,7 +48,7 @@ public class GenericController<TDTO> : ControllerBase, IGenericController<TDTO> 
         return result ? Ok() : BadRequest();
     }
 
-    [HttpPatch]
+    [HttpPatch("{dto.Id}")]
     public async Task<IActionResult> Update([FromBody] TDTO dto)
     {
         if (!ModelState.IsValid)

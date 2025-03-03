@@ -20,7 +20,7 @@ public class ApplicationUserService : IApplicationUserService
       
       public async Task<ApplicationUserDTO?> GetByIdAsync(string userId)
       {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _dbContext.Users.Include(e => e.Wallet).FirstOrDefaultAsync(i => i.Id == userId);
             if (user is null)
             {
                   return null;

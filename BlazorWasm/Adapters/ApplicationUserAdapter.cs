@@ -1,8 +1,8 @@
 using System.Text;
-using System.Text.Json;
 using BlazorWasm.Adapters.IAdapters;
 using BusinessLogic.DTOs;
 using Common;
+using Newtonsoft.Json;
 
 namespace BlazorWasm.Adapters;
 
@@ -25,12 +25,12 @@ public class ApplicationUserAdapter : IApplicationUserAdapter
         }
 
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<ApplicationUserDTO>(content);
+        return JsonConvert.DeserializeObject<ApplicationUserDTO>(content);
     }
 
     public async Task<bool> Update(ApplicationUserDTO applicationUserDTO)
     {
-        var content = JsonSerializer.Serialize(applicationUserDTO);
+        var content = JsonConvert.SerializeObject(applicationUserDTO);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
         var response = await _httpClient.PatchAsync($"api/{EndpointName.ApplicationUser}", bodyContent);
 

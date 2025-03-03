@@ -19,10 +19,10 @@ builder.Services.AddScoped<IMapper<Transaction, TransactionDTO>, TransactionMapp
 builder.Services.AddScoped<IMapper<Category, CategoryDTO>, CategoryMapper>();
 
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
-builder.Services.AddScoped<IGenericService<WalletDTO>, GenericService<Wallet, WalletDTO>>();
-builder.Services.AddScoped<IGenericService<CreditCardDTO>, GenericService<CreditCard, CreditCardDTO>>();
-builder.Services.AddScoped<IGenericService<TransactionDTO>, GenericService<Transaction, TransactionDTO>>();
-builder.Services.AddScoped<IGenericService<CategoryDTO>, GenericService<Category, CategoryDTO>>();
+builder.Services.AddScoped<IGenericService<WalletDTO>, WalletService>();
+builder.Services.AddScoped<IGenericService<CreditCardDTO>, CreditCardService>();
+builder.Services.AddScoped<IGenericService<TransactionDTO>, TransactionService>();
+builder.Services.AddScoped<IGenericService<CategoryDTO>, CategoryService>();
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()

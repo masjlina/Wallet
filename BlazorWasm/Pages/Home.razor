@@ -1,21 +1,77 @@
 ﻿@page "/"
+@using Newtonsoft.Json
 
-@inject IGenericAdapter<CategoryDTO> _categoryAdapter;
+@inject IApplicationUserAdapter ApplicationUserAdapter;
+@inject IGenericAdapter<WalletDTO> WalletAdapter;
+@inject IGenericAdapter<CreditCardDTO> CreditCardDTOAdapter;
+@inject IGenericAdapter<TransactionDTO> TransactionDTOAdapter;
+@inject IGenericAdapter<CategoryDTO> CategoryAdapter;
+
 <PageTitle>Home</PageTitle>
 
-@foreach (CategoryDTO item in CategoryDTOs)
-{
-    <h1>- @item.Name</h1>
-    <br/>
-}
-fsadf
+<div>
+    <h2>Application Users</h2>
+    
+    <div>
+        <h3>@JsonConvert.SerializeObject(ApplicationUserDTOs)</h3>
+    </div>
+    
+</div>
+
+<div>
+    <h2>Wallets</h2>
+    @foreach (WalletDTO item in WalletDTOs)
+    {
+        <div>
+            <h3>@JsonConvert.SerializeObject(item)</h3>
+        </div>
+    }
+</div>
+
+<div>
+    <h2>Credit Cards</h2>
+    @foreach (CreditCardDTO item in CreditCardDTOs)
+    {
+        <div>
+            <h3>@JsonConvert.SerializeObject(item)</h3>
+        </div>
+    }
+</div>
+
+<div>
+    <h2>Transactions</h2>
+    @foreach (TransactionDTO item in TransactionDTOs)
+    {
+        <div>
+            <h3>@JsonConvert.SerializeObject(item)</h3>
+        </div>
+    }
+</div>
+
+<div>
+    <h2>Categories</h2>
+    @foreach (CategoryDTO item in CategoryDTOs)
+    {
+        <div>
+            <h3>@JsonConvert.SerializeObject(item)</h3>
+        </div>
+    }
+</div>
+
 @code
 {
+    private ApplicationUserDTO ApplicationUserDTOs { get; set; }
+    private IEnumerable<WalletDTO> WalletDTOs { get; set; } = new List<WalletDTO>();
+    private IEnumerable<CreditCardDTO> CreditCardDTOs { get; set; } = new List<CreditCardDTO>();
+    private IEnumerable<TransactionDTO> TransactionDTOs { get; set; } = new List<TransactionDTO>();
     private IEnumerable<CategoryDTO> CategoryDTOs { get; set; } = new List<CategoryDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        CategoryDTOs = await _categoryAdapter.GetAll();
+        ApplicationUserDTOs = await ApplicationUserAdapter.GetById("e6efe276-341a-41b3-b034-e3c136fdc856");
+        WalletDTOs = await WalletAdapter.GetAll();
+        CreditCardDTOs = await CreditCardDTOAdapter.GetAll();
+        TransactionDTOs = await TransactionDTOAdapter.GetAll();
+        CategoryDTOs = await CategoryAdapter.GetAll();
     }
 }
-

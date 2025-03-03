@@ -30,7 +30,7 @@ public class ApplicationUserController : ControllerBase, IApplicationUserControl
         return Ok(applicationUserDTO);
     }
         
-    [HttpPatch]
+    [HttpPatch("{applicationUserDTO.Id}")]
     public async Task<ActionResult> Update([FromBody]ApplicationUserDTO applicationUserDTO)
     {
         await _applicationUserService.UpdateAsync(applicationUserDTO);

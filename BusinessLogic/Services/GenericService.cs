@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class GenericService<TEntity, TDto> : IGenericService<TDto>
+public abstract class GenericService<TEntity, TDto> : IGenericService<TDto>
     where TEntity : class, IEntity<int>
     where TDto : class
 {
@@ -21,13 +21,13 @@ public class GenericService<TEntity, TDto> : IGenericService<TDto>
         _mapper = mapper;
     }
 
-    public async Task<TDto?> GetByIdAsync(int id)
+    public virtual async Task<TDto?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Set<TEntity>().FindAsync(id);
         return entity != null ? _mapper.ToDTO(entity) : null;
     }
 
-    public async Task<IEnumerable<TDto>> GetAllAsync()
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync()
     {
         var entities = await _dbContext.Set<TEntity>().ToListAsync();
         return entities.Select(u => _mapper.ToDTO(u));
