@@ -1,6 +1,7 @@
 using BusinessLogic.DTOs;
 using BusinessLogic.Services.IServices;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Controllers.IControllers;
 
@@ -16,7 +17,7 @@ public class ApplicationUserController : ControllerBase, IApplicationUserControl
     {
         _applicationUserService = applicationUserService;
     }
-
+    [Authorize("IsAdmin")]
     [HttpGet("{applicationUserId}")]
     public async Task<ActionResult<ApplicationUserDTO>> GetById(string applicationUserId)
     {
