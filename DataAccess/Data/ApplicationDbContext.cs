@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<CreditCard> CreditCards { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<TokenInfo> TokenInfos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

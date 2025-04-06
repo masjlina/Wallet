@@ -6,6 +6,7 @@ public class SignInResponseDTO
 {
     public bool IsSignInSuccessful { get; set; }
     public IEnumerable<string> Errors { get; set; }
-    public string Token { get; set; }
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
     public ApplicationUserDTO ApplicationUserDTO { get; set; }
 }

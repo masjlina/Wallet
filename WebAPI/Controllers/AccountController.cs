@@ -3,11 +3,16 @@ using System.Security.Claims;
 using System.Text;
 using BusinessLogic.DTOs;
 using BusinessLogic.DTOs.Mappers;
+using DataAccess.Data;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers;
 
@@ -17,23 +22,22 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IConfiguration _configuration;
-    private readonly ApiSettings _apiSettings;
     private readonly IMapper<ApplicationUser, ApplicationUserDTO> _userMapper;
+    private readonly ITokenService _tokenService;
+    private readonly ApplicationDbContext _dbContext;
 
-    //TODO: 1. create token service. see in medium site 2. 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, IOptions<ApiSettings> options)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper<ApplicationUser, ApplicationUserDTO> userMapper, ITokenService tokenService, ApplicationDbContext dbContext)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _configuration = configuration;
-        _apiSettings = options.Value;
+        _userMapper = userMapper;
+        _tokenService = tokenService;
+        _dbContext = dbContext;
     }
 
     [HttpPost]
     public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO? signInRequestDTO)
     {
-      
         if (signInRequestDTO == null || !ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -41,13 +45,15 @@ public class AccountController : ControllerBase
 
         if (HttpContext.User.Identity.IsAuthenticated)
         {
+            var authenticatedUser = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
+
             return Ok(new SignInResponseDTO
             {
+                ApplicationUserDTO = _userMapper.ToDTO(authenticatedUser),
                 IsSignInSuccessful = true
             });
         }
         
-        var test = HttpContext.Request.Headers;
         var user = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
         if (user == null)
         {
@@ -68,34 +74,69 @@ public class AccountController : ControllerBase
             });
         }
 
-        var signInCredentials = GetSigningCredentials();
-        var claims = await GetClaims(user);
+        var userClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("Id", user.Id)
+        };
+        
+        string accessToken = _tokenService.GenerateAccessToken(userClaims);
+        string refreshToken = _tokenService.GenerateRefreshToken();
 
-        var tokenOptions = new JwtSecurityToken(
-            issuer: _apiSettings.ValidIssuer,
-            // audience: _apiSettings.ValidAudience,
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: signInCredentials);
+        var tokenInfo = _dbContext.TokenInfos.FirstOrDefault(a => a.UserId == user.Id);
 
-        var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        if (tokenInfo == null)
+        {
+            var ti = new TokenInfo
+            {
+                UserId = user.Id,
+                RefreshToken = refreshToken,
+                ExpiredAt = DateTime.UtcNow.AddDays(7)
+            };
+            _dbContext.TokenInfos.Add(ti);
+        }
+        else
+        {
+            tokenInfo.RefreshToken = refreshToken;
+            tokenInfo.ExpiredAt = DateTime.UtcNow.AddDays(7);
+        }
 
+        await _dbContext.SaveChangesAsync();
+        
         return Ok(new SignInResponseDTO
         {
             ApplicationUserDTO = _userMapper.ToDTO(user),
             IsSignInSuccessful = true,
-            Token = token
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
         });
     }
     
     [HttpPut]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
     {
+        if (signUpRequestDTO == null || !ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var userExist = await _userManager.FindByEmailAsync(signUpRequestDTO.Email);
+
+        if (userExist != null)
+        {
+            return BadRequest(new SignUpResponseDTO
+            {
+                IsRegistrationSuccessful = false,
+                Errors = new[] { "User already exists" }
+            });
+        }
+        
         var user = new ApplicationUser()
         {
-            UserName = signUpRequestDTO.UserName,
+            UserName = signUpRequestDTO.Name,
             Email = signUpRequestDTO.Email,
-            EmailConfirmed = true
+            EmailConfirmed = true,
         };
 
         var result = await _userManager.CreateAsync(user, signUpRequestDTO.Password);
@@ -108,27 +149,36 @@ public class AccountController : ControllerBase
                 Errors = result.Errors.Select(u => u.Description)
             });
         }
-
-        await _signInManager.SignInAsync(user, false);
-        // Add Redirect
         
-        return StatusCode(StatusCodes.Status201Created);
-    }
-    
-    private SigningCredentials GetSigningCredentials()
-    {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSettings.SigningKey));
-        return new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        return Ok(StatusCodes.Status201Created);
     }
 
-    private async Task<List<Claim>> GetClaims(ApplicationUser user)
+    [HttpPost]
+    public async Task<IActionResult> Refresh(TokenModel tokenModel)
     {
-        return new List<Claim>
+        var principal = _tokenService.GetPrincipalFromExpiredToken(tokenModel.AccessToken);
+        var userId = principal.FindFirst("Id").Value;
+
+        var tokenInfo = _dbContext.TokenInfos.SingleOrDefault(u => u.UserId == userId);
+        if (tokenInfo == null 
+            || tokenInfo.RefreshToken != tokenModel.RefreshToken
+            || tokenInfo.ExpiredAt <= DateTime.UtcNow)
         {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("Id", user.Id)
-        };
+            return BadRequest("Invalid refresh token. Please login again.");
+        }
+
+        var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
+        var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+        tokenInfo.RefreshToken = newRefreshToken;
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(new TokenModel()
+        {
+            AccessToken = newAccessToken,
+            RefreshToken = newRefreshToken
+        });
     }
-    
 }
+
+

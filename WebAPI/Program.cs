@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ builder.Services.AddScoped<IGenericService<WalletDTO>, WalletService>();
 builder.Services.AddScoped<IGenericService<CreditCardDTO>, CreditCardService>();
 builder.Services.AddScoped<IGenericService<TransactionDTO>, TransactionService>();
 builder.Services.AddScoped<IGenericService<CategoryDTO>, CategoryService>();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -58,6 +61,7 @@ builder.Services.AddAuthentication(opt =>
         IssuerSigningKey = new SymmetricSecurityKey(signingKey),
         ValidateAudience = true,
         ValidAudiences = apiSettings.ValidAudiences,
+        ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
 });
