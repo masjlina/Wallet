@@ -1,14 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Spend tracker</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/reset.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
 </head>
+
 <body>
-    
+    <main class="container">
+        <div class="log-reg-wrapper">
+            <img class="logo" src="img/logo.svg" alt="Spend tracker">
+
+            <!-- Sign up Form -->
+            <form class="input-section" action="#" method="post">
+                <div class="input-section__fields">
+                    
+                    <!-- Email Input -->
+                    <div class="input-section__field">
+                        <label class="input-title" for="email-input">Email Address</label>
+                        <input class="input-section__input" placeholder="Your email" type="email" name="email"
+                            id="email-input" required />
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="input-section__field">
+                        <label class="input-title" for="password-input">Password</label>
+                        <div class="input-section__password-wrapper">
+                            <input class="input-section__input" placeholder="Type your password" type="password"
+                                name="password" id="password-input" required />
+                            <button type="button" class="input-section__eye input-section__eye--show"
+                                aria-label="Show/hide password"></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Checkbox and Submit -->
+                <div class="log-reg">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me-checkbox" class="visually-hidden remember-me__input" />
+                        <label for="remember-me-checkbox" class="remember-me__label">
+                            <span class="remember-me__checkbox"></span>
+                            Remember me
+                        </label>
+                    </div>
+
+                    <button class="log-reg__button log-reg__button--primary" type="submit">Login</button>
+                </div>
+            </form>
+
+            <!-- Other option -->
+            <div class="log-reg-alternative">
+                <div class="log-reg-alternative__or">
+                    <p class="log-reg-alternative__text">or sign up</p>
+                </div>
+
+                <a href="#" class="log-reg-alternative__ref">Create an account</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
 </body>
+
 </html>
