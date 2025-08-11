@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Span extends Component{
+export default class Span extends Component{
     constructor(parent, {classList, text, props}) {
         super(parent, "span", props);
 
@@ -8,7 +8,7 @@ export class Span extends Component{
         this.text = text;
     }
     
-    render() {
+    init() {
         return `
             <span 
                 class="${this.classList}" 

@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../../core/Component.js";
 
-export class PasswordField extends Component {
+export default class PasswordField extends Component {
     constructor(parent, Input, Button, { classList, props } = {}) {
         super(parent, "div", props);
 
@@ -9,12 +9,12 @@ export class PasswordField extends Component {
         this.Button = Button;
     }
 
-    render() {
+    init() {
         return `
             <div 
                 class="${this.classList}">
-                ${this.Input?.render()}
-                ${this.Button?.render()}
+                ${this.Input?.init()}
+                ${this.Button?.init()}
             </div>
         `
     }

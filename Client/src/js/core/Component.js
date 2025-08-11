@@ -1,15 +1,16 @@
 "use strict;"
 
-export class Component {
-    constructor(parent, elementName, props = "") {
-        this.parent = parent;
-        this.elementName = elementName;
+import { Element } from './Element';
+
+export class Component extends Element {
+    constructor(parent, elementTitle, props = "") {
+        super(parent)
+        this.elementTitle = elementTitle;
         this.props = props;
-        this.element = null;
     }
 
-    render() {
-        throw new Error("Render method should be implemented in child class");
+    init() {
+        super.init();
     }
 
     getElement() {
@@ -18,11 +19,11 @@ export class Component {
 
     mount() {
         if (this.element && this.element.parentNode) {
-            this.umount();
+            return;
         }
 
-        const html = this.render();
-        const tempDiv = document.createElement(this.elementName);
+        const html = this.init();
+        const tempDiv = document.createElement(this.elementTitle);
         tempDiv.innerHTML = html.trim();
         this.element = tempDiv.firstChild;
 
@@ -33,9 +34,5 @@ export class Component {
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
         }
-    }
-
-    addEventListener() {
-
     }
 }

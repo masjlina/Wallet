@@ -1,18 +1,18 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Main extends Component{
+export default class Main extends Component{
     constructor(parent, {classList, props}) {
         super(parent, "main", props);
 
         this.classList = classList;
     }
     
-    render() {
+    init() {
         return `
-            <span 
+            <main 
                 class="${this.classList}" 
                 ${this.props}>
-            </span>
+            </main>
         `
     }
 }

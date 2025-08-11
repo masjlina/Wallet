@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Input extends Component {
+export default class Input extends Component {
     constructor(parent, { classList, placeholder, type, name, id, props }) {
         ;
         super(parent, "input", props);
@@ -12,7 +12,7 @@ export class Input extends Component {
         this.id = id;
     }
 
-    render() {
+    init() {
         return `
             <input 
                 class="${this.classList}" 

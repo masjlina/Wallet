@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Label extends Component{
+export default class Label extends Component{
     constructor(parent, {classList, forElement, text, props}) {
         super(parent, "label", props);
 
@@ -9,7 +9,7 @@ export class Label extends Component{
         this.text = text;
     }
     
-    render() {
+    init() {
         return `
             <label 
                 class="${this.classList}" 

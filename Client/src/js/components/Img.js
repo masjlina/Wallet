@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Img extends Component{
+export default class Img extends Component{
     constructor(parent, {classList, src, alt, props}) {
         super(parent, "img", props);
 
@@ -9,7 +9,7 @@ export class Img extends Component{
         this.alt = alt;
     }
     
-    render() {
+    init() {
         return `
             <img 
                 class="${this.classList}" 

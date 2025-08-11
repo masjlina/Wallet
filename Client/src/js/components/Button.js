@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Button extends Component {
+export default class Button extends Component {
     constructor(parent, { classList, type, text, props }) {
         super(parent, "button", props);
 
@@ -9,7 +9,7 @@ export class Button extends Component {
         this.text = text ?? "";
     }
 
-    render() {
+    init() {
         return `
             <button 
                 class="${this.classList}" 

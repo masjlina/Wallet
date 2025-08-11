@@ -1,12 +1,14 @@
 "use strict;"
 
-import { Label } from "./components/log-reg/Label.js";
-import { Input } from "./components/log-reg/Input.js"
-import { Button } from "./components/log-reg/Button.js"
-import { PasswordField } from "./components/log-reg/PasswordField.js"
+import { LoginView } from "./views/LoginView.js";
 
 const parent = document.querySelectorAll(".input-section__field")[1];
 
+const loginView = new LoginView(parent);
+
+loginView.mount();
+
+/* 
 const label = new Label(parent, {
     classList: "input-title",
     forElement: "password-input",
@@ -35,4 +37,4 @@ passwordField.classList = "input-section__password-wrapper"
 passwordField.Input = input;
 passwordField.Button = button;
 
-passwordField.mount();
+passwordField.mount() */;

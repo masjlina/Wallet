@@ -1,6 +1,6 @@
-import { Component } from "../../core/Component";
+import { Component } from "../core/Component.js";
 
-export class Form extends Component{
+export default class Form extends Component{
     constructor(parent, {classList, action, method, props}) {
         super(parent, "form", props);
 
@@ -9,7 +9,7 @@ export class Form extends Component{
         this.method = method;
     }
     
-    render() {
+    init() {
         return `
             <form 
                 class="${this.classList}" 
