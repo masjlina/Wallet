@@ -1,8 +1,8 @@
 import { Component } from "../core/Component.js";
 
 export default class Button extends Component {
-    constructor(parent, { classList, type, text, props }) {
-        super(parent, "button", props);
+    constructor({ children, classList, type, text, props }) {
+        super(children, props);
 
         this.classList = classList;
         this.type = type;

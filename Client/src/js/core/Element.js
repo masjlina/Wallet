@@ -1,8 +1,7 @@
 "use strict;"
 
 export class Element {
-    constructor(parent) {
-        this.parent = parent;
+    constructor() {
         this.element = null;
     }
 
@@ -11,10 +10,10 @@ export class Element {
     }
 
     mount() {
-;
+
     }
 
-    umount() {
+    unmout() {
 
     }
 }

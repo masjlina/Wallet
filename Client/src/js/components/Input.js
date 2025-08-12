@@ -1,12 +1,11 @@
 import { Component } from "../core/Component.js";
 
 export default class Input extends Component {
-    constructor(parent, { classList, placeholder, type, name, id, props }) {
-        ;
-        super(parent, "input", props);
+    constructor({ children, classList, placeholder, type, name, id, props }) {
+        super(children, props);
 
         this.classList = classList;
-        this.placeholder = placeholder;
+        this.placeholder = placeholder ?? "";
         this.type = type;
         this.name = name;
         this.id = id;

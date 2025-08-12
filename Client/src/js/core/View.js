@@ -3,11 +3,11 @@
 import { Element } from "./Element.js"
 
 export class View extends Element {
-    constructor(parent, controller = {}) {
-        super(parent);
+    constructor(controller = {}) {
+        super();
         this.controller = controller;
 
-        this.bindListeners();
+        this.init();
     }
 
     init() {

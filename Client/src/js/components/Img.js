@@ -1,8 +1,8 @@
 import { Component } from "../core/Component.js";
 
 export default class Img extends Component{
-    constructor(parent, {classList, src, alt, props}) {
-        super(parent, "img", props);
+    constructor({children, classList, src, alt, props}) {
+        super(children, props);
 
         this.classList = classList;
         this.src = src;

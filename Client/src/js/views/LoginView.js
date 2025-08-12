@@ -1,142 +1,154 @@
 import {Main, Div, Img, Form, Label, Input, Button, Span, P, A} from "../components/index.js";
-import { View } from "../core/View.js";
-import { LoginController } from "../controllers/LoginController.js";
+import {View} from "../core/View.js";
+import {LoginController} from "../controllers/LoginController.js";
 
 export class LoginView extends View {
-    constructor(parent) {
-        super(parent, new LoginController());
+    constructor() {
+        super(new LoginController());
     }
-    
+
     init() {
-        this.main = new Main(this.element, {
-            classList: "container"
-        });
-        {
-            this.logWrapper = new Div(this.main.getElement(), {
-                classList: "log-reg-wrapper"
-            });
-            {
-                this.logo = new Img(this.logWrapper.getElement(), {
-                    classList: "logo",
-                    src: "img/logo.svg",
-                    alt: "Spend tracker"
-                });
-                
-                // Sign up Form
-                this.form = new Form(this.logWrapper.getElement(), {
-                    classList: "input-section"
-                });
-                {
-                    this.inputFields = new Div(this.form.getElement(), {
-                        classList: "input-section__fields"
-                    });
-                    {
-                        
-                        // Email Input
-                        this.emailField = new Div(this.inputFields.getElement(), {
-                            classList: "input-section__field"
-                        });
-                        {
-                            this.emailLabel = new Label(this.emailField.getElement(), {
-                                classList: "input-title",
-                                forElement: "email-input",
-                                text: "Email Address"
-                            });
-                            this.emailInput = new Input(this.emailField.getElement(), {
-                                classList: "input-section__input",
-                                placeholder: "Your email",
-                                type: "email",
-                                name: "email",
-                                id: "email-input",
-                                props: "required"
-                            });
-                        }
+        this.main = new Main({
+            classList: "container",
+            children: [
+                new Div({
+                    classList: "log-reg-wrapper",
+                    children: [
+                        new Img({
+                            classList: "logo",
+                            src: "img/logo.svg",
+                            alt: "Spend tracker"
+                        }),
 
-                        // Password Input
-                        this.passwordField = new Div(this.inputFields.getElement(), {
-                            classList: "input-section__field"
-                        });
-                        {
-                            this.passwordLabel = new Label(this.passwordField.getElement(), {
-                                classList: "input-title",
-                                forElement: "password-input",
-                                text: "Password"
-                            });
-                            this.passwordInputWrapper = new Div(this.passwordField.getElement(), {
-                                classList: "input-section__password-wrapper"
-                            });
-                            {
-                                this.passwordInput = new Input(this.passwordInputWrapper.getElement(), {
-                                    classList: "input-section__input",
-                                    placeholder: "Type your password",
-                                    type: "password",
-                                    name: "password",
-                                    id: "password-input",
-                                    props: "required"   
-                                });
-                                this.passwordEye = new Button(this.passwordInputWrapper.getElement(), {
-                                    classList: "input-section__eye input-section__eye--show",
-                                    type: "button"
-                                });
-                            }
-                        }
-                    }
-                    
-                    // Checkbox and Submit
-                    this.submitSection = new Div(this.inputFields.getElement(), {
-                        classList: "log-reg"
-                    });
-                    {
-                        this.rememberBlock = new Div(this.submitSection.getElement(), {
-                            classList: "log-reg-alternative"
-                        });
-                        {
-                            this.rememberCheckbox = new Input(this.rememberBlock.getElement(), {
-                                classList: "visually-hidden remember-me__input",
-                                type: "checkbox",
-                                id: "remember-me-checkbox"
-                            });
-                            this.rememberLabel = new Label(this.rememberBlock.getElement(), {
-                                classList: "remember-me__label",
-                                forElement: "remember-me-checkbox",
-                            });
-                            {
-                                this.rememberLabelText = new Span(this.rememberLabel.getElement(), {
-                                    classList: "remember-me__checkbox",
-                                    text: "Remember me"
-                                });
-                            }
-                            this.submit = new Button(this.submitSection.getElement(), {
-                                classList:  "log-reg__button log-reg__button--primary",
-                                type: "submit"
-                            })
-                        }
-                    }
-                }
+                        // Sign up Form
+                        new Form({
+                            classList: "input-section",
+                            action: "#",
+                            method: "post",
+                            children: [
+                                new Div({
+                                    classList: "input-section__fields",
+                                    children: [
 
-                // Other option
-                this.otherOption = new Div(this.logWrapper.getElement(), {
-                    classList: "log-reg-alternative"
-                });
-                {
-                    this.alternativeOr = new Div(this.otherOption.getElement(), {
-                        classList: "log-reg-alternative_or"
-                    });
-                    {
-                        this.orRegister = new P(this.alternativeOr.getElement(), {
-                            classList: "log-reg-alternative__text",
-                            text: "or sign up"
+                                        // Email Input
+                                        new Div({
+                                            classList: "input-section__field",
+                                            children: [
+                                                new Label({
+                                                    classList: "input-title",
+                                                    forElement: "email-input",
+                                                    text: "Email Address"
+                                                }),
+                                                new Input({
+                                                    classList: "input-section__input",
+                                                    placeholder: "Your email",
+                                                    type: "email",
+                                                    name: "email",
+                                                    id: "email-input",
+                                                    props: "required"
+                                                })
+                                            ]
+                                        }),
+
+                                        // Password Input
+                                        new Div({
+                                            classList: "input-section__field",
+                                            children: [
+                                                new Label({
+                                                    classList: "input-title",
+                                                    forElement: "password-input",
+                                                    text: "Password"
+                                                }),
+                                                new Div({
+                                                    classList: "input-section__password-wrapper",
+                                                    children: [
+                                                        new Input({
+                                                            classList: "input-section__input",
+                                                            placeholder: "Type your password",
+                                                            type: "password",
+                                                            name: "password",
+                                                            id: "password-input",
+                                                            props: "required"
+                                                        }),
+                                                        new Button({
+                                                            classList: "input-section__eye input-section__eye--show",
+                                                            type: "button"
+                                                        })
+                                                    ]
+                                                })
+                                            ]
+                                        }),
+
+                                        // Checkbox and Submit
+                                        new Div({
+                                            classList: "log-reg",
+                                            children: [
+                                                new Div({
+                                                    classList: "remember-me",
+                                                    children: [
+                                                        new Input({
+                                                            classList: "visually-hidden remember-me__input",
+                                                            type: "checkbox",
+                                                            id: "remember-me-checkbox"
+                                                        }),
+                                                        new Label({
+                                                            classList: "remember-me__label",
+                                                            forElement: "remember-me-checkbox",
+                                                            children: [
+                                                                new Span({
+                                                                    classList: "remember-me__checkbox",
+                                                                }),
+                                                                new P({
+                                                                    text: "Remember me"
+                                                                }) 
+                                                            ]
+                                                        })
+                                                    ]
+                                                }),
+                                                this.subButton = new Button({
+                                                    classList: "log-reg__button log-reg__button--primary",
+                                                    type: "submit",
+                                                    text: "Login"
+                                                })
+                                            ]
+                                        }),
+                                    ]
+                                })
+                            ]
+                        }),
+
+                        // Another option
+                        new Div({
+                            classList: "log-reg-alternative",
+                            children: [
+                                new Div({
+                                    classList: "log-reg-alternative__or",
+                                    children: [
+                                        new P({
+                                            classList: "log-reg-alternative__text",
+                                            text: "or sign up"
+                                        })
+                                    ]
+                                }),
+                                new A({
+                                    classList: "log-reg-alternative__ref",
+                                    href: "#",
+                                    text: "Create an account"
+                                })
+                            ]
                         })
-                    }
-                    this.createAccount = new A(this.otherOption.getElement(), {
-                        classList: "log-reg-alternative__ref",
-                        href: "#"
-                    });
-                }
-            }
-        }
+                    ]
+                })
+            ]
+        });
+    }
+
+    async mount(parent) {
+        await this.main.mount(parent);
+        this.bindListeners();
     }
     
-    // recursive mount
-    // TODO: Component-container, remove parent element (gemini)
+    bindListeners() {
+        // create an event and pass a function like an argument
+    }
 }

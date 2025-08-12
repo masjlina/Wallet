@@ -1,8 +1,8 @@
 import { Component } from "../core/Component.js";
 
 export default class A extends Component{
-    constructor(parent, {classList, href, text, props}) {
-        super(parent, "a", props);
+    constructor({classList, children, href, text, props}) {
+        super(children, props);
 
         this.href = href;
         this.classList = classList;

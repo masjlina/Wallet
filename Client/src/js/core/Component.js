@@ -1,11 +1,12 @@
 "use strict;"
 
-import { Element } from './Element';
+import {Element} from './Element';
 
 export class Component extends Element {
-    constructor(parent, elementTitle, props = "") {
-        super(parent)
-        this.elementTitle = elementTitle;
+    constructor(children, props = "") {
+        super();
+
+        this.children = children || [];
         this.props = props;
     }
 
@@ -13,24 +14,32 @@ export class Component extends Element {
         super.init();
     }
 
-    getElement() {
-        return this.element;
-    }
-
-    mount() {
+    mount(parent) {
         if (this.element && this.element.parentNode) {
             return;
         }
 
         const html = this.init();
-        const tempDiv = document.createElement(this.elementTitle);
+        // Temporary container
+        const tempDiv = document.createElement("div");
         tempDiv.innerHTML = html.trim();
-        this.element = tempDiv.firstChild;
+        this.element = tempDiv.firstElementChild;
 
-        this.parent.appendChild(this.element);
+        if (parent) {
+            parent.appendChild(this.element);
+            this.recursiveMount(this.children);
+        }
     }
 
-    umount() {
+    recursiveMount(children) {
+        if (children && children.length > 0) {
+            children.forEach(child => {
+                child.mount(this.element);
+            });
+        }
+    }
+
+    unmout() {
         if (this.element && this.element.parentNode) {
             this.element.parentNode.removeChild(this.element);
         }

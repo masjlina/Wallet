@@ -1,12 +1,12 @@
 import { Component } from "../core/Component.js";
 
 export default class Label extends Component{
-    constructor(parent, {classList, forElement, text, props}) {
-        super(parent, "label", props);
+    constructor({children, classList, forElement, text, props}) {
+        super(children, props);
 
         this.classList = classList;
         this.forElement = forElement;
-        this.text = text;
+        this.text = text ?? "";
     }
     
     init() {

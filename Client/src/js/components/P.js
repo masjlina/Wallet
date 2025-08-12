@@ -1,10 +1,10 @@
 import { Component } from "../core/Component.js";
 
 export default class P extends Component{
-    constructor(parent, {classList, text, props}) {
-        super(parent, "p", props);
+    constructor({children, classList, text, props}) {
+        super(children, props);
 
-        this.classList = classList;
+        this.classList = classList ?? "";
         this.text = text;
     }
     

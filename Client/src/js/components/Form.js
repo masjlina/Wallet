@@ -1,8 +1,8 @@
 import { Component } from "../core/Component.js";
 
 export default class Form extends Component{
-    constructor(parent, {classList, action, method, props}) {
-        super(parent, "form", props);
+    constructor({children, classList, action, method, props}) {
+        super(children, props);
 
         this.classList = classList;
         this.action = action;

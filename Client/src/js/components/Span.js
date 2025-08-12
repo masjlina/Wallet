@@ -1,11 +1,11 @@
 import { Component } from "../core/Component.js";
 
 export default class Span extends Component{
-    constructor(parent, {classList, text, props}) {
-        super(parent, "span", props);
+    constructor({children, classList, text, props}) {
+        super(children, props);
 
-        this.classList = classList;
-        this.text = text;
+        this.classList = classList ?? "";
+        this.text = text ?? "";
     }
     
     init() {
