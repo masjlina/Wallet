@@ -3,7 +3,7 @@ import {View} from "../core/View.js";
 import {LoginController} from "../controllers/LoginController.js";
 import {validate, navigateTo} from "../utils/index.js";
 
-export class LoginView extends View {
+export class RegistrationView extends View {
     constructor() {
         super(new LoginController());
         

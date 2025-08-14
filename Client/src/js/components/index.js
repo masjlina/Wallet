@@ -9,4 +9,4 @@ export { default as Main } from "./Main.js";
 export { default as P } from "./P.js";
 export { default as Span } from "./Span.js";
 
-export { default as PasswordField } from "./log-reg/PasswordField.js";
+export { default as showPasswordToggle } from "./log-reg/PasswordField.js";

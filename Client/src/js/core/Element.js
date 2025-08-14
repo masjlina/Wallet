@@ -13,7 +13,9 @@ export class Element {
 
     }
 
-    unmout() {
-
+    unmount() {
+        if (this.element && this.element.parentNode) {
+            this.element.parentNode.removeChild(this.element);
+        }
     }
 }

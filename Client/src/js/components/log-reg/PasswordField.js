@@ -1,21 +1,14 @@
 import { Component } from "../../core/Component.js";
 
-export default class PasswordField extends Component {
-    constructor(Input, Button, { classList, props } = {}) {
-        super("div", props);
+export default function showPasswordToggle(passwordField) {
+    const input = passwordField.querySelector("input");
+    const eye = passwordField.querySelector("button");
 
-        this.classList = classList;
-        this.Input = Input;
-        this.Button = Button;
-    }
-
-    init() {
-        return `
-            <div 
-                class="${this.classList}">
-                ${this.Input?.init()}
-                ${this.Button?.init()}
-            </div>
-        `
+    if (eye.classList.contains("input-section__eye--show")) {
+        eye.classList.replace("input-section__eye--show", "input-section__eye--hide");
+        input.type = "text";
+    } else {
+        eye.classList.replace("input-section__eye--hide", "input-section__eye--show");
+        input.type = "password"
     }
 }

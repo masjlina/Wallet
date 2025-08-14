@@ -38,10 +38,4 @@ export class Component extends Element {
             });
         }
     }
-
-    unmout() {
-        if (this.element && this.element.parentNode) {
-            this.element.parentNode.removeChild(this.element);
-        }
-    }
 }

@@ -1,12 +1,6 @@
 "use strict;"
 
 import { LoginView } from "./views/LoginView.js";
+import {navigateTo} from "./utils/index";
 
-const parent = document.querySelector("body");
-
-parent.innerHTML = "";
-const loginView = new LoginView(parent);
-
-loginView.mount(parent);
-
-
+navigateTo("/login");

@@ -14,6 +14,9 @@ export class View extends Element {
 
     }
 
+    async mount() {
+    }
+
     bindListeners() {
 
     }
