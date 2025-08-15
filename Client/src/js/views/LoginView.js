@@ -4,8 +4,8 @@ import {LoginController} from "../controllers/LoginController.js";
 import {validate, navigateTo} from "../utils/index.js";
 
 export class LoginView extends View {
-    constructor() {
-        super(new LoginController());
+    constructor(parent) {
+        super(new LoginController(), parent);
         
         this.location = "/login";
     }
@@ -136,7 +136,7 @@ export class LoginView extends View {
                                 }),
                                 this.refCreateAccount = new A({
                                     classList: "log-reg-alternative__ref",
-                                    href: "/registration",
+                                    href: "#/registration",
                                     text: "Create an account"
                                 })
                             ]
@@ -165,11 +165,15 @@ export class LoginView extends View {
         validate((this.form.element));
     }
     
+    redirectToRegistration(e) {
+        e.preventDefault();
+        navigateTo(this.refCreateAccount.href);
+    }
+    
     bindListeners() {
-        // create an event and pass a function like an argument
         this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
         this.form.element.addEventListener("change", () => this.formValidate());
         this.form.element.addEventListener("submit", (e) => this.formSubmit(e));
-        this.refCreateAccount.element.addEventListener("click", () => navigateTo(this.refCreateAccount.href));
+        this.refCreateAccount.element.addEventListener("click", (e) => this.redirectToRegistration(e));
     }
 }

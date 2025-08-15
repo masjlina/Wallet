@@ -45,6 +45,12 @@
     flex-direction: column;
 }
 
+.input-section__double-field {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
 .input-section__field {
     display: flex;
     flex-direction: column;

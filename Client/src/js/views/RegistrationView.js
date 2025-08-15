@@ -1,13 +1,13 @@
 import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordToggle} from "../components/index.js";
 import {View} from "../core/View.js";
-import {LoginController} from "../controllers/LoginController.js";
 import {validate, navigateTo} from "../utils/index.js";
+import {RegistrationController} from "../controllers/RegistrationController";
 
 export class RegistrationView extends View {
-    constructor() {
-        super(new LoginController());
+    constructor(parent) {
+        super(new RegistrationController(), parent);
         
-        this.location = "/login";
+        this.location = "/registration";
     }
 
     init() {
@@ -33,7 +33,53 @@ export class RegistrationView extends View {
                                 new Div({
                                     classList: "input-section__fields",
                                     children: [
-
+                                        // Name Input
+                                        new Div({
+                                            classList: "input-section__double-field",
+                                            children: [
+                                                
+                                                // First Name
+                                                new Div({
+                                                    classList: "input-section__field",
+                                                    children: [
+                                                        new Label({
+                                                            classList: "input-title",
+                                                            forElement: "first-name-input",
+                                                            text: "First Name"
+                                                        }),
+                                                        new Input({
+                                                            classList: "input-section__input",
+                                                            placeholder: "Your first name",
+                                                            type: "text",
+                                                            name: "firstName",
+                                                            id: "first-name-input",
+                                                            props: "required minlength='1' maxlength='50'"
+                                                        })
+                                                    ]
+                                                }),
+                                                
+                                                // Last Name
+                                                new Div({
+                                                    classList: "input-section__field",
+                                                    children: [
+                                                        new Label({
+                                                            classList: "input-title",
+                                                            forElement: "last-name-input",
+                                                            text: "Last Name"
+                                                        }),
+                                                        new Input({
+                                                            classList: "input-section__input",
+                                                            placeholder: "Your last name",
+                                                            type: "text",
+                                                            name: "lastName",
+                                                            id: "last-name-input",
+                                                            props: "required minlength='1' maxlength='50'"
+                                                        })
+                                                    ]
+                                                }),
+                                            ]
+                                        }),
+                                        
                                         // Email Input
                                         new Div({
                                             classList: "input-section__field",
@@ -55,7 +101,7 @@ export class RegistrationView extends View {
                                         }),
 
                                         // Password Input
-                                        this.passwordField = new Div({
+                                        new Div({
                                             classList: "input-section__field",
                                             children: [
                                                 new Label({
@@ -74,7 +120,7 @@ export class RegistrationView extends View {
                                                             id: "password-input",
                                                             props: "required minlength='5'"
                                                         }),
-                                                        this.btnEye = new Button({
+                                                        new Button({
                                                             classList: "input-section__eye input-section__eye--show",
                                                             type: "button"
                                                         })
@@ -82,6 +128,34 @@ export class RegistrationView extends View {
                                                 })
                                             ]
                                         }),
+                                        // Password Input
+                                        new Div({
+                                            classList: "input-section__field",
+                                            children: [
+                                                new Label({
+                                                    classList: "input-title",
+                                                    forElement: "password-confirm-input",
+                                                    text: "Confirm Password"
+                                                }),
+                                                new Div({
+                                                    classList: "input-section__password-wrapper",
+                                                    children: [
+                                                        new Input({
+                                                            classList: "input-section__input",
+                                                            placeholder: "Confirm your password",
+                                                            type: "password",
+                                                            name: "passwordConfirm",
+                                                            id: "password-confirm-input",
+                                                            props: "required minlength='5'"
+                                                        }),
+                                                        new Button({
+                                                            classList: "input-section__eye input-section__eye--show",
+                                                            type: "button"
+                                                        })
+                                                    ]
+                                                })
+                                            ]
+                                        }), 
 
                                         // Checkbox and Submit
                                         new Div({
@@ -112,7 +186,7 @@ export class RegistrationView extends View {
                                                 this.subButton = new Button({
                                                     classList: "log-reg__button log-reg__button--primary",
                                                     type: "submit",
-                                                    text: "Login"
+                                                    text: "Create account"
                                                 })
                                             ]
                                         }),
@@ -130,14 +204,14 @@ export class RegistrationView extends View {
                                     children: [
                                         new P({
                                             classList: "log-reg-alternative__text",
-                                            text: "or sign up"
+                                            text: "or sign in"
                                         })
                                     ]
                                 }),
                                 this.refCreateAccount = new A({
                                     classList: "log-reg-alternative__ref",
-                                    href: "/registration",
-                                    text: "Create an account"
+                                    href: "#/login",
+                                    text: "Login"
                                 })
                             ]
                         })
@@ -167,7 +241,11 @@ export class RegistrationView extends View {
     
     bindListeners() {
         // create an event and pass a function like an argument
-        this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
+        const eyes = document.querySelectorAll(".input-section__eye");
+        eyes.forEach(eye => {
+            eye.addEventListener("click", () => showPasswordToggle(eye.parentElement));
+        });
+        // this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
         this.form.element.addEventListener("change", () => this.formValidate());
         this.form.element.addEventListener("submit", (e) => this.formSubmit(e));
         this.refCreateAccount.element.addEventListener("click", () => navigateTo(this.refCreateAccount.href));
