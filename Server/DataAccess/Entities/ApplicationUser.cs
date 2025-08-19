@@ -6,9 +6,14 @@ namespace DataAccess.Entities;
 
 public sealed class ApplicationUser : IdentityUser
 {
+    public string FirstName  { get; set; }
+    
+    public string LastName  { get; set; }
+    
     public string? AvatarUri { get; set; } = "";
     
     public int? WalletId { get; set; }
+    
     [ForeignKey("WalletId")]
     public Wallet? Wallet { get; set; }
 

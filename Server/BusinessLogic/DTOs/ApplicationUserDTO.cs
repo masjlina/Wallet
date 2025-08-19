@@ -6,11 +6,17 @@ public sealed class ApplicationUserDTO
 {
     [Required]
     public string Id { get; set; }
-    [Required(ErrorMessage = "Please enter a username")]
-    public string UserName { get; set; }
+    
+    [Required(ErrorMessage = "Please enter a first name")]
+    public string FirstName { get; set; }
+    
+    [Required(ErrorMessage = "Please enter a last name")]
+    public string LastName { get; set; }
+    
     [Required(ErrorMessage = "Please enter an email")]
     [EmailAddress(ErrorMessage = "Invalid email")]
     public string Email { get; set; }
+    
     [Required(ErrorMessage = "Please enter a phone number")]
     [Phone(ErrorMessage = "Invalid phone number format")]
     public string PhoneNumber { get; set; }

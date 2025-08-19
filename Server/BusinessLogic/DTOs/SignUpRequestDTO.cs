@@ -4,8 +4,12 @@ namespace BusinessLogic.DTOs;
 
 public class SignUpRequestDTO
 {
-    [Required(ErrorMessage = "User name is required")]
-    public string Name  { get; set; }
+    [Required(ErrorMessage = "User first name is required")]
+    public string FirstName  { get; set; }
+    
+    [Required(ErrorMessage = "User second name is required")]
+    public string LastName  { get; set; }
+    
     [Required(ErrorMessage = "Email is required")]
     [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
     public string Email { get; set; }

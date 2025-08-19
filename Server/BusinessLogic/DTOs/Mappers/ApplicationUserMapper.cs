@@ -16,7 +16,8 @@ public class ApplicationUserMapper : IMapper<ApplicationUser, ApplicationUserDTO
         return new ApplicationUserDTO()
         {
             Id = user.Id,
-            UserName = user.UserName ?? string.Empty,
+            FirstName = user.FirstName ?? string.Empty,
+            LastName = user.LastName ?? string.Empty,
             Email = user.Email ?? string.Empty,
             PhoneNumber = user.PhoneNumber ?? string.Empty,
             AvatarUri = user.AvatarUri,
@@ -32,7 +33,8 @@ public class ApplicationUserMapper : IMapper<ApplicationUser, ApplicationUserDTO
         return new ApplicationUser()
         {
             Id = userDTO.Id,
-            UserName = userDTO.UserName,
+            FirstName = userDTO.FirstName,
+            LastName = userDTO.LastName,
             Email = userDTO.Email,
             PhoneNumber = userDTO.PhoneNumber,
             WalletId = userDTO.WalletId ?? 0,

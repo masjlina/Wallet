@@ -3,6 +3,7 @@ using System;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250819210154_ReplaceUserNameToFirstAndLastNames")]
+    partial class ReplaceUserNameToFirstAndLastNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +134,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CreditCard", b =>
@@ -165,7 +168,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("CreditCards", (string)null);
+                    b.ToTable("CreditCards");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.TokenInfo", b =>
@@ -190,7 +193,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TokenInfos", (string)null);
+                    b.ToTable("TokenInfos");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Transaction", b =>
@@ -234,7 +237,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Transactions", null, t =>
+                    b.ToTable("Transactions", t =>
                         {
                             t.HasCheckConstraint("CK_Transactions_WalletOrCreditCard", "(\"WalletId\" IS NOT NULL AND \"CreditCardId\" IS NULL) OR (\"WalletId\" IS NULL AND \"CreditCardId\" IS NOT NULL)");
                         });
@@ -272,7 +275,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Wallets", (string)null);
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

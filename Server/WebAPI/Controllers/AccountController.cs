@@ -134,7 +134,9 @@ public class AccountController : ControllerBase
         
         var user = new ApplicationUser()
         {
-            UserName = signUpRequestDTO.Name,
+            FirstName = signUpRequestDTO.FirstName,
+            LastName = signUpRequestDTO.LastName,
+            UserName = signUpRequestDTO.Email,
             Email = signUpRequestDTO.Email,
             EmailConfirmed = true,
         };

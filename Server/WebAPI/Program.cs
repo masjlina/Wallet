@@ -32,7 +32,11 @@ builder.Services.AddScoped<IGenericService<CategoryDTO>, CategoryService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = null;
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 
 var apiSettingsSection = builder.Configuration.GetSection("Authentication:Schemes:Bearer");
 builder.Services.Configure<ApiSettings>(option =>
