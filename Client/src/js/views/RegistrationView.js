@@ -2,6 +2,7 @@ import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordTogg
 import {View} from "../core/View.js";
 import {validate, navigateTo} from "../utils/index.js";
 import {RegistrationController} from "../controllers/RegistrationController";
+import {registerUser} from "../api/authenticationAdapter";
 
 export class RegistrationView extends View {
     constructor(parent) {
@@ -122,7 +123,8 @@ export class RegistrationView extends View {
                                                         }),
                                                         new Button({
                                                             classList: "input-section__eye input-section__eye--show",
-                                                            type: "button"
+                                                            type: "button",
+                                                            props: "tabindex='-1'"
                                                         })
                                                     ]
                                                 })
@@ -144,13 +146,14 @@ export class RegistrationView extends View {
                                                             classList: "input-section__input",
                                                             placeholder: "Confirm your password",
                                                             type: "password",
-                                                            name: "passwordConfirm",
+                                                            name: "confirmPassword",
                                                             id: "password-confirm-input",
                                                             props: "required minlength='5'"
                                                         }),
                                                         new Button({
                                                             classList: "input-section__eye input-section__eye--show",
-                                                            type: "button"
+                                                            type: "button",
+                                                            props: "tabindex='-1'"
                                                         })
                                                     ]
                                                 })
@@ -167,7 +170,8 @@ export class RegistrationView extends View {
                                                         new Input({
                                                             classList: "visually-hidden remember-me__input",
                                                             type: "checkbox",
-                                                            id: "remember-me-checkbox"
+                                                            id: "remember-me-checkbox",
+                                                            name: "rememberMe"
                                                         }),
                                                         new Label({
                                                             classList: "remember-me__label",
@@ -208,7 +212,7 @@ export class RegistrationView extends View {
                                         })
                                     ]
                                 }),
-                                this.refCreateAccount = new A({
+                                this.refLogin = new A({
                                     classList: "log-reg-alternative__ref",
                                     href: "#/login",
                                     text: "Login"
@@ -234,9 +238,18 @@ export class RegistrationView extends View {
         validate(this.form.element); 
     }
     
-    formSubmit(e) {
+    async formSubmit(e) {
         e.preventDefault();
-        validate((this.form.element));
+        if (validate(e.target)) {
+            const formData = new FormData(e.target);
+            const response = await registerUser(Object.fromEntries(formData.entries()));
+            if (response.isRegistrationSuccessful) {
+                navigateTo(this.refLogin.href);
+            } else {
+                console.log(...response.errors);
+            }
+        }
+        
     }
     
     bindListeners() {
@@ -248,6 +261,6 @@ export class RegistrationView extends View {
         // this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
         this.form.element.addEventListener("change", () => this.formValidate());
         this.form.element.addEventListener("submit", (e) => this.formSubmit(e));
-        this.refCreateAccount.element.addEventListener("click", () => navigateTo(this.refCreateAccount.href));
+        this.refLogin.element.addEventListener("click", () => navigateTo(this.refLogin.href));
     }
 }

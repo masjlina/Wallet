@@ -12,5 +12,9 @@ export default function validate(form) {
         }
     );
 
-    showErrors(errorInputs);
+    if (errorInputs.length > 0) {
+        showErrors(errorInputs);
+        return false;
+    } else
+        return true
 }

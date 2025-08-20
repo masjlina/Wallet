@@ -113,7 +113,7 @@ public class AccountController : ControllerBase
         });
     }
     
-    [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
     {
         if (signUpRequestDTO == null || !ModelState.IsValid)

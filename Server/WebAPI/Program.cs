@@ -70,7 +70,9 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
-builder.Services.AddAuthorizationBuilder().AddPolicy("IsAdmin", policyBuilder => policyBuilder.RequireClaim("admin", "true"));
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("IsAdmin", policyBuilder => policyBuilder
+    .RequireClaim("admin", "true"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
@@ -89,12 +91,15 @@ builder.Services.AddSwaggerGen(x =>
         }
     };
     x.AddSecurityDefinition(security.Reference.Id, security);
-    x.AddSecurityRequirement(new OpenApiSecurityRequirement { { security , Array.Empty<string>() } });
+    x.AddSecurityRequirement(new OpenApiSecurityRequirement { { security, Array.Empty<string>() } });
 });
 
-builder.Services.AddCors(o => o.AddPolicy("Wallet", builder =>
+builder.Services.AddCors(o => o.AddPolicy("Wallet", policy =>
 {
-    builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+    policy.WithOrigins("http://127.0.0.1:5500")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
 }));
 
 var app = builder.Build();
