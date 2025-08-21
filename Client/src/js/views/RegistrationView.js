@@ -1,12 +1,12 @@
 import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordToggle} from "../components/index.js";
 import {View} from "../core/View.js";
 import {validate, navigateTo} from "../utils/index.js";
-import {RegistrationController} from "../controllers/RegistrationController";
 import {registerUser} from "../api/authenticationAdapter";
+import urlPaths from "../utils/enumeration";
 
 export class RegistrationView extends View {
     constructor(parent) {
-        super(new RegistrationController(), parent);
+        super(parent);
         
         this.location = "/registration";
     }
@@ -214,7 +214,7 @@ export class RegistrationView extends View {
                                 }),
                                 this.refLogin = new A({
                                     classList: "log-reg-alternative__ref",
-                                    href: "#/login",
+                                    href: `${urlPaths.login}`,
                                     text: "Login"
                                 })
                             ]
@@ -244,12 +244,11 @@ export class RegistrationView extends View {
             const formData = new FormData(e.target);
             const response = await registerUser(Object.fromEntries(formData.entries()));
             if (response.isRegistrationSuccessful) {
-                navigateTo(this.refLogin.href);
+                navigateTo(urlPaths.login);
             } else {
                 console.log(...response.errors);
             }
         }
-        
     }
     
     bindListeners() {
@@ -258,9 +257,8 @@ export class RegistrationView extends View {
         eyes.forEach(eye => {
             eye.addEventListener("click", () => showPasswordToggle(eye.parentElement));
         });
-        // this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
         this.form.element.addEventListener("change", () => this.formValidate());
         this.form.element.addEventListener("submit", (e) => this.formSubmit(e));
-        this.refLogin.element.addEventListener("click", () => navigateTo(this.refLogin.href));
+        this.refLogin.element.addEventListener("click", () => navigateTo(urlPaths.login));
     }
 }
