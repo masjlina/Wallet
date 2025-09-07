@@ -11,9 +11,9 @@
 </head>
 
 <body>
-<div class="wrapper main-wrapper">
-    <div class="wrapper header-content-wrapper">
-        <div class="container header-container">
+<div class="wrapper main__wrapper">
+    <div class="wrapper header__wrapper">
+        <div class="container header__container">
             <img src="img/logo.svg" class="icon--side-bar__logo" alt="Spend tracker">
             <div class="content header-content">
                 <img src="icons/bell.svg" class="icon">
@@ -21,13 +21,13 @@
             </div>
         </div>
     </div>
-    <div class="wrapper center-wrapper">
-        <div class="container side-bar-container">
-            <div>
-                <img src="icons/left-arrow.svg" class="icon--arrow" alt="Left arrow">
-            </div>
-            <div class="content side-bar-content">
-                <div class="side-bar__nav">
+    <div class="wrapper center__wrapper">
+        <div class="wrapper side-bar__wrapper">
+            <div class="container side-bar__container">
+                <div>
+                    <img src="icons/left-arrow.svg" class="icon--arrow" alt="Left arrow">
+                </div>
+                <div class="content side-bar-content">
                     <div class="side-bar__top">
                         <div class="side-bar__item">
                             <img src="icons/four-blocks.svg" class="icon" alt="Dashboard">
@@ -56,9 +56,20 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="container main-container"></div>
+        <div class="wrapper dashboard__wrapper">
+            <div class="container dashboard__container">
+                <div class="content dashboard-content">
+                    <div class="dashboard__widget"></div>
+                    <div class="dashboard__widget"></div>
+                    <div class="dashboard__widget"></div>
+                </div>
+                <div class="content dashboard-content">
+                    <div class="dashboard__widget"></div>
+                    <div class="dashboard__widget"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
