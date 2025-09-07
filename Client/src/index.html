@@ -11,58 +11,110 @@
 </head>
 
 <body>
-    <main class="container">
-        <div class="log-reg-wrapper">
-            <img class="logo" src="img/logo.svg" alt="Spend tracker">
-
-            <!-- Sign up Form -->
-            <form class="input-section" action="#" method="post">
-                <div class="input-section__fields">
-
-                    <!-- Email Input -->
-                    <div class="input-section__field">
-                        <label class="input-title" for="email-input">Email Address</label>
-                        <input class="input-section__input" placeholder="Your email" type="email" name="email"
-                            id="email-input" required />
+<div class="wrapper main-wrapper">
+    <div class="wrapper header-content-wrapper">
+        <div class="container header-container">
+            <img src="img/logo.svg" class="icon--side-bar__logo" alt="Spend tracker">
+            <div class="content header-content">
+                <img src="icons/bell.svg" class="icon">
+                <img src="img/profile.png" class="icon--profile">
+            </div>
+        </div>
+    </div>
+    <div class="wrapper center-wrapper">
+        <div class="container side-bar-container">
+            <div>
+                <img src="icons/left-arrow.svg" class="icon--arrow" alt="Left arrow">
+            </div>
+            <div class="content side-bar-content">
+                <div class="side-bar__nav">
+                    <div class="side-bar__top">
+                        <div class="side-bar__item">
+                            <img src="icons/four-blocks.svg" class="icon" alt="Dashboard">
+                            <p>Dashboard</p>
+                        </div>
+                        <div class="side-bar__item">
+                            <img src="icons/dot-list.svg" class="icon" alt="Transactions">
+                            <p>Transactions</p>
+                        </div>
+                        <div class="side-bar__item">
+                            <img src="icons/wallet.svg" class="icon" alt="Wallet">
+                            <p>Wallet</p>
+                        </div>
                     </div>
 
-                    <!-- Password Input -->
-                    <div class="input-section__field">
-                        <label class="input-title" for="password-input">Password</label>
-                        <div class="input-section__password-wrapper">
-                            <input class="input-section__input" placeholder="Type your password" type="password"
-                                name="password" id="password-input" required />
-                            <button type="button" class="input-section__eye input-section__eye--show"></button>
+
+                    <div class="side-bar__bottom">
+                        <div class="side-bar__item">
+                            <img src="icons/gear.svg" class="icon" alt="Settings">
+                            <p>Settings</p>
+                        </div>
+                        <div class="side-bar__item">
+                            <img src="icons/out-door.svg" class="icon" alt="Logout">
+                            <p>Logout</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Checkbox and Submit -->
-                <div class="log-reg">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember-me-checkbox" class="visually-hidden remember-me__input" />
-                        <label for="remember-me-checkbox" class="remember-me__label">
-                            <span class="remember-me__checkbox"></span>
-                            <p>Remember me</p>
-                        </label>
-                    </div>
-
-                    <button class="log-reg__button log-reg__button--primary" type="submit">Login</button>
-                </div>
-            </form>
-
-            <!-- Other option -->
-            <div class="log-reg-alternative">
-                <div class="log-reg-alternative__or">
-                    <p class="log-reg-alternative__text">or sign up</p>
-                </div>
-
-                <a href="#" class="log-reg-alternative__ref">Create an account</a>
             </div>
-        </div>
-    </main>
 
-    <script src="js/bundle.js"></script>
+        </div>
+        <div class="container main-container"></div>
+    </div>
+</div>
+
+
+<!--    <main class="container">-->
+<!--        <div class="log-reg-wrapper">-->
+<!--            <img class="log-reg-logo" src="img/logo.svg" alt="Spend tracker">-->
+
+<!--            &lt;!&ndash; Sign up Form &ndash;&gt;-->
+<!--            <form class="input-section" action="#" method="post">-->
+<!--                <div class="input-section__fields">-->
+
+<!--                    &lt;!&ndash; Email Input &ndash;&gt;-->
+<!--                    <div class="input-section__field">-->
+<!--                        <label class="input-title" for="email-input">Email Address</label>-->
+<!--                        <input class="input-section__input" placeholder="Your email" type="email" name="email"-->
+<!--                            id="email-input" required />-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Password Input &ndash;&gt;-->
+<!--                    <div class="input-section__field">-->
+<!--                        <label class="input-title" for="password-input">Password</label>-->
+<!--                        <div class="input-section__password-wrapper">-->
+<!--                            <input class="input-section__input" placeholder="Type your password" type="password"-->
+<!--                                name="password" id="password-input" required />-->
+<!--                            <button type="button" class="input-section__eye input-section__eye&#45;&#45;show"></button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Checkbox and Submit &ndash;&gt;-->
+<!--                <div class="log-reg">-->
+<!--                    <div class="remember-me">-->
+<!--                        <input type="checkbox" id="remember-me-checkbox" class="visually-hidden remember-me__input" />-->
+<!--                        <label for="remember-me-checkbox" class="remember-me__label">-->
+<!--                            <span class="remember-me__checkbox"></span>-->
+<!--                            <p>Remember me</p>-->
+<!--                        </label>-->
+<!--                    </div>-->
+
+<!--                    <button class="log-reg__button log-reg__button&#45;&#45;primary" type="submit">Login</button>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--            &lt;!&ndash; Other option &ndash;&gt;-->
+<!--            <div class="log-reg-alternative">-->
+<!--                <div class="log-reg-alternative__or">-->
+<!--                    <p class="log-reg-alternative__text">or sign up</p>-->
+<!--                </div>-->
+
+<!--                <a href="#" class="log-reg-alternative__ref">Create an account</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+
+<script src="js/bundle.js"></script>
 </body>
 
 </html>

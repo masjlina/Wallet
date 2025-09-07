@@ -1,32 +1,129 @@
 /* ===========================
-   Layout Containers
+   Layout Wrappers
+   =========================== */
+.wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.log-reg-wrapper {
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.main-wrapper {
+    flex-direction: column;
+}
+
+.header-content-wrapper {
+    flex-direction: column;
+    height: fit-content;
+
+    padding: 35px 35px 35px 35px;
+}
+
+.center-wrapper {
+    flex-direction: row;
+    /*gap: 35px;*/
+}
+
+/* ===========================
+   Containers
    =========================== */
 .container {
     display: flex;
-    justify-content: center;
+}
+
+.header-container {
     align-items: center;
-    min-height: 100vh;
-}
+    justify-content: space-between;
 
-/* ===========================
-   Logo Styles
-   =========================== */
-.logo {
-    height: 93px;
     width: 100%;
-    object-fit: contain;
+
+    background: #F5F5F5;
+}
+
+.side-bar-container {
+    flex-direction: column;
+    position: relative;
+    gap: 35px;
+    max-width: 20%;
+
+    margin: 35px 35px 115px 35px;
+    background: #F5F5F5;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    background: #F5F5F5;
+    border-radius: 35px;
 }
 
 /* ===========================
-   Login/Register Main Wrapper
+   Contents
    =========================== */
-.log-reg-wrapper {
+.content {
     display: flex;
+}
+
+.log-reg-content {
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 400px;
     gap: 35px;
+}
+
+.header-content {
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 35px;
+}
+
+.side-bar-content {
+    flex-direction: column;
+    height: 100%;
+    gap: 35px;
+}
+
+
+/* ===========================
+   Icons
+   =========================== */
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+.icon--profile {
+    width: 54px;
+    height: 54px;
+}
+
+.icon--arrow {
+    position: absolute;
+    top: -35px;
+    right: -35px;
+    
+    width: 16px;
+    height: 32px;
+    margin-left: auto;
+}
+
+.icon--log-reg__logo {
+    height: 93px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.icon--side-bar__logo {
+    height: 56px;
+    width: fit-content;
+    object-fit: contain;
 }
 
 /* ===========================
@@ -251,3 +348,38 @@
 .log-reg-alternative__ref:active {
     color: #2C2E2F;
 }
+
+/* ===========================
+   Side Bar
+   =========================== */
+.side-bar__nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.side-bar__top, .side-bar__bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+/*.side-bar__arrow {*/
+/*    display: inline-block;*/
+/*    text-align: end;*/
+/*    padding-left: 55px;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+.side-bar__item {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 20px;
+}
+
+/* ===========================
+   Header
+   =========================== */
