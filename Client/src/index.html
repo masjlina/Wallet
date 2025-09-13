@@ -25,7 +25,7 @@
         <div class="wrapper side-bar__wrapper">
             <div class="container side-bar__container">
                 <div>
-                    <img src="icons/left-arrow.svg" class="icon--arrow" alt="Left arrow">
+                    <img src="icons/left-arrow.svg" class="icon--side-bar__arrow" alt="Left arrow">
                 </div>
                 <div class="content side-bar-content">
                     <div class="side-bar__top">
@@ -61,8 +61,9 @@
             <div class="container dashboard__container">
                 <div class="content dashboard-content">
                     <div class="wrapper widget__wrapper">
+                        <!-- TODO: Use grid for titles -->
                         <div class="container widget__container">
-                            <div class="text text_title">Month Budget</div>
+                            <div class="text text__title">Month Budget</div>
                             <div class="content widget_content">
                                 <div class="content month-limit__left-content">
                                     <div class="widget__month-limit">
@@ -95,8 +96,7 @@
                             <div class="content day-limit__graphic-content">
                                 <div class="graphic">
                                     <div class="graphic__background--radial">
-                                        <div class="graphic__fill--radial">
-                                        </div>
+                                        <div class="graphic__fill--radial"></div>
                                         <div class="graphic__overlap--radial">
                                             <p class="text text__base text__base--inactive">Day Limit</p>
                                             <p class="text text__primary">$50/100</p>
@@ -112,16 +112,56 @@
                     </div>
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
+                            <div class="content accounts__top-content"></div>
+                            <div class="content accounts__main-content"></div>
+                            <div class="content accounts__bottom-content"></div>
                         </div>
                     </div>
                 </div>
                 <div class="content dashboard-content">
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
+                            <div class="content recent-transactions__top-content">
+                                <div class="text text__title">Recent Transactions</div>
+                                <div class="view-all">
+                                    <div class="text text__link">View All</div>
+                                    <img class="icon--widget__arrow" src="icons/right-arrow.svg">
+                                </div>
+                            </div>
+                            <div class="content recent-transactions__table-content text text__table">
+                                <div class="table table__column">
+                                    <div class="table table__first-block">NAME</div>
+                                    <div>TYPE</div>
+                                    <div>AMOUNT</div>
+                                    <div>DATE</div>
+                                </div>
+                                <div class="table table__content text">
+                                    <div class="table table__row">
+                                        <div class="table table__first-block">
+                                            <div class="icon--table__expense"></div>
+                                            <div class="text__table--name">Iphone 13 Pro MAX</div>
+                                        </div>
+                                        <div>Mobile</div>
+                                        <div class="text__table__amount--expense">-$990,50</div>
+                                        <div class="text__table--date">12.01.2020<br>09:34</div>
+                                    </div>
+                                    <div class="table table__row">
+                                        <div class="table table__first-block">
+                                            <div class="icon--table__income"></div>
+                                            <div class="text__table--name">Netflix Subscription</div>
+                                        </div>
+                                        <div>Entertainment</div>
+                                        <div class="text__table__amount--income">+$20</div>
+                                        <div class="text__table--date">12.01.2020<br>09:34</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
+                            <div class="content activities__top-content"></div>
+                            <div class="content activities__graphic-content"></div>
                         </div>
                     </div>
                 </div>
@@ -129,7 +169,6 @@
         </div>
     </div>
 </div>
-
 
 <!--    <main class="container">-->
 <!--        <div class="log-reg-wrapper">-->

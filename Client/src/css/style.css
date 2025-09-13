@@ -84,7 +84,7 @@
 .widget__container {
     flex-direction: column;
 
-    gap: 10px;
+    gap: 15px;
     padding: 20px;
 }
 
@@ -150,10 +150,23 @@
     justify-content: space-between;
 }
 
+.recent-transactions__top-content {
+    justify-content: space-between;
+}
+
+.recent-transactions__table-content {
+    flex-direction: column;
+    gap: 20px;
+}
+
+.table__content {
+    flex-direction: column;
+    gap: 20px;
+}
 
 /* ===========================
    Icons
-   =========================== */
+43   =========================== */
 .icon {
     width: 32px;
     height: 32px;
@@ -164,7 +177,7 @@
     height: 54px;
 }
 
-.icon--arrow {
+.icon--side-bar__arrow {
     position: absolute;
     top: 0;
     right: 0;
@@ -172,6 +185,11 @@
     width: 16px;
     height: 32px;
     margin-left: auto;
+}
+
+.icon--widget__arrow {
+    width: 8px;
+    height: 16px;
 }
 
 .icon--log-reg__logo {
@@ -184,6 +202,18 @@
     height: 56px;
     width: fit-content;
     object-fit: contain;
+}
+
+.icon--table__expense {
+    width: 40px;
+    height: 40px    ;
+    background-image: url("../icons/arrow-up.svg");
+}
+
+.icon--table__income {
+    width: 40px;
+    height: 40px    ;
+    background-image: url("../icons/arrow-down.svg");
 }
 
 /* ===========================
@@ -221,9 +251,15 @@
     color: #1B212D;
 }
 
-.text_title {
+.text__title {
     font-size: 20px;
     font-weight: normal;
+}
+
+.text__link {
+    font-size: 16px;
+    font-weight: bolder;
+    color: #8B78F1;
 }
 
 .text__primary {
@@ -243,6 +279,27 @@
 
 .text__base--inactive {
     color: #9C9D9D;
+}
+
+.text__table {
+    font-size: 16px;
+    color: #929EAE;
+}
+
+.text__table--name {
+    font-weight: bolder;
+}
+
+.text__table--date {
+    text-align: center;
+}
+
+.text__table__amount--expense {
+    color: #FA6A6A;
+}
+
+.text__table__amount--income {
+    color: #73E086;
 }
 
 /* ===========================
@@ -500,6 +557,36 @@
 }
 
 /* ===========================
+   Table
+   =========================== */
+.table {
+    display: flex;
+    width: 100%;
+}
+
+.table__column {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr; 
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+}
+
+.table__row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+}
+
+.table__first-block {
+    width: 100%;
+    gap: 5px;
+    align-items: center;
+}
+
+/* ===========================
    Graphics
    =========================== */
 .graphic {
@@ -560,13 +647,13 @@
     justify-content: center;
     flex-direction: column;
     gap: 5px;
-    
+
     width: 80%;
     height: 80%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: white;
-    
+
     font-size: 24px;
     font-weight: bold;
     z-index: 1;
@@ -585,4 +672,14 @@
 
 .dashboard-content:first-child .widget__wrapper:nth-child(2) {
     width: 60%;
+}
+
+/* ===========================
+   Recent Transactions
+   =========================== */
+
+.view-all {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
