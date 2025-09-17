@@ -3,7 +3,6 @@
    =========================== */
 .wrapper {
     display: flex;
-    height: 100%;
     width: 100%;
 }
 
@@ -15,6 +14,7 @@
 
 .main__wrapper {
     flex-direction: column;
+    height: 100%;
 }
 
 .dashboard__wrapper {
@@ -36,13 +36,12 @@
 
 .center__wrapper {
     flex-direction: row;
+    height: 100%;
 }
 
 .widget__wrapper {
-    width: 100%;
-
     border-radius: 28px;
-    box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
     background: #FFFFFF;
 }
 
@@ -52,7 +51,6 @@
 .container {
     display: flex;
     width: 100%;
-    height: 100%;
 }
 
 .header__container {
@@ -72,7 +70,7 @@
 
 .dashboard__container {
     flex-direction: column;
-    gap: 35px;
+    gap: 1.5rem;
     padding: 0 35px 35px 35px;
 }
 
@@ -84,7 +82,7 @@
 .widget__container {
     flex-direction: column;
 
-    gap: 15px;
+    gap: 10px;
     padding: 20px;
 }
 
@@ -119,8 +117,6 @@
 .dashboard__content--top {
     display: grid;
     grid-template-columns: 1fr 1.3fr 1fr;
-    height: 100%;
-    
     gap: 35px;
 }
 
@@ -139,10 +135,9 @@
 
 .month-limit__left-content {
     flex-direction: column;
-    justify-content: center;
 
     width: 100%;
-    gap: 35px;
+    justify-content: space-between;
 }
 
 .month-limit__right-content {
@@ -158,7 +153,34 @@
     justify-content: space-between;
 }
 
-.recent-transactions__top-content {
+.accounts__content--main {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.accounts__content--bottom {
+    gap: 5%;
+}
+
+.card__content {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card__content--top {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card__content--bottom {
+    justify-content: space-between;
+}
+
+.widget__content--title {
     justify-content: space-between;
 }
 
@@ -264,6 +286,15 @@
     font-weight: normal;
 }
 
+.text__title--white {
+    color: white;
+}
+
+.text__title--bolder-white {
+    font-weight: bolder;
+    color: white;
+}
+
 .text__btn {
     font-size: 18px;
 }
@@ -291,6 +322,10 @@
 
 .text__base--inactive {
     color: #9C9D9D;
+}
+
+.text__base--white {
+    color: #FFFFFF;
 }
 
 .text__table {
@@ -679,8 +714,86 @@
 
 
 /* ===========================
-   Dashboard
+   My Accounts
    =========================== */
+.accounts__carousel--underlay {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 900 / 625;
+    min-height: 160px;
+    background-image: url("../icons/account-underlay.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: visible;
+}
+
+/* Общие позиционирующие свойства для фоновых слоёв */
+.accounts__carousel--background,
+.accounts__carousel--hover {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* фоновый слой (нижний) */
+.accounts__carousel--background {
+    background-image: url("../icons/account-background.svg");
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* hover-слой (визуальный/интерактивный поверх) */
+.accounts__carousel--hover {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-block: 2rem;   /* вертикальные отступы фиксированные */
+    padding-inline: 10%;
+    box-sizing: border-box;
+    background-image: url("../icons/account-hover.svg");
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* контент внутри фоновых слоёв — поверх всех слоёв */
+.accounts__carousel--background > div,
+.accounts__carousel--hover > div {
+    z-index: 3;
+}
+
+/* индикатор */
+.accounts__carousel__indicator {
+    width: 100%;
+    height: 10%;
+}
+
+/* стрелки карусели */
+.accounts__carousel__btn--left,
+.accounts__carousel__btn--right {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: auto;
+}
+
+.accounts__carousel__btn--left {
+    left: -20px;
+    background-image: url("../icons/carousel-left.svg");
+    background-position: left center;
+}
+
+.accounts__carousel__btn--right {
+    right: -20px;
+    background-image: url("../icons/carousel-right.svg");
+    background-position: right center;
+}
 
 
 /* ===========================

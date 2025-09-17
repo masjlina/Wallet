@@ -62,7 +62,9 @@
                 <div class="content dashboard__content--top">
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
-                            <div class="text text__title">Month Budget</div>
+                            <div class="content widget__content--title">
+                                <div class="text text__title">Month Budget</div>
+                            </div>
                             <div class="content widget_content">
                                 <div class="content month-limit__left-content text">
                                     <div class="widget__month-limit">
@@ -111,16 +113,70 @@
                     </div>
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
-                            <div class="content accounts__top-content"></div>
-                            <div class="content accounts__main-content"></div>
-                            <div class="content accounts__bottom-content"></div>
+                            <div id="accounts__content-top" class="content widget__content--title">
+                                <div class="text text__title">My Accounts</div>
+                                <div class="view-all">
+                                    <div class="text text__link">View All</div>
+                                    <img class="icon--widget__arrow" src="icons/right-arrow.svg">
+                                </div>
+                            </div>
+                            <div class="content accounts__content--main">
+                                <div class="accounts__carousel--underlay">
+                                    <div class="accounts__carousel--background">
+                                        <div class="accounts__carousel__btn--left"></div>
+                                        <div class="accounts__carousel__btn--right"></div>
+                                        <div class="accounts__carousel--hover">
+                                            <div class="content card__content">
+                                                <div class="content card__content--top text text__base text__base--white">
+                                                    <div>Account Type</div>
+                                                    <div class="text__title text__title--bolder-white">Credit Card</div>
+                                                    <div>•••• •••• •••• 1289</div>
+                                                </div>
+                                                <div class="content card__content--bottom">
+                                                    <div>09/25</div>
+                                                    <div class="text__title text__title--white">$5 720.20</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accounts__carousel__indicator">
+                                    <svg width="100%" height="100%" viewBox="0 -10 100 20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <filter id="gooey">
+                                                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                                                <feColorMatrix in="blur" type="matrix"
+                                                               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -6"
+                                                               result="gooey"/>
+                                                <feBlend in="SourceGraphic" in2="gooey" mode="hue"/>
+                                            </filter>
+                                        </defs>
+
+                                        <g id="carousel-indicator" filter="url(#gooey)">
+                                            <g id="pages">
+                                                <ellipse class="dot dot-1" cx="15" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                                                <ellipse class="dot dot-2" cx="45" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                                                <ellipse class="dot dot-3" cx="75" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                                            </g>
+
+                                            <rect id="active-indicator" x="5" y="-4" width="20" height="8" rx="3"
+                                                  fill="#7763EA"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="content accounts__content--bottom text text__base">
+                                <div>Total balance:</div>
+                                <div class="text__base--bold">$250.399</div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="content dashboard__content--bottom">
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
-                            <div class="content recent-transactions__top-content">
+                            <div class="content widget__content--title">
                                 <div class="text text__title">Recent Transactions</div>
                                 <div class="view-all">
                                     <div class="text text__link">View All</div>
@@ -159,7 +215,9 @@
                     </div>
                     <div class="wrapper widget__wrapper">
                         <div class="container widget__container">
-                            <div class="content activities__top-content"></div>
+                            <div class="content widget__content--title">
+                                <div class="text text__title">Month Activities</div>
+                            </div>
                             <div class="content activities__graphic-content"></div>
                         </div>
                     </div>

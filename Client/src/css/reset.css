@@ -73,3 +73,8 @@ button {
 * {
     box-sizing: border-box;
 }
+
+:root {
+    --header-height: 96px; /* пример: 96px — подгоните под ваш header */
+    --dashboard-gap: 1.5rem; /* используем rem вместо % */
+}
