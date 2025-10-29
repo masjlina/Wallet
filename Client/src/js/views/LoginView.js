@@ -13,10 +13,10 @@ export class LoginView extends View {
 
     init() {
         this.main = new Main({
-            classList: "container",
+            classList: "log-reg__wrapper",
             children: [
                 new Div({
-                    classList: "log-reg-wrapper",
+                    classList: "log-reg__container",
                     children: [
                         new Img({
                             classList: "logo",

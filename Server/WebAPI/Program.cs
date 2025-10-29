@@ -96,7 +96,7 @@ builder.Services.AddSwaggerGen(x =>
 
 builder.Services.AddCors(o => o.AddPolicy("Wallet", policy =>
 {
-    policy.WithOrigins("http://127.0.0.1:5500")
+    policy.WithOrigins("http://localhost:5500")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();

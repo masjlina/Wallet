@@ -7,9 +7,10 @@
 }
 
 .log-reg__wrapper {
+    display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
+    height: 100%;
 }
 
 .main__wrapper {
@@ -53,6 +54,15 @@
     width: 100%;
 }
 
+.log-reg__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    gap: 35px;
+}
+
 .header__container {
     align-items: center;
     justify-content: space-between;
@@ -91,14 +101,6 @@
    =========================== */
 .content {
     display: flex;
-}
-
-.log-reg-content {
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 400px;
-    gap: 35px;
 }
 
 .header-content {
