@@ -1,8 +1,6 @@
-import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordToggle} from "../components/index.js";
+import {Main, Div, Img, Button, P } from "../components/index.js";
 import {View} from "../core/View.js";
-import {validate, navigateTo} from "../utils/index.js";
-import {loginUser} from "../api/authenticationAdapter";
-import urlPaths from "../utils/enumeration";
+import { toggleSidebarPosition } from "../Services/sidebarService";
 import CarouselIndicator from "../components/CarouselIndicator";
 
 export class DashboardView extends View {
@@ -55,7 +53,7 @@ export class DashboardView extends View {
                     children: [
 
                         // Sidebar
-                        new Div({
+                        this.sidebar = new Div({
                             classList: "wrapper side-bar__wrapper",
                             children: [
                                 new Div({
@@ -63,7 +61,7 @@ export class DashboardView extends View {
                                     children: [
                                         new Div({
                                             children: [
-                                                new Img({
+                                                this.sidebarArrow = new Img({
                                                     classList: "icon--side-bar__arrow",
                                                     src: "icons/left-arrow.svg",
                                                     alt: "Left arrow"
@@ -619,28 +617,9 @@ export class DashboardView extends View {
         this.main.unmount();
     }
 
-    formValidate() {
-        validate(this.form.element);
-    }
-
-    async formSubmit(e) {
-        e.preventDefault();
-        if (validate(e.target)) {
-            const formData = new FormData(e.target);
-            const response = await loginUser(Object.fromEntries(formData.entries()));
-            if (response.isRegistrationSuccessful) {
-                // create user model
-                navigateTo(urlPaths.home);
-            } else {
-                console.log(...response.errors);
-            }
-        }
-    }
-
     bindListeners() {
-        this.btnEye.element.addEventListener("click", () => showPasswordToggle(this.passwordField.element));
-        this.form.element.addEventListener("change", () => this.formValidate());
-        this.form.element.addEventListener("submit", (e) => this.formSubmit(e));
-        this.refCreateAccount.element.addEventListener("click", () => navigateTo(urlPaths.registration));
+        this.sidebarArrow.element.addEventListener("click", () => {
+            toggleSidebarPosition(this.sidebar.element)
+        })
     }
 }

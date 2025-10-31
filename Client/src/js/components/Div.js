@@ -4,7 +4,7 @@ export default class Div extends Component{
     constructor({children, classList, text = "", props}) {
         super(children, props);
 
-        this.classList = classList;
+        this.classList = classList || "";
         this.text = text;
     }
     
