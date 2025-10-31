@@ -30,8 +30,9 @@ footer, header, hgroup, menu, nav, section {
 }
 html, body {
     height: 100%;
-    margin: 0; /* чтобы убрать отступы */
+    margin: 0;
     background: #F5F5F5;
+    overflow: hidden;
 }
 
 body {
@@ -75,6 +76,6 @@ button {
 }
 
 :root {
-    --header-height: 96px; /* пример: 96px — подгоните под ваш header */
-    --dashboard-gap: 1.5rem; /* используем rem вместо % */
+    --header-height: 96px;
+    --dashboard-gap: 1.5rem;
 }

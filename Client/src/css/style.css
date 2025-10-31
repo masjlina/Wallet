@@ -4,6 +4,7 @@
 .wrapper {
     display: flex;
     width: 100%;
+    min-height: 0;
 }
 
 .log-reg__wrapper {
@@ -15,11 +16,12 @@
 
 .main__wrapper {
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
 }
 
 .dashboard__wrapper {
     background: #F5F5F5;
+    flex: 1 1 auto;
 }
 
 .header__wrapper {
@@ -34,6 +36,8 @@
     max-width: 300px;
     transition: max-width 0.5s ease, opacity 0.3s ease;
     background: #F5F5F5;
+
+    flex-shrink: 0;
 }
 
 .side-bar__wrapper--collapsed {
@@ -48,13 +52,16 @@
 
 .center__wrapper {
     flex-direction: row;
-    height: 100%;
+    flex: 1 1 auto;
 }
 
 .widget__wrapper {
     border-radius: 28px;
     box-shadow: 0 16px 24px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
     background: #FFFFFF;
+
+    height: 100%;
+    min-height: 0;
 }
 
 /* ===========================
@@ -93,6 +100,9 @@
     flex-direction: column;
     gap: 1.5rem;
     padding: 0 35px 35px 35px;
+
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .main-container {
@@ -105,6 +115,9 @@
 
     gap: 10px;
     padding: 20px;
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
 }
 
 /* ===========================
@@ -131,14 +144,22 @@
     display: grid;
     grid-template-columns: 1fr 1.3fr 1fr;
     gap: 35px;
+
+    flex: 1 1 0;
+    min-height: 0;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
 }
 
 .dashboard__content--bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 100%;
 
     gap: 35px;
+    flex: 1 1 0;
+    min-height: 0;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
 }
 
 .widget__content {
@@ -177,8 +198,6 @@
 }
 
 .card__content {
-    width: 100%;
-    height: 100%;
     flex-direction: column;
     gap: 20px;
 }
@@ -186,7 +205,6 @@
 .card__content--top {
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
 }
 
 .card__content--bottom {
@@ -614,7 +632,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
 }
 
 .side-bar__top, .side-bar__bottom {
@@ -674,9 +691,7 @@
 .graphic {
     display: flex;
     justify-content: center;
-
     width: 100%;
-    height: 100%;
 }
 
 .graphic__background--bar {
@@ -685,7 +700,6 @@
     align-items: center;
     position: relative;
     width: 100%;
-    height: 100%;
     border-radius: 14px;
     background: #F1F1F1;
 }
@@ -704,7 +718,6 @@
 
 .graphic__fill--radial {
     position: absolute;
-    width: auto;
     height: 100%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
@@ -805,7 +818,13 @@
 /* индикатор */
 .accounts__carousel__indicator {
     width: 100%;
-    height: 10%;
+    height: 36px;
+    overflow: hidden;
+}
+
+.accounts__carousel__indicator svg {
+    display: block;
+    width: 100%;
 }
 
 /* стрелки карусели */
