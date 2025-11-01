@@ -215,12 +215,14 @@
     flex: 1 1 auto;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 0.5rem;
 }
 
 
 .accounts__content--bottom {
-    gap: 5%;
+    gap: 1rem;
+    padding-top: 0.5rem;
 }
 
 .card__content {
@@ -799,8 +801,6 @@
 .accounts__carousel--underlay {
     position: relative;
     aspect-ratio: 900 / 625;
-    min-height: 160px;
-    max-height: 100%;
     flex: 1 1 auto;
     background-image: url("../icons/account-underlay.svg");
     background-size: cover;
