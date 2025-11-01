@@ -323,7 +323,7 @@ export class DashboardView extends View {
                                                     classList: "wrapper widget__wrapper",
                                                     children: [
                                                         new Div({
-                                                            classList: "container widget__container",
+                                                            classList: "container widget__container accounts__widget__container",
                                                             children: [
                                                                 new Div({
                                                                     classList: "content widget__content--title",

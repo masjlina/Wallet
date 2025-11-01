@@ -22,6 +22,7 @@
 .dashboard__wrapper {
     background: #F5F5F5;
     flex: 1 1 auto;
+    min-height: 0;
 }
 
 .header__wrapper {
@@ -33,11 +34,18 @@
 
 .side-bar__wrapper {
     width: fit-content;
+    opacity: 1;
     max-width: 300px;
-    transition: max-width 0.5s ease, opacity 0.3s ease;
+    transition: max-width 0.5s ease, opacity 0.5s ease, visibility 0.2s ease;
     background: #F5F5F5;
 
     flex-shrink: 0;
+}
+
+.side-bar__wrapper p {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0.2s,  opacity 0.5s 0.1s ease;
 }
 
 .side-bar__wrapper--collapsed {
@@ -47,12 +55,13 @@
 .side-bar__wrapper--collapsed p {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .center__wrapper {
     flex-direction: row;
     flex: 1 1 auto;
+    min-height: 0;
 }
 
 .widget__wrapper {
@@ -102,6 +111,7 @@
     padding: 0 35px 35px 35px;
 
     height: 100%;
+    min-height: 0;
     box-sizing: border-box;
 }
 
@@ -175,7 +185,7 @@
 }
 
 .month-limit__right-content {
-    width: 100%;
+    width: 50%;
 }
 
 .day-limit__graphic-content {
@@ -187,11 +197,27 @@
     justify-content: space-between;
 }
 
+.activities__graphic-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.activities__graphic-content .graphic {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+}
+
 .accounts__content--main {
     width: 100%;
+    flex: 1 1 auto;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
+
 
 .accounts__content--bottom {
     gap: 5%;
@@ -199,6 +225,7 @@
 
 .card__content {
     flex-direction: column;
+    width: 100%;
     gap: 20px;
 }
 
@@ -209,6 +236,7 @@
 
 .card__content--bottom {
     justify-content: space-between;
+    align-items: center;
 }
 
 .widget__content--title {
@@ -764,11 +792,16 @@
 /* ===========================
    My Accounts
    =========================== */
+.accounts__widget__container {
+    gap: 0;
+}
+
 .accounts__carousel--underlay {
     position: relative;
-    width: 100%;
     aspect-ratio: 900 / 625;
     min-height: 160px;
+    max-height: 100%;
+    flex: 1 1 auto;
     background-image: url("../icons/account-underlay.svg");
     background-size: cover;
     background-position: center;
@@ -818,8 +851,10 @@
 /* индикатор */
 .accounts__carousel__indicator {
     width: 100%;
-    height: 36px;
+    height: 24px;
+    flex: 0 0 auto;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .accounts__carousel__indicator svg {
