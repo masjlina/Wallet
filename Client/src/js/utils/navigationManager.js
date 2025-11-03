@@ -14,7 +14,7 @@ export default function navigateTo(url) {
     switch (url) {
         case "/": {
             const dashboardView = new DashboardView(parent);
-            dashboardView.mount();
+            dashboardView.mountView();
             window.location.hash = "#/";
             break;
         }
@@ -22,12 +22,12 @@ export default function navigateTo(url) {
         case "/login":
         {
             const loginView = new LoginView(parent);
-            loginView.mount();
+            loginView.mountView();
             window.location.hash = "#/login";
             break;
         } case "/registration": {
             const registrationView = new RegistrationView(parent);
-            registrationView.mount(parent);
+            registrationView.mountView();
             window.location.hash = "#/registration";
             break;
         }

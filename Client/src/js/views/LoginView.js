@@ -12,7 +12,7 @@ export class LoginView extends View {
     }
 
     init() {
-        this.main = new Main({
+        this.mainComponent = new Main({
             classList: "log-reg__wrapper",
             children: [
                 new Div({
@@ -148,13 +148,13 @@ export class LoginView extends View {
         });
     }
 
-    async mount() {
-        await this.main.mount(this.parent);
+    async mountView() {
+        await this.mainComponent.mountComponent(this.parent);
         this.bindListeners();
     }
     
     unmount() {
-        this.main.unmount();
+        this.mainComponent.unmount();
     }
     
     formValidate() {

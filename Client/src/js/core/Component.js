@@ -14,7 +14,7 @@ export class Component extends Element {
         super.init();
     }
 
-    mount(parent) {
+    mountComponent(parent) {
         if (this.element && this.element.parentNode) {
             return;
         }
@@ -34,7 +34,7 @@ export class Component extends Element {
     recursiveMount(children) {
         if (children && children.length > 0) {
             children.forEach(child => {
-                child.mount(this.element);
+                child.mountComponent(this.element);
             });
         }
     }

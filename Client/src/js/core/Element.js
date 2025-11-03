@@ -9,7 +9,7 @@ export class Element {
         throw new Error("init method should be implemented in child class");
     }
 
-    mount() {
+    mountElement() {
 
     }
 
