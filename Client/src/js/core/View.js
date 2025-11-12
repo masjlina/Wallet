@@ -1,4 +1,4 @@
-"use strict;"
+"use strict";
 
 import { Element } from "./Element.js"
 

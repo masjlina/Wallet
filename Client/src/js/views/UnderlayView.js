@@ -1,6 +1,9 @@
 import {Main, Div, Img, P } from "../components/index.js";
 import { toggleSidebarPosition } from "../services/underlayService";
 import {View} from "../core/View";
+import urlPaths from "../utils/enumeration";
+import {navigateTo} from "../utils";
+import {Button} from "../components";
 
 export class UnderlayView extends View {
     constructor(parent) {
@@ -11,7 +14,6 @@ export class UnderlayView extends View {
          this.mainComponent = new Main({
             classList: "wrapper main__wrapper",
             children: [
-
                 // Header
                 new Div({
                     classList: "wrapper header__wrapper",
@@ -73,21 +75,23 @@ export class UnderlayView extends View {
                                                 new Div({
                                                     classList: "side-bar__top",
                                                     children: [
-                                                        new Div({
-                                                            classList: "side-bar__item",
+                                                        new Button({
+                                                            classList: "side-bar__item btn btn__nav",
+                                                            props: `data-page=${urlPaths.home}`,
                                                             children: [
                                                                 new Img({
                                                                     classList: "icon",
                                                                     src: "icons/four-blocks.svg",
-                                                                    alt: "Dashboard"
+                                                                    alt: "Dashboard",
                                                                 }),
                                                                 new P({
                                                                     text: "Dashboard"
                                                                 })
                                                             ]
                                                         }),
-                                                        new Div({
-                                                            classList: "side-bar__item",
+                                                        new Button({
+                                                            classList: "side-bar__item btn btn__nav",
+                                                            props: `data-page=${urlPaths.transactions}`,
                                                             children: [
                                                                 new Img({
                                                                     classList: "icon",
@@ -99,8 +103,9 @@ export class UnderlayView extends View {
                                                                 })
                                                             ]
                                                         }),
-                                                        new Div({
-                                                            classList: "side-bar__item",
+                                                        new Button({
+                                                            classList: "side-bar__item btn btn__nav",
+                                                            props: `data-page=${urlPaths.wallet}`,
                                                             children: [
                                                                 new Img({
                                                                     classList: "icon",
@@ -119,8 +124,9 @@ export class UnderlayView extends View {
                                                 new Div({
                                                     classList: "side-bar__bottom",
                                                     children: [
-                                                        new Div({
-                                                            classList: "side-bar__item",
+                                                        new Button({
+                                                            classList: "side-bar__item btn btn__nav",
+                                                            props: `data-page=${urlPaths.settings}`,
                                                             children: [
                                                                 new Img({
                                                                     classList: "icon",
@@ -132,8 +138,9 @@ export class UnderlayView extends View {
                                                                 })
                                                             ]
                                                         }),
-                                                        new Div({
-                                                            classList: "side-bar__item",
+                                                        new Button({
+                                                            classList: "side-bar__item btn btn__nav",
+                                                            props: `data-page=${urlPaths.logout}`,
                                                             children: [
                                                                 new Img({
                                                                     classList: "icon",
@@ -172,6 +179,12 @@ export class UnderlayView extends View {
     bindListeners() {
         this.sidebarArrow.element.addEventListener("click", () => {
             toggleSidebarPosition(this.sidebar.element)
+        });
+        this.sidebar.element.addEventListener("click", (e) => {
+            const btn = e.target.closest(".btn__nav");
+            const page = btn.dataset.page;
+
+            navigateTo(page);
         })
     }
 }

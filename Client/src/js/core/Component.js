@@ -1,4 +1,4 @@
-"use strict;"
+"use strict";
 
 import {Element} from './Element';
 
@@ -21,11 +21,16 @@ export class Component extends Element {
 
         const html = this.init();
         // Temporary container
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = html.trim();
-        this.element = tempDiv.firstElementChild;
+        const tpl = document.createElement("template");
+        tpl.innerHTML = html.trim();
+        this.element = tpl.content.firstElementChild;
 
         if (parent) {
+            if (!(this.element instanceof Node)) {
+                console.error("Not a Node:", this);
+                return;
+            }
+
             parent.appendChild(this.element);
             this.recursiveMount(this.children);
         }

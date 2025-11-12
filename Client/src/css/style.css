@@ -19,7 +19,7 @@
     height: 100vh;
 }
 
-.dashboard__wrapper {
+.content__wrapper {
     background: #F5F5F5;
     flex: 1 1 auto;
     min-height: 0;
@@ -45,7 +45,7 @@
 .side-bar__wrapper p {
     opacity: 1;
     visibility: visible;
-    transition: visibility 0.2s,  opacity 0.5s 0.1s ease;
+    transition: visibility 0.2s, opacity 0.5s 0.1s ease;
 }
 
 .side-bar__wrapper--collapsed {
@@ -105,7 +105,7 @@
     gap: 35px;
 }
 
-.dashboard__container {
+.content__container {
     flex-direction: column;
     gap: 1.5rem;
     padding: 0 35px 35px 35px;
@@ -126,7 +126,6 @@
     gap: 10px;
     padding: 20px;
     flex: 1 1 auto;
-    height: 100%;
     min-height: 0;
 }
 
@@ -150,6 +149,28 @@
     height: 100%;
 }
 
+.transactions__content--top {
+    height: 8vh;
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.transactions__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    height: 100%;
+    /* Inside auto layout */
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
 .dashboard__content--top {
     display: grid;
     grid-template-columns: 1fr 1.3fr 1fr;
@@ -170,11 +191,6 @@
     min-height: 0;
     grid-auto-rows: 1fr;
     align-items: stretch;
-}
-
-.widget__content {
-    gap: 20px;
-    height: 100%;
 }
 
 .month-limit__left-content {
@@ -239,6 +255,17 @@
 }
 
 .card__content--bottom {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.widget__content {
+    gap: 20px;
+    /*height: 100%;*/
+}
+
+.widget__content--control {
+    height: 100%;
     justify-content: space-between;
     align-items: center;
 }
@@ -320,15 +347,17 @@
 }
 
 .icon--table__expense {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-image: url("../icons/arrow-up.svg");
+    background-repeat: round;
 }
 
 .icon--table__income {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-image: url("../icons/arrow-down.svg");
+    background-repeat: round;
 }
 
 /* ===========================
@@ -338,17 +367,64 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    border-radius: 10px;
+    border-radius: 20px;
+    color: var(--text--primary);
+    cursor: pointer;
 }
+
+.btn__nav {
+    justify-content: left;
+    border-radius: 10px;
+    padding: 5px 0px 5px 0px;
+}
+
+.btn_more-actions {
+    display: inline;
+}
+
+.btn__nav--text {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: color 0.3s ease, background 0.3s ease;
+    border-radius: inherit;
+}
+
+.btn_more-actions:hover {background-color: var(--accent--hover)}
+.btn_more-actions:active {background-color: var(--accent--active)}
+
+.btn__nav--text:hover  { color: var(--text--hover); }
+.btn__nav--text:active  { color: var(--text--active); }
+.btn__nav--text:focus,
+.btn__nav--text.active  { color: var(--accent--primary); }
+
+.btn__nav--text:focus:hover  { color: var(--accent--hover); }
+.btn__nav--text:focus:active { color: var(--accent--active); }
+
+.btn__nav--text:focus::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent--primary);
+}
+
+.btn__nav:hover {background-color: var(--text--hover);}
+.btn__nav:active {background-color: var(--text--active); color: var(--text--white)}
+
+.btn__primary:hover  { background: var(--accent--hover); }
+.btn__primary:active { background: var(--accent--active); }
 
 .btn__day-limit--fill {
     width: 35%;
-
-    color: white;
     background: #7763EA;
+    color: #fff;
 }
-
 .btn__day-limit--empty {
     width: 35%;
 
@@ -357,17 +433,30 @@
     border: 3px #7763EA solid;
 }
 
+.btn__add-transaction {
+    align-items: center;
+    padding: 0.2em 0.2em;
+    gap: 10px;
+
+    background: #7763EA;
+}
+
 /* ===========================
    Text Style
    =========================== */
 .text {
     line-height: normal;
 
-    color: #1B212D;
+    color: #393B3C;
 }
 
 .text__title {
     font-size: 20px;
+    font-weight: normal;
+}
+
+.text__mega-title {
+    font-size: 24px;
     font-weight: normal;
 }
 
@@ -426,12 +515,12 @@
     text-align: center;
 }
 
-.text__table__amount--expense {
-    color: #FA6A6A;
+.text--red {
+    color: var(--color--red);
 }
 
-.text__table__amount--income {
-    color: #73E086;
+.text--green {
+    color: var(--color--green);
 }
 
 /* ===========================
@@ -691,8 +780,23 @@
    Table
    =========================== */
 .table {
-    display: flex;
     width: 100%;
+}
+
+.table th {
+    padding-bottom: 10px;
+}
+
+.table th:first-child{
+    text-align: left;
+}
+
+.table td {
+    vertical-align: middle;
+    text-align: center;
+
+    padding: 10px 0 10px 0;
+
 }
 
 .table__column {
@@ -712,9 +816,11 @@
 }
 
 .table__first-block {
+    display: flex;
     width: 100%;
     gap: 5px;
     align-items: center;
+    flex-direction: row;
 }
 
 /* ===========================
@@ -879,7 +985,6 @@
     background-position: right center;
 }
 
-
 /* ===========================
    Recent Transactions
    =========================== */
@@ -888,4 +993,22 @@
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/* ===========================
+   Transactions
+   =========================== */
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 1rem;
+}
+
+.table__row-new {
+    border-top: 1px solid #F5F5F5;
 }

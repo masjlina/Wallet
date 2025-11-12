@@ -15,10 +15,10 @@ export class DashboardView extends View {
         
         // Dashboard
         this.mainComponent = new Div({
-            classList: "wrapper dashboard__wrapper",
+            classList: "wrapper content__wrapper",
             children: [
                 new Div({
-                    classList: "container dashboard__container",
+                    classList: "container content__container",
                     children: [
 
                         // Dashboard top
