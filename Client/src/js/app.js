@@ -1,16 +1,17 @@
 "use strict";
 
 import {navigateTo} from "./utils/index";
+import {UnderlayView} from "./views/UnderlayView";
+import {diContainer} from "./utils/DiContainer";
+import urlPaths from "./utils/enumeration";
 
-function router() {
-    navigateTo(window.location.hash);
-}
+diContainer.register("underlay", new UnderlayView(document.querySelector("body")));
 
-window.addEventListener('hashchange', router);
+
 window.addEventListener('DOMContentLoaded', () => {
     if (!window.location.hash) {
         window.location.hash = '#/login'; 
     } else {
-        router();
+        navigateTo(urlPaths.home);
     }
 });

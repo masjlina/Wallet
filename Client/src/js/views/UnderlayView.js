@@ -47,7 +47,7 @@ export class UnderlayView extends View {
                 }),
 
                 // Rest of
-                this.parentMainContent = new Div({
+               new Div({
                     classList: "wrapper center__wrapper",
                     children: [
 
@@ -159,6 +159,11 @@ export class UnderlayView extends View {
                                     ]
                                 })
                             ]
+                        }),
+                        
+                        // Content
+                        this.parentMainContent =  new Div({
+                            classList: "wrapper content__wrapper"
                         })
                     ]
                 })
@@ -167,9 +172,11 @@ export class UnderlayView extends View {
     }
 
     async mountView() {
-        this.init();
-        await this.mainComponent.mountComponent(this.parent);
-        this.bindListeners();
+        if (this.parent.querySelector(".main__wrapper") === null) {
+            this.init();
+            await this.mainComponent.mountComponent(this.parent);
+            this.bindListeners();
+        }
     }
 
     unmount() {
@@ -182,9 +189,11 @@ export class UnderlayView extends View {
         });
         this.sidebar.element.addEventListener("click", (e) => {
             const btn = e.target.closest(".btn__nav");
-            const page = btn.dataset.page;
+            if (btn) {
+                const page = btn.dataset.page;
 
-            navigateTo(page);
+                navigateTo(page);
+            }
         })
     }
 }
