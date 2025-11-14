@@ -8,10 +8,10 @@ import urlPaths from "./utils/enumeration";
 diContainer.register("underlay", new UnderlayView(document.querySelector("body")));
 
 
-window.addEventListener('DOMContentLoaded', () => {
-    if (!window.location.hash) {
-        window.location.hash = '#/login'; 
-    } else {
-        navigateTo(urlPaths.home);
-    }
-});
+// window.addEventListener('DOMContentLoaded', () => {
+//     if (!window.location.hash) {
+//         window.location.hash = '#/login'; 
+//     } else {
+//         navigateTo(urlPaths.home);
+//     }
+// });

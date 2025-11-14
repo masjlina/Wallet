@@ -1,6 +1,5 @@
 import {Div, Img, Button, P} from "../components/index.js";
 import {View} from "../core/View.js";
-import {UnderlayView} from "./UnderlayView";
 import Table from "../components/Table";
 import Thead from "../components/Thead";
 import Tr from "../components/Tr";
@@ -8,6 +7,7 @@ import Th from "../components/Th";
 import Tbody from "../components/Tbody";
 import Td from "../components/Td";
 import {diContainer} from "../utils/DiContainer";
+import MoreActionsModal from "../components/modals/MoreActionsModal";
 
 export class TransactionsView extends View {
     constructor(parent) {
@@ -117,7 +117,7 @@ export class TransactionsView extends View {
                                                                 })
                                                             ]
                                                         }),
-                                                        new Tbody({
+                                                        this.tableBody = new Tbody({
                                                             classList: "text text__table--name",
                                                             children: [
                                                                 new Tr({
@@ -190,6 +190,40 @@ export class TransactionsView extends View {
         this.mainComponent.unmount();
     }
 
+    async showModal(btnDOM) {
+        if (diContainer.get("moreActionsModal") === undefined) {
+            this.modal = new MoreActionsModal();
+            diContainer.register("moreActionsModal", this.modal);
+            
+            this.modal.mountComponent(document.body);
+
+            const rect = btnDOM.getBoundingClientRect();
+            const modalRect = this.modal.element.getBoundingClientRect();
+            this.modal.element.style.top = (rect.top - modalRect.height) + "px";
+            this.modal.element.style.left = (rect.left - modalRect.width) + "px";
+           
+            document.body.addEventListener("click", (e) => {
+                if (e.target.closest(".modal__wrapper") !== this.modal.element) {
+                    this.closeModal(this.modal, "moreActionsModal")
+                }
+            })
+        } else {
+            this.closeModal(this.modal, "moreActionsModal")
+        }
+    }
+    
+    closeModal(modalToClose, name) {
+        modalToClose.unmount();
+        diContainer.delete(name);
+    }
+
     bindListeners() {
+        this.tableBody.element.addEventListener("click", async (e) => {
+            const btn = e.target.classList.contains("btn_more-actions") ? e.target : null;
+            if (btn) {
+                e.stopPropagation();
+                await this.showModal(btn);
+            }
+        });
     }
 }

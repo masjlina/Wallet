@@ -92,5 +92,6 @@ button {
     --text--primary: #393B3C;
     --text--hover: #918C8C;
     --text--active: #2C2E2F;
-
+    
+    --border: #efefef;
 }
