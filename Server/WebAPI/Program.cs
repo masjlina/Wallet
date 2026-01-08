@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,27 +72,39 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("IsAdmin", policyBuilder => policyBuilder
-    .RequireClaim("admin", "true"));
+        .RequireClaim("admin", "true"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
 {
-    x.SwaggerDoc("v1", new OpenApiInfo { Title = "Wallet", Version = "v1" });
-    var security = new OpenApiSecurityScheme
+    x.SwaggerDoc("v1", new OpenApiInfo
     {
-        Name = HeaderNames.Authorization,
-        Type = SecuritySchemeType.ApiKey,
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header",
-        Reference = new OpenApiReference
+        Title = "Wallet",
+        Version = "v1"
+    });
+
+    x.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme,
+        new OpenApiSecurityScheme
         {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
+            Name = HeaderNames.Authorization,
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorization header"
+        });
+
+    x.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http
         }
-    };
-    x.AddSecurityDefinition(security.Reference.Id, security);
-    x.AddSecurityRequirement(new OpenApiSecurityRequirement { { security, Array.Empty<string>() } });
+    );
+    x.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
 });
+
 
 builder.Services.AddCors(o => o.AddPolicy("Wallet", policy =>
 {

@@ -8,6 +8,7 @@ import Tbody from "../components/Tbody";
 import Td from "../components/Td";
 import {diContainer} from "../utils/DiContainer";
 import MoreActionsModal from "../components/modals/MoreActionsModal";
+import {AddTransactionModal} from "../components/modals/AddTransactionModal";
 
 export class TransactionsView extends View {
     constructor(parent) {
@@ -17,7 +18,7 @@ export class TransactionsView extends View {
     }
 
     init() {
-        this.underlayView = diContainer.get("underlay");
+        this.underlayView = diContainer.get("underlay").value;
 
         // Transactions
         this.mainComponent = new Div({
@@ -54,7 +55,7 @@ export class TransactionsView extends View {
                                                         })
                                                     ]
                                                 }),
-                                                new Button({
+                                                this.addTransaction = new Button({
                                                     classList: "btn btn__primary btn__add-transaction text text__base--bold text__base--white",
                                                     children: [
                                                         new Img({
@@ -190,39 +191,55 @@ export class TransactionsView extends View {
         this.mainComponent.unmount();
     }
 
-    async showModal(btnDOM) {
-        if (diContainer.get("moreActionsModal") === undefined) {
-            this.modal = new MoreActionsModal();
-            diContainer.register("moreActionsModal", this.modal);
-            
-            this.modal.mountComponent(document.body);
+    async showModal(btnDOM, name) {
+        if (diContainer.get(name)) {
+            this.closeModal(name);
+            return;
+        }
+
+        let modal;
+
+        if (name === "moreActionsModal") {
+            modal = new MoreActionsModal();
+            await modal.mountComponent(document.body);
 
             const rect = btnDOM.getBoundingClientRect();
-            const modalRect = this.modal.element.getBoundingClientRect();
-            this.modal.element.style.top = (rect.top - modalRect.height) + "px";
-            this.modal.element.style.left = (rect.left - modalRect.width) + "px";
-           
-            document.body.addEventListener("click", (e) => {
-                if (e.target.closest(".modal__wrapper") !== this.modal.element) {
-                    this.closeModal(this.modal, "moreActionsModal")
-                }
-            })
-        } else {
-            this.closeModal(this.modal, "moreActionsModal")
+            const modalRect = modal.element.getBoundingClientRect();
+            modal.element.style.top = `${rect.top - modalRect.height}px`;
+            modal.element.style.left = `${rect.left - modalRect.width}px`;
         }
+
+        if (name === "addTransaction") {
+            modal = new AddTransactionModal();
+            await modal.mountComponent(document.body);
+        }
+
+        diContainer.register(name, {type: "modal", value: modal});
     }
-    
-    closeModal(modalToClose, name) {
-        modalToClose.unmount();
+
+    closeModal(name) {
+        const modal = diContainer.get(name);
+        if (!modal) return;
+
+        modal.unmount();
         diContainer.delete(name);
     }
 
     bindListeners() {
         this.tableBody.element.addEventListener("click", async (e) => {
-            const btn = e.target.classList.contains("btn_more-actions") ? e.target : null;
+            const btn = e.target.closest(".btn_more-actions");
+            if (!btn) return;
+
+            e.stopPropagation();
+            await this.showModal(btn, "moreActionsModal");
+        });
+
+
+        this.addTransaction.element.addEventListener("click", async (e) => {
+            const btn = e.target.closest(".btn__add-transaction") ? e.target : null;
             if (btn) {
                 e.stopPropagation();
-                await this.showModal(btn);
+                await this.showModal(btn, "addTransaction");
             }
         });
     }

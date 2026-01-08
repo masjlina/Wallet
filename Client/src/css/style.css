@@ -11,18 +11,40 @@
     position: absolute;
 
     width: 121px;
-    right: 250px;
-    top: 321px;
 
     border: 1px solid var(--border);
     background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);
     box-shadow:  20px 14px 24px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
-
     border-radius: 15px;
 }
 
 .modal-underlay__wrapper {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed; 
+    inset: 0;
+    background: rgba(217, 217, 217, 0.35);
+}
+
+.modal-underlay__wrapper .modal__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    width: 30vw;
+    height: fit-content;
+
+    border-radius: 28px;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
 }
 
 .log-reg__wrapper {
@@ -107,6 +129,14 @@
     gap: 15px;
     
     width: 100%;
+    height: 100%;
+}
+
+.modal-underlay__wrapper .modal__container {
+    justify-content: start;
+    padding: 35px;
+    flex-direction: column;
+    gap: 1.5em;
 }
 
 .modal__content hr {
@@ -176,6 +206,36 @@
     flex-direction: column;
     
     width: 100%;
+}
+
+.modal-underlay__wrapper .modal__content {
+    gap: 1em;
+}
+
+.modal__content--top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+.modal__content--bottom {
+    /* Bottom */
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+
 }
 
 .header-content {
@@ -391,14 +451,14 @@
 .icon--table__expense {
     width: 50px;
     height: 50px;
-    background-image: url("../icons/arrow-up.svg");
+    background-image: url("../icons/expense.svg");
     background-repeat: round;
 }
 
 .icon--table__income {
     width: 50px;
     height: 50px;
-    background-image: url("../icons/arrow-down.svg");
+    background-image: url("../icons/income.svg");
     background-repeat: round;
 }
 
@@ -412,6 +472,22 @@
     border-radius: 20px;
     color: var(--text--primary);
     cursor: pointer;
+}
+
+.btn__transaction-switcher {
+    position: relative;
+    z-index: 1;
+}
+
+.btn__transaction-switcher--accent {
+    position: absolute;
+    transform: translateX(-45%);
+    
+    width: 50%;
+    height: 85%;
+    background: #FFF;
+    border-radius: 20px;
+    z-index: 0;
 }
 
 .btn__modal {
@@ -470,12 +546,14 @@
 .btn__primary:active { background: var(--accent--active); }
 
 .btn__day-limit--fill {
+    height: 100%;
     width: 35%;
     background: #7763EA;
     color: #fff;
 }
 .btn__day-limit--empty {
     width: 35%;
+    height: 100%;
 
     color: #7763EA;
     background: white;
@@ -572,13 +650,17 @@
     color: var(--color--green);
 }
 
+.text--64 {
+    font-size: 64px;
+}
+
 /* ===========================
    Input Section
    =========================== */
 .input-section {
     display: flex;
     width: 100%;
-    gap: 32px;
+    gap: 0.5em;
     flex-direction: column;
 }
 
@@ -613,6 +695,15 @@
     transition: border-color 0.2s ease;
 }
 
+.input-section__with-icon-wrapper .input-section__input {
+    padding-right: 2.5rem;
+}
+
+.input-section__input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: none;
+}
+
 .input-section__input--error {
     border-color: #F75555;
 }
@@ -643,11 +734,11 @@
 /* ===========================
    Password Field & Eye Icon
    =========================== */
-.input-section__password-wrapper {
+.input-section__with-icon-wrapper {
     position: relative;
 }
 
-.input-section__eye {
+.input-section__icon {
     position: absolute;
     top: 50%;
     right: 10px;
@@ -659,11 +750,16 @@
     background-size: contain;
 }
 
-.input-section__eye--hide {
+.input-section__input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: none;
+}
+
+.input-section__icon--hide {
     background-image: url("../icons/eye-slash.svg");
 }
 
-.input-section__eye--show {
+.input-section__icon--show {
     background-image: url("../icons/eye.svg");
 }
 
@@ -1060,4 +1156,40 @@
 
 .table__row-new {
     border-top: 1px solid #F5F5F5;
+}
+
+/* ===========================
+   Modal
+   =========================== */
+
+.transaction-switcher {
+    position: relative;
+    z-index: 0;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px 10px;
+    
+    height: 40px;
+    width: 100%;
+
+    /* accent/primary */
+    background: #7763EA;
+    border-radius: 28px;
+}
+
+.amount-input {
+    /* Amount */
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 1.5em;
+
+    width: 100%;
 }

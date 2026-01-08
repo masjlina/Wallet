@@ -3,8 +3,21 @@ class DiContainer {
         this.services = new Map();
     }
     
-    register(name, instance) {
-        this.services.set(name, instance);
+    register(key, {type, value}) {
+        this.services.set(key, {type, value});
+    }
+
+    filterByType(type) {
+        return [...this.services]
+            .filter(([key, service]) => service.type === type)
+            .map(([key, service]) => ({ key, ...service }));
+    }
+
+    clearModals() {
+        const modals = this.filterByType("modal");
+        modals.forEach(i => {
+            this.delete(i.key);
+        })
     }
     
     delete(name) {

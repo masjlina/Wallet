@@ -12,7 +12,7 @@ export class DashboardView extends View {
     }
 
     init() {
-        this.underlayView = diContainer.get("underlay");
+        this.underlayView = diContainer.get("underlay").value;
 
         // Dashboard
         this.mainComponent = new Div({

@@ -65,7 +65,7 @@ export class LoginView extends View {
                                                     text: "Password"
                                                 }),
                                                 new Div({
-                                                    classList: "input-section__password-wrapper",
+                                                    classList: "input-section__with-icon-wrapper",
                                                     children: [
                                                         new Input({
                                                             classList: "input-section__input",
@@ -76,7 +76,7 @@ export class LoginView extends View {
                                                             props: "required minlength='5'"
                                                         }),
                                                         this.btnEye = new Button({
-                                                            classList: "input-section__eye input-section__eye--show",
+                                                            classList: "input-section__icon input-section__icon--show",
                                                             type: "button"
                                                         })
                                                     ]

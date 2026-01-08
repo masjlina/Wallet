@@ -15,139 +15,197 @@
     <div class="wrapper modal-underlay__wrapper">
         <div class="wrapper modal__wrapper">
             <div class="container modal__container">
-                <div class="content modal__content text text__base">
-                    <button class="btn btn__nav btn__modal text--r">
-                        <img src="icons/pencil.svg" alt="Pencil">
-                        Edit
-                    </button>
-                    <hr/>
-                    <button class="btn btn__nav btn__modal text--red">
-                        <img src="icons/trash--red.svg" alt="Trash can">
-                        Delete
-                    </button>
+                <div class="content modal__content--top text__title">
+                    <p>Add transaction</p>
+                    <img src="icons/x.svg">
+                </div>
+                <form class="content modal__content" id="add-transaction-form">
+                    <div class="transaction-switcher text__base">
+                        <button class="btn__transaction-switcher">Income</button>
+                        <button class="btn__transaction-switcher text__base--white">Expense</button>
+                        <div class="btn__transaction-switcher--accent"></div>
+                    </div>
+                    <div class="amount-input">
+                        <img src="icons/btn-arrow--left.svg">
+                        <p class="text--green text--64">+$100</p>
+                        <img src="icons/btn-arrow--right.svg">
+                    </div>
+                    <div class="input-section__double-field">
+                        <div class="input-section">
+                            <label for="name">Name</label>
+                            <input class="input-section__input" id="name" type="text" placeholder="Transaction name">
+                        </div>
+                        <div class="input-section">
+                            <label for="account">Account</label>
+                            <div class="input-section__with-icon-wrapper">
+                                <button class="input-section__input input-section__input--select" id="account" type="button">Select account</button>
+                                <img class="input-section__icon" src="icons/arrow-down.svg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-section">
+                        <label for="description">Description</label>
+                        <input class="input-section__input" id="description" type="text" placeholder="Transaction name">
+                    </div>
+                    <div class="input-section__double-field">
+                        <div class="input-section">
+                            <label for="date">Date</label>
+                            <div class="input-section__with-icon-wrapper">
+                                <input class="input-section__input" id="date" type="date">
+                                <img class="input-section__icon" src="icons/calendar.svg">
+                            </div>
+                        </div>
+                        <div class="input-section">
+                            <label for="category">Category</label>
+                            <div class="input-section__with-icon-wrapper">
+                                <button class="input-section__input input-section__input--select" id="category" type="button">Select category</button>
+                                <img class="input-section__icon" src="icons/arrow-down.svg"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="content modal__content--bottom">
+                    <button class="btn btn__day-limit--empty" type="button">Cancel</button>
+                    <button class="btn btn__day-limit--fill" type="submit" form="add-transaction-form">Save</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="wrapper header__wrapper">
-        <div class="container header__container">
-            <img src="img/logo.svg" class="icon--side-bar__logo" alt="Spend tracker">
-            <div class="content header-content">
-                <img src="icons/bell.svg" class="icon">
-                <img src="img/profile.png" class="icon--profile">
-            </div>
-        </div>
-    </div>
-    <div class="wrapper center__wrapper">
-        <div class="wrapper side-bar__wrapper">
-            <div class="container side-bar__container">
-                <div>
-                    <img src="icons/left-arrow.svg" class="icon--side-bar__arrow" alt="Left arrow">
-                </div>
-                <div class="content side-bar-content">
-                    <div class="side-bar__top">
-                        <div class="side-bar__item">
-                            <img src="icons/four-blocks.svg" class="icon" alt="Dashboard">
-                            <p>Dashboard</p>
-                        </div>
-                        <div class="side-bar__item">
-                            <img src="icons/dot-list.svg" class="icon" alt="Transactions">
-                            <p>Transactions</p>
-                        </div>
-                        <div class="side-bar__item">
-                            <img src="icons/wallet.svg" class="icon" alt="Wallet">
-                            <p>Wallet</p>
-                        </div>
-                    </div>
+    <!--    <div class="wrapper modal__wrapper">-->
+    <!--        <div class="container modal__container">-->
+    <!--            <div class="content modal__content text text__base">-->
+    <!--                <button class="btn btn__nav btn__modal text&#45;&#45;r">-->
+    <!--                    <img src="icons/pencil.svg" alt="Pencil">-->
+    <!--                    Edit-->
+    <!--                </button>-->
+    <!--                <hr/>-->
+    <!--                <button class="btn btn__nav btn__modal text&#45;&#45;red">-->
+    <!--                    <img src="icons/trash&#45;&#45;red.svg" alt="Trash can">-->
+    <!--                    Delete-->
+    <!--                </button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
-                    <div class="side-bar__bottom">
-                        <div class="side-bar__item">
-                            <img src="icons/gear.svg" class="icon" alt="Settings">
-                            <p>Settings</p>
-                        </div>
-                        <div class="side-bar__item">
-                            <img src="icons/out-door.svg" class="icon" alt="Logout">
-                            <p>Logout</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--    <div class="wrapper header__wrapper">-->
+<!--        <div class="container header__container">-->
+<!--            <img src="img/logo.svg" class="icon&#45;&#45;side-bar__logo" alt="Spend tracker">-->
+<!--            <div class="content header-content">-->
+<!--                <img src="icons/bell.svg" class="icon">-->
+<!--                <img src="img/profile.png" class="icon&#45;&#45;profile">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="wrapper center__wrapper">-->
+<!--        <div class="wrapper side-bar__wrapper">-->
+<!--            <div class="container side-bar__container">-->
+<!--                <div>-->
+<!--                    <img src="icons/left-arrow.svg" class="icon&#45;&#45;side-bar__arrow" alt="Left arrow">-->
+<!--                </div>-->
+<!--                <div class="content side-bar-content">-->
+<!--                    <div class="side-bar__top">-->
+<!--                        <div class="side-bar__item">-->
+<!--                            <img src="icons/four-blocks.svg" class="icon" alt="Dashboard">-->
+<!--                            <p>Dashboard</p>-->
+<!--                        </div>-->
+<!--                        <div class="side-bar__item">-->
+<!--                            <img src="icons/dot-list.svg" class="icon" alt="Transactions">-->
+<!--                            <p>Transactions</p>-->
+<!--                        </div>-->
+<!--                        <div class="side-bar__item">-->
+<!--                            <img src="icons/wallet.svg" class="icon" alt="Wallet">-->
+<!--                            <p>Wallet</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-        <div class="wrapper content__wrapper">
-            <div class="container content__container">
+<!--                    <div class="side-bar__bottom">-->
+<!--                        <div class="side-bar__item">-->
+<!--                            <img src="icons/gear.svg" class="icon" alt="Settings">-->
+<!--                            <p>Settings</p>-->
+<!--                        </div>-->
+<!--                        <div class="side-bar__item">-->
+<!--                            <img src="icons/out-door.svg" class="icon" alt="Logout">-->
+<!--                            <p>Logout</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
-                <div class="content transactions__content--top">
-                    <div class="wrapper widget__wrapper">
-                        <div class="container widget__container">
-                            <div class="content widget__content--control">
-                                <div class="tabs text text__title">
-                                    <button class="btn btn__nav">All</button>
-                                    <button class="btn btn__nav">Incomes</button>
-                                    <button class="btn btn__nav">Expenses</button>
-                                </div>
-                                <button class="btn btn__primary btn__add-transaction text text__base--bold text__base--white">
-                                    <img src="icons/plus.svg">
-                                    Add transaction
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!--        <div class="wrapper content__wrapper">-->
+<!--            <div class="container content__container">-->
 
-                <div class="content transactions__content">
-                    <div class="wrapper widget__wrapper">
-                        <div class="container widget__container">
-                            <div class="content widget__content">
-                                <table class="table text text__table">
-                                    <thead>
-                                    <tr>
-                                        <th>NAME/BUSINESS</th>
-                                        <th>AMOUNT</th>
-                                        <th>CATEGORY</th>
-                                        <th>PAYMENT METHOD</th>
-                                        <th>DATE</th>
-                                        <th>ACTION</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="text text__table--name">
-                                    <tr class="table__row-new">
-                                        <td>
-                                            <div class="table table__first-block">
-                                                <div class="icon--table__expense"></div>
-                                                <div class="text__table--name">Iphone 13 Pro MAX</div>
-                                            </div>
-                                        </td>
-                                        <td class="text text--red">-$5.30</td>
-                                        <td>Groceries</td>
-                                        <td>Cash</td>
-                                        <td class="text__table--date">12 Jan 2020<br>09:34</td>
-                                        <td class="text__table--date"><img src="icons/dots.svg"
-                                                                           class="btn btn_more-actions"></td>
-                                    </tr>
+<!--                <div class="content transactions__content&#45;&#45;top">-->
+<!--                    <div class="wrapper widget__wrapper">-->
+<!--                        <div class="container widget__container">-->
+<!--                            <div class="content widget__content&#45;&#45;control">-->
+<!--                                <div class="tabs text text__title">-->
+<!--                                    <button class="btn btn__nav">All</button>-->
+<!--                                    <button class="btn btn__nav">Incomes</button>-->
+<!--                                    <button class="btn btn__nav">Expenses</button>-->
+<!--                                </div>-->
+<!--                                <button class="btn btn__primary btn__add-transaction text text__base&#45;&#45;bold text__base&#45;&#45;white">-->
+<!--                                    <img src="icons/plus.svg">-->
+<!--                                    Add transaction-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                                    <tr class="table__row-new">
-                                        <td>
-                                            <div class="table table__first-block">
-                                                <div class="icon--table__income"></div>
-                                                <div class="text__table--name">From John</div>
-                                            </div>
-                                        </td>
-                                        <td class="text text--green">+$500.30</td>
-                                        <td>Salary</td>
-                                        <td>Card transfer</td>
-                                        <td class="text__table--date">12 Jan 2020<br>09:34</td>
-                                        <td><img src="icons/dots.svg" class="btn btn_more-actions"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--                <div class="content transactions__content">-->
+<!--                    <div class="wrapper widget__wrapper">-->
+<!--                        <div class="container widget__container">-->
+<!--                            <div class="content widget__content">-->
+<!--                                <table class="table text text__table">-->
+<!--                                    <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>NAME/BUSINESS</th>-->
+<!--                                        <th>AMOUNT</th>-->
+<!--                                        <th>CATEGORY</th>-->
+<!--                                        <th>PAYMENT METHOD</th>-->
+<!--                                        <th>DATE</th>-->
+<!--                                        <th>ACTION</th>-->
+<!--                                    </tr>-->
+<!--                                    </thead>-->
+<!--                                    <tbody class="text text__table&#45;&#45;name">-->
+<!--                                    <tr class="table__row-new">-->
+<!--                                        <td>-->
+<!--                                            <div class="table table__first-block">-->
+<!--                                                <div class="icon&#45;&#45;table__expense"></div>-->
+<!--                                                <div class="text__table&#45;&#45;name">Iphone 13 Pro MAX</div>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td class="text text&#45;&#45;red">-$5.30</td>-->
+<!--                                        <td>Groceries</td>-->
+<!--                                        <td>Cash</td>-->
+<!--                                        <td class="text__table&#45;&#45;date">12 Jan 2020<br>09:34</td>-->
+<!--                                        <td class="text__table&#45;&#45;date"><img src="icons/dots.svg"-->
+<!--                                                                           class="btn btn_more-actions"></td>-->
+<!--                                    </tr>-->
+
+<!--                                    <tr class="table__row-new">-->
+<!--                                        <td>-->
+<!--                                            <div class="table table__first-block">-->
+<!--                                                <div class="icon&#45;&#45;table__income"></div>-->
+<!--                                                <div class="text__table&#45;&#45;name">From John</div>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td class="text text&#45;&#45;green">+$500.30</td>-->
+<!--                                        <td>Salary</td>-->
+<!--                                        <td>Card transfer</td>-->
+<!--                                        <td class="text__table&#45;&#45;date">12 Jan 2020<br>09:34</td>-->
+<!--                                        <td><img src="icons/dots.svg" class="btn btn_more-actions"></td>-->
+<!--                                    </tr>-->
+<!--                                    </tbody>-->
+<!--                                </table>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!--        Dashboard       -->
         <!--                <div class="wrapper content__wrapper">-->
