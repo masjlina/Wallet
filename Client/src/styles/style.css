@@ -451,14 +451,14 @@
 .icon--table__expense {
     width: 50px;
     height: 50px;
-    background-image: url("../icons/expense.svg");
+    background-image: url("../assets/icons/expense.svg");
     background-repeat: round;
 }
 
 .icon--table__income {
     width: 50px;
     height: 50px;
-    background-image: url("../icons/income.svg");
+    background-image: url("../assets/icons/income.svg");
     background-repeat: round;
 }
 
@@ -756,11 +756,11 @@
 }
 
 .input-section__icon--hide {
-    background-image: url("../icons/eye-slash.svg");
+    background-image: url("../assets/icons/eye-slash.svg");
 }
 
 .input-section__icon--show {
-    background-image: url("../icons/eye.svg");
+    background-image: url("../assets/icons/eye.svg");
 }
 
 /* ===========================
@@ -791,7 +791,7 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-image: url("../icons/tick-empty.svg");
+    background-image: url("../assets/icons/tick-empty.svg");
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 8px;
@@ -799,7 +799,7 @@
 }
 
 .remember-me__input:checked + .remember-me__label > .remember-me__checkbox {
-    background-image: url("../icons/tick-fill.svg");
+    background-image: url("../assets/icons/tick-fill.svg");
 }
 
 /* ===========================
@@ -1056,7 +1056,7 @@
     aspect-ratio: 900 / 625;
     flex: 1 1 auto;
     max-width: -webkit-fill-available;
-    background-image: url("../icons/account-underlay.svg");
+    background-image: url("../assets/icons/account-underlay.svg");
     background-position: center;
     background-repeat: no-repeat;
     overflow: visible;
@@ -1074,7 +1074,7 @@
 
 /* фоновый слой (нижний) */
 .accounts__carousel--background {
-    background-image: url("../icons/account-background.svg");
+    background-image: url("../assets/icons/account-background.svg");
     z-index: 1;
     pointer-events: none;
 }
@@ -1082,7 +1082,7 @@
 /* hover-слой (визуальный/интерактивный поверх) */
 .accounts__carousel--hover {
     display: flex;
-    background-image: url("../icons/account-hover.svg");
+    background-image: url("../assets/icons/account-hover.svg");
     color: #fff;
     -webkit-font-smoothing: antialiased;
     pointer-events: auto;
@@ -1120,13 +1120,13 @@
 
 .accounts__carousel__btn--left {
     left: -20px;
-    background-image: url("../icons/carousel-left.svg");
+    background-image: url("../assets/icons/carousel-left.svg");
     background-position: left center;
 }
 
 .accounts__carousel__btn--right {
     right: -20px;
-    background-image: url("../icons/carousel-right.svg");
+    background-image: url("../assets/icons/carousel-right.svg");
     background-position: right center;
 }
 
