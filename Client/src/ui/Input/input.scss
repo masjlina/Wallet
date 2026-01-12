@@ -1,0 +1,37 @@
+.input {
+  box-sizing: border-box;
+  font-size: inherit;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+// Input States
+.input--error { border-color: var(--color--red); }
+
+.input:focus {
+  border-color: var(--accent--active);
+  outline: none;
+}
+
+.input::placeholder {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #9C9D9D;
+}
+
+// Hide Eye
+.input__icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

@@ -1,0 +1,28 @@
+.log-reg__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    gap: 35px;
+  }
+}
+
+.input-section {
+  display: flex;
+  width: 100%;
+  gap: 0.5em;
+  flex-direction: column;
+  &__fields {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+  }
+}
+

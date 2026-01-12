@@ -1,0 +1,141 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: var(--text--primary);
+  cursor: pointer;
+}
+
+.btn--disabled { opacity: .6; pointer-events: none; }
+
+// Primary button
+.btn--primary {
+  background-color: var(--accent--active);
+  color: var(--text--white);
+}
+
+.btn__primary:hover  { background: var(--accent--hover); }
+.btn__primary:active { background: var(--accent--active); }
+
+.log-reg__btn {
+  padding: 16px 12px;
+  width: 100%;
+  border-radius: 4px;
+  font: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+.btn__transaction-switcher {
+  position: relative;
+  z-index: 1;
+}
+
+.btn__transaction-switcher--accent {
+  position: absolute;
+  transform: translateX(-45%);
+
+  width: 50%;
+  height: 85%;
+  background: #FFF;
+  border-radius: 20px;
+  z-index: 0;
+}
+
+.btn__modal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn__nav {
+  justify-content: left;
+  border-radius: 10px;
+  padding: 5px 0px 5px 0px;
+}
+
+.btn_more-actions {
+  display: inline;
+}
+
+.btn__nav--text {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: color 0.3s ease, background 0.3s ease;
+  border-radius: inherit;
+}
+
+.btn_more-actions:hover {background-color: var(--accent--hover)}
+.btn_more-actions:active {background-color: var(--accent--active)}
+
+.btn__nav--text:hover  { color: var(--text--hover); }
+.btn__nav--text:active  { color: var(--text--active); }
+.btn__nav--text:focus,
+.btn__nav--text.active  { color: var(--accent--primary); }
+
+.btn__nav--text:focus:hover  { color: var(--accent--hover); }
+.btn__nav--text:focus:active { color: var(--accent--active); }
+
+.btn__nav--text:focus::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent--primary);
+}
+
+.btn__nav:hover {background-color: var(--text--hover);}
+.btn__nav:active {background-color: var(--text--active); color: var(--text--white)}
+
+
+.btn__day-limit--fill {
+  height: 100%;
+  width: 35%;
+  background: #7763EA;
+  color: #fff;
+}
+.btn__day-limit--empty {
+  width: 35%;
+  height: 100%;
+
+  color: #7763EA;
+  background: white;
+  border: 3px #7763EA solid;
+}
+
+.btn__add-transaction {
+  align-items: center;
+  padding: 0.2em 0.2em;
+  gap: 10px;
+
+  background: #7763EA;
+}
+
+.accounts__carousel__btn--left,
+.accounts__carousel__btn--right {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: auto;
+}
+
+.accounts__carousel__btn--left {
+  left: -20px;
+  background-image: url("../assets/icons/carousel-left.svg");
+  background-position: left center;
+}
+
+.accounts__carousel__btn--right {
+  right: -20px;
+  background-image: url("../assets/icons/carousel-right.svg");
+  background-position: right center;
+}

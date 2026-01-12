@@ -1,0 +1,20 @@
+:root {
+    --header-height: 96px;
+    --dashboard-gap: 1.5rem;
+
+    /*Colors*/
+    --accent--active: #6B59D2;
+    --accent--primary: #7763EA;
+    --accent--hover: #8B78F1;
+
+    --color--red: #F75555;
+    --color--yellow: #FACC15;
+    --color--green: #4ADE80;
+
+    --text--white: #FFFFFF;
+    --text--primary: #393B3C;
+    --text--hover: #918C8C;
+    --text--active: #2C2E2F;
+
+    --border: #BBBBBB;
+}

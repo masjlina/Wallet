@@ -32,6 +32,7 @@
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-react": "^7.28.5",
     "@vitejs/plugin-react": "^5.1.2",
+    "sass": "^1.97.2",
     "vite": "^7.3.1"
   }
 }
