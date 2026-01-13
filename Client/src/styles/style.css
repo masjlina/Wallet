@@ -465,14 +465,14 @@
 /* ===========================
    Button Style
    =========================== */
-.btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    color: var(--text--primary);
-    cursor: pointer;
-}
+/*.btn {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 20px;*/
+/*    color: var(--text--primary);*/
+/*    cursor: pointer;*/
+/*}*/
 
 .btn__transaction-switcher {
     position: relative;
@@ -670,17 +670,17 @@
     flex-direction: column;
 }
 
-.input-section__double-field {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-}
+/*.input-section__double-field {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    gap: 8px;*/
+/*}*/
 
-.input-section__field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+/*.input-section__field {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 8px;*/
+/*}*/
 
 /* ===========================
    Input Styles
@@ -766,41 +766,42 @@
 /* ===========================
    Login/Register Form Layout
    =========================== */
-.log-reg {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+/*.log-reg {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 16px;*/
+/*}*/
 
 /* ===========================
    Remember Me Section
    =========================== */
-.remember-me {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 16px;
-}
+/*.remember-me {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    flex-direction: row;*/
+/*    gap: 16px;*/
+/*}*/
 
-.remember-me__label {
-    display: flex;
-    align-items: center;
-}
+/*.remember-me__label {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    user-select: none;*/
+/*}*/
 
-.remember-me__checkbox {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url("../assets/icons/tick-empty.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 8px;
-    cursor: pointer;
-}
+/*.remember-me__checkbox {*/
+/*    display: inline-block;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    background-image: url("../assets/icons/tick-empty.svg");*/
+/*    background-size: contain;*/
+/*    background-repeat: no-repeat;*/
+/*    margin-right: 8px;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.remember-me__input:checked + .remember-me__label > .remember-me__checkbox {
-    background-image: url("../assets/icons/tick-fill.svg");
-}
+/*.remember-me__input:checked + .remember-me__label > .remember-me__checkbox {*/
+/*    background-image: url("../assets/icons/tick-fill.svg");*/
+/*}*/
 
 /* ===========================
    Login/Register Button Styles
@@ -833,55 +834,55 @@
 /* ===========================
    Alternative Action Section
    =========================== */
-.log-reg-alternative {
-    width: 100%;
-    text-align: center;
-}
+/*.log-reg-alternative {*/
+/*    width: 100%;*/
+/*    text-align: center;*/
+/*}*/
 
 /* OR Divider */
-.log-reg-alternative__or {
-    position: relative;
-    width: 90%;
-    margin: 0 auto;
-}
+/*.log-reg-alternative__or {*/
+/*    position: relative;*/
+/*    width: 90%;*/
+/*    margin: 0 auto;*/
+/*}*/
 
-.log-reg-alternative__or::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #4B5768;
-    opacity: 0.5;
-    z-index: 0;
-}
+/*.log-reg-alternative__or::before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    height: 1px;*/
+/*    background-color: #4B5768;*/
+/*    opacity: 0.5;*/
+/*    z-index: 0;*/
+/*}*/
 
 /* OR Text */
-.log-reg-alternative__text {
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-    background: white;
-    padding: 0 8px;
-    margin: 0;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    color: #9C9D9D;
-}
+/*.log-reg-alternative__text {*/
+/*    position: relative;*/
+/*    z-index: 1;*/
+/*    display: inline-block;*/
+/*    background: white;*/
+/*    padding: 0 8px;*/
+/*    margin: 0;*/
+/*    font-style: normal;*/
+/*    font-weight: 400;*/
+/*    font-size: 14px;*/
+/*    line-height: 16px;*/
+/*    color: #9C9D9D;*/
+/*}*/
 
 /* Alternative Reference Link */
-.log-reg-alternative__ref {
-    display: block;
-    margin-top: 19px;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
-    color: #393B3C;
-}
+/*.log-reg-alternative__ref {*/
+/*    display: block;*/
+/*    margin-top: 19px;*/
+/*    font-style: normal;*/
+/*    font-weight: 600;*/
+/*    font-size: 16px;*/
+/*    line-height: 24px;*/
+/*    color: #393B3C;*/
+/*}*/
 
 .log-reg-alternative__ref:hover {
     color: #4A4D4F;

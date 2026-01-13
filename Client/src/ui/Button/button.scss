@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  color: var(--text--primary);
   cursor: pointer;
 }
 
@@ -15,9 +14,10 @@
   color: var(--text--white);
 }
 
-.btn__primary:hover  { background: var(--accent--hover); }
-.btn__primary:active { background: var(--accent--active); }
+.btn--primary:hover  { background: var(--accent--hover); }
+.btn--primary:active { background: var(--accent--active); }
 
+// Log-reg btn
 .log-reg__btn {
   padding: 16px 12px;
   width: 100%;

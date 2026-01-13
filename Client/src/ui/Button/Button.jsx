@@ -4,9 +4,13 @@ const VARIANT_CLASS = {
     primary: "btn--primary"
 }
 
-const Button = ({text, variant = VARIANT_CLASS.primary, className}) => {
+const Button = ({children, variant = VARIANT_CLASS.primary, className, ...restProps}) => {
     return (
-        <button className={`btn ${VARIANT_CLASS[variant]} ${className}`} type="submit">{text}</button>
+        <button
+            className={`btn ${variant} ${className}`}
+            type="submit"
+            {...restProps}
+        >{children}</button>
     )
 }
 
