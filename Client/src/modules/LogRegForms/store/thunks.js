@@ -4,8 +4,12 @@ import {login, register} from "../api/authenticationAdapter";
 
 export const registerUser = createAsyncThunk(
     "auth/registerUser",
-    async (formData) => {
+    async (formData, thunkAPI) => {
         const response = await register(formData);
+
+        if (!response.isSuccessful) {
+            return thunkAPI.rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
+        }
 
         return response;
     }
@@ -13,9 +17,14 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    async (formData) => {
+    async (formData, thunkAPI) => {
         const response = await login(formData);
 
+        if (!response.isSuccessful) {
+            return thunkAPI.rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
+        }
+
         return response;
-    });
+    }
+);
 

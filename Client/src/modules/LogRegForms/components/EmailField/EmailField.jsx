@@ -10,6 +10,7 @@ const EmailField = (props) => {
 
                 type="email"
                 name="email"
+                autoComplete="email"
                 placeholder={inputPlaceholder}
                 required
                 minLength="5"

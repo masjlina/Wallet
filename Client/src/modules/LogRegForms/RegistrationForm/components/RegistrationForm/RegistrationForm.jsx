@@ -1,5 +1,6 @@
-import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import PasswordField from "../../../components/PasswordField/PasswordField";
 import Button from "../../../../../ui/Button/Button";
@@ -7,65 +8,79 @@ import FirstNameField from "../../../components/FirstNameField/FirstNameField";
 import LastNameField from "../../../components/LastNameField/LastNameField";
 import EmailField from "../../../components/EmailField/EmailField";
 import AuthLayout from "../../../components/AuthLayout/AuthLayout";
-import RememberMe from "../../../components/RememberMe/RememberMe";
+
+import {registerUser} from "../../../store/thunks";
+import routes from "../../../../../consts/routes";
+import status from "../../../../../consts/status";
+import useInput from "../../../../../hooks/useInput";
+import {clearErrors} from "../../../store/slice";
 
 import "../../../style.scss";
-import {useDispatch} from "react-redux";
-import {registerUser} from "../../../store/thunks";
 
 export const RegistrationForm = () => {
-    const [regErrors, setRegErrors] = useState([]);
-
-    const [firstNameState, setFirstName] = useState("");
-    const [lastNameState, setLastName] = useState("");
-    const [emailState, setEmail] = useState("");
-    const [passwordState, setPassword] = useState("");
-    const [passwordConfirmationState, setPasswordConfirmation] = useState("");
+    const firstName = useInput("");
+    const lastName = useInput("");
+    const email = useInput("");
+    const password = useInput("");
+    const passwordConfirmation = useInput("");
 
     const dispatch = useDispatch();
+    const regStatus = useSelector((state) => state.auth.status);
+    const regErrors = useSelector((state) => state.auth.errors);
 
-    const onValueChange = (setState, e) => {
-        setState(e.target.value)
-    }
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(clearErrors());
+    }, [])
 
     const onCreateAccount = async (e) => {
         e.preventDefault();
-        setRegErrors([]);
 
-        const formData = new FormData(e.currentTarget);
+        const formData = Object.fromEntries(new FormData(e.currentTarget).entries());
 
-        const response = await dispatch(registerUser(Object.fromEntries(formData.entries()))).unwrap();
-        if (!response.isRegistrationSuccessful) setRegErrors(response.errors);
+        try {
+            await dispatch(registerUser(formData)).unwrap();
+            navigate(routes.login);
+        } catch (err) {
+        }
     }
 
     return (
         <AuthLayout>
-            <form className="input-section" action="#" method="post" onSubmit={(e) => onCreateAccount(e)}>
+            <form
+                className="input-section"
+                action="#"
+                method="post"
+                onSubmit={onCreateAccount}>
                 <div className="input-section__fields">
                     <div className="input-section__double-field">
-                        <FirstNameField value={firstNameState} onChange={(e) => onValueChange(setFirstName, e)}/>
-                        <LastNameField value={lastNameState} onChange={(e) => onValueChange(setLastName, e)}/>
+                        <FirstNameField value={firstName.value} onChange={firstName.onChange}/>
+                        <LastNameField value={lastName.value} onChange={lastName.onChange}/>
                     </div>
 
-                    <EmailField value={emailState} onChange={(e) => onValueChange(setEmail, e)}/>
+                    <EmailField
+                        value={email.value}
+                        onChange={email.onChange}/>
 
-                    <PasswordField value={passwordState} onChange={(e) => onValueChange(setPassword, e)}/>
+                    <PasswordField
+                        value={password.value}
+                        onChange={password.onChange}/>
                     <PasswordField
                         id="password-confirm-input"
-                        value={passwordConfirmationState}
+                        value={passwordConfirmation.value}
                         name="confirmPassword"
                         labelText="Confirm Password"
                         placeholder="Confirm your password"
-                        onChange={(e) => onValueChange(setPasswordConfirmation, e)}
+                        onChange={passwordConfirmation.onChange}
                     />
 
                     {/* Checkbox and Submit */}
                     <div className="log-reg__actions">
-                       <RememberMe/>
-
                         <Button
                             className="log-reg__btn"
                             type="submit"
+                            disabled={regStatus === status.LOADING}
                         >
                             Create account
                         </Button>

@@ -18,19 +18,19 @@ export async function register(formData) {
         if (!response.ok) {
             const result = await response.json();
             return createSignUpResponseDto({
-                isRegistrationSuccessful: false,
+                isSuccessful: false,
                 errors: result.errors || []
             });
         }
 
         return createSignUpResponseDto({
-            isRegistrationSuccessful: true,
+            isSuccessful: true,
             errors: []
         });
 
     } catch (error) {
         return createSignUpResponseDto({
-            isRegistrationSuccessful: false,
+            isSuccessful: false,
             errors: [error.message]
         });
     }
@@ -52,24 +52,18 @@ export async function login(formData) {
         
         if (!response.ok) {
             return createSignInResponseDto({
-                isRegistrationSuccessful: false,
+                isSuccessful: false,
                 errors: result.errors || []
             });
         }
 
         localStorage.setItem("accessToken", result.accessToken);
         localStorage.setItem("refreshToken", result.refreshToken);
-        
-        return createSignInResponseDto({
-            isRegistrationSuccessful: true,
-            accessToken: result.accessToken,
-            refreshToken: result.refreshToken,
-            applicationUserDto: result.applicationUserDto,
-            errors: []
-        });
+
+        return createSignInResponseDto(result);
     }  catch (error) {
         return createSignInResponseDto({
-            isRegistrationSuccessful: false,
+            isSuccessful: false,
             errors: [error.message]
         });
     }

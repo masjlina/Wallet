@@ -50,7 +50,7 @@ public class AccountController : ControllerBase
             return Ok(new SignInResponseDTO
             {
                 ApplicationUserDTO = _userMapper.ToDTO(authenticatedUser),
-                IsSignInSuccessful = true
+                IsSuccessful = true
             });
         }
         
@@ -59,7 +59,7 @@ public class AccountController : ControllerBase
         {
             return Unauthorized(new SignInResponseDTO
             {
-                IsSignInSuccessful = false,
+                IsSuccessful = false,
                 Errors = new[] { "Invalid email or password" }
             });
         }
@@ -69,7 +69,7 @@ public class AccountController : ControllerBase
         {
             return Unauthorized(new SignInResponseDTO
             {
-                IsSignInSuccessful = false,
+                IsSuccessful = false,
                 Errors = new []{"Invalid email or password"}
             });
         }
@@ -107,7 +107,7 @@ public class AccountController : ControllerBase
         return Ok(new SignInResponseDTO
         {
             ApplicationUserDTO = _userMapper.ToDTO(user),
-            IsSignInSuccessful = true,
+            IsSuccessful = true,
             AccessToken = accessToken,
             RefreshToken = refreshToken
         });
@@ -125,9 +125,9 @@ public class AccountController : ControllerBase
 
         if (userExist != null)
         {
-            return BadRequest(new SignUpResponseDTO
+            return Conflict(new SignUpResponseDTO
             {
-                IsRegistrationSuccessful = false,
+                IsSuccessful = false,
                 Errors = new[] { "User already exists" }
             });
         }
@@ -147,7 +147,7 @@ public class AccountController : ControllerBase
         {
             return BadRequest(new SignUpResponseDTO()
             {
-                IsRegistrationSuccessful = false,
+                IsSuccessful = false,
                 Errors = result.Errors.Select(u => u.Description)
             });
         }

@@ -1,6 +1,6 @@
-export default function createSignUpResponseDto ({isRegistrationSuccessful, errors}) {
+export default function createSignUpResponseDto ({isSuccessful, errors}) {
     return {
-        isRegistrationSuccessful: isRegistrationSuccessful,
+        isSuccessful: isSuccessful,
         errors: errors
     };
 }

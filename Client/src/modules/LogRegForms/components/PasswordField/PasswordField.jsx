@@ -12,6 +12,7 @@ const PasswordField = (props) => {
                 labelText={props.labelText ? "" : "Password"}
 
                 placeholder={inputPlaceholder}
+                autoComplete="password"
                 type="password"
                 name="password"
                 required

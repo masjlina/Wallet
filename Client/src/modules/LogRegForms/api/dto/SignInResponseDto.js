@@ -1,9 +1,13 @@
-export default function createSignInResponseDto ({isRegistrationSuccessful, errors, accessToken, refreshToken, applicationUserDto}) {
+export default function createSignInResponseDto ({isSuccessful, errors, applicationUserDTO = {}}) {
     return {
-        isRegistrationSuccessful: isRegistrationSuccessful,
+        isSuccessful: isSuccessful,
         errors: errors,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        applicationUserDto: applicationUserDto
+        user: {
+            id: applicationUserDTO.id,
+            email: applicationUserDTO.email,
+            firstName: applicationUserDTO.firstName,
+            lastName: applicationUserDTO.lastName,
+            avatarUri: applicationUserDTO.avatarUri
+        }
     };
 }
