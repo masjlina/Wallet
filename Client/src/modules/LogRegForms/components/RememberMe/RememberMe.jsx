@@ -5,7 +5,6 @@ const RememberMe = () => {
                 className="visually-hidden remember-me__input"
                 type="checkbox"
                 id="remember-me-checkbox"
-                required
             />
 
             <label

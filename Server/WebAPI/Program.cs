@@ -94,14 +94,14 @@ builder.Services.AddSwaggerGen(x =>
             Description = "JWT Authorization header"
         });
 
-    x.AddSecurityDefinition(
-        "Bearer",
-        new OpenApiSecurityScheme
-        {
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http
-        }
-    );
+//     x.AddSecurityDefinition(
+//         "Bearer",
+//         new OpenApiSecurityScheme
+//         {
+//             In = ParameterLocation.Header,
+//             Type = SecuritySchemeType.Http
+//         }
+//     );
     x.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
 });
 

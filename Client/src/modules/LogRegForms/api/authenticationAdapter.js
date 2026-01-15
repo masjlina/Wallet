@@ -1,10 +1,10 @@
-import appSettings from "../../appSettings";
+import appSettings from "../../../appSettings";
 import createSignUpRequestDto from "./dto/SignUpRequestDto";
 import createSignUpResponseDto from "./dto/SignUpResponseDto";
 import createSignInRequestDto from "./dto/SignInRequestDto";
 import createSignInResponseDto from "./dto/SignInResponseDto";
 
-export async function registerUser(formData) {
+export async function register(formData) {
     try {
         const signUpRequest = createSignUpRequestDto(formData);
         const response = await fetch(appSettings.registerEndpoint, {
@@ -36,7 +36,7 @@ export async function registerUser(formData) {
     }
 }
 
-export async function loginUser(formData) {
+export async function login(formData) {
     try {
         const signInRequest = createSignInRequestDto(formData);
         
