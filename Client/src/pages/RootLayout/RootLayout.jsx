@@ -7,13 +7,11 @@ import Sidebar from "../../modules/Sidebar/components/Sidebar/Sidebar";
 const RootLayout = () => {
   return (
       <div className="wrapper main__wrapper">
-          <div className="layout">
+          <div className="main__grid-layout">
               <Header/>
-              <div className="wrapper center__wrapper">
-                  <Sidebar/>
-                  <div className="wrapper content__wrapper">
-                    <Outlet/>
-                  </div>
+              <Sidebar/>
+              <div className="wrapper content__wrapper">
+                <Outlet/>
               </div>
           </div>
       </div>

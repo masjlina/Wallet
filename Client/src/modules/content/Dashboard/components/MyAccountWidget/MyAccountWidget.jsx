@@ -1,5 +1,7 @@
 import Widget from "../../../../../components/Widget/Widget";
 
+import rightArrowIcon from "../../../../../assets/icons/right-arrow.svg";
+
 import "./myAccountWidget.scss";
 
 const MyAccountWidget = () => {
@@ -10,7 +12,7 @@ const MyAccountWidget = () => {
 
                 <div className="view-all">
                     <div className="text text__link">View All</div>
-                    <img className="icon--widget__arrow" src="icons/right-arrow.svg" alt="" />
+                    <img className="icon--widget__arrow" src={rightArrowIcon} alt="" />
                 </div>
             </div>
 

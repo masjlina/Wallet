@@ -8,6 +8,7 @@
   &__item {
     display: flex;
     align-items: center;
+
     font-size: 18px;
     gap: 20px;
   }
@@ -52,13 +53,24 @@
     }
   }
 
+
   &__container {
     flex-direction: column;
-    padding: 35px 35px 35px 35px;
+    padding: 35px 0 35px 35px;
     box-sizing: border-box;
     position: relative;
     gap: 35px;
   }
+}
+
+.side-bar__toggle:focus-visible {
+  outline: 2px solid #7763EA;
+  outline-offset: 4px;
+}
+
+.side-bar__wrapper--collapsed .icon--side-bar__arrow {
+  right: 8px;
+  transform: rotate(180deg);
 }
 
 .icon--side-bar__arrow {

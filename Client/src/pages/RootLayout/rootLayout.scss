@@ -2,11 +2,10 @@
   height: 100vh;
 }
 
-.layout {
+.main__grid-layout {
   display: grid;
   width: 100%;
   grid-template-rows: auto 1fr;
-  grid-template-columns: 100%;
 
   grid-template-areas:
   "header header"

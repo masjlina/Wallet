@@ -5,24 +5,39 @@ import walletIcon from "../../../../assets/icons/wallet.svg";
 import settingsIcon from "../../../../assets/icons/gear.svg";
 import logoutIcon from "../../../../assets/icons/out-door.svg";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import urlPaths from "../../../../utils/enumeration";
 
 import "./sidebar.scss";
+import {useState} from "react";
 
 const Sidebar = () => {
-    const navigate = useNavigate();
+    const [isCollapsed, setIsCollapsed] = useState(() => {
+        return localStorage.getItem("isSidebarCollapsed") === "true";
+    });
 
     const btnClasses = "side-bar__item btn btn__nav";
 
     const navClass = ({isActive}) =>
         isActive ? `${btnClasses} btn__nav--active` : btnClasses;
 
+    const toggleSidebar = () => {
+        setIsCollapsed(prev => {
+            const next = !prev;
+            localStorage.setItem("isSidebarCollapsed", String(next));
+            return next;
+        });
+    };
+
     return (
-        <div className="wrapper side-bar__wrapper">
+        <div className={`wrapper side-bar__wrapper ${isCollapsed ? "side-bar__wrapper--collapsed" : ""}`}>
             <div className="container side-bar__container">
                 <div>
-                    <img className="icon--side-bar__arrow" src={leftArrowIcon} alt="Left arrow"/>
+                    <img
+                        className="icon--side-bar__arrow"
+                        src={leftArrowIcon}
+                        alt="Left arrow"
+                        onClick={toggleSidebar}/>
                 </div>
 
                 <div className="content side-bar__content">

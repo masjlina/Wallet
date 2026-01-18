@@ -5,6 +5,6 @@ export default function createSignUpRequestDto ({firstName, lastName, email, pas
         email: email,
         password: password,
         confirmPassword: confirmPassword,
-        rememberMe: rememberMe === "on" ? true : false
+        rememberMe: rememberMe === "on"
     };
 }
