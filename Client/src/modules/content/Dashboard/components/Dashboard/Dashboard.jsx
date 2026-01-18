@@ -8,25 +8,15 @@ import "./dashboard.scss";
 
 const Dashboard = () => {
     return (
-        <div className="container content__container dashboard__layout">
-            {/* Dashboard top */}
+        <div className="container content__container">
             <div className="content dashboard__content--top">
-                {/* Month Budget widget */}
                 <MonthBudgetWidget/>
-
-                {/* Day Limit widget */}
                 <DayLimitWidget/>
-
-                {/* My Accounts widget */}
                 <MyAccountWidget/>
             </div>
 
-            {/* Dashboard bottom */}
             <div className="content dashboard__content--bottom">
-                {/* Recent Transactions widget */}
                 <RecentTransactionsWidget/>
-
-                {/* Month Activities widget */}
                 <MonthActivityWidget/>
             </div>
         </div>

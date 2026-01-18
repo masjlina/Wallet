@@ -1,2 +1,33 @@
-.dashboard__layout {
+.content__container {
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 35px 35px 35px;
+
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.dashboard__content--top,
+.dashboard__content--bottom {
+  flex: 1 1 0;                /* 50/50 */
+  min-height: 0;              /* важно */
+}
+
+.dashboard__content--top {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  gap: 35px;
+
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+}
+
+.dashboard__content--bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 35px;
+  grid-auto-rows: 1fr;
+  align-items: stretch;
 }
