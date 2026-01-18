@@ -1,0 +1,27 @@
+.remember-me {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  &__checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("../../../../../assets/icons/tick-empty.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+}
+
+.remember-me__input:checked + .remember-me__checkbox {
+  background-image: url("../../../../../assets/icons/tick-fill.svg");
+}
+

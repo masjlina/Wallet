@@ -1,8 +1,10 @@
 import logoIcon from "../../assets/img/logo.svg";
 
-const Logo = ({}) => {
+import "./logo.scss";
+
+const Logo = ({className}) => {
     return (
-        <img src={logoIcon} className="logo" alt="Spend Tracker"/>
+        <img src={logoIcon} className={className || ""} alt="Spend Tracker"/>
     );
 }
 

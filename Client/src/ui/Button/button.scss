@@ -4,6 +4,7 @@
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
+  color: var(--text--primary)
 }
 
 .btn--disabled { opacity: .6; pointer-events: none; }
@@ -76,7 +77,8 @@
 .btn__nav--text:hover  { color: var(--text--hover); }
 .btn__nav--text:active  { color: var(--text--active); }
 .btn__nav--text:focus,
-.btn__nav--text.active  { color: var(--accent--primary); }
+.btn__nav--active  { color: var(--accent--primary); }
+
 
 .btn__nav--text:focus:hover  { color: var(--accent--hover); }
 .btn__nav--text:focus:active { color: var(--accent--active); }

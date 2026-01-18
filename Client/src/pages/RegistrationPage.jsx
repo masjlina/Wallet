@@ -1,4 +1,4 @@
-import {RegistrationForm} from "../modules/LogRegForms/RegistrationForm";
+import {RegistrationForm} from "../modules/logRegForms/RegistrationForm";
 
 const RegistrationPage = () => {
     return (

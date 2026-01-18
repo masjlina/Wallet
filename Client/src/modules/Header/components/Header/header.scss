@@ -1,0 +1,26 @@
+.header {
+  &__wrapper {
+    grid-area: header;
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  &__container {
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 35px 20px 35px;
+  }
+
+  &__content {
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 35px;
+  }
+}
+
+.icon--profile {
+  width: 54px;
+  height: 54px;
+}

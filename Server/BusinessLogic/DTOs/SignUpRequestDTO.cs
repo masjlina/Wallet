@@ -22,6 +22,4 @@ public class SignUpRequestDTO
     [DataType(DataType.Password)]
     [Compare("Password", ErrorMessage = "Password and confirm password is not matched")]
     public string ConfirmPassword { get; set; }
-
-    public bool RememberMe { get; set; } = false;
 }

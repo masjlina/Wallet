@@ -1,0 +1,95 @@
+.log-reg {
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    gap: 35px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__alternative {
+    width: 100%;
+    text-align: center;
+
+    &-ref {
+      display: block;
+      margin-top: 19px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #393B3C;
+    }
+
+    &-or {
+      position: relative;
+      width: 90%;
+      margin: 0 auto;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #4B5768;
+        opacity: 0.5;
+        z-index: 0;
+      }
+    }
+
+    &-text {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      background: white;
+      padding: 0 8px;
+      margin: 0;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #9C9D9D;
+    }
+  }
+}
+
+.input-section {
+  display: flex;
+  width: 100%;
+  gap: 0.5em;
+  flex-direction: column;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__fields {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+  }
+
+  &__double-field {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+}

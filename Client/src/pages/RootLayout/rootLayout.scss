@@ -1,0 +1,27 @@
+.main__wrapper {
+  height: 100vh;
+}
+
+.layout {
+  display: grid;
+  width: 100%;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 100%;
+
+  grid-template-areas:
+  "header header"
+  "sidebar content";
+}
+
+.center__wrapper {
+  flex-direction: row;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.content__wrapper {
+  grid-area: content;
+  background: #F5F5F5;
+  flex: 1 1 auto;
+  min-height: 0;
+}

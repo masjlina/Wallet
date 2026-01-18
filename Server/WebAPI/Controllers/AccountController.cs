@@ -43,16 +43,16 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        if (HttpContext.User.Identity.IsAuthenticated)
-        {
-            var authenticatedUser = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
-
-            return Ok(new SignInResponseDTO
-            {
-                ApplicationUserDTO = _userMapper.ToDTO(authenticatedUser),
-                IsSuccessful = true
-            });
-        }
+        // if (HttpContext.User.Identity.IsAuthenticated)
+        // {
+        //     var authenticatedUser = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
+        //
+        //     return Ok(new SignInResponseDTO
+        //     {
+        //         ApplicationUserDTO = _userMapper.ToDTO(authenticatedUser),
+        //         IsSuccessful = true
+        //     });
+        // }
         
         var user = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
         if (user == null)
@@ -92,7 +92,7 @@ public class AccountController : ControllerBase
             {
                 UserId = user.Id,
                 RefreshToken = refreshToken,
-                ExpiredAt = DateTime.UtcNow.AddDays(7)
+                ExpiredAt = DateTime.UtcNow.AddDays(signInRequestDTO.RememberMe ? 30 : 1)
             };
             _dbContext.TokenInfos.Add(ti);
         }

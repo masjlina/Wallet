@@ -1,0 +1,17 @@
+.widget__wrapper {
+  border-radius: 28px;
+  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+  background: #FFFFFF;
+
+  height: 100%;
+  min-height: 0;
+}
+
+.widget__container {
+  flex-direction: column;
+
+  gap: 10px;
+  padding: 20px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
