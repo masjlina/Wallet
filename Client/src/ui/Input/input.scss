@@ -8,7 +8,12 @@
   transition: border-color 0.2s ease;
 }
 
-// Input States
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+// Textarea States
 .input--error { border-color: var(--color--red); }
 
 .input:focus {

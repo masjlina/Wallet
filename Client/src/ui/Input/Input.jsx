@@ -1,13 +1,13 @@
 import "./input.scss";
 
-const Input = ({id, variant, type = "text", name, value, placeholder, className = "input", ...rest}) => {
+const Input = ({id, type = "text", name, value, placeholder, className = "", ...rest}) => {
     return (
         <input id={id}
                type={type}
                name={name}
                value={value}
                placeholder={placeholder}
-               className={className}
+               className={`input ${className}`}
                {...rest}
         />
     )

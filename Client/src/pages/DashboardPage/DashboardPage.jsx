@@ -1,5 +1,6 @@
 import "./dashboardPage.scss";
-import {Dashboard} from "../../modules/content/Dashboard/index";
+import {Dashboard} from "../../modules/content/index";
+
 
 const DashboardPage = () => {
     return (

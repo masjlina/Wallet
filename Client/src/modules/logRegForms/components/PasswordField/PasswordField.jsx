@@ -1,4 +1,4 @@
-import InputWithLabel from "../../../../components/InputWithLabel/InputWithLabel";
+import InputWithLabel from "../../../../components/FieldWithLabel/FieldWithLabel";
 
 const PasswordField = (props) => {
     const id = props.id || "password-input";

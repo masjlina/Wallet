@@ -1,4 +1,4 @@
-import InputWithLabel from "../../../../components/InputWithLabel/InputWithLabel";
+import InputWithLabel from "../../../../components/FieldWithLabel/FieldWithLabel";
 
 const EmailField = (props) => {
     const inputPlaceholder = props.placeholder || "Your email";

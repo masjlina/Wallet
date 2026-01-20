@@ -1,0 +1,28 @@
+.transactions__content--top {
+  height: 10vh;
+
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  min-height: fit-content;
+}
+
+.transactions__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+
+  height: 100%;
+  /* Inside auto layout */
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.table__content {
+  height: fit-content;
+  flex-direction: column;
+  gap: 20px;
+}

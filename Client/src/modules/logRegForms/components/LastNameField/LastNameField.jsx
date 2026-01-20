@@ -1,4 +1,4 @@
-import InputWithLabel from "../../../../components/InputWithLabel/InputWithLabel";
+import InputWithLabel from "../../../../components/FieldWithLabel/FieldWithLabel";
 
 const LastNameField = (props) => {
     const inputPlaceholder = props.placeholder || "Your last name";

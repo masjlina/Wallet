@@ -1,4 +1,4 @@
-// import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordToggle} from "../components/index.js";
+// import {Main, Div, Img, Form, Label, Textarea, Button, Span, P, A, showPasswordToggle} from "../components/index.js";
 // import {View} from "../core/View.js";
 // import {validate, navigateTo} from "../utils/index.js";
 // import {registerUser} from "../api/authenticationAdapter";
@@ -34,7 +34,7 @@
 //                                 new Div({
 //                                     classList: "input-section__fields",
 //                                     children: [
-//                                         // Name Input
+//                                         // Name Textarea
 //                                         new Div({
 //                                             classList: "input-section__double-field",
 //                                             children: [
@@ -48,7 +48,7 @@
 //                                                             forElement: "first-name-input",
 //                                                             text: "First Name"
 //                                                         }),
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "input-section__input",
 //                                                             placeholder: "Your first name",
 //                                                             type: "text",
@@ -68,7 +68,7 @@
 //                                                             forElement: "last-name-input",
 //                                                             text: "Last Name"
 //                                                         }),
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "input-section__input",
 //                                                             placeholder: "Your last name",
 //                                                             type: "text",
@@ -81,7 +81,7 @@
 //                                             ]
 //                                         }),
 //
-//                                         // Email Input
+//                                         // Email Textarea
 //                                         new Div({
 //                                             classList: "input-section__field",
 //                                             children: [
@@ -90,7 +90,7 @@
 //                                                     forElement: "email-input",
 //                                                     text: "Email Address"
 //                                                 }),
-//                                                 new Input({
+//                                                 new Textarea({
 //                                                     classList: "input-section__input",
 //                                                     placeholder: "Your email",
 //                                                     type: "email",
@@ -101,7 +101,7 @@
 //                                             ]
 //                                         }),
 //
-//                                         // Password Input
+//                                         // Password Textarea
 //                                         new Div({
 //                                             classList: "input-section__field",
 //                                             children: [
@@ -113,7 +113,7 @@
 //                                                 new Div({
 //                                                     classList: "input-section__password-wrapper",
 //                                                     children: [
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "input-section__input",
 //                                                             placeholder: "Type your password",
 //                                                             type: "password",
@@ -130,7 +130,7 @@
 //                                                 })
 //                                             ]
 //                                         }),
-//                                         // Password Input
+//                                         // Password Textarea
 //                                         new Div({
 //                                             classList: "input-section__field",
 //                                             children: [
@@ -142,7 +142,7 @@
 //                                                 new Div({
 //                                                     classList: "input-section__password-wrapper",
 //                                                     children: [
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "input-section__input",
 //                                                             placeholder: "Confirm your password",
 //                                                             type: "password",
@@ -167,7 +167,7 @@
 //                                                 new Div({
 //                                                     classList: "remember-me",
 //                                                     children: [
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "visually-hidden remember-me__input",
 //                                                             type: "checkbox",
 //                                                             id: "remember-me-checkbox",

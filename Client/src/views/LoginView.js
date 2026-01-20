@@ -1,4 +1,4 @@
-// import {Main, Div, Img, Form, Label, Input, Button, Span, P, A, showPasswordToggle} from "../components/";
+// import {Main, Div, Img, Form, Label, Textarea, Button, Span, P, A, showPasswordToggle} from "../components/";
 // import {View} from "../core/View.js";
 // import {validate, navigateTo} from "../utils/index.js";
 // import {loginUser} from "../api/authenticationAdapter";
@@ -35,7 +35,7 @@
 //                                     classList: "input-section__fields",
 //                                     children: [
 //
-//                                         // Email Input
+//                                         // Email Textarea
 //                                         new Div({
 //                                             classList: "input-section__field",
 //                                             children: [
@@ -44,7 +44,7 @@
 //                                                     forElement: "email-input",
 //                                                     text: "Email Address"
 //                                                 }),
-//                                                 new Input({
+//                                                 new Textarea({
 //                                                     classList: "input-section__input",
 //                                                     placeholder: "Your email",
 //                                                     type: "email",
@@ -55,7 +55,7 @@
 //                                             ]
 //                                         }),
 //
-//                                         // Password Input
+//                                         // Password Textarea
 //                                         this.passwordField = new Div({
 //                                             classList: "input-section__field",
 //                                             children: [
@@ -67,7 +67,7 @@
 //                                                 new Div({
 //                                                     classList: "input-section__with-icon-wrapper",
 //                                                     children: [
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "input-section__input",
 //                                                             placeholder: "Type your password",
 //                                                             type: "password",
@@ -91,7 +91,7 @@
 //                                                 new Div({
 //                                                     classList: "remember-me",
 //                                                     children: [
-//                                                         new Input({
+//                                                         new Textarea({
 //                                                             classList: "visually-hidden remember-me__input",
 //                                                             type: "checkbox",
 //                                                             id: "remember-me-checkbox"

@@ -11,9 +11,7 @@ const InputWithEye = (props) => {
         <div className="input-with-eye">
             <Input {...props} type={isPasswordVisible ? "text" : "password"} />
             <button
-                className={`input__icon ${
-                    isPasswordVisible ? "input-section__icon--show" : "input-section__icon--hide"
-                }`}
+                className={`input__icon ${isPasswordVisible ? "input__icon--show" : "input__icon--hide"}`}
                 type="button"
                 tabIndex={-1}
                 onClick={() => setIsPasswordVisible((v) => !v)}

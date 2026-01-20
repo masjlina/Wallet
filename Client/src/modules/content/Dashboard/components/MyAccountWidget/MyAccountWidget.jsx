@@ -3,6 +3,7 @@ import Widget from "../../../../../components/Widget/Widget";
 import rightArrowIcon from "../../../../../assets/icons/right-arrow.svg";
 
 import "./myAccountWidget.scss";
+import CarouselIndicator from "../CarouselIndicator/CarouselIndicator";
 
 const MyAccountWidget = () => {
   return (
@@ -40,8 +41,7 @@ const MyAccountWidget = () => {
                 </div>
 
                 <div className="accounts__carousel__indicator">
-                    {/* <CarouselIndicator /> */}
-                    <div>{/* indicator here */}</div>
+                    <CarouselIndicator/>
                 </div>
             </div>
 

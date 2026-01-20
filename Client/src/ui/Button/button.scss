@@ -71,8 +71,8 @@
   border-radius: inherit;
 }
 
-.btn_more-actions:hover {background-color: var(--accent--hover)}
-.btn_more-actions:active {background-color: var(--accent--active)}
+.btn_more-actions:hover, .btn__day-limit--fill {background-color: var(--accent--hover)}
+.btn_more-actions:active, .btn__day-limit--fill {background-color: var(--accent--active)}
 
 .btn__nav--text:hover  { color: var(--text--hover); }
 .btn__nav--text:active  { color: var(--text--active); }
@@ -94,7 +94,7 @@
   background: var(--accent--primary);
 }
 
-.btn__nav:hover {background-color: var(--text--hover);}
+.btn__nav:hover, {background-color: var(--text--hover);}
 .btn__nav:active {background-color: var(--text--active); color: var(--text--white)}
 
 
@@ -111,6 +111,13 @@
   color: #7763EA;
   background: white;
   border: 3px #7763EA solid;
+
+  &:hover {
+    background: var(--text--hover);
+  }
+  &:active {
+    background: var(--text--active);
+  }
 }
 
 .btn__add-transaction {

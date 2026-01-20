@@ -2,6 +2,7 @@ import {Route, Routes} from "react-router-dom";
 
 import LoginPage from "../../pages/LoginPage";
 import RegistrationPage from "../../pages/RegistrationPage";
+import TransactionsPage from "../../pages/TransactionsPage/TransactionsPage";
 import RootLayout from "../../pages/RootLayout/RootLayout";
 import HomePage from "../../pages/DashboardPage/DashboardPage";
 import AuthLayout from "../../pages/AuthLayout/AuthLayout";
@@ -11,6 +12,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<RootLayout/>}>
                 <Route path="/dashboard" element={<HomePage/>}/>
+                <Route path="/transactions" element={<TransactionsPage/>}/>
             </Route>
 
             <Route element={<AuthLayout/>}>

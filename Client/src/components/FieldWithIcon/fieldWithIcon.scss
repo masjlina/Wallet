@@ -1,0 +1,16 @@
+.input-section__with-icon-wrapper {
+  position: relative;
+}
+
+.input-select__icon {
+  position: absolute;
+  top: 57%;
+  right: 10px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  pointer-events: none;
+}
