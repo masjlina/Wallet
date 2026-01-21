@@ -7,25 +7,11 @@ import MoreActionsModal from "../MoreActionsModal/MoreActionsModal";
 
 import "./transactions.scss";
 import AddTransactionModal from "../AddTransactionModal/AddTransactionModal";
+import useModal from "../../../../../hooks/useModal";
 
 const Transactions = () => {
-    const [contextModalState, setContextModalState] = useState({
-        isOpen: false,
-        anchorEl: null
-    });
-
-    const [centralModalState, setCentralModalState] = useState({
-        isOpen: false,
-        anchorEl: null
-    });
-
-    const openModal = (e, state) => {
-        state({isOpen: true, anchorEl: e.currentTarget});
-    };
-
-    const closeModal = (state) => {
-        state({isOpen: false, anchorEl: null});
-    };
+    const contextModal = useModal();
+    const formModal = useModal();
 
     return (
         <div className="container content__container">
@@ -41,7 +27,7 @@ const Transactions = () => {
                         <Button
                             className="btn__add-transaction text text__base--bold text__base--white"
                             variant="primary"
-                            onClick={(e) => openModal(e, setCentralModalState)}>
+                            onClick={(e) => formModal.openModal(e)}>
                             <img src={plusIcon} alt="plus"/>
                             <p>Add transaction</p>
                         </Button>
@@ -65,9 +51,8 @@ const Transactions = () => {
                             </thead>
 
                             <tbody className="text text__table--name">
-                            <TransactionRow onModalOpen={(e) => openModal(e, setContextModalState)}/>
-                            <TransactionRow onModalOpen={(e) => openModal(e, setContextModalState)}/>
-                            <AddTransactionModal/>
+                            <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                            <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
                             </tbody>
                         </table>
                     </div>
@@ -76,15 +61,15 @@ const Transactions = () => {
 
             {/*Context modal*/}
             <MoreActionsModal
-                isOpen={contextModalState.isOpen}
-                anchorEl={contextModalState.anchorEl}
-                onClose={() => closeModal(setContextModalState)}
+                isOpen={contextModal.isOpen}
+                anchorEl={contextModal.anchorEl}
+                onClose={() => contextModal.closeModal()}
             />
 
             {/*Edit transaction modal*/}
             <AddTransactionModal
-                isOpen={centralModalState.isOpen}
-                onClose={() => closeModal(setCentralModalState)}/>
+                isOpen={formModal.isOpen}
+                onClose={() => formModal.closeModal()}/>
         </div>
     );
 };
