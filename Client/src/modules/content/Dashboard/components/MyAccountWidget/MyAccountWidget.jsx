@@ -1,4 +1,4 @@
-import Widget from "../../../../../components/Widget/Widget";
+import {Widget} from "../../../../../components/Widget/Widget";
 
 import rightArrowIcon from "../../../../../assets/icons/right-arrow.svg";
 
@@ -8,16 +8,16 @@ import CarouselIndicator from "../CarouselIndicator/CarouselIndicator";
 const MyAccountWidget = () => {
   return (
         <Widget>
-            <div className="content widget__content--title" id="accounts__content-top">
+            <Widget.Header>
                 <div className="text text__title">My Accounts</div>
 
                 <div className="view-all">
                     <div className="text text__link">View All</div>
-                    <img className="icon--widget__arrow" src={rightArrowIcon} alt="" />
+                    <img className="icon--widget__arrow" src={rightArrowIcon} alt=""/>
                 </div>
-            </div>
+            </Widget.Header>
 
-            <div className="content accounts__content--main">
+            <Widget.Content className="accounts__content--main">
                 <div className="accounts__carousel--underlay">
                     <div className="accounts__carousel--background">
                         <div className="accounts__carousel__btn--left" />
@@ -43,12 +43,12 @@ const MyAccountWidget = () => {
                 <div className="accounts__carousel__indicator">
                     <CarouselIndicator/>
                 </div>
-            </div>
+            </Widget.Content>
 
-            <div className="content accounts__content--bottom text text__base">
+            <Widget.Footer className="accounts__content--bottom text text__base">
                 <div>Total balance:</div>
                 <div className="text__base--bold">$250.399</div>
-            </div>
+            </Widget.Footer>
         </Widget>
   );
 }

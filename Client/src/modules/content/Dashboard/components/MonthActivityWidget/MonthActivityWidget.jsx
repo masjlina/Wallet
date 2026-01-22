@@ -1,4 +1,4 @@
-import Widget from "../../../../../components/Widget/Widget";
+import {Widget} from "../../../../../components/Widget/Widget";
 import calendarIcon from "../../../../../assets/icons/calendar.svg";
 import graphicIcon from "../../../../../assets/icons/graphic.svg";
 
@@ -7,18 +7,18 @@ import "./monthActivityWidget.scss";
 const MonthActivityWidget = () => {
     return (
         <Widget>
-            <div className="content widget__content--title">
+            <Widget.Header>
                 <div className="text text__title">Month Activities</div>
 
-                <div className="content widget__content--title-right">
+                <div className="content widget__header-right">
                     <img className="icon icon--base-24" src={calendarIcon} alt="calendar" />
                     <p>Jan 21 - Sep 21, 2022</p>
                 </div>
-            </div>
+            </Widget.Header>
 
-            <div className="content activities__graphic-content">
-                <img className="graphic" src={graphicIcon} alt="graphic" />
-            </div>
+            <Widget.Content className="activities__graphic-content">
+                <img className="graphic" src={graphicIcon} alt="graphic"/>
+            </Widget.Content>
         </Widget>
     );
 };

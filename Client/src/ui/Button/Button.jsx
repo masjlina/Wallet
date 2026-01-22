@@ -1,17 +1,21 @@
 import "./button.scss";
 
 const VARIANT_CLASS = {
-    primary: "btn--primary"
-}
+    primary: "btn--primary",
+};
 
-const Button = ({children, variant = VARIANT_CLASS.primary, className, ...restProps}) => {
+const Button = ({ children, variant = "primary", className = "", type = "button", ...restProps }) => {
+    const variantClass = VARIANT_CLASS[variant] ?? VARIANT_CLASS.primary;
+
     return (
         <button
-            className={`btn ${variant} ${className}`}
-            type="submit"
+            className={`btn ${variantClass} ${className}`.trim()}
+            type={type}
             {...restProps}
-        >{children}</button>
-    )
-}
+        >
+            {children}
+        </button>
+    );
+};
 
 export default Button;

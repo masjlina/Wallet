@@ -1,0 +1,21 @@
+.account__content {
+display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account__footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account__button {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+}
+
+.button__arrow {
+  height: 18px;
+}

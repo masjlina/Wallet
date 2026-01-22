@@ -16,9 +16,9 @@ const CarouselIndicator = () => {
 
             <g id="carousel-indicator" filter="url(#gooey)">
                 <g id="pages">
-                    <ellipse class="dot dot-1" cx="15" cy="0" rx="4" ry="4" fill="#b9aaff"/>
-                    <ellipse class="dot dot-2" cx="45" cy="0" rx="4" ry="4" fill="#b9aaff"/>
-                    <ellipse class="dot dot-3" cx="75" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                    <ellipse className="dot dot-1" cx="15" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                    <ellipse className="dot dot-2" cx="45" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                    <ellipse className="dot dot-3" cx="75" cy="0" rx="4" ry="4" fill="#b9aaff"/>
                 </g>
 
                 <rect id="active-indicator" x="5" y="-4" width="20" height="8" rx="3"

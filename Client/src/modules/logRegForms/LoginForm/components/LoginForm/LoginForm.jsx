@@ -5,16 +5,16 @@ import {useDispatch, useSelector} from "react-redux";
 import PasswordField from "../../../components/PasswordField/PasswordField";
 import EmailField from "../../../components/EmailField/EmailField";
 import Button from "../../../../../ui/Button/Button";
-
 import AuthLayout from "../../../components/AuthLayout/AuthLayout";
 import RememberMe from "../RememberMe/RememberMe";
 import useInput from "../../../../../hooks/useInput";
 import {loginUser} from "../../../store/thunks";
-import routes from "../../../../../consts/routes";
 import status from "../../../../../consts/status";
 
-import "../../../style.scss";
 import {clearErrors} from "../../../store/slice";
+import {ROUTES} from "../../../../../consts/routes";
+
+import "../../../style.scss";
 
 export const LoginForm = () => {
     const email = useInput("");
@@ -39,7 +39,7 @@ export const LoginForm = () => {
 
         try {
             await dispatch(loginUser(formData)).unwrap();
-            navigate(routes.home);
+            navigate(ROUTES.DASHBOARD);
         } catch (err) {
         }
     }
@@ -89,7 +89,7 @@ export const LoginForm = () => {
                     <p className="log-reg__alternative-text">or sign up</p>
                 </div>
 
-                <Link to="/registration" className="log-reg__alternative-ref">
+                <Link to={ROUTES.REGISTRATION} className="log-reg__alternative-ref">
                     Create an account
                 </Link>
             </div>

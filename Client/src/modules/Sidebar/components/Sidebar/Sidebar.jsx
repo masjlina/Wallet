@@ -6,7 +6,7 @@ import settingsIcon from "../../../../assets/icons/gear.svg";
 import logoutIcon from "../../../../assets/icons/out-door.svg";
 
 import {NavLink} from "react-router-dom";
-import urlPaths from "../../../../utils/enumeration";
+import {ROUTES} from "../../../../consts/routes";
 
 import "./sidebar.scss";
 import {useState} from "react";
@@ -42,24 +42,24 @@ const Sidebar = () => {
 
                 <div className="content side-bar__content">
                     <div className="side-bar__top">
-                        <NavLink to={urlPaths.dashboard} className={navClass}>
+                        <NavLink to={ROUTES.DASHBOARD} className={navClass}>
                             <img className="icon" src={dashboardIcon} alt="Dashboard"/>
                             <p>Dashboard</p>
                         </NavLink>
 
-                        <NavLink to={urlPaths.transactions} className={navClass}>
+                        <NavLink to={ROUTES.TRANSACTIONS} className={navClass}>
                             <img className="icon" src={transactionsIcon} alt="Transactions"/>
                             <p>Transactions</p>
                         </NavLink>
 
-                        <NavLink to={urlPaths.wallet} className={navClass}>
-                            <img className="icon" src={walletIcon} alt="Wallet"/>
-                            <p>Wallet</p>
+                        <NavLink to={ROUTES.ACCOUNTS} className={navClass}>
+                            <img className="icon" src={walletIcon} alt="Accounts"/>
+                            <p>Accounts</p>
                         </NavLink>
                     </div>
 
                     <div className="side-bar__bottom">
-                        <NavLink to={urlPaths.settings} className={navClass}>
+                        <NavLink to={ROUTES.SETTINGS} className={navClass}>
                             <img className="icon" src={settingsIcon} alt="Settings"/>
                             <p>Settings</p>
                         </NavLink>

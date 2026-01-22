@@ -10,12 +10,12 @@ import EmailField from "../../../components/EmailField/EmailField";
 import AuthLayout from "../../../components/AuthLayout/AuthLayout";
 
 import {registerUser} from "../../../store/thunks";
-import routes from "../../../../../consts/routes";
 import status from "../../../../../consts/status";
 import useInput from "../../../../../hooks/useInput";
 import {clearErrors} from "../../../store/slice";
 
 import "../../../style.scss";
+import {ROUTES} from "../../../../../consts/routes";
 
 export const RegistrationForm = () => {
     const firstName = useInput("");
@@ -41,7 +41,7 @@ export const RegistrationForm = () => {
 
         try {
             await dispatch(registerUser(formData)).unwrap();
-            navigate(routes.login);
+            navigate(ROUTES.LOGIN);
         } catch (err) {
         }
     }
@@ -100,7 +100,7 @@ export const RegistrationForm = () => {
                     <p className="log-reg__alternative-text">or sign in</p>
                 </div>
 
-                <Link to="/login" className="log-reg__alternative-ref">
+                <Link to={ROUTES.LOGIN} className="log-reg__alternative-ref">
                     Login
                 </Link>
             </div>

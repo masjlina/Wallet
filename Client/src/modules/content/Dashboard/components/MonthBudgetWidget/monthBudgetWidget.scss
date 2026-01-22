@@ -1,17 +1,3 @@
-.widget__content {
-  gap: 20px;
-
-  &--title {
-    justify-content: space-between;
-
-    &-right {
-      flex-direction: row;
-      align-items: center;
-      gap: 1rem;
-    }
-  }
-}
-
 .month-limit {
   &__left-content {
     flex-direction: column;

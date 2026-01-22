@@ -1,0 +1,20 @@
+.btn__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 180px;
+  padding: 8px 12px;
+
+  background: #7763EA;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn__add-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}

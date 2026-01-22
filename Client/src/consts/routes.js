@@ -1,7 +1,10 @@
-const routes = Object.freeze({
-    "login": "/login",
-    "registration": "/registration",
-    "home": "/home"
-});
+export const ROUTES = {
+    LOGIN: "/login",
+    REGISTRATION: "/registration",
 
-export default routes;
+    DASHBOARD: "/dashboard",
+    TRANSACTIONS: "/transactions",
+    ACCOUNTS: "/accounts",
+    SETTINGS: "/settings",
+    LOGOUT: "/logout",
+};

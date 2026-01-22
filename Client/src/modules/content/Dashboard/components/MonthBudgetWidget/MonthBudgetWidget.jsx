@@ -1,15 +1,15 @@
-import Widget from "../../../../../components/Widget/Widget";
+import {Widget} from "../../../../../components/Widget/Widget";
 
 import "./monthBudgetWidget.scss";
 
 const MonthBudgetWidget = () => {
   return (
         <Widget>
-            <div className="content widget__content--title">
+            <Widget.Header>
                 <div className="text text__title">Month Budget</div>
-            </div>
+            </Widget.Header>
 
-            <div className="content widget__content">
+            <Widget.Content>
                 <div className="content month-limit__left-content text">
                     <div className="widget__month-limit">
                         <p className="text__base">Month limit:</p>
@@ -35,7 +35,7 @@ const MonthBudgetWidget = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Widget.Content>
         </Widget>
   );
 }

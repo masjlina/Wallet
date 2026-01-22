@@ -1,13 +1,15 @@
-import React, {useState} from "react";
-import TransactionRow from "../TransactionRow/TransactionRow";
-import Button from "../../../../../ui/Button/Button";
-import plusIcon from "../../../../../assets/icons/plus.svg";
-import Widget from "../../../../../components/Widget/Widget";
-import MoreActionsModal from "../MoreActionsModal/MoreActionsModal";
+import React from "react";
 
-import "./transactions.scss";
+import TransactionRow from "../TransactionRow/TransactionRow";
+import {Widget} from "../../../../../components/Widget/Widget";
+import MoreActionsModal from "../MoreActionsModal/MoreActionsModal";
 import AddTransactionModal from "../AddTransactionModal/AddTransactionModal";
 import useModal from "../../../../../hooks/useModal";
+
+import "./transactions.scss";
+import Toolbar from "../../../components/Toolbar/components/Toolbar/Toolbar";
+import ButtonCreateEntity from "../../../components/Toolbar/components/ButtonCreateEntity/ButtonCreateEntity";
+import Sort from "../../../components/Toolbar/components/Sort/Sort";
 
 const Transactions = () => {
     const contextModal = useModal();
@@ -15,49 +17,42 @@ const Transactions = () => {
 
     return (
         <div className="container content__container">
-            <div className="content transactions__content--top">
-                <Widget>
-                    <div className="content widget__content--control">
-                        <div className="tabs text text__title">
-                            <button className="btn btn__nav--text">All</button>
-                            <button className="btn btn__nav--text">Incomes</button>
-                            <button className="btn btn__nav--text">Expenses</button>
-                        </div>
+            <Toolbar>
+                <Sort names={["All", "Incomes", "Expenses"]}/>
+                <ButtonCreateEntity onClick={formModal.openModal} text="Add transaction"/>
+            </Toolbar>
 
-                        <Button
-                            className="btn__add-transaction text text__base--bold text__base--white"
-                            variant="primary"
-                            onClick={(e) => formModal.openModal(e)}>
-                            <img src={plusIcon} alt="plus"/>
-                            <p>Add transaction</p>
-                        </Button>
+            <Widget>
+                <Widget.Content>
+                    <div className="table-scroll scroll-y">
+                    <table className="table table__content text text__table">
+                        <thead>
+                        <tr>
+                            <th scope="col">NAME/BUSINESS</th>
+                            <th>AMOUNT</th>
+                            <th>CATEGORY</th>
+                            <th>PAYMENT METHODS</th>
+                            <th>DATE</th>
+                            <th>ACTION</th>
+                        </tr>
+                        </thead>
+
+                        <tbody className="text text__table--name scroll-y">
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        </tbody>
+                    </table>
                     </div>
-                </Widget>
-            </div>
-
-            <div className="content transactions__content">
-                <Widget>
-                    <div className="content widget__content">
-                        <table className="table table__content text text__table">
-                            <thead>
-                            <tr>
-                                <th scope="col">NAME/BUSINESS</th>
-                                <th>AMOUNT</th>
-                                <th>CATEGORY</th>
-                                <th>PAYMENT METHODS</th>
-                                <th>DATE</th>
-                                <th>ACTION</th>
-                            </tr>
-                            </thead>
-
-                            <tbody className="text text__table--name">
-                            <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                            <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                            </tbody>
-                        </table>
-                    </div>
-                </Widget>
-            </div>
+                </Widget.Content>
+            </Widget>
 
             {/*Context modal*/}
             <MoreActionsModal

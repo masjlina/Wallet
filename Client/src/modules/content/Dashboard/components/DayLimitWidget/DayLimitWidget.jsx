@@ -1,11 +1,12 @@
-import Widget from "../../../../../components/Widget/Widget";
+import {Widget} from "../../../../../components/Widget/Widget";
 
 import "./dayLimitWidget.scss";
+import Button from "../../../../../ui/Button/Button";
 
 const DayLimitWidget = () => {
   return (
         <Widget>
-            <div className="content day-limit__graphic-content text">
+            <Widget.Content className="content day-limit__graphic-content text">
                 <div className="graphic">
                     <div className="graphic__background--radial">
                         <div className="graphic__fill--radial" />
@@ -16,12 +17,12 @@ const DayLimitWidget = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Widget.Content>
 
-            <div className="content day-limit__bottom-content text__btn">
-                <button className="btn btn__day-limit--fill">Expense</button>
+            <Widget.Footer className="content day-limit__bottom-content text__btn">
+                <Button className="btn btn__day-limit--fill">Expense</Button>
                 <button className="btn btn__day-limit--empty">Income</button>
-            </div>
+            </Widget.Footer>
         </Widget>
   );
 }
