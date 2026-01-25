@@ -2,8 +2,7 @@
 
 namespace BusinessLogic.DTOs;
 
-public class SignInResponseDTO
+public class CheckAuthResponse
 {
-    public string AccessToken { get; set; }
     public ApplicationUserDTO ApplicationUserDTO { get; set; }
 }

@@ -1,4 +1,5 @@
-import {getAccessToken} from "./tokenManager";
+import {clearAccessToken, getAccessToken, setAccessToken} from "./tokenManager";
+import endpoints from "../endpoints";
 
 export async function request(
     url,
@@ -14,11 +15,16 @@ export async function request(
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     };
 
-    const response = await fetch(url, {
+    let response = await fetch(url, {
+        credentials: "include",
         method,
         body: body ? JSON.stringify(body) : null,
         headers: finalHeaders,
     });
+
+    if (response.status === 401) {
+        response = await refreshAndRepeat(url, method, body, headers);
+    }
 
     const text = await response.text();
     const data = text ? JSON.parse(text) : null;
@@ -31,3 +37,37 @@ export async function request(
 
     return data;
 }
+
+async function refreshAndRepeat(url, method, body, headers) {
+    const refreshResponse = await fetch(endpoints.refresh, {
+        method: "POST",
+        credentials: "include",
+    });
+
+    const refreshText = await refreshResponse.text();
+    const refreshData = refreshText ? JSON.parse(refreshText) : null;
+
+    if (!refreshResponse.ok) {
+        clearAccessToken();
+        const error = new Error("Refresh token expired");
+        error.data = refreshData;
+        throw error;
+    }
+
+    const newAccessToken = refreshData.accessToken;
+    setAccessToken(newAccessToken);
+
+    const newHeaders = {
+        "Content-Type": "application/json",
+        ...headers,
+        Authorization: `Bearer ${newAccessToken}`,
+    };
+
+    return fetch(url, {
+        credentials: "include",
+        method,
+        body: body ? JSON.stringify(body) : null,
+        headers: newHeaders,
+    });
+}
+

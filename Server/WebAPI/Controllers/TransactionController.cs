@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("api/transactions")]
 [ApiController]
-public class TransactionController : GenericController<TransactionDTO>
+[Route("api/transactions")]
+public class TransactionController : ControllerBase
 {
-    public TransactionController(IGenericService<TransactionDTO> transactionService) : base(transactionService)
-    {
-    }
+
 }

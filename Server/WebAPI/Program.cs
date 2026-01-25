@@ -70,9 +70,9 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("IsAdmin", policyBuilder => policyBuilder
-        .RequireClaim("admin", "true"));
+// builder.Services.AddAuthorizationBuilder()
+//     .AddPolicy("IsAdmin", policyBuilder => policyBuilder
+//         .RequireClaim("admin", "true"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>

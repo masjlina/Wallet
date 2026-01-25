@@ -1,15 +1,16 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-import {login, register} from "../api/authApi";
+import {checkAuth, login, register} from "../api/authApi";
+import onReject from "../../../store/onReject";
 
 export const registerUser = createAsyncThunk(
     "auth/registerUser",
     async (formData, thunkAPI) => {
         const response = await register(formData);
 
-        if (!response.isSuccessful) {
-            return thunkAPI.rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
-        }
+        const rejected = onReject(response, thunkAPI);
+
+        if (rejected) return rejected;
 
         return response;
     }
@@ -20,11 +21,23 @@ export const loginUser = createAsyncThunk(
     async (formData, thunkAPI) => {
         const response = await login(formData);
 
-        if (!response.isSuccessful) {
-            return thunkAPI.rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
-        }
+        const rejected = onReject(response, thunkAPI);
+
+        if (rejected) return rejected;
 
         return response;
     }
 );
 
+export const checkUserAuth = createAsyncThunk(
+    "auth/checkAuth",
+    async (arg, thunkAPI) => {
+        const response = await checkAuth();
+
+        const rejected = onReject(response, thunkAPI);
+
+        if (rejected) return rejected;
+
+        return response;
+    }
+);

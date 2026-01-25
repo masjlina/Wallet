@@ -4,7 +4,7 @@ export const ROUTES = {
 
     DASHBOARD: "/dashboard",
     TRANSACTIONS: "/transactions",
-    ACCOUNTS: "/accounts",
+    WALLET: "/wallet",
     SETTINGS: "/settings",
     LOGOUT: "/logout",
 };

@@ -1,53 +1,51 @@
-import appSettings from "../../../appSettings";
+import endpoints from "../../../endpoints";
 
 import {request} from "../../../utils/httpClient";
-import {clearTokens, setTokens} from "../../../utils/tokenManager";
+import {clearAccessToken, setAccessToken} from "../../../utils/tokenManager";
 
+import createErrorResponse from "../../../api/ErrorResponse";
+import createSuccessfulResponse from "../../../api/SuccessfulResponse";
 import createSignUpRequestDto from "./dto/SignUpRequestDto";
-import createSignUpResponseDto from "./dto/SignUpResponseDto";
 import createSignInRequestDto from "./dto/SignInRequestDto";
-import createSignInResponseDto from "./dto/SignInResponseDto";
+import createSignInResponse from "./dto/SignInResponse";
+import createCheckAuthResponse from "./dto/CheckAuhtResponse";
 
 export async function register(formData) {
     try {
         const signUpRequest = createSignUpRequestDto(formData);
 
-        await request(appSettings.registerEndpoint, "POST", signUpRequest);
+        await request(endpoints.register, "POST", signUpRequest);
 
-        return createSignUpResponseDto({
-            isSuccessful: true,
-            errors: [],
-        });
+        return createSuccessfulResponse();
     } catch (error) {
-        const errors = error?.data?.errors ?? [error?.message ?? "Unknown error"];
-
-        return createSignUpResponseDto({
-            isSuccessful: false,
-            errors,
-        });
+        return createErrorResponse(error);
     }
 }
 
 export async function login(formData) {
     try {
-        clearTokens();
+        clearAccessToken();
 
         const signInRequest = createSignInRequestDto(formData);
 
-        const result = await request(appSettings.loginEndpoint, "POST", signInRequest);
+        const result = await request(endpoints.login, "POST", signInRequest);
 
-        setTokens({
+        setAccessToken({
             accessToken: result.accessToken,
-            refreshToken: result.refreshToken
         });
 
-        return createSignInResponseDto(result);
+        return createSignInResponse(result);
     } catch (error) {
-        const errors = error?.data?.errors ?? [error?.message ?? "Unknown error"];
+        return createErrorResponse(error);
+    }
+}
 
-        return createSignInResponseDto({
-            isSuccessful: false,
-            errors,
-        });
+export async function checkAuth() {
+    try {
+        const result = await request(endpoints.checkAuth);
+
+        return createCheckAuthResponse(result);
+    } catch (error) {
+        return createErrorResponse(error);
     }
 }

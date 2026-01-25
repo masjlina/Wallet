@@ -14,8 +14,9 @@ public sealed class WalletDTO : BaseEntity
     [Required(ErrorMessage = "Please enter a wallet name")]
     [MaxLength(50, ErrorMessage = "Wallet name must not exceed 50 characters")]
     public string Name {get; set;}
-    [Precision(14,2)]
-    public decimal Cash {get; set;}
+
+    [Precision(14, 2)] 
+    public decimal Cash { get; set; } = 0;
 
     public ICollection<int>? TransactionIds { get; set; } = new List<int>();
     public ICollection<CreditCardDTO>? CreditCardDtos { get; set; }

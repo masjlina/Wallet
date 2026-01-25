@@ -9,7 +9,7 @@ import AuthLayout from "../../../components/AuthLayout/AuthLayout";
 import RememberMe from "../RememberMe/RememberMe";
 import useInput from "../../../../../hooks/useInput";
 import {loginUser} from "../../../store/thunks";
-import status from "../../../../../consts/status";
+import STATUSES from "../../../../../consts/STATUSES";
 
 import {clearErrors} from "../../../store/slice";
 import {ROUTES} from "../../../../../consts/routes";
@@ -69,7 +69,7 @@ export const LoginForm = () => {
                         <Button
                             className="log-reg__btn"
                             type="submit"
-                            disabled={logStatus === status.LOADING}
+                            disabled={logStatus === STATUSES.LOADING}
                         >
                             Login
                         </Button>

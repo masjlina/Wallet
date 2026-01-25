@@ -52,9 +52,9 @@ const Sidebar = () => {
                             <p>Transactions</p>
                         </NavLink>
 
-                        <NavLink to={ROUTES.ACCOUNTS} className={navClass}>
-                            <img className="icon" src={walletIcon} alt="Accounts"/>
-                            <p>Accounts</p>
+                        <NavLink to={ROUTES.WALLET} className={navClass}>
+                            <img className="icon" src={walletIcon} alt="Wallet"/>
+                            <p>Wallet</p>
                         </NavLink>
                     </div>
 

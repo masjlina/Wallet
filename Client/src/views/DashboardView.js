@@ -172,7 +172,7 @@ export class DashboardView extends View {
                             ]
                         }),
 
-                        // My Accounts widget
+                        // My Wallet widget
                         new Div({
                             classList: "wrapper widget__wrapper",
                             children: [
@@ -185,7 +185,7 @@ export class DashboardView extends View {
                                             children: [
                                                 new Div({
                                                     classList: "text text__title",
-                                                    text: "My Accounts"
+                                                    text: "My Wallet"
                                                 }),
                                                 new Div({
                                                     classList: "view-all",

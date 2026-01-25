@@ -1,12 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {loginUser} from "./thunks";
+import {checkUserAuth, loginUser} from "./thunks";
 
-import status from "../../../consts/status";
+import STATUSES from "../../../consts/STATUSES";
 
 const initialState = {
     user: null,
     isAuthenticated: false,
-    status: status.IDLE,
+    status: STATUSES.IDLE,
     errors: []
 }
 
@@ -24,7 +24,7 @@ const slice = createSlice({
             state.user = null;
             state.isAuthenticated = false;
             state.errors = [];
-            state.status = status.IDLE;
+            state.status = STATUSES.IDLE;
         }
     },
     extraReducers: (builder) => {
@@ -32,21 +32,29 @@ const slice = createSlice({
             state.user = action.payload.user;
             state.isAuthenticated = true;
         })
+            .addCase(checkUserAuth.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.isAuthenticated = true;
+            })
+            .addCase(checkUserAuth.rejected, (state) => {
+                state.user = null;
+                state.isAuthenticated = false;
+            })
             .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/pending"),
                 (state) => {
-                    state.status = status.LOADING;
+                    state.status = STATUSES.LOADING;
                     state.errors = [];
                 }
             )
             .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/fulfilled"),
                 (state) => {
-                    state.status = status.SUCCEEDED;
+                    state.status = STATUSES.SUCCEEDED;
                     state.errors = [];
                 }
             )
             .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/rejected"),
                 (state, action) => {
-                    state.status = status.FAILED;
+                    state.status = STATUSES.FAILED;
                     state.errors = action.payload?.errors ?? action.payload ?? ["Something went wrong"];
                 }
             )

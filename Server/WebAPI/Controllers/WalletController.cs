@@ -1,14 +1,27 @@
 using BusinessLogic.DTOs;
 using BusinessLogic.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("api/wallets")]
+[Authorize]
 [ApiController]
-public class WalletController : GenericController<WalletDTO>
+[Route("api/wallet")]
+public class WalletController : ControllerBase
 {
-    public WalletController(IGenericService<WalletDTO> walletService) : base(walletService)
+    private readonly IGenericService<WalletDTO> _walletService;
+
+    public WalletController(IGenericService<WalletDTO> walletService)
     {
+        _walletService = walletService;
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<WalletDTO>>> Get(int id)
+    {
+        var walletDto = await _walletService.GetByIdAsync(id);
+
+        return Ok(walletDto);
     }
 }

@@ -10,7 +10,7 @@ import EmailField from "../../../components/EmailField/EmailField";
 import AuthLayout from "../../../components/AuthLayout/AuthLayout";
 
 import {registerUser} from "../../../store/thunks";
-import status from "../../../../../consts/status";
+import STATUSES from "../../../../../consts/STATUSES";
 import useInput from "../../../../../hooks/useInput";
 import {clearErrors} from "../../../store/slice";
 
@@ -80,7 +80,7 @@ export const RegistrationForm = () => {
                         <Button
                             className="log-reg__btn"
                             type="submit"
-                            disabled={regStatus === status.LOADING}
+                            disabled={regStatus === STATUSES.LOADING}
                         >
                             Create account
                         </Button>
