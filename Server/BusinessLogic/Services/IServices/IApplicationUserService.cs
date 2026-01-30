@@ -1,9 +1,9 @@
-using BusinessLogic.DTOs;
+using BusinessLogic.Dtos;
 
 namespace BusinessLogic.Services.IServices;
 
 public interface IApplicationUserService
 { 
-    public Task<ApplicationUserDTO?> GetByIdAsync(string id);
-    public Task<bool> UpdateAsync(ApplicationUserDTO userDTO);
+    public Task<ApplicationUserDto?> GetByIdAsync(string id);
+    public Task<bool> UpdateAsync(ApplicationUserDto userDto);
 }

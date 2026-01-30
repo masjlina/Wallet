@@ -1,5 +1,5 @@
-using BusinessLogic.DTOs;
-using BusinessLogic.DTOs.Mappers;
+using BusinessLogic.Dtos;
+using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
 using DataAccess.Entities;
@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services;
 
-public class CategoryService : GenericService<Category, CategoryDTO>
+public class CategoryService : GenericService<Category, CategoryDto>
 {
-    public CategoryService(ApplicationDbContext dbContext, IMapper<Category, CategoryDTO> mapper) : base(dbContext, mapper)
+    public CategoryService(ApplicationDbContext dbContext, IMapper<Category, CategoryDto> mapper) : base(dbContext, mapper)
     {
     }
 }

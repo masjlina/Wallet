@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Transactions;
 using DataAccess.Entities;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public sealed class CategoryDTO : BaseEntity
+public sealed class CategoryDto : BaseEntity
 {
     [Required(ErrorMessage = "Enter a category name")]
     [MaxLength(100, ErrorMessage = "Category name is too long")]

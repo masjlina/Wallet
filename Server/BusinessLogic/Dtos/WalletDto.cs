@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public sealed class WalletDTO : BaseEntity
+public sealed class WalletDto : BaseEntity
 {
     // Foreign key
     [Required(ErrorMessage = "User required")]
@@ -19,5 +19,5 @@ public sealed class WalletDTO : BaseEntity
     public decimal Cash { get; set; } = 0;
 
     public ICollection<int>? TransactionIds { get; set; } = new List<int>();
-    public ICollection<CreditCardDTO>? CreditCardDtos { get; set; }
+    public ICollection<CreditCardDto>? CreditCardDtos { get; set; }
 }

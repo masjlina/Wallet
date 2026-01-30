@@ -1,4 +1,4 @@
-export default function createErrorResponse (error) {
+export default function createErrorResponseDto (error) {
     return {
         errors: error?.data?.errors ?? [error?.message ?? "Unknown error"]
     }

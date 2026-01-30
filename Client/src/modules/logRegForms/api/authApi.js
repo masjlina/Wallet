@@ -3,12 +3,12 @@ import endpoints from "../../../endpoints";
 import {request} from "../../../utils/httpClient";
 import {clearAccessToken, setAccessToken} from "../../../utils/tokenManager";
 
-import createErrorResponse from "../../../api/ErrorResponse";
-import createSuccessfulResponse from "../../../api/SuccessfulResponse";
+import createErrorResponseDto from "../../../api/ErrorResponseDto";
+import createSuccessfulResponseDto from "../../../api/SuccessfulResponseDto";
 import createSignUpRequestDto from "./dto/SignUpRequestDto";
 import createSignInRequestDto from "./dto/SignInRequestDto";
-import createSignInResponse from "./dto/SignInResponse";
-import createCheckAuthResponse from "./dto/CheckAuhtResponse";
+import createSignInResponseDto from "./dto/SignInResponseDto";
+import createCheckAuthResponse from "./dto/CheckAuthResponseDto";
 
 export async function register(formData) {
     try {
@@ -16,9 +16,9 @@ export async function register(formData) {
 
         await request(endpoints.register, "POST", signUpRequest);
 
-        return createSuccessfulResponse();
+        return createSuccessfulResponseDto();
     } catch (error) {
-        return createErrorResponse(error);
+        return createErrorResponseDto(error);
     }
 }
 
@@ -34,9 +34,9 @@ export async function login(formData) {
             accessToken: result.accessToken,
         });
 
-        return createSignInResponse(result);
+        return createSignInResponseDto(result);
     } catch (error) {
-        return createErrorResponse(error);
+        return createErrorResponseDto(error);
     }
 }
 
@@ -46,6 +46,6 @@ export async function checkAuth() {
 
         return createCheckAuthResponse(result);
     } catch (error) {
-        return createErrorResponse(error);
+        return createErrorResponseDto(error);
     }
 }

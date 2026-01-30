@@ -1,5 +1,5 @@
-using BusinessLogic.DTOs;
-using BusinessLogic.DTOs.Mappers;
+using BusinessLogic.Dtos;
+using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Services;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi;
+using WebAPI.Middlewares;
 using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,17 +19,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetSection("ConnStr").Value));
-builder.Services.AddScoped<IMapper<ApplicationUser, ApplicationUserDTO>, ApplicationUserMapper>();
-builder.Services.AddScoped<IMapper<Wallet, WalletDTO>, WalletMapper>();
-builder.Services.AddScoped<IMapper<CreditCard, CreditCardDTO>, CreditCardMapper>();
-builder.Services.AddScoped<IMapper<Transaction, TransactionDTO>, TransactionMapper>();
-builder.Services.AddScoped<IMapper<Category, CategoryDTO>, CategoryMapper>();
+builder.Services.AddScoped<IMapper<ApplicationUser, ApplicationUserDto>, ApplicationUserMapper>();
+builder.Services.AddScoped<IMapper<Wallet, WalletDto>, WalletMapper>();
+builder.Services.AddScoped<IMapper<CreditCard, CreditCardDto>, CreditCardMapper>();
+builder.Services.AddScoped<IMapper<Transaction, TransactionDto>, TransactionMapper>();
+builder.Services.AddScoped<IMapper<Category, CategoryDto>, CategoryMapper>();
 
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
-builder.Services.AddScoped<IGenericService<WalletDTO>, WalletService>();
-builder.Services.AddScoped<IGenericService<CreditCardDTO>, CreditCardService>();
-builder.Services.AddScoped<IGenericService<TransactionDTO>, TransactionService>();
-builder.Services.AddScoped<IGenericService<CategoryDTO>, CategoryService>();
+builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IGenericService<CreditCardDto>, CreditCardService>();
+builder.Services.AddScoped<IGenericService<TransactionDto>, TransactionService>();
+builder.Services.AddScoped<IGenericService<CategoryDto>, CategoryService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
@@ -125,6 +126,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseCors("Wallet");
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints => endpoints.MapControllers());

@@ -1,4 +1,4 @@
-using BusinessLogic.DTOs;
+using BusinessLogic.Dtos;
 using BusinessLogic.Services.IServices;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +19,9 @@ public class ApplicationUserController : ControllerBase, IApplicationUserControl
     }
     [Authorize("IsAdmin")]
     [HttpGet("{applicationUserId}")]
-    public async Task<ActionResult<ApplicationUserDTO>> GetById(string applicationUserId)
+    public async Task<ActionResult<ApplicationUserDto>> GetById(string applicationUserId)
     {
-        ApplicationUserDTO? applicationUserDTO = await _applicationUserService.GetByIdAsync(applicationUserId);
+        ApplicationUserDto? applicationUserDTO = await _applicationUserService.GetByIdAsync(applicationUserId);
 
         if (applicationUserDTO == null)
         {
@@ -32,7 +32,7 @@ public class ApplicationUserController : ControllerBase, IApplicationUserControl
     }
         
     [HttpPatch("{applicationUserDTO.Id}")]
-    public async Task<ActionResult> Update([FromBody]ApplicationUserDTO applicationUserDTO)
+    public async Task<ActionResult> Update([FromBody]ApplicationUserDto applicationUserDTO)
     {
         await _applicationUserService.UpdateAsync(applicationUserDTO);
         return Ok();

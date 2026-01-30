@@ -1,4 +1,4 @@
-using BusinessLogic.DTOs.Mappers;
+using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
 using DataAccess.Entities;
@@ -24,13 +24,13 @@ public abstract class GenericService<TEntity, TDto> : IGenericService<TDto>
     public virtual async Task<TDto?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Set<TEntity>().FindAsync(id);
-        return entity != null ? _mapper.ToDTO(entity) : null;
+        return entity != null ? _mapper.ToDto(entity) : null;
     }
 
     public virtual async Task<IEnumerable<TDto>> GetAllAsync()
     {
         var entities = await _dbContext.Set<TEntity>().ToListAsync();
-        return entities.Select(u => _mapper.ToDTO(u));
+        return entities.Select(u => _mapper.ToDto(u));
     }
 
     public async Task<bool> AddAsync(TDto dto)

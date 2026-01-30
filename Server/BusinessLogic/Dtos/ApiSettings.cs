@@ -1,4 +1,4 @@
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
 public class ApiSettings
 {

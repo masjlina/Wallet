@@ -4,7 +4,7 @@ import ButtonCreateEntity from "../../../components/Toolbar/components/ButtonCre
 import CardWidget from "../CardWidget/CardWidget";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserWallet} from "../../store/thunks";
+import {createUserWallet, getUserWallet} from "../../store/thunks";
 import {Widget} from "../../../../../components/Widget/Widget";
 import Button from "../../../../../ui/Button/Button";
 import useModal from "../../../../../hooks/useModal";
@@ -16,12 +16,17 @@ const Wallet = () => {
     const user = useSelector(state => state.auth.user);
     const modal = useModal();
 
+    useEffect(() => {
+        dispatch(getUserWallet(user));
+    }, [dispatch]);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         await dispatch(getUserWallet()).unwrap();
-    //     })();
-    // }, []);
+    const onSubmit = async (walletName) => {
+        try {
+            await dispatch(createUserWallet(walletName));
+        } catch (error) {
+        }
+    }
+
 
     return (
         <div className="container content__container">
@@ -45,7 +50,10 @@ const Wallet = () => {
                         <CardWidget/>
                     </div>
                 </>}
-            <CreateWalletModal isOpen={modal.isOpen} onClose={modal.closeModal}/>
+            <CreateWalletModal
+                isOpen={modal.isOpen}
+                onClose={modal.closeModal}
+                onSubmit={onSubmit}/>
         </div>
     );
 }

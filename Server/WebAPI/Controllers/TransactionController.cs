@@ -1,4 +1,4 @@
-using BusinessLogic.DTOs;
+using BusinessLogic.Dtos;
 using BusinessLogic.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 

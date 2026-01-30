@@ -1,10 +1,10 @@
-using BusinessLogic.DTOs;
+using BusinessLogic.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.IControllers;
 
 public interface IApplicationUserController
 {
-    Task<ActionResult<ApplicationUserDTO>> GetById(string applicationUserId);
-    Task<ActionResult> Update(ApplicationUserDTO applicationUserDTO);
+    Task<ActionResult<ApplicationUserDto>> GetById(string applicationUserId);
+    Task<ActionResult> Update(ApplicationUserDto applicationUserDTO);
 }

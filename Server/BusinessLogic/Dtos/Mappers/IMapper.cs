@@ -1,7 +1,7 @@
-namespace BusinessLogic.DTOs.Mappers;
+namespace BusinessLogic.Dtos.Mappers;
 
 public interface IMapper<TEntity, TDto>
 {
-    TDto ToDTO(TEntity entity);
+    TDto ToDto(TEntity entity);
     TEntity ToEntity(TDto dto);
 }

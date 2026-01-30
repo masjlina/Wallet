@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public class SignUpResponseDTO
+public class SignUpResponseDto
 {
     public bool IsSuccessful { get; set; }
     public IEnumerable<string> Errors { get; set; }

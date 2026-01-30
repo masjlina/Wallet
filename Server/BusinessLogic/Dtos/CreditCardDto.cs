@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public sealed class CreditCardDTO : BaseEntity
+public sealed class CreditCardDto : BaseEntity
 {
     [Required(ErrorMessage = "Wallet required")]
     public int WalletId { get; set; }

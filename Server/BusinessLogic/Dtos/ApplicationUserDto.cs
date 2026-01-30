@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public sealed class ApplicationUserDTO
+public sealed class ApplicationUserDto
 {
     [Required]
     public string Id { get; set; }
@@ -25,7 +25,7 @@ public sealed class ApplicationUserDTO
     public string? AvatarUri { get; set; } = "";
     
     public int? WalletId { get; set; }
-    public WalletDTO? WalletDto { get; set; }
+    public WalletDto? WalletDto { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

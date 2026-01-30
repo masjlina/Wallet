@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public class SignUpRequestDTO
+public class SignUpRequestDto
 {
     [Required(ErrorMessage = "User first name is required")]
     public string FirstName { get; set; }

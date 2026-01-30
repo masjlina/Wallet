@@ -1,9 +1,0 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BusinessLogic.DTOs;
-
-public class SignInResponseDTO
-{
-    public string AccessToken { get; set; }
-    public ApplicationUserDTO ApplicationUserDTO { get; set; }
-}

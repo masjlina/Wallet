@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public sealed class TransactionDTO : BaseEntity
+public sealed class TransactionDto : BaseEntity
 {
     [Required(ErrorMessage = "Please enter a transaction name")]
     [MaxLength(50, ErrorMessage = "Transaction name must not exceed 50 characters")]
@@ -22,5 +22,5 @@ public sealed class TransactionDTO : BaseEntity
     public int? WalletId { get; set; }
     // Category
     public int? CategoryId { get; set; }
-    public CategoryDTO? CategoryDTO { get; set; }
+    public CategoryDto? CategoryDto { get; set; }
 }

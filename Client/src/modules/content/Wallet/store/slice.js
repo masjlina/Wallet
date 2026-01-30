@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getUserWallet} from "./thunks";
+import {createUserWallet, getUserWallet} from "./thunks";
 
 const initialState = {
     wallet: null
@@ -10,7 +10,10 @@ const slice = createSlice({
         initialState: initialState,
         extraReducers: (builder) => {
             builder.addCase(getUserWallet.fulfilled, (state, action) => {
-                state.wallet = action.payload;
+                state.wallet = action.payload.wallet;
+            })
+            .addCase(createUserWallet.fulfilled, (state, action) => {
+                state.wallet = action.payload.wallet;
             })
         }
     }

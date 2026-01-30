@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
-public class SignInRequestDTO
+public class SignInRequestDto
 {
     [Required(ErrorMessage = "Email is required")]
     [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]

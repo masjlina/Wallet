@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.DTOs;
+namespace BusinessLogic.Dtos;
 
 public class ErrorResponse
 {

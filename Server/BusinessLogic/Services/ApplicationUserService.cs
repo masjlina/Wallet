@@ -1,5 +1,5 @@
-using BusinessLogic.DTOs;
-using BusinessLogic.DTOs.Mappers;
+using BusinessLogic.Dtos;
+using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
 using DataAccess.Entities;
@@ -10,15 +10,15 @@ namespace BusinessLogic.Services;
 public class ApplicationUserService : IApplicationUserService
 {
       private readonly ApplicationDbContext _dbContext;
-      private readonly IMapper<ApplicationUser, ApplicationUserDTO> _mapper;
+      private readonly IMapper<ApplicationUser, ApplicationUserDto> _mapper;
 
-      public ApplicationUserService(ApplicationDbContext dbContext, IMapper<ApplicationUser, ApplicationUserDTO> mapper)
+      public ApplicationUserService(ApplicationDbContext dbContext, IMapper<ApplicationUser, ApplicationUserDto> mapper)
       {
             _dbContext = dbContext;
             _mapper = mapper;
       }
       
-      public async Task<ApplicationUserDTO?> GetByIdAsync(string userId)
+      public async Task<ApplicationUserDto?> GetByIdAsync(string userId)
       {
             var user = await _dbContext.Users.Include(e => e.Wallet).FirstOrDefaultAsync(i => i.Id == userId);
             if (user is null)
@@ -26,17 +26,17 @@ public class ApplicationUserService : IApplicationUserService
                   return null;
             }
             
-            return _mapper.ToDTO(user);
+            return _mapper.ToDto(user);
       }
       
-      public async Task<bool> UpdateAsync(ApplicationUserDTO userDTO)
+      public async Task<bool> UpdateAsync(ApplicationUserDto userDto)
       {
-            var existingUser = await _dbContext.Users.FindAsync(userDTO.Id);
+            var existingUser = await _dbContext.Users.FindAsync(userDto.Id);
             if (existingUser is null)
             {
                   return false;
             }
-            _dbContext.Entry(existingUser).CurrentValues.SetValues(_mapper.ToEntity(userDTO));
+            _dbContext.Entry(existingUser).CurrentValues.SetValues(_mapper.ToEntity(userDto));
             await _dbContext.SaveChangesAsync();
 
             return false;

@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using BusinessLogic.DTOs;
-using BusinessLogic.DTOs.Mappers;
+using BusinessLogic.Dtos;
+using BusinessLogic.Dtos.Mappers;
 using DataAccess.Data;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +17,12 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IMapper<ApplicationUser, ApplicationUserDTO> _userMapper;
+    private readonly IMapper<ApplicationUser, ApplicationUserDto> _userMapper;
     private readonly ITokenService _tokenService;
     private readonly ApplicationDbContext _dbContext;
 
     public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-        IMapper<ApplicationUser, ApplicationUserDTO> userMapper, ITokenService tokenService,
+        IMapper<ApplicationUser, ApplicationUserDto> userMapper, ITokenService tokenService,
         ApplicationDbContext dbContext)
     {
         _userManager = userManager;
@@ -34,7 +34,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("signIn")]
-    public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO? signInRequestDTO)
+    public async Task<IActionResult> SignIn([FromBody] SignInRequestDto? signInRequestDTO)
     {
         if (signInRequestDTO == null || !ModelState.IsValid)
         {
@@ -47,7 +47,7 @@ public class AccountController : ControllerBase
         //
         //     return Ok(new SignInResponseDTO
         //     {
-        //         ApplicationUserDTO = _userMapper.ToDTO(authenticatedUser),
+        //         ApplicationUserDto = _userMapper.ToDto(authenticatedUser),
         //         IsSuccessful = true
         //     });
         // }
@@ -79,7 +79,7 @@ public class AccountController : ControllerBase
 
         string accessToken = _tokenService.GenerateAccessToken(userClaims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-
+        
         var tokenInfo = _dbContext.TokenInfos.FirstOrDefault(a => a.UserId == user.Id);
 
         if (tokenInfo == null)
@@ -113,23 +113,23 @@ public class AccountController : ControllerBase
         });
 
 
-        return Ok(new SignInResponseDTO
+        return Ok(new SignInResponseDto
         {
-            ApplicationUserDTO = _userMapper.ToDTO(user),
+            ApplicationUserDto = _userMapper.ToDto(user),
             AccessToken = accessToken
         });
     }
 
     [HttpPost]
     [Route("signUp")]
-    public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
+    public async Task<IActionResult> SignUp([FromBody] SignUpRequestDto signUpRequestDto)
     {
-        if (signUpRequestDTO == null || !ModelState.IsValid)
+        if (signUpRequestDto == null || !ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var userExist = await _userManager.FindByEmailAsync(signUpRequestDTO.Email);
+        var userExist = await _userManager.FindByEmailAsync(signUpRequestDto.Email);
 
         if (userExist != null)
         {
@@ -141,14 +141,14 @@ public class AccountController : ControllerBase
 
         var user = new ApplicationUser()
         {
-            FirstName = signUpRequestDTO.FirstName,
-            LastName = signUpRequestDTO.LastName,
-            UserName = signUpRequestDTO.Email,
-            Email = signUpRequestDTO.Email,
+            FirstName = signUpRequestDto.FirstName,
+            LastName = signUpRequestDto.LastName,
+            UserName = signUpRequestDto.Email,
+            Email = signUpRequestDto.Email,
             EmailConfirmed = true,
         };
 
-        var result = await _userManager.CreateAsync(user, signUpRequestDTO.Password);
+        var result = await _userManager.CreateAsync(user, signUpRequestDto.Password);
 
         if (!result.Succeeded)
         {
@@ -179,11 +179,11 @@ public class AccountController : ControllerBase
                 Errors = new[] { "User does not exist" }
             });
 
-        ApplicationUserDTO applicationUserDto = _userMapper.ToDTO(user);
+        ApplicationUserDto applicationUserDto = _userMapper.ToDto(user);
 
-        return Ok(new CheckAuthResponse
+        return Ok(new CheckAuthResponseDto
         {
-            ApplicationUserDTO = applicationUserDto
+            ApplicationUserDto = applicationUserDto
         });
     }
 
@@ -197,7 +197,9 @@ public class AccountController : ControllerBase
             .SingleOrDefaultAsync(t =>
                 t.RefreshToken == refreshToken &&
                 t.ExpiredAt > DateTime.UtcNow);
-
+    
+        Console.WriteLine("refresh token from request: " + refreshToken);
+        
         if (tokenInfo == null)
             return Unauthorized(new ErrorResponse
             {
@@ -217,7 +219,7 @@ public class AccountController : ControllerBase
 
         var newAccessToken = _tokenService.GenerateAccessToken(claims);
         var newRefreshToken = _tokenService.GenerateRefreshToken();
-
+        
         tokenInfo.RefreshToken = newRefreshToken;
         tokenInfo.ExpiredAt = DateTime.UtcNow.AddDays(7);
 
@@ -232,7 +234,7 @@ public class AccountController : ControllerBase
             Path = "/"
         });
 
-        return Ok(new RefreshResponse
+        return Ok(new RefreshResponseDto
         {
             AccessToken = newAccessToken
         });
