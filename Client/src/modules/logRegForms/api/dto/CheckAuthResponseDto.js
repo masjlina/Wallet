@@ -1,5 +1,5 @@
-export default function createCheckAuthResponse ({applicationUserDTO}) {
+export default function createCheckAuthResponse ({applicationUserDto}) {
     return {
-        user: applicationUserDTO
+        user: applicationUserDto
     };
 }

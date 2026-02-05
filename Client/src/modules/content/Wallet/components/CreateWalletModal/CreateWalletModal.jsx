@@ -1,4 +1,4 @@
-import Modal from "../../../../../components/Modal/Modal";
+import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
 import xIcon from "../../../../../assets/icons/x.svg";
 import Button from "../../../../../ui/Button/Button";
@@ -24,7 +24,9 @@ const CreateWalletModal = ({isOpen, onClose, onSubmit}) => {
             </div>
             <form
                 className="content modal__content create-wallet__content" id="create-wallet"
-                onSubmit={() => onSubmit(name.value)}>
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmit(name.value)}}>
                 <NameField
                     value={name.value}
                     onChange={name.onChange}

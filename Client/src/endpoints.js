@@ -6,6 +6,7 @@ const endpoints = {
     login: `${serverUrl}/api/signIn`,
     checkAuth: `${serverUrl}/api/me`,
     wallet: `${serverUrl}/api/wallet`,
+    creditCards: `${serverUrl}/api/credit-cards`,
     refresh: `${serverUrl}/api/refresh`,
 };
 

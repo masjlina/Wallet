@@ -1,11 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {createUserWallet, getUserWallet} from "./thunks";
+import {createUserWallet, getUserWallet} from "./walletThunks";
 
 const initialState = {
     wallet: null
 }
 
-const slice = createSlice({
+const walletSlice = createSlice({
         name: "wallet",
         initialState: initialState,
         extraReducers: (builder) => {
@@ -19,4 +19,4 @@ const slice = createSlice({
     }
 )
 
-export default slice.reducer;
+export default walletSlice.reducer;

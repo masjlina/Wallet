@@ -27,7 +27,7 @@ builder.Services.AddScoped<IMapper<Category, CategoryDto>, CategoryMapper>();
 
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
-builder.Services.AddScoped<IGenericService<CreditCardDto>, CreditCardService>();
+builder.Services.AddScoped<ICreditCardService, CreditCardService>();
 builder.Services.AddScoped<IGenericService<TransactionDto>, TransactionService>();
 builder.Services.AddScoped<IGenericService<CategoryDto>, CategoryService>();
 

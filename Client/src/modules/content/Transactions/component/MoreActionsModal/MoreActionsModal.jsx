@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useRef, useState} from "react";
 import pencilIcon from "../../../../../assets/icons/pencil.svg";
 import trashIcon from "../../../../../assets/icons/trash--red.svg";
-import Modal from "../../../../../components/Modal/Modal";
+import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
 
 const MoreActionsModal = ({isOpen, anchorEl, onClose}) => {

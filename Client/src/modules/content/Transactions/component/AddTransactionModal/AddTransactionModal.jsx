@@ -1,9 +1,7 @@
-import Modal from "../../../../../components/Modal/Modal";
+import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
 
 import xIcon from "../../../../../assets/icons/x.svg";
-import arrowLeftIcon from "../../../../../assets/icons/btn-arrow--left.svg";
-import arrowRightIcon from "../../../../../assets/icons/btn-arrow--right.svg";
 import arrowDownIcon from "../../../../../assets/icons/arrow-down.svg";
 import calendarIcon from "../../../../../assets/icons/calendar.svg";
 
@@ -11,6 +9,7 @@ import "./addTransactionModal.scss";
 import FieldWithLabel from "../../../../../components/FieldWithLabel/FieldWithLabel";
 import FieldWithIcon from "../../../../../components/FieldWithIcon/FieldWithIcon";
 import Button from "../../../../../ui/Button/Button";
+import AmountInput from "../../../../../components/modal/AmountInput/AmountInput";
 
 const AddTransactionModal = ({isOpen, onClose}) => {
     return (
@@ -32,11 +31,7 @@ const AddTransactionModal = ({isOpen, onClose}) => {
                     <button className="btn__transaction-switcher text__base--white">Expense</button>
                     <div className="btn__transaction-switcher--accent"></div>
                 </div>
-                <div className="amount-input">
-                    <img src={arrowLeftIcon} alt="Decrease"/>
-                    <p className="text--green text--64">+$100</p>
-                    <img src={arrowRightIcon} alt="Increase"/>
-                </div>
+                <AmountInput/>
 
                 <div className="input-section__double-field">
 

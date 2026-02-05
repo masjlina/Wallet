@@ -1,14 +1,15 @@
 import {request} from "../../../../utils/httpClient";
 import endpoints from "../../../../endpoints";
 import createErrorResponseDto from "../../../../api/ErrorResponseDto";
-import createWalletRequest from "./WalletCreateRequestDto";
+import createWalletRequest from "./WalletCreateRequest";
+import mapWallet from "../../../../domain/wallet";
 
 export async function getWallet() {
     try {
         const result = await request(`${endpoints.wallet}`);
 
         return {
-            wallet: result
+            wallet: mapWallet(result)
         };
     } catch (error) {
         return createErrorResponseDto(error);
@@ -22,7 +23,7 @@ export async function createWallet(walletName) {
         const result = await request(endpoints.wallet, "POST", walletRequest);
 
         return {
-            wallet: result
+            wallet: mapWallet(result)
         }
     } catch (error) {
         return createErrorResponseDto(error);

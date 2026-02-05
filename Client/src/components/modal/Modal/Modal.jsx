@@ -1,7 +1,7 @@
 import {createPortal} from "react-dom";
 
 import "./modal.scss";
-import MODAL_VARIANT from "../../consts/modalVariants";
+import MODAL_VARIANT from "../../../consts/modalVariants";
 
 const Modal = ({variant, isOpen, onClose, boxRef, pos, children}) => {
     if (!isOpen) return null;

@@ -24,4 +24,4 @@ export const createUserWallet = createAsyncThunk(
 
         return response;
     }
-)
+);
