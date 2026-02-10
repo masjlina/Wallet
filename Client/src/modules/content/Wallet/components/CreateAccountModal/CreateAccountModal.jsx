@@ -53,7 +53,7 @@ const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
                     e.preventDefault();
                     validateAndSubmit();
                 }}>
-                <AmountInput setBalance={setBalance}/>
+                <AmountInput balance={balance} setBalance={setBalance}/>
 
                 <CardField
                     value={cardNumberInput.value}

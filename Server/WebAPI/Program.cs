@@ -6,6 +6,7 @@ using DataAccess.Data;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
@@ -28,7 +29,7 @@ builder.Services.AddScoped<IMapper<Category, CategoryDto>, CategoryMapper>();
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<ICreditCardService, CreditCardService>();
-builder.Services.AddScoped<IGenericService<TransactionDto>, TransactionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IGenericService<CategoryDto>, CategoryService>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();

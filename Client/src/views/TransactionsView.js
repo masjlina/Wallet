@@ -8,7 +8,7 @@ import Tbody from "../components/Tbody";
 import Td from "../components/Td";
 import {diContainer} from "../utils/DiContainer";
 import MoreActionsModal from "../components/Modal/MoreActionsModal";
-import {AddTransactionModal} from "../components/Modal/AddTransactionModal";
+import {AddTransactionModal} from "../components/Modal/CreateTransactionModal";
 
 export class TransactionsView extends View {
     constructor(parent) {

@@ -2,6 +2,7 @@ using System.Net;
 using BusinessLogic.Dtos;
 using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Exceptions;
+using BusinessLogic.helpers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
 using DataAccess.Entities;
@@ -22,10 +23,19 @@ public class CreditCardService : ICreditCardService
 
     public async Task<CreditCardDto> GetByIdAsync(string userId, int creditCardId)
     {
-        Wallet wallet = await GetWalletByUserId(userId);
+        var creditCard = await _dbContext.CreditCards
+            .AsNoTracking()
+            .Where(cc => cc.Id == creditCardId)
+            .Join(
+                _dbContext.Wallets,
+                cc => cc.WalletId,
+                w => w.Id,
+                (cc, w) => new { CreditCard = cc, Wallet = w }
+            )
+            .Where(x => x.Wallet.ApplicationUserId == userId)
+            .Select(x => x.CreditCard)
+            .FirstOrDefaultAsync();
 
-        CreditCard? creditCard = await _dbContext.CreditCards
-            .FirstOrDefaultAsync(cc => cc.WalletId == wallet.Id && cc.Id == creditCardId);
 
         if (creditCard is null)
         {
@@ -39,11 +49,18 @@ public class CreditCardService : ICreditCardService
 
     public async Task<IReadOnlyList<CreditCardDto>> GetAllAsync(string userId)
     {
-        Wallet wallet = await GetWalletByUserId(userId);
-
         var creditCards = await _dbContext.CreditCards
-            .Where(cc => cc.WalletId == wallet.Id)
+            .AsNoTracking()
+            .Join(
+                _dbContext.Wallets,
+                cc => cc.WalletId,
+                w => w.Id,
+                (cc, w) => new { CreditCard = cc, Wallet = w }
+            )
+            .Where(x => x.Wallet.ApplicationUserId == userId)
+            .Select(x => x.CreditCard)
             .ToListAsync();
+
 
         return creditCards
             .Select(cc => _mapper.ToDto(cc))
@@ -52,7 +69,7 @@ public class CreditCardService : ICreditCardService
 
     public async Task<CreditCardDto> CreateAsync(string userId, CreditCardDto dto)
     {
-        Wallet wallet = await GetWalletByUserId(userId);
+        Wallet wallet = await CheckOwnership.GetWalletByUserId(userId, _dbContext);
 
         dto.WalletId = wallet.Id;
         CreditCard creditCardToCreate = _mapper.ToEntity(dto);
@@ -64,23 +81,12 @@ public class CreditCardService : ICreditCardService
 
     public async Task RemoveAsync(string userId, int creditCardId)
     {
-        Wallet wallet = await GetWalletByUserId(userId);
+        Wallet wallet = await CheckOwnership.GetWalletByUserId(userId, _dbContext);
         var affectedRows = await _dbContext.CreditCards
             .Where(cc => cc.Id == creditCardId && cc.WalletId == wallet.Id)
             .ExecuteDeleteAsync();
 
         if (affectedRows == 0)
             throw new BusinessException("Credit card was not found", HttpStatusCode.NotFound);
-    }
-
-    private async Task<Wallet> GetWalletByUserId(string userId)
-    {
-        var wallet = await _dbContext.Wallets
-            .FirstOrDefaultAsync(w => w.ApplicationUserId == userId);
-
-        if (wallet is null)
-            throw new BusinessException("Wallet was not found", HttpStatusCode.NotFound);
-
-        return wallet;
     }
 }

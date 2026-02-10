@@ -4,7 +4,7 @@ import trashIcon from "../../../../../assets/icons/trash--red.svg";
 import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
 
-const MoreActionsModal = ({isOpen, anchorEl, onClose}) => {
+const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id}) => {
     const boxRef = useRef(null);
     const [pos, setPos] = useState({top: 0, left: 0});
 
@@ -38,7 +38,8 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose}) => {
 
                 <button
                     className="btn btn__nav btn__modal text--red"
-                    type="button">
+                    type="button"
+                    onClick={() => onRemove(id)}>
                     <img
                         src={trashIcon}
                         alt="Delete"/>

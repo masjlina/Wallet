@@ -1,25 +1,69 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import TransactionRow from "../TransactionRow/TransactionRow";
 import {Widget} from "../../../../../components/Widget/Widget";
 import MoreActionsModal from "../MoreActionsModal/MoreActionsModal";
-import AddTransactionModal from "../AddTransactionModal/AddTransactionModal";
+import CreateTransactionModal from "../CreateTransactionModal/CreateTransactionModal";
 import useModal from "../../../../../hooks/useModal";
 
 import "./transactions.scss";
 import Toolbar from "../../../components/Toolbar/components/Toolbar/Toolbar";
 import ButtonCreateEntity from "../../../components/Toolbar/components/ButtonCreateEntity/ButtonCreateEntity";
 import Sort from "../../../components/Toolbar/components/Sort/Sort";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    createUserTransaction,
+    getAllUserTransactions,
+    removeUserTransaction
+} from "../../../Wallet/store/transactionsThunks";
+import TRANSACTION_TYPE from "../../../../../consts/transactionTypes";
 
 const Transactions = () => {
+    const dispatch = useDispatch();
+    const transactions = useSelector(state => state.transactions.transactions);
+
+    const [id, setId] = useState("");
+
     const contextModal = useModal();
-    const formModal = useModal();
+    const createTransactionModal = useModal();
+
+    useEffect(() => {
+        try {
+            dispatch(getAllUserTransactions());
+        } catch (error) {
+        }
+    }, [dispatch])
+
+    const onCreateTransaction = async (transaction) => {
+        try {
+            await dispatch(createUserTransaction(transaction));
+            createTransactionModal.closeModal();
+        } catch (error) {
+        }
+    }
+
+    const onRemoveTransaction = async (transactionId) => {
+        try {
+            await dispatch(removeUserTransaction(transactionId));
+            contextModal.closeModal();
+        } catch (error) {
+        }
+    }
+
+    const content = Array.isArray(transactions) && transactions.map(transaction => {
+        return <TransactionRow
+            key={transaction.id}
+            transaction={transaction}
+            type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
+            onModalOpen={(e) => contextModal.openModal(e)}
+            setId={setId}/>
+    })
 
     return (
         <div className="container content__container">
             <Toolbar>
                 <Sort names={["All", "Incomes", "Expenses"]}/>
-                <ButtonCreateEntity onClick={formModal.openModal} text="Add transaction"/>
+                <ButtonCreateEntity onClick={createTransactionModal.openModal} text="Add transaction"/>
             </Toolbar>
 
             <Widget>
@@ -38,16 +82,7 @@ const Transactions = () => {
                         </thead>
 
                         <tbody className="text text__table--name scroll-y">
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
-                        <TransactionRow onModalOpen={(e) => contextModal.openModal(e)}/>
+                        {content}
                         </tbody>
                     </table>
                     </div>
@@ -58,13 +93,15 @@ const Transactions = () => {
             <MoreActionsModal
                 isOpen={contextModal.isOpen}
                 anchorEl={contextModal.anchorEl}
-                onClose={() => contextModal.closeModal()}
+                onClose={contextModal.closeModal}
+                onRemove={onRemoveTransaction}
+                id={id}
             />
 
-            {/*Edit transaction modal*/}
-            <AddTransactionModal
-                isOpen={formModal.isOpen}
-                onClose={() => formModal.closeModal()}/>
+            <CreateTransactionModal
+                isOpen={createTransactionModal.isOpen}
+                onClose={createTransactionModal.closeModal}
+                onSubmit={onCreateTransaction}/>
         </div>
     );
 };

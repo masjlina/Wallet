@@ -1,0 +1,45 @@
+.transaction-switcher {
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 10px;
+
+  height: 40px;
+  width: 100%;
+
+  /* accent/primary */
+  background: #7763EA;
+  border-radius: 28px;
+}
+
+.btn__transaction-switcher {
+  position: relative;
+  color: var(--text--white);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.btn__transaction-switcher--accent {
+  position: absolute;
+  transform: translateX(-45%);
+
+  width: 50%;
+  height: 85%;
+  background: #FFF;
+  border-radius: 20px;
+  z-index: 0;
+
+  transition: transform 0.25s ease;
+}
+
+.btn__transaction-switcher--accent.left {
+  transform: translateX(-45%);
+}
+
+.btn__transaction-switcher--accent.right {
+  transform: translateX(45%);
+}

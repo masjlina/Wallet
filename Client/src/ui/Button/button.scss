@@ -28,22 +28,6 @@
   border: none;
 }
 
-.btn__transaction-switcher {
-  position: relative;
-  z-index: 1;
-}
-
-.btn__transaction-switcher--accent {
-  position: absolute;
-  transform: translateX(-45%);
-
-  width: 50%;
-  height: 85%;
-  background: #FFF;
-  border-radius: 20px;
-  z-index: 0;
-}
-
 .btn__modal {
   display: flex;
   flex-direction: row;

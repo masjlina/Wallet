@@ -25,10 +25,11 @@ const Wallet = () => {
 
     useEffect(() => {
         if (user) {
-            dispatch(getUserWallet(user));
+            dispatch(getUserWallet());
             dispatch(getAllWalletAccounts());
         }
-    }, [dispatch, user, accounts]);
+    }, [user]);
+
 
     const onCreateWallet = async (walletName) => {
         try {

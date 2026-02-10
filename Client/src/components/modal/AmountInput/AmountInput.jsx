@@ -4,21 +4,20 @@ import arrowRightIcon from "../../../assets/icons/btn-arrow--right.svg";
 import "./amountInput.scss";
 import useInput from "../../../hooks/useInput";
 import {useEffect, useState} from "react";
-import {round2} from "../../../services/moneyService";
+import {formatAmountOfMoney, round2} from "../../../services/moneyService";
 
-const AmountInput = ({setBalance}) => {
+const AmountInput = ({balance, setBalance}) => {
     const formattedInput = useInput("+$");
-    const [rawResult, setRawResult] = useState(0);
     const [inputColor, setInputColor] = useState("text--green");
 
     useEffect(() => {
-        formattedInput.setValue(formatValue(rawResult));
-        setBalance(rawResult);
+        formattedInput.setValue(formatAmountOfMoney(balance));
 
-        if (rawResult < 0) setInputColor("text--red");
-        else if (rawResult === 0) setInputColor("text--inactive");
+        if (balance < 0) setInputColor("text--red");
+        else if (balance === 0) setInputColor("text--inactive");
         else setInputColor("text--green");
-    }, [rawResult]);
+    }, [balance]);
+
 
     const onChange = (e) => {
         const raw = e.target.value.replace(/[^0-9.,+\-$]/g, "");
@@ -33,28 +32,22 @@ const AmountInput = ({setBalance}) => {
             parseFloat(raw.slice(2).replace(",", ".")) || 0
         );
 
-        setRawResult(numeric);
-    };
-
-    const formatValue = (num) => {
-        const sign = num < 0 ? "-" : "+";
-        const abs = Math.abs(num);
-        return `${sign}$${abs}`;
+        setBalance(numeric);
     };
 
     const onIncrease = (e) => {
         e.preventDefault();
-        setRawResult(v => round2(v + 1));
+        setBalance(v => round2(v + 1));
     };
 
     const onDecrease = (e) => {
         e.preventDefault();
-        setRawResult(v => round2(v - 1));
+        setBalance(v => round2(v - 1));
     };
 
     return (
         <div className="amount-input">
-            <button onClick={onDecrease}>
+            <button type="button" onClick={onDecrease}>
                 <img src={arrowLeftIcon} alt="Decrease"/>
             </button>
             <input
@@ -64,7 +57,7 @@ const AmountInput = ({setBalance}) => {
                 value={formattedInput.value}
                 onChange={onChange}
                 placeholder="+$100"/>
-            <button onClick={onIncrease}>
+            <button type="button" onClick={onIncrease}>
                 <img src={arrowRightIcon} alt="Increase"/>
             </button>
         </div>

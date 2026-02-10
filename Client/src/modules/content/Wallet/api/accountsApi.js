@@ -20,7 +20,7 @@ export async function createAccount(account) {
         const result = await request(endpoints.creditCards, "POST", account);
 
         return {
-            account: result
+            account: mapAccount(result)
         }
     } catch (error) {
         return createErrorResponseDto(error);

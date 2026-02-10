@@ -7,6 +7,7 @@ const endpoints = {
     checkAuth: `${serverUrl}/api/me`,
     wallet: `${serverUrl}/api/wallet`,
     creditCards: `${serverUrl}/api/credit-cards`,
+    transactions: `${serverUrl}/api/transactions`,
     refresh: `${serverUrl}/api/refresh`,
 };
 

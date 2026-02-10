@@ -670,6 +670,7 @@
 
 .text__table--date {
     text-align: center;
+    white-space: pre-line;
 }
 
 .text--inactive {
@@ -1197,23 +1198,23 @@
    Modal
    =========================== */
 
-.transaction-switcher {
-    position: relative;
-    z-index: 0;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 5px 10px;
-    
-    height: 40px;
-    width: 100%;
+/*.transaction-switcher {*/
+/*    position: relative;*/
+/*    z-index: 0;*/
+/*    */
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: space-around;*/
+/*    align-items: center;*/
+/*    padding: 5px 10px;*/
+/*    */
+/*    height: 40px;*/
+/*    width: 100%;*/
 
-    /* accent/primary */
-    background: #7763EA;
-    border-radius: 28px;
-}
+/*    !* accent/primary *!*/
+/*    background: #7763EA;*/
+/*    border-radius: 28px;*/
+/*}*/
 
 /*.amount-input {*/
 /*    !* Amount *!*/
