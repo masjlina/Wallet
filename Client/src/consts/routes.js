@@ -5,6 +5,7 @@ export const ROUTES = {
     DASHBOARD: "/dashboard",
     TRANSACTIONS: "/transactions",
     WALLET: "/wallet",
+    CREDIT_CARDS: "/credit-cards",
     SETTINGS: "/settings",
     LOGOUT: "/logout",
 };

@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "10.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -131,7 +131,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CreditCard", b =>
@@ -165,7 +165,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("CreditCards", (string)null);
+                    b.ToTable("CreditCards");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.TokenInfo", b =>
@@ -190,7 +190,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TokenInfos", (string)null);
+                    b.ToTable("TokenInfos");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Transaction", b =>
@@ -234,7 +234,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Transactions", null, t =>
+                    b.ToTable("Transactions", t =>
                         {
                             t.HasCheckConstraint("CK_Transactions_WalletOrCreditCard", "(\"WalletId\" IS NOT NULL AND \"CreditCardId\" IS NULL) OR (\"WalletId\" IS NULL AND \"CreditCardId\" IS NOT NULL)");
                         });
@@ -272,7 +272,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Wallets", (string)null);
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -435,7 +435,8 @@ namespace DataAccess.Migrations
 
                     b.HasOne("DataAccess.Entities.CreditCard", "CreditCard")
                         .WithMany()
-                        .HasForeignKey("CreditCardId");
+                        .HasForeignKey("CreditCardId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataAccess.Entities.Wallet", "Wallet")
                         .WithMany()

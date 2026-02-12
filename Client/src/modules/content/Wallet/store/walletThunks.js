@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {createWallet, getWallet} from "../api/walletApi";
+import {createWallet, getWallet, updateWallet} from "../api/walletApi";
 import onReject from "../../../../store/onReject";
 
 export const getUserWallet = createAsyncThunk(
-    "/getWallet",
+    "wallet/get",
     async (arg, thunkAPI) => {
         const response = await getWallet();
 
@@ -15,9 +15,21 @@ export const getUserWallet = createAsyncThunk(
 )
 
 export const createUserWallet = createAsyncThunk(
-    "/createWallet",
+    "wallet/create",
     async (walletName, thunkAPI) => {
         const response = await createWallet(walletName);
+
+        const rejected = onReject(response, thunkAPI);
+        if (rejected) return rejected;
+
+        return response;
+    }
+);
+
+export const updateUserWallet = createAsyncThunk(
+    "wallet/update",
+    async ({walletId, wallet}, thunkAPI) => {
+        const response = await updateWallet(walletId, wallet);
 
         const rejected = onReject(response, thunkAPI);
         if (rejected) return rejected;

@@ -7,13 +7,22 @@ import "./CreateAccountModal.scss";
 import useInput from "../../../../../hooks/useInput";
 import CardField from "../CardField/CardField";
 import AmountInput from "../../../../../components/modal/AmountInput/AmountInput";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {isValidCardNumber} from "../../helpers/creditCardManager";
+import ACCOUNT_TYPE from "../../../../../consts/accountType";
+import FieldWithLabel from "../../../../../components/FieldWithLabel/FieldWithLabel";
 
-const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
-    const cardNumberInput = useInput("");
-    const [balance, setBalance] = useState(0);
+const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
+    const nameInput = useInput(account?.name ?? "");
+    const [balance, setBalance] = useState(account?.balance ?? 0);
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        if (account) {
+            nameInput.setValue(account.name);
+            setBalance(account.balance);
+        }
+    }, [account]);
 
     const validateAndSubmit = () => {
         if (!Number.isFinite(balance)) {
@@ -21,19 +30,23 @@ const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
             return;
         }
 
-        if (!isValidCardNumber(cardNumberInput.value)) {
+        if (
+            accountType === ACCOUNT_TYPE.CARD &&
+            !isValidCardNumber(nameInput.value)
+        ) {
             setErrorMessage("Incorrect card number");
             return;
         }
 
         onSubmit({
-            name: cardNumberInput.value,
-            balance
+            name: nameInput.value,
+            balance,
+            type: accountType
         });
 
-        cardNumberInput.setValue("");
-        setBalance(0)
+        onClose();
     };
+
 
     return (
         <Modal
@@ -41,7 +54,7 @@ const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
             isOpen={isOpen}
             onClose={onClose}>
             <div className="content modal__content--top text__title">
-                <p>Create account</p>
+                <p>{account ? "Edit account" : "Create account"}</p>
                 <button type="button" className="modal__close pointer" onClick={onClose}>
                     <img src={xIcon} alt="Close modal"/>
                 </button>
@@ -54,10 +67,17 @@ const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
                     validateAndSubmit();
                 }}>
                 <AmountInput balance={balance} setBalance={setBalance}/>
-
-                <CardField
-                    value={cardNumberInput.value}
-                    onChange={cardNumberInput.setValue}/>
+                {accountType === ACCOUNT_TYPE.CARD && (
+                    <CardField
+                        value={nameInput.value}
+                        onChange={nameInput.setValue}/>
+                )}
+                {accountType === ACCOUNT_TYPE.CASH && (
+                    <FieldWithLabel
+                        labelText="Wallet name"
+                        value={nameInput.value}
+                        onChange={nameInput.onChange}/>
+                )}
                 {errorMessage ? <p className="text--red">{errorMessage}</p> : ""}
             </form>
             <div className="content modal__content--bottom">
@@ -71,4 +91,4 @@ const CreateAccountModal = ({isOpen, onClose, onSubmit}) => {
     )
 }
 
-export default CreateAccountModal;
+export default AccountModal;

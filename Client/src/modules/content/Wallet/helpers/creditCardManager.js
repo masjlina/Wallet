@@ -6,6 +6,10 @@ export function formatCardNumber(cardNumber) {
         .trim();
 }
 
+export const maskCardNumber = (cardNumber) => {
+    return cardNumber.slice(0, -3) + "***";
+}
+
 const luhnCheck = (number) => {
     let sum = 0;
     let shouldDouble = false;

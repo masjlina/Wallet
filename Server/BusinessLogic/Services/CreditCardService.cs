@@ -79,6 +79,30 @@ public class CreditCardService : ICreditCardService
         return _mapper.ToDto(createdCreditCard);
     }
 
+    public async Task<CreditCardDto> UpdateAsync(string userId, int creditCardId, UpdateCreditCardDto dto)
+    {
+        var creditCardToUpdate = await _dbContext.CreditCards
+            .FirstOrDefaultAsync(cc =>
+                cc.Id == creditCardId &&
+                cc.Wallet.ApplicationUserId == userId
+            );
+
+        if (creditCardToUpdate is null)
+            throw new BusinessException("Account was not found", HttpStatusCode.NotFound);
+
+        if (dto.Name is not null)
+            creditCardToUpdate.Name = dto.Name;
+
+        if (dto.Balance.HasValue)
+            creditCardToUpdate.Balance = dto.Balance.Value;
+
+        creditCardToUpdate.UpdatedAt = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync();
+
+        return _mapper.ToDto(creditCardToUpdate);
+    }
+
     public async Task RemoveAsync(string userId, int creditCardId)
     {
         Wallet wallet = await CheckOwnership.GetWalletByUserId(userId, _dbContext);

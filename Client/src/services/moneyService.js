@@ -3,7 +3,7 @@ function round2(n) {
 }
 
 export const formatAmountOfMoney = (num) => {
-    const sign = num < 0 ? "-" : "+";
+    const sign = num < 0 ? "-" : "";
     const abs = Math.abs(num);
     return `${sign}$${abs}`;
 };

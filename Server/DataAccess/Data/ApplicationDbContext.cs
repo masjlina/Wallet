@@ -26,6 +26,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasCheckConstraint(
                 "CK_Transactions_WalletOrCreditCard", 
                 "(\"WalletId\" IS NOT NULL AND \"CreditCardId\" IS NULL) OR (\"WalletId\" IS NULL AND \"CreditCardId\" IS NOT NULL)"
-                );    
+                );
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.CreditCard)
+            .WithMany()
+            .HasForeignKey(t => t.CreditCardId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

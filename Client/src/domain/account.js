@@ -7,3 +7,10 @@ export default function mapAccount(accountDto) {
         transactionsIds: accountDto.transactionIds
     }
 }
+
+export function createAccountToUpdate({name, balance}) {
+    return {
+        name: name,
+        balance: balance
+    }
+}

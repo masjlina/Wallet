@@ -1,8 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "./accountsThunks";
+import {
+    createWalletAccount,
+    getAllWalletAccounts,
+    getWalletAccount,
+    removeWalletAccount,
+    updateWalletAccount
+} from "./accountsThunks";
 
 const initialState = {
-    accounts: null
+    accounts: []
 }
 
 const accountsSlice = createSlice({
@@ -12,18 +18,32 @@ const accountsSlice = createSlice({
             builder.addCase(getAllWalletAccounts.fulfilled, (state, action) => {
                 state.accounts = action.payload.accounts;
             })
-            .addCase(createWalletAccount.fulfilled, (state, action) => {
-                state.accounts.push(action.payload.account) ;
+            .addCase(getWalletAccount.fulfilled, (state, action) => {
+                state.accounts.push(action.payload.account);
             })
-                .addCase(removeWalletAccount.fulfilled, (state, action) => {
-                    const index = state.accounts.findIndex(
-                        cc => cc.id === action.payload.accountToDeleteId
-                    );
+            .addCase(createWalletAccount.fulfilled, (state, action) => {
+                state.accounts.push(action.payload.account);
+            })
+            .addCase(updateWalletAccount.fulfilled, (state, action) => {
+                const updatedAccount = action.payload.account;
 
-                    if (index !== -1) {
-                        state.accounts.splice(index, 1);
-                    }
-                })
+                const index = state.accounts.findIndex(
+                    acc => acc.id === updatedAccount.id
+                );
+
+                if (index !== -1) {
+                    state.accounts[index] = updatedAccount;
+                }
+            })
+            .addCase(removeWalletAccount.fulfilled, (state, action) => {
+                const index = state.accounts.findIndex(
+                    cc => cc.id === action.payload.accountToDeleteId
+                );
+
+                if (index !== -1) {
+                    state.accounts.splice(index, 1);
+                }
+            })
         }
     }
 )

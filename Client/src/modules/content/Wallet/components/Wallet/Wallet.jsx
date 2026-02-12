@@ -10,15 +10,20 @@ import useModal from "../../../../../hooks/useModal";
 import CreateWalletModal from "../CreateWalletModal/CreateWalletModal";
 import AccountWidget from "../AccountWidget/AccountWidget";
 import ACCOUNT_TYPE from "../../../../../consts/accountType";
-import CreateAccountModal from "../CreateAccountModal/CreateAccountModal";
+import AccountModal from "../CreateAccountModal/AccountModal";
 import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "../../store/accountsThunks";
 import {formatCardNumber} from "../../helpers/creditCardManager";
+import {useNavigate} from "react-router-dom";
+import endpoints from "../../../../../endpoints";
+import {ROUTES} from "../../../../../consts/routes";
 
 const Wallet = () => {
     const dispatch = useDispatch();
     const wallet = useSelector(state => state.wallet.wallet);
     const user = useSelector(state => state.auth.user);
     const accounts = useSelector(state => state.accounts.accounts);
+
+    const navigate = useNavigate();
 
     const createWalletModal = useModal();
     const createAccountModal = useModal();
@@ -54,6 +59,16 @@ const Wallet = () => {
         }
     }
 
+    const onNavigateToDetails = (account) => {
+        const [[type, id]] = Object.entries(account);
+
+        if (type === ACCOUNT_TYPE.CASH)
+            navigate(`${ROUTES.WALLET}/${id}`);
+        else
+            navigate(`${ROUTES.CREDIT_CARDS}/${id}`);
+    };
+
+
     let content = "";
 
     if (!wallet) {
@@ -66,23 +81,30 @@ const Wallet = () => {
                 </Widget.Content>
             </Widget>
     } else {
-        let accounts = [
+        let accountsToRender = [
             <AccountWidget
                 key="cash"
                 accountType={ACCOUNT_TYPE.CASH}
-                amount={wallet.cash}
+                name={wallet.name}
+                amount={wallet.balance}
+                onNavigateToDetails={() => onNavigateToDetails({
+                    [ACCOUNT_TYPE.CASH]: wallet.id
+                })}
                 />
         ];
 
         if (Array.isArray(accounts)) {
-            accounts = [
-                ...accounts,
-                ...wallet.creditCards.map(card => (
+            accountsToRender = [
+                ...accountsToRender,
+                ...accounts.map(card => (
                     <AccountWidget
                         key={card.id}
                         amount={card.balance}
-                        cardNumber={formatCardNumber(card.name)}
+                        name={formatCardNumber(card.name)}
                         onRemove={() => onRemoveAccount(card.id)}
+                        onNavigateToDetails={() => onNavigateToDetails({
+                            [ACCOUNT_TYPE.CARD]: card.id
+                        })}
                     />
                 ))
             ];
@@ -96,7 +118,7 @@ const Wallet = () => {
                 </Toolbar>
 
                 <div className="accounts">
-                    {accounts}
+                    {accountsToRender}
                 </div>
             </>
     }
@@ -108,10 +130,11 @@ const Wallet = () => {
                 isOpen={createWalletModal.isOpen}
                 onClose={createWalletModal.closeModal}
                 onSubmit={onCreateWallet}/>
-            <CreateAccountModal
+            <AccountModal
                 isOpen={createAccountModal.isOpen}
                 onClose={createAccountModal.closeModal}
-                onSubmit={onCreateAccount}/>
+                onSubmit={onCreateAccount}
+                accountType={ACCOUNT_TYPE.CARD}/>
         </div>
     );
 }

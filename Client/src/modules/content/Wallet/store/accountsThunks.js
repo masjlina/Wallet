@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import onReject from "../../../../store/onReject";
-import {createAccount, getAllAccounts, removeAccount} from "../api/accountsApi";
+import {createAccount, getAccount, getAllAccounts, removeAccount, updateAccount} from "../api/accountsApi";
 
 export const getAllWalletAccounts = createAsyncThunk(
     "/getAllAccounts",
@@ -14,10 +14,34 @@ export const getAllWalletAccounts = createAsyncThunk(
     }
 )
 
+export const getWalletAccount = createAsyncThunk(
+    "/getAccount",
+    async (accountId, thunkAPI) => {
+        const response = await getAccount(accountId);
+
+        const rejected = onReject(response, thunkAPI);
+        if (rejected) return rejected;
+
+        return response;
+    }
+)
+
 export const createWalletAccount = createAsyncThunk(
     "/createAccount",
     async (account, thunkAPI) => {
         const response = await createAccount(account);
+
+        const rejected = onReject(response, thunkAPI);
+        if (rejected) return rejected;
+
+        return response
+    }
+);
+
+export const updateWalletAccount = createAsyncThunk(
+    "/updateAccount",
+    async ({accountId, account}, thunkAPI) => {
+        const response = await updateAccount(accountId, account);
 
         const rejected = onReject(response, thunkAPI);
         if (rejected) return rejected;

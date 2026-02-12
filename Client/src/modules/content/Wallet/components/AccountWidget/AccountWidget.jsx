@@ -4,17 +4,19 @@ import mastercardLogo from "../../../../../assets/icons/logo-mastercard.svg";
 import "./cardWidget.scss";
 import Button from "../../../../../ui/Button/Button";
 import ACCOUNT_TYPE from "../../../../../consts/accountType";
+import {maskCardNumber} from "../../helpers/creditCardManager";
 
 const AccountWidget = ({
                            amount,
-                           cardNumber,
+                           name,
                            accountType = ACCOUNT_TYPE.CARD,
-                           onRemove
+                           onRemove,
+                            onNavigateToDetails
                        }) => {
     const isCard = accountType === ACCOUNT_TYPE.CARD;
 
     const maskedCardNumber = isCard
-        ? cardNumber.slice(0, -3) + "***"
+        ? maskCardNumber(name)
         : null;
 
     return (
@@ -48,7 +50,9 @@ const AccountWidget = ({
 
             <Widget.Footer className="account__footer">
                 {isCard && <button className="btn text--red" onClick={onRemove}>Remove</button>}
-                <Button className="account__button">
+                <Button
+                    className="account__button"
+                onClick={onNavigateToDetails}>
                     <p>Details</p>
                     <img className="button__arrow" src={rightArrowIcon}/>
                 </Button>

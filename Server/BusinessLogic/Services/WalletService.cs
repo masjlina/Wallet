@@ -2,6 +2,7 @@ using System.Net;
 using BusinessLogic.Dtos;
 using BusinessLogic.Dtos.Mappers;
 using BusinessLogic.Exceptions;
+using BusinessLogic.helpers;
 using BusinessLogic.Services.IServices;
 using DataAccess.Data;
 using DataAccess.Entities;
@@ -45,19 +46,25 @@ public class WalletService : IWalletService
         return _mapper.ToDto(createdWallet);
     }
 
-    public async Task<WalletDto> RenameAsync(int walletId, string newName)
+    public async Task<WalletDto> UpdateAsync(string userId, int walletId, UpdateWalletDto dto)
     {
-        Wallet wallet = await _dbContext.Wallets.FirstOrDefaultAsync(i => i.Id == walletId);
+        var walletToUpdate = await _dbContext.Wallets
+            .FirstOrDefaultAsync(w =>
+                w.Id == walletId &&
+                w.ApplicationUserId == userId);
 
-        if (wallet is null)
-        {
+        if (walletToUpdate is null)
             throw new BusinessException("Wallet was not found", HttpStatusCode.NotFound);
-        }
 
-        wallet.Name = newName;
+        if (dto.Name is not null)
+            walletToUpdate.Name = dto.Name;
+
+        if (dto.Balance.HasValue)
+            walletToUpdate.Cash = dto.Balance.Value;
+
         await _dbContext.SaveChangesAsync();
 
-        return _mapper.ToDto(wallet);
+        return _mapper.ToDto(walletToUpdate);
     }
 
     public async Task RemoveAsync(int id)

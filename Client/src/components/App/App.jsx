@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {checkUserAuth} from "../../modules/logRegForms/store/thunks";
 import STATUSES from "../../consts/STATUSES";
+import AccountDetails from "../../modules/content/Wallet/components/AccountDetails/AccountDetails";
 
 const App = () => {
     const navigate = useNavigate();
@@ -41,7 +42,11 @@ const App = () => {
             <Route path="/" element={<RootLayout/>}>
                 <Route path={ROUTES.DASHBOARD} element={<HomePage/>}/>
                 <Route path={ROUTES.TRANSACTIONS} element={<TransactionsPage/>}/>
+
                 <Route path={ROUTES.WALLET} element={<WalletPage/>}/>
+                <Route path={`${ROUTES.WALLET}/:id`} element={<AccountDetails/>}/>
+
+                <Route path={`${ROUTES.CREDIT_CARDS}/:id`} element={<AccountDetails/>}/>
             </Route>
 
             <Route element={<AuthLayout/>}>

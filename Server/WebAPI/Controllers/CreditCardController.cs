@@ -51,6 +51,16 @@ public class CreditCardController : ControllerBase
         );
     }
 
+    [HttpPatch("{creditCardId}")]
+    public async Task<ActionResult<CreditCardDto>> Update(int creditCardId, [FromBody] UpdateCreditCardDto creditCardDto)
+    {
+        var userId = _userManager.GetUserId(User)!;
+
+        CreditCardDto updatedCreditCard = await _creditCardService.UpdateAsync(userId, creditCardId, creditCardDto);
+
+        return Ok(updatedCreditCard);
+    }
+
     [HttpDelete("{creditCardId}")]
     public async Task<ActionResult> Remove([FromRoute] int creditCardId)
     {

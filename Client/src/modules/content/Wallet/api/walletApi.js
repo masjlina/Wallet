@@ -29,3 +29,15 @@ export async function createWallet(walletName) {
         return createErrorResponseDto(error);
     }
 }
+
+export async function updateWallet(walletId, wallet) {
+    try {
+        const result = await request(`${endpoints.wallet}/${walletId}`, "PATCH", wallet);
+
+        return {
+            wallet: mapWallet(result)
+        }
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}

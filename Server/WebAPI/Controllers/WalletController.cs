@@ -46,4 +46,14 @@ public class WalletController : ControllerBase
         return CreatedAtAction(nameof(Get), createdWallet);
     }
 
+    [HttpPatch("{walletId}")]
+    public async Task<ActionResult<WalletDto>> UpdateAsync(int walletId, UpdateWalletDto dto)
+    {
+        string userId = _userManager.GetUserId(User);
+
+        WalletDto updatedWallet = await _walletService.UpdateAsync(userId, walletId, dto);
+
+        return Ok(updatedWallet);
+    }
+
 }

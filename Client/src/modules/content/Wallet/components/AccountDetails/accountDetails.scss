@@ -1,0 +1,39 @@
+.account-details {
+  &__top, &__bottom {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  &__top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+  }
+
+  &__btn-group {
+    display: flex;
+    gap: 50px;
+  }
+
+  &__btn {
+    width: 200px;
+    height: 65px;
+  }
+
+  &__bottom {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+  }
+
+  &__info {
+    gap: 20px;
+  }
+
+}

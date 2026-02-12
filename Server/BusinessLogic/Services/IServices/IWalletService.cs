@@ -6,6 +6,6 @@ public interface IWalletService
 {
     Task<WalletDto?> GetByUserIdAsync(string userId);
     Task<WalletDto> CreateAsync(WalletDto dto);
-    Task<WalletDto> RenameAsync(int walletId, string newName);
+    Task<WalletDto> UpdateAsync(string userId, int walletId, UpdateWalletDto dto);
     Task RemoveAsync(int id);
 }
