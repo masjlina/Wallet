@@ -8,7 +8,8 @@ const TransactionRow = ({
                             onModalOpen,
                             type = TRANSACTION_TYPE.EXPENSE,
                             transaction,
-                            setId
+                            setId,
+        onClick
                         }) => {
     if (!transaction) return null;
 
@@ -28,7 +29,7 @@ const TransactionRow = ({
             : "icon--table__income";
 
     return (
-        <tr className="table__row-new">
+        <tr className="table__row-new" onClick={onClick}>
             <td>
                 <div className="table table__first-block">
                     <div className={iconClazz}/>
@@ -48,15 +49,18 @@ const TransactionRow = ({
             </td>
 
             <td>
-                <img
+                <button
+                    type="button"
                     className="btn btn_more-actions"
-                    src={dotsIcon}
-                    alt="more actions"
                     onClick={(e) => {
-                        onModalOpen(e);
+                        e.stopPropagation();
                         setId(id);
+                        onModalOpen(e);
                     }}
-                />
+                >
+                    <img src={dotsIcon} alt="more actions" />
+                </button>
+
             </td>
         </tr>
     );

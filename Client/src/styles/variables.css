@@ -7,6 +7,16 @@
     --accent--primary: #7763EA;
     --accent--hover: #8B78F1;
 
+    --surface-white-hover:   #F5F6F8;
+    --surface-white-active:  #EDEEF2;
+    --surface-white-pressed: #E4E6EB;
+
+    --surface-grey-hover:   #ECECEC;
+    --surface-grey-active:  #E2E2E2;
+    --surface-grey-pressed: #D8D8D8;
+
+    --text-hover-strong: #2F3133;
+
     --color--red: #F75555;
     --color--yellow: #FACC15;
     --color--green: #4ADE80;

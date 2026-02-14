@@ -11,7 +11,13 @@ const AmountInput = ({balance, setBalance}) => {
     const [inputColor, setInputColor] = useState("text--green");
 
     useEffect(() => {
-        formattedInput.setValue(formatAmountOfMoney(balance));
+        const currentString = formattedInput.value.replace(/[^0-9.,]/g, "").replace(",", ".");
+        const currentSign = formattedInput.value.includes("-") ? -1 : 1;
+        const currentNumeric = currentSign * (parseFloat(currentString) || 0);
+
+        if (currentNumeric !== balance) {
+            formattedInput.setValue(formatAmountOfMoney(balance));
+        }
 
         if (balance < 0) setInputColor("text--red");
         else if (balance === 0) setInputColor("text--inactive");
@@ -20,19 +26,24 @@ const AmountInput = ({balance, setBalance}) => {
 
 
     const onChange = (e) => {
-        const raw = e.target.value.replace(/[^0-9.,+\-$]/g, "");
+        let raw = e.target.value.replace(/[^0-9.,+\-$]/g, "");
+        const sign = raw.includes("-") ? -1 : 1;
 
-        if (/[.,]$/.test(raw)) {
-            formattedInput.setValue(raw);
-            return;
-        }
+        let numericString = raw.replace(/[^0-9.,]/g, "").replace(",", ".");
 
-        const sign = raw[0] === "-" ? -1 : 1;
-        const numeric = sign * (
-            parseFloat(raw.slice(2).replace(",", ".")) || 0
-        );
+        if ((numericString.match(/\./g) || []).length > 1) return;
 
+        const parts = numericString.split(".");
+        if (parts[1] && parts[1].length > 2) return; // Игнорируем ввод 3-й цифры
+
+        formattedInput.setValue(raw);
+
+        const numeric = sign * (parseFloat(numericString) || 0);
         setBalance(numeric);
+    };
+
+    const onBlur = () => {
+        formattedInput.setValue(formatAmountOfMoney(balance));
     };
 
     const onIncrease = (e) => {
@@ -47,7 +58,7 @@ const AmountInput = ({balance, setBalance}) => {
 
     return (
         <div className="amount-input">
-            <button type="button" onClick={onDecrease}>
+            <button type="button" className="amount-input__btn" onClick={onDecrease}>
                 <img src={arrowLeftIcon} alt="Decrease"/>
             </button>
             <input
@@ -56,8 +67,9 @@ const AmountInput = ({balance, setBalance}) => {
                 maxLength={10}
                 value={formattedInput.value}
                 onChange={onChange}
+                onBlur={onBlur}
                 placeholder="+$100"/>
-            <button type="button" onClick={onIncrease}>
+            <button type="button" className="amount-input__btn" onClick={onIncrease}>
                 <img src={arrowRightIcon} alt="Increase"/>
             </button>
         </div>

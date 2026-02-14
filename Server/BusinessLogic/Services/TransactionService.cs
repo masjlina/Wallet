@@ -114,6 +114,63 @@ public class TransactionService : ITransactionService
         return _mapper.ToDto(transaction);
     }
 
+    public async Task<TransactionDto> UpdateAsync(string userId, int transactionId, UpdateTransactionDto dto)
+    {
+        var transactionToUpdate = await _dbContext.Transactions
+            .FirstOrDefaultAsync(t =>
+                t.Id == transactionId &&
+                (
+                    t.Wallet.ApplicationUserId == userId ||
+                    t.CreditCard.Wallet.ApplicationUserId == userId
+                )
+            );
+
+
+        if (transactionToUpdate is null)
+            throw new BusinessException("Transaction was not found", HttpStatusCode.NotFound);
+
+        if (!string.IsNullOrWhiteSpace(dto.Name) &&
+            dto.Name != transactionToUpdate.Name)
+        {
+            transactionToUpdate.Name = dto.Name;
+        }
+
+        if (!string.IsNullOrWhiteSpace(dto.Description) &&
+            dto.Description != transactionToUpdate.Description)
+        {
+            transactionToUpdate.Description = dto.Description;
+        }
+
+        if (dto.Amount is not null &&
+            dto.Amount.Value != transactionToUpdate.Amount)
+        {
+            transactionToUpdate.Amount = dto.Amount.Value;
+        }
+
+        if (dto.WalletId is not null)
+        {
+            transactionToUpdate.WalletId = dto.WalletId;
+            transactionToUpdate.CreditCardId = null;
+        }
+        else if (dto.CreditCardId is not null)
+        {
+            transactionToUpdate.CreditCardId = dto.CreditCardId;
+            transactionToUpdate.WalletId = null;
+        }
+
+        if (dto.CreatedAt is not null &&
+            transactionToUpdate.CreatedAt != dto.CreatedAt)
+        {
+            transactionToUpdate.CreatedAt = dto.CreatedAt.Value;
+        }
+
+        transactionToUpdate.CategoryId = dto.CategoryId;
+
+        await _dbContext.SaveChangesAsync();
+
+        return _mapper.ToDto(transactionToUpdate);
+    }
+
     public async Task RemoveAsync(string userId, int transactionId)
     {
         Wallet wallet = await CheckOwnership.GetWalletByUserId(userId, _dbContext);

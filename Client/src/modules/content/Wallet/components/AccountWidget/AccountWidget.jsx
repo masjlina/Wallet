@@ -5,6 +5,7 @@ import "./cardWidget.scss";
 import Button from "../../../../../ui/Button/Button";
 import ACCOUNT_TYPE from "../../../../../consts/accountType";
 import {maskCardNumber} from "../../helpers/creditCardManager";
+import {formatAmountOfMoney} from "../../../../../services/moneyService";
 
 const AccountWidget = ({
                            amount,
@@ -18,6 +19,7 @@ const AccountWidget = ({
     const maskedCardNumber = isCard
         ? maskCardNumber(name)
         : null;
+    const formattedAmount = formatAmountOfMoney(amount);
 
     return (
         <Widget>
@@ -43,7 +45,7 @@ const AccountWidget = ({
                 </div>
 
                 <div>
-                    <p className="text__base--bold">${amount}</p>
+                    <p className="text__base--bold">{formattedAmount}</p>
                     <p className="text--inactive">Total amount</p>
                 </div>
             </Widget.Content>

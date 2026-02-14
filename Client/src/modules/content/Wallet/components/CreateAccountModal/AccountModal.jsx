@@ -19,8 +19,8 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
 
     useEffect(() => {
         if (account) {
-            nameInput.setValue(account.name);
-            setBalance(account.balance);
+            nameInput.setValue(account?.name ?? "");
+            setBalance(account?.balance ?? 0);
         }
     }, [account]);
 
@@ -54,7 +54,7 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
             isOpen={isOpen}
             onClose={onClose}>
             <div className="content modal__content--top text__title">
-                <p>{account ? "Edit account" : "Create account"}</p>
+                <p>{account ? "Edit" : "Create"} account</p>
                 <button type="button" className="modal__close pointer" onClick={onClose}>
                     <img src={xIcon} alt="Close modal"/>
                 </button>

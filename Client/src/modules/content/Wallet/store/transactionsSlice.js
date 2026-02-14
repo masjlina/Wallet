@@ -3,7 +3,8 @@ import {
     createUserTransaction,
     getAllUserTransactions,
     getUserTransaction,
-    removeUserTransaction
+    removeUserTransaction,
+    updateUserTransaction
 } from "./transactionsThunks";
 
 const initialState = {
@@ -24,6 +25,15 @@ const transactionsSlice = createSlice({
                 })
                 .addCase(createUserTransaction.fulfilled, (state, action) => {
                     state.transactions.push(action.payload);
+                })
+                .addCase(updateUserTransaction.fulfilled, (state, action) => {
+                    const index = state.transactions.findIndex(
+                        t => t.id === action.payload.id
+                    );
+
+                    if (index !== -1) {
+                        state.transactions[index] = action.payload;
+                    }
                 })
                 .addCase(removeUserTransaction.fulfilled, (state, action) => {
                     const index = state.transactions.findIndex(

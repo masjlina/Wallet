@@ -1,6 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import onReject from "../../../../store/onReject";
-import {createTransaction, getAllTransactions, getTransaction, removeTransaction} from "../api/transactionsApi";
+import {
+    createTransaction,
+    getAllTransactions,
+    getTransaction,
+    removeTransaction,
+    updateTransaction
+} from "../api/transactionsApi";
 
 export const getAllUserTransactions = createAsyncThunk(
     "transactions/getAll",
@@ -30,6 +36,18 @@ export const createUserTransaction = createAsyncThunk(
     "transactions/create",
     async (transaction, thunkAPI) => {
         const response = await createTransaction(transaction);
+
+        const rejected = onReject(response, thunkAPI);
+        if (rejected) return rejected;
+
+        return response
+    }
+);
+
+export const updateUserTransaction = createAsyncThunk(
+    "transactions/update",
+    async ({transactionId, transaction}, thunkAPI) => {
+        const response = await updateTransaction(transactionId, transaction);
 
         const rejected = onReject(response, thunkAPI);
         if (rejected) return rejected;

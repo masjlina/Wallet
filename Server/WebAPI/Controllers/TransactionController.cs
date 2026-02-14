@@ -51,6 +51,16 @@ public class TransactionController : ControllerBase
         );
     }
 
+    [HttpPatch("{transactionId}")]
+    public async Task<ActionResult<TransactionDto>> Update(int transactionId, UpdateTransactionDto dto)
+    {
+        var userId = _userManager.GetUserId(User)!;
+
+        TransactionDto transactionDto = await _transactionService.UpdateAsync(userId, transactionId, dto);
+
+        return Ok(transactionDto);
+    }
+
     [HttpDelete("{transactionId}")]
     public async Task<ActionResult> Remove([FromRoute] int transactionId)
     {

@@ -78,8 +78,8 @@
   background: var(--accent--primary);
 }
 
-.btn__nav:hover, {background-color: var(--text--hover);}
-.btn__nav:active {background-color: var(--text--active); color: var(--text--white)}
+.btn__nav:hover, {background-color: var(--surface-grey-hover);}
+.btn__nav:active {background-color: var(--surface-grey-active); color: var(--text--white)}
 
 
 .btn__day-limit--fill {
@@ -97,10 +97,10 @@
   border: 3px #7763EA solid;
 
   &:hover {
-    background: var(--text--hover);
+    background: var(--surface-white-hover);
   }
   &:active {
-    background: var(--text--active);
+    background: var(--surface-white-active);
   }
 }
 

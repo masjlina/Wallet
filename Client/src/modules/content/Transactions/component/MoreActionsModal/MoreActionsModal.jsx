@@ -4,7 +4,7 @@ import trashIcon from "../../../../../assets/icons/trash--red.svg";
 import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
 
-const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id}) => {
+const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id, onSelectTransaction}) => {
     const boxRef = useRef(null);
     const [pos, setPos] = useState({top: 0, left: 0});
 
@@ -29,7 +29,13 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id}) => {
             pos={pos}
         >
             <div className="content modal__content text text__base">
-                <button className="btn btn__nav btn__modal text--r" type="button">
+                <button
+                    className="btn btn__nav btn__modal text--r"
+                    type="button"
+                    onClick={() => {
+                        onSelectTransaction(id);
+                        onClose();
+                    }}>
                     <img src={pencilIcon} alt="Edit"/>
                     Edit
                 </button>

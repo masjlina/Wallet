@@ -7,6 +7,16 @@
   gap: 1.5em;
 
   width: 100%;
+
+  &__btn:hover {
+    background: var(--surface-white-hover);
+    border-radius: 20px;
+  }
+
+  &__btn:active {
+    background: var(--surface-white-active);
+    border-radius: 20px;
+  }
 }
 
 .input-reset {

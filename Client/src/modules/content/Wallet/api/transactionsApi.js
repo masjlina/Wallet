@@ -30,6 +30,15 @@ export async function createTransaction(transaction) {
     }
 }
 
+export async function updateTransaction(transactionId, transaction) {
+    try {
+        const result = await request(`${endpoints.transactions}/${transactionId}`, "PATCH", transaction);
+        return createTransactionFromDto(result)
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+
 export async function removeTransaction(transactionId) {
     try {
         const result = await request(`${endpoints.transactions}/${transactionId}`, "DELETE");
