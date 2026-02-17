@@ -2,8 +2,9 @@ import {Widget} from "../../../../../components/Widget/Widget";
 
 import "./dayLimitWidget.scss";
 import Button from "../../../../../ui/Button/Button";
+import TRANSACTION_TYPE from "../../../../../consts/transactionTypes";
 
-const DayLimitWidget = () => {
+const DayLimitWidget = ({openModal}) => {
   return (
         <Widget>
             <Widget.Content className="content day-limit__graphic-content text">
@@ -20,8 +21,13 @@ const DayLimitWidget = () => {
             </Widget.Content>
 
             <Widget.Footer className="content day-limit__bottom-content text__btn">
-                <Button className="btn btn__day-limit--fill">Expense</Button>
-                <button className="btn btn__day-limit--empty">Income</button>
+                <Button
+                    className="btn btn__day-limit--fill"
+                    onClick={() => openModal(TRANSACTION_TYPE.EXPENSE)}>Expense</Button>
+                <button
+                    className="btn btn__day-limit--empty"
+                    onClick={() => openModal(TRANSACTION_TYPE.INCOME)}>Income
+                </button>
             </Widget.Footer>
         </Widget>
   );

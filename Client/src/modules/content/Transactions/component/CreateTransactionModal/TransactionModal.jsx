@@ -22,7 +22,7 @@ import useInput from "../../../../../hooks/useInput";
 import {createTransactionFromObject} from "../../../../../domain/transaction";
 import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState";
 
-const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction}) => {
+const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, type}) => {
     const accounts = useSelector(state => state.accounts.accounts);
     const wallet = useSelector(state => state.wallet.wallet);
     const dispatch = useDispatch();
@@ -35,7 +35,12 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction}) =>
     const accountInput = useInput(initialForm.account);
     const dateTimeInput = useInput(initialForm.createdAt);
 
-    const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
+    const [transactionType, setTransactionType] = useState(
+        type ??
+        (initialForm.amount > 0
+            ? TRANSACTION_TYPE.INCOME
+            : TRANSACTION_TYPE.EXPENSE)
+    );
 
     useEffect(() => {
         const form = getInitialTransactionFormState(transaction);
@@ -46,6 +51,13 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction}) =>
         accountInput.setValue(form.account);
         dateTimeInput.setValue(form.createdAt);
 
+        if (form.amount !== 0) {
+            setTransactionType(
+                form.amount > 0
+                    ? TRANSACTION_TYPE.INCOME
+                    : TRANSACTION_TYPE.EXPENSE
+            );
+        }
     }, [transaction]);
 
     useEffect(() => {
@@ -56,21 +68,45 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction}) =>
     }, [accounts, wallet, dispatch])
 
     useEffect(() => {
-        if (balanceInput.value > 0)
-            setTransactionType(TRANSACTION_TYPE.INCOME)
-        else
-            setTransactionType(TRANSACTION_TYPE.EXPENSE)
-    }, [balanceInput.value])
+        if (!isOpen || !type) return;
 
-    const onChangeTransactionType = (type) => {
         setTransactionType(type);
 
         balanceInput.setValue(prev =>
             type === TRANSACTION_TYPE.EXPENSE
-                ? -Math.abs(prev)
-                : Math.abs(prev)
+                ? -Math.abs(prev || 0)
+                : Math.abs(prev || 0)
+        );
+
+    }, [isOpen, type]);
+
+    useEffect(() => {
+        const amount = Number(balanceInput.value);
+
+        if (Number.isNaN(amount) || amount === 0) return;
+
+        const expectedType =
+            amount > 0
+                ? TRANSACTION_TYPE.INCOME
+                : TRANSACTION_TYPE.EXPENSE;
+
+        if (expectedType !== transactionType) {
+            setTransactionType(expectedType);
+        }
+
+    }, [balanceInput.value]);
+
+
+    const onChangeTransactionType = (nextType) => {
+        setTransactionType(nextType);
+
+        balanceInput.setValue(prev =>
+            nextType === TRANSACTION_TYPE.EXPENSE
+                ? -Math.abs(prev || 0)
+                : Math.abs(prev || 0)
         );
     };
+
 
     const validateAndSubmit = async (e) => {
         e.preventDefault();
