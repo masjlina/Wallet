@@ -1,14 +1,11 @@
 import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
-
-import xIcon from "../../../../../assets/icons/x.svg";
 import arrowDownIcon from "../../../../../assets/icons/arrow-down.svg";
 import calendarIcon from "../../../../../assets/icons/calendar.svg";
 
 import "./addTransactionModal.scss";
 import FieldWithLabel from "../../../../../components/FieldWithLabel/FieldWithLabel";
 import FieldWithIcon from "../../../../../components/FieldWithIcon/FieldWithIcon";
-import Button from "../../../../../ui/Button/Button";
 import AmountInput from "../../../../../components/modal/AmountInput/AmountInput";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -96,7 +93,6 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
 
     }, [balanceInput.value]);
 
-
     const onChangeTransactionType = (nextType) => {
         setTransactionType(nextType);
 
@@ -143,125 +139,112 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
             isOpen={isOpen}
             onClose={onClose}
         >
-            <form
-                className="content modal__content"
-                id="add-transaction-form"
-                onSubmit={validateAndSubmit}>
+            <Modal.Header
+                title={`${transaction ? "Edit" : "Add"} transaction`}/>
 
-                <div className="content modal__content--top text__title">
-                    <p>{transaction ? "Edit" : "Add"} transaction</p>
-                    <button type="button" className="modal__close pointer" onClick={onClose}>
-                        <img src={xIcon} alt="Close modal" />
-                    </button>
+            <Modal.Content>
+                <form
+                    id="add-transaction-form"
+                    onSubmit={validateAndSubmit}>
 
-                </div>
+                    {/*Transaction switcher*/}
+                    <TransactionTypeSwitcher
+                        transactionType={transactionType}
+                        onChange={onChangeTransactionType}/>
 
-                {/*Transaction switcher*/}
-                <TransactionTypeSwitcher
-                    transactionType={transactionType}
-                    onChange={onChangeTransactionType}/>
+                    {/*Amount input*/}
+                    <AmountInput
+                        balance={balanceInput.value}
+                        setBalance={balanceInput.setValue}/>
 
-                {/*Amount input*/}
-                <AmountInput
-                    balance={balanceInput.value}
-                    setBalance={balanceInput.setValue}/>
+                    <div className="input-section__double-field">
 
-                <div className="input-section__double-field">
+                        {/*Name input*/}
+                        <div className="input-section">
+                            <FieldWithLabel
+                                id="transaction-name"
+                                labelText="Name"
+                                placeholder="Transaction name"
+                                value={nameInput.value}
+                                onChange={nameInput.onChange}
+                                required/>
+                        </div>
 
-                    {/*Name input*/}
+                        {/*Account selector*/}
+                        <div className="input-section">
+                            <FieldWithIcon
+                                id="account"
+                                labelText="Account"
+                                as="select"
+                                icon={arrowDownIcon}
+                                value={accountInput.value}
+                                onChange={accountInput.onChange}
+                                required
+                            >
+                                <option value="" hidden>Select account</option>
+                                {wallet && (
+                                    <option
+                                        key={wallet.id}
+                                        value={`${accountType.CASH}: ${wallet.id}`}>
+                                        Wallet
+                                    </option>
+                                )
+                                }
+                                {accounts && (
+                                    accounts.map(account => {
+                                            return <option
+                                                key={account.id}
+                                                value={`${accountType.CARD}: ${account.id}`}>
+                                                Card •••• {account.name.slice(-4)}
+                                            </option>
+
+                                        }
+                                    )
+                                )
+                                }
+                            </FieldWithIcon>
+                        </div>
+                    </div>
+
+                    {/*Description input*/}
                     <div className="input-section">
                         <FieldWithLabel
-                            id="transaction-name"
-                            labelText="Name"
-                            placeholder="Transaction name"
-                            value={nameInput.value}
-                            onChange={nameInput.onChange}
-                            required/>
+                            id="description"
+                            as="textarea"
+                            labelText="Description"
+                            placeholder="Some detail about transaction"
+                            value={descriptionInput.value}
+                            onChange={descriptionInput.onChange}
+                        />
                     </div>
+                    <div className="input-section__double-field">
 
-                    {/*Account selector*/}
-                    <div className="input-section">
-                        <FieldWithIcon
-                            id="account"
-                            labelText="Account"
-                            as="select"
-                            icon={arrowDownIcon}
-                            value={accountInput.value}
-                            onChange={accountInput.onChange}
-                            required
-                        >
-                            <option value="" hidden>Select account</option>
-                            {wallet && (
-                                <option
-                                    key={wallet.id}
-                                    value={`${accountType.CASH}: ${wallet.id}`}>
-                                    Wallet
-                                </option>
-                            )
-                            }
-                            {accounts && (
-                                accounts.map(account => {
-                                        return <option
-                                            key={account.id}
-                                            value={`${accountType.CARD}: ${account.id}`}>
-                                            Card •••• {account.name.slice(-4)}
-                                        </option>
+                        {/*Date selector*/}
+                        <div className="input-section">
+                            <FieldWithIcon
+                                id="date"
+                                labelText="Date"
+                                icon={calendarIcon}
+                                type="datetime-local"
+                                value={dateTimeInput.value}
+                                onChange={dateTimeInput.onChange}/>
+                        </div>
 
-                                    }
-                                )
-                            )
-                            }
-                        </FieldWithIcon>
+                        {/*Category selector*/}
+                        <div className="input-section">
+                            <FieldWithIcon
+                                id="category"
+                                labelText="Category"
+                                as="select"
+                                icon={arrowDownIcon}
+                            >
+                                <option value="" hidden>Select category</option>
+                            </FieldWithIcon>
+                        </div>
                     </div>
-                </div>
-
-                {/*Description input*/}
-                <div className="input-section">
-                    <FieldWithLabel
-                        id="description"
-                        as="textarea"
-                        labelText="Description"
-                        placeholder="Some detail about transaction"
-                        value={descriptionInput.value}
-                        onChange={descriptionInput.onChange}
-                    />
-                </div>
-                <div className="input-section__double-field">
-
-                    {/*Date selector*/}
-                    <div className="input-section">
-                        <FieldWithIcon
-                            id="date"
-                            labelText="Date"
-                            icon={calendarIcon}
-                            type="datetime-local"
-                            value={dateTimeInput.value}
-                            onChange={dateTimeInput.onChange}/>
-                    </div>
-
-                    {/*Category selector*/}
-                    <div className="input-section">
-                        <FieldWithIcon
-                            id="category"
-                            labelText="Category"
-                            as="select"
-                            icon={arrowDownIcon}
-                        >
-                            <option value="" hidden>Select category</option>
-                        </FieldWithIcon>
-                    </div>
-                </div>
-                <div className="content modal__content--bottom">
-                    <Button
-                        className="btn__day-limit--empty"
-                        type="button"
-                        onClick={onClose}>Cancel</Button>
-                    <Button
-                        className="btn__day-limit--fill"
-                        type="submit"
-                        form="add-transaction-form">Save</Button>
-                </div>
-            </form>
+                </form>
+            </Modal.Content>
+            <Modal.Footer formId="add-transaction-form"/>
         </Modal>
     )
 }

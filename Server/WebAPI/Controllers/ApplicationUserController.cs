@@ -1,40 +1,45 @@
 using BusinessLogic.Dtos;
 using BusinessLogic.Services.IServices;
 using BusinessLogic.Services;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Controllers.IControllers;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/applicationUsers")]
-public class ApplicationUserController : ControllerBase, IApplicationUserController
+[Route("api/users")]
+public class ApplicationUserController : ControllerBase
 {
     private readonly IApplicationUserService _applicationUserService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public ApplicationUserController(IApplicationUserService applicationUserService)
+    public ApplicationUserController(UserManager<ApplicationUser> userManager,
+        IApplicationUserService applicationUserService)
     {
+        _userManager = userManager;
         _applicationUserService = applicationUserService;
     }
-    [Authorize("IsAdmin")]
-    [HttpGet("{applicationUserId}")]
-    public async Task<ActionResult<ApplicationUserDto>> GetById(string applicationUserId)
+
+    [HttpGet]
+    public async Task<ActionResult<ApplicationUserDto>> GetById()
     {
-        ApplicationUserDto? applicationUserDTO = await _applicationUserService.GetByIdAsync(applicationUserId);
+        var userId = _userManager.GetUserId(User)!;
 
-        if (applicationUserDTO == null)
-        {
-            return NotFound();
-        }
+        var user = await _applicationUserService.GetByIdAsync(userId);
 
-        return Ok(applicationUserDTO);
+        return Ok(user);
     }
-        
-    [HttpPatch("{applicationUserDTO.Id}")]
-    public async Task<ActionResult> Update([FromBody]ApplicationUserDto applicationUserDTO)
+
+    [HttpPatch]
+    public async Task<ActionResult> Update([FromBody] UpdateApplicationUserDto applicationUserDTO)
     {
-        await _applicationUserService.UpdateAsync(applicationUserDTO);
-        return Ok();
+        var userId = _userManager.GetUserId(User)!;
+
+        var updatedUser = await _applicationUserService.UpdateAsync(userId, applicationUserDTO);
+
+        return Ok(updatedUser);
     }
 }

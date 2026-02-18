@@ -6,3 +6,44 @@
   height: 25%;
   justify-content: space-between;
 }
+
+.pencil {
+  block-size: 15px;
+  cursor: pointer;
+}
+
+.day-limit__input {
+  gap: 5px;
+}
+
+.graphic__fill--radial {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+
+  background: conic-gradient(from 0deg, #7763EA 0deg, #EA6363 360deg);
+
+  $mask-edge-softness: 0.5deg;
+
+  -webkit-mask: conic-gradient(
+                  #fff calc(var(--angle) - #{$mask-edge-softness}),
+                  transparent calc(var(--angle) + #{$mask-edge-softness})
+  );
+  mask: conic-gradient(
+                  #fff calc(var(--angle) - #{$mask-edge-softness}),
+                  transparent calc(var(--angle) + #{$mask-edge-softness})
+  );
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+
+  transition: --angle 0.6s ease;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}

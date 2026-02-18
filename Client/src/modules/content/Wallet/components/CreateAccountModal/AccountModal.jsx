@@ -1,6 +1,5 @@
 import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
-import xIcon from "../../../../../assets/icons/x.svg";
 import Button from "../../../../../ui/Button/Button";
 
 import "./CreateAccountModal.scss";
@@ -47,46 +46,37 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
         onClose();
     };
 
-
     return (
         <Modal
             variant={MODAL_VARIANT.CENTRAL}
             isOpen={isOpen}
             onClose={onClose}>
-            <div className="content modal__content--top text__title">
-                <p>{account ? "Edit" : "Create"} account</p>
-                <button type="button" className="modal__close pointer" onClick={onClose}>
-                    <img src={xIcon} alt="Close modal"/>
-                </button>
+            <Modal.Header title={`${account ? "Edit" : "Create"} account`}/>
 
-            </div>
-            <form
-                className="content modal__content create-wallet__content" id="create-wallet"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    validateAndSubmit();
-                }}>
-                <AmountInput balance={balance} setBalance={setBalance}/>
-                {accountType === ACCOUNT_TYPE.CARD && (
-                    <CardField
-                        value={nameInput.value}
-                        onChange={nameInput.setValue}/>
-                )}
-                {accountType === ACCOUNT_TYPE.CASH && (
-                    <FieldWithLabel
-                        labelText="Wallet name"
-                        value={nameInput.value}
-                        onChange={nameInput.onChange}/>
-                )}
-                {errorMessage ? <p className="text--red">{errorMessage}</p> : ""}
-            </form>
-            <div className="content modal__content--bottom">
-                <Button
-                    className="btn__day-limit--empty"
-                    type="button"
-                    onClick={onClose}>Cancel</Button>
-                <Button className="btn__day-limit--fill" type="submit" form="create-wallet">Save</Button>
-            </div>
+            <Modal.Content>
+                <form
+                    id="update-account"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        validateAndSubmit();
+                    }}>
+                    <AmountInput balance={balance} setBalance={setBalance}/>
+                    {accountType === ACCOUNT_TYPE.CARD && (
+                        <CardField
+                            value={nameInput.value}
+                            onChange={nameInput.setValue}/>
+                    )}
+                    {accountType === ACCOUNT_TYPE.CASH && (
+                        <FieldWithLabel
+                            labelText="Wallet name"
+                            value={nameInput.value}
+                            onChange={nameInput.onChange}/>
+                    )}
+                    {errorMessage ? <p className="text--red">{errorMessage}</p> : ""}
+                </form>
+            </Modal.Content>
+
+            <Modal.Footer formId="update-account"/>
         </Modal>
     )
 }

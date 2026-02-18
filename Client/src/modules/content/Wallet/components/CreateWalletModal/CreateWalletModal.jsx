@@ -1,6 +1,5 @@
 import Modal from "../../../../../components/modal/Modal/Modal";
 import MODAL_VARIANT from "../../../../../consts/modalVariants";
-import xIcon from "../../../../../assets/icons/x.svg";
 import Button from "../../../../../ui/Button/Button";
 
 import "./createWalletModal.scss";
@@ -15,31 +14,24 @@ const CreateWalletModal = ({isOpen, onClose, onSubmit}) => {
             variant={MODAL_VARIANT.CENTRAL}
             isOpen={isOpen}
             onClose={onClose}>
-            <div className="content modal__content--top text__title">
-                <p>Add transaction</p>
-                <button type="button" className="modal__close pointer" onClick={onClose}>
-                    <img src={xIcon} alt="Close modal"/>
-                </button>
+            <Modal.Header title="Create wallet"/>
 
-            </div>
-            <form
-                className="content modal__content create-wallet__content" id="create-wallet"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    onSubmit(name.value)}}>
-                <NameField
-                    value={name.value}
-                    onChange={name.onChange}
-                    placeholder="Wallet name"/>
-            </form>
-            <div className="content modal__content--bottom">
-                <Button
-                    className="btn__day-limit--empty"
-                    type="button"
-                    onClick={onClose}>Cancel</Button>
-                <Button className="btn__day-limit--fill" type="submit" form="create-wallet">Save</Button>
-            </div>
-        </Modal>
+            <Modal.Content className="create-wallet__content">
+                <form
+                    id="create-wallet"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        onSubmit(name.value)
+                    }}>
+                    <NameField
+                        value={name.value}
+                        onChange={name.onChange}
+                        placeholder="Wallet name"/>
+                </form>
+            </Modal.Content>
+
+            <Modal.Footer formId="create-wallet"/>
+        a</Modal>
     )
 }
 

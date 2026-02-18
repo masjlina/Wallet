@@ -28,7 +28,7 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id, onSelectTran
             boxRef={boxRef}
             pos={pos}
         >
-            <div className="content modal__content text text__base">
+            <Modal.Content>
                 <button
                     className="btn btn__nav btn__modal text--r"
                     type="button"
@@ -51,7 +51,7 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, onRemove, id, onSelectTran
                         alt="Delete"/>
                     Delete
                 </button>
-            </div>
+            </Modal.Content>
         </Modal>
     );
 };

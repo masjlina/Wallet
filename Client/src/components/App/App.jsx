@@ -14,18 +14,29 @@ import {useEffect} from "react";
 import {checkUserAuth} from "../../modules/logRegForms/store/thunks";
 import STATUSES from "../../consts/STATUSES";
 import AccountDetails from "../../modules/content/Wallet/components/AccountDetails/AccountDetails";
+import {getApplicationUser} from "../../modules/content/Dashboard/store/userThunks";
 
 const App = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    const { user, isAuthenticated, status } = useSelector(state => state.auth);
+    const {isAuthenticated, status} = useSelector(state => state.auth);
+    const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         if (status === STATUSES.IDLE) {
             dispatch(checkUserAuth());
         }
     }, [dispatch, status]);
+
+    useEffect(() => {
+        if (!user) {
+            try {
+                dispatch(getApplicationUser());
+            } catch (error) {
+            }
+        }
+    }, [user]);
 
     useEffect(() => {
         if (status === STATUSES.FAILED && !isAuthenticated) {
