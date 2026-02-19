@@ -2,57 +2,61 @@ import {Widget} from "../../../../../components/Widget/Widget";
 import rightArrow from "../../../../../assets/icons/right-arrow.svg";
 
 import "./recentTransactionsWidget.scss";
+import {useNavigate} from "react-router-dom";
+import {ROUTES} from "../../../../../consts/routes";
+import React from "react";
+import TransactionRow from "../../../Transactions/component/TransactionRow/TransactionRow";
+import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "../../../../../consts/transactionTypes";
+import TransactionCol from "../../../Transactions/component/TransactionCol/TransactionCol";
 
-const RecentTransactionsWidget = () => {
+const RecentTransactionsWidget = ({transactions}) => {
+    const navigate = useNavigate();
+
+    const tableHeaders = [
+        TRANSACTION_COLUMNS.NAME,
+        TRANSACTION_COLUMNS.AMOUNT,
+        TRANSACTION_COLUMNS.CATEGORY,
+        TRANSACTION_COLUMNS.DATE
+    ];
+
+    const content = Array.isArray(transactions) && transactions.map(transaction => {
+        return <TransactionRow
+            key={transaction.id}
+            transaction={transaction}
+            type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
+            onClick={() => onSelectTransaction(transaction.id)}
+            tableHeaders={tableHeaders}/>
+    })
+
   return (
     <Widget>
         <Widget.Header>
             <div className="text text__title">Recent Transactions</div>
 
-            <div className="view-all">
-                <div className="text text__link">View All</div>
+            <button
+                className="view-all text__link"
+                onClick={() => navigate(ROUTES.TRANSACTIONS)}>
+                <div
+                    className="text text__link">
+                    View All
+                </div>
                 <img
                     className="icon--widget__arrow"
                     src={rightArrow}
                     alt="Right arrow"
                 />
-            </div>
+            </button>
         </Widget.Header>
 
         <Widget.Content className="recent-transactions__table-content text text__table">
-            <div className="table table__column">
-                <div className="table table__first-block">NAME</div>
-                <div>TYPE</div>
-                <div>AMOUNT</div>
-                <div>DATE</div>
-            </div>
+            <div className="table-scroll scroll-y">
+                <table className="table table__content text text__table">
+                    <TransactionCol tableHeaders={tableHeaders}/>
 
-            <div className="table table__content text">
-                <div className="table table__row">
-                    <div className="table table__first-block">
-                        <div className="icon--table__expense" />
-                        <div className="text__table--name">Iphone 13 Pro MAX</div>
-                    </div>
-                    <div>Mobile</div>
-                    <div className="text__table__amount--expense">-$990,50</div>
-                    <div
-                        className="text__table--date"
-                        dangerouslySetInnerHTML={{ __html: "12.01.2020<br>09:34" }}
-                    />
-                </div>
-
-                <div className="table table__row">
-                    <div className="table table__first-block">
-                        <div className="icon--table__income" />
-                        <div className="text__table--name">Netflix Subscription</div>
-                    </div>
-                    <div>Entertainment</div>
-                    <div className="text__table__amount--income">+$20</div>
-                    <div
-                        className="text__table--date"
-                        dangerouslySetInnerHTML={{ __html: "12.01.2020<br>09:34" }}
-                    />
-                </div>
+                    <tbody className="text text__table--name scroll-y">
+                    {content}
+                    </tbody>
+                </table>
             </div>
         </Widget.Content>
 

@@ -1,14 +1,16 @@
 import dotsIcon from "../../../../../assets/icons/dots.svg";
 
 import "./transactionRow.scss";
-import TRANSACTION_TYPE from "../../../../../consts/transactionTypes";
+import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "../../../../../consts/transactionTypes";
 import {formatAmountOfMoney} from "../../../../../services/moneyService";
 import accountType from "../../../../../consts/accountType";
+
 const TransactionRow = ({
                             onModalOpen,
                             type = TRANSACTION_TYPE.EXPENSE,
                             transaction,
                             setId,
+                            tableHeaders = [],
         onClick
                         }) => {
     if (!transaction) return null;
@@ -30,38 +32,55 @@ const TransactionRow = ({
 
     return (
         <tr className="table__row-new" onClick={onClick}>
-            <td>
-                <div className="table table__first-block">
-                    <div className={iconClazz}/>
-                    <div className="text__table--name">{name}</div>
-                </div>
-            </td>
+            {tableHeaders.map(col => {
+                switch (col) {
+                    case TRANSACTION_COLUMNS.NAME:
+                        return (
+                            <td key={col}>
+                                <div className="table__first-block">
+                                    <div className={iconClazz}/>
+                                    <div className="text__table--name">{name}</div>
+                                </div>
+                            </td>
+                        );
 
-            <td className={amount < 0 ? "text--red" : "text--green"}>
-                {formattedAmount}
-            </td>
+                    case TRANSACTION_COLUMNS.AMOUNT:
+                        return (
+                            <td key={col} className={amount < 0 ? "text--red" : "text--green"}>
+                                {formattedAmount}
+                            </td>
+                        );
 
-            <td>{category}</td>
-            <td>{paymentMethod}</td>
+                    case TRANSACTION_COLUMNS.CATEGORY:
+                        return <td key={col}>{category}</td>;
 
-            <td className="text__table--date">
-                {localDate}
-            </td>
+                    case TRANSACTION_COLUMNS.PAYMENT_METHOD:
+                        return <td key={col}>{paymentMethod}</td>;
 
-            <td>
-                <button
-                    type="button"
-                    className="btn btn_more-actions"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setId(id);
-                        onModalOpen(e);
-                    }}
-                >
-                    <img src={dotsIcon} alt="more actions" />
-                </button>
+                    case TRANSACTION_COLUMNS.DATE:
+                        return <td key={col} className="text__table--date">{localDate}</td>;
 
-            </td>
+                    case TRANSACTION_COLUMNS.ACTION:
+                        return (
+                            <td key={col}>
+                                <button
+                                    type="button"
+                                    className="btn btn_more-actions"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setId(id);
+                                        onModalOpen(e);
+                                    }}
+                                >
+                                    <img src={dotsIcon} alt="more actions"/>
+                                </button>
+                            </td>
+                        );
+
+                    default:
+                        return null;
+                }
+            })}
         </tr>
     );
 };

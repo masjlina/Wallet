@@ -13,30 +13,31 @@ import TRANSACTION_TYPE from "../../../../../consts/transactionTypes";
 import {useEffect, useMemo, useState} from "react";
 import {updateApplicationUser} from "../../store/userThunks";
 import {createUserToUpdate} from "../../../../../domain/user";
+import getTodayTransactions from "../../helpers/transactionHelper";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
+    const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
+    const transactions = useSelector(state => state.transactions.transactions);
 
     const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
 
     const transactionModal = useModal();
 
-    const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
-    const transactions = useSelector(state => state.transactions.transactions);
+    const todayTransactions = useMemo(() => {
+        return getTodayTransactions(transactions);
+    }, [transactions])
+
+    const todayExpensesAmount = useMemo(() => {
+        return todayTransactions
+            .filter(t => t.amount < 0)
+            .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    }, [transactions]);
 
     useEffect(() => {
         if (!transactions.length)
             dispatch(getAllUserTransactions());
     }, [dispatch, transactions]);
-
-    const todayExpensesAmount = useMemo(() => {
-        const today = new Date().toDateString();
-
-        return transactions
-            .filter(t => new Date(t.createdAt).toDateString() === today)
-            .filter(t => t.amount < 0)
-            .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-    }, [transactions]);
 
     const onCreateTransaction = async (transaction) => {
         try {
@@ -76,7 +77,7 @@ const Dashboard = () => {
             </div>
 
             <div className="content dashboard__content--bottom">
-                <RecentTransactionsWidget/>
+                <RecentTransactionsWidget transactions={todayTransactions}/>
                 <MonthActivityWidget/>
             </div>
             <TransactionModal

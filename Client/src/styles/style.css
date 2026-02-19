@@ -634,6 +634,7 @@
     font-size: 16px;
     font-weight: bolder;
     color: #8B78F1;
+    cursor: pointer;
 }
 
 .text__primary {
@@ -1185,6 +1186,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.view-all:hover {
+    font-weight: lighter;
 }
 
 /* ===========================

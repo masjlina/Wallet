@@ -17,7 +17,8 @@ import {
     removeUserTransaction,
     updateUserTransaction
 } from "../../../Wallet/store/transactionsThunks";
-import TRANSACTION_TYPE from "../../../../../consts/transactionTypes";
+import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "../../../../../consts/transactionTypes";
+import TransactionCol from "../TransactionCol/TransactionCol";
 
 const Transactions = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const Transactions = () => {
 
     const contextModal = useModal();
     const transactionModal = useModal();
+
+    const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
     useEffect(() => {
         try {
@@ -81,7 +84,9 @@ const Transactions = () => {
             type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
             onModalOpen={(e) => contextModal.openModal(e)}
             setId={setId}
-            onClick={() => onSelectTransaction(transaction.id)}/>
+            onClick={() => onSelectTransaction(transaction.id)}
+            tableHeaders={tableHeaders}
+        />
     })
 
     return (
@@ -95,16 +100,7 @@ const Transactions = () => {
                 <Widget.Content>
                     <div className="table-scroll scroll-y">
                     <table className="table table__content text text__table">
-                        <thead>
-                        <tr>
-                            <th scope="col">NAME/BUSINESS</th>
-                            <th>AMOUNT</th>
-                            <th>CATEGORY</th>
-                            <th>PAYMENT METHODS</th>
-                            <th>DATE</th>
-                            <th>ACTION</th>
-                        </tr>
-                        </thead>
+                        <TransactionCol tableHeaders={tableHeaders}/>
 
                         <tbody className="text text__table--name scroll-y">
                         {content}

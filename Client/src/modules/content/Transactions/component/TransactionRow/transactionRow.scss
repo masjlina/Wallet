@@ -2,6 +2,10 @@
   border-top: 1px solid #F5F5F5;
 }
 
+.table tr td:first-child {
+  text-align: left;
+}
+
 .table__first-block {
   display: flex;
   width: 100%;
