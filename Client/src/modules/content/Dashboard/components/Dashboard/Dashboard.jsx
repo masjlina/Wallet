@@ -19,6 +19,10 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
     const transactions = useSelector(state => state.transactions.transactions);
+    const accounts = [
+        ...useSelector(state => state.accounts.accounts),
+        useSelector(state => state.wallet.wallet)
+    ];
 
     const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
 
@@ -68,12 +72,15 @@ const Dashboard = () => {
         <div className="container content__container">
             <div className="content dashboard__content--top">
                 <MonthBudgetWidget/>
+
                 <DayLimitWidget
                     openModal={onOpenTransactionModalWithType}
                     userDailyLimit={userDailyLimit}
                     todayExpensesAmount={todayExpensesAmount}
                     onUpdateDailyLimit={onUpdateDailyLimit}/>
-                <MyAccountWidget/>
+
+                <MyAccountWidget
+                    accounts={accounts}/>
             </div>
 
             <div className="content dashboard__content--bottom">

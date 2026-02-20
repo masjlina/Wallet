@@ -1,14 +1,46 @@
+import React from "react";
 import "./carouselIndicator.scss";
 
-const CarouselIndicator = () => {
+const CarouselIndicator = ({
+                               accountQuantity = 1,
+                               currentIndex = 0,
+                               setCurrentIndex
+                           }) => {
+    const dots = Array.from({length: accountQuantity});
+
+    // 1. Увеличили расстояние между точками (было 20)
+    const spacing = 28;
+    const maxVisibleCount = 3;
+
+    const visibleCount = Math.min(accountQuantity, maxVisibleCount);
+    const visibleWidth = spacing * visibleCount;
+
+    const centerX = (currentIndex + 1) * spacing;
+
+    const minViewBoxX = spacing / 2; // 14
+
+    const maxViewBoxX = Math.max(
+        minViewBoxX,
+        (accountQuantity * spacing) + (spacing / 2) - visibleWidth
+    );
+
+    let viewBoxX = centerX - visibleWidth / 2;
+    viewBoxX = Math.max(minViewBoxX, Math.min(viewBoxX, maxViewBoxX));
+
     return (
-        <svg width="100%" height="100%" viewBox="0 -10 100 20"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg
+            width={visibleWidth}
+            height="32"
+            viewBox={`${viewBoxX} -16 ${visibleWidth} 32`}
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+        >
             <defs>
                 <filter id="gooey">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
                     <feColorMatrix in="blur" type="matrix"
-                                   values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -6"
+                                   values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -7"
                                    result="gooey"/>
                     <feBlend in="SourceGraphic" in2="gooey" mode="hue"/>
                 </filter>
@@ -16,16 +48,33 @@ const CarouselIndicator = () => {
 
             <g id="carousel-indicator" filter="url(#gooey)">
                 <g id="pages">
-                    <ellipse className="dot dot-1" cx="15" cy="0" rx="4" ry="4" fill="#b9aaff"/>
-                    <ellipse className="dot dot-2" cx="45" cy="0" rx="4" ry="4" fill="#b9aaff"/>
-                    <ellipse className="dot dot-3" cx="75" cy="0" rx="4" ry="4" fill="#b9aaff"/>
+                    {dots.map((_, i) => (
+                        <ellipse
+                            key={i}
+                            onClick={() => setCurrentIndex(i)}
+                            style={{cursor: "pointer"}}
+                            className={`dot dot-${i + 1}`}
+                            cx={(i + 1) * spacing}
+                            cy="0"
+                            rx="6"
+                            ry="6"
+                            fill="#b9aaff"
+                        />
+                    ))}
                 </g>
 
-                <rect id="active-indicator" x="5" y="-4" width="20" height="8" rx="3"
-                      fill="#7763EA"/>
+                <rect
+                    className="active-indicator"
+                    x="14"
+                    y="-6"
+                    width="28"
+                    height="12"
+                    rx="6" s
+                    transform={`translate(${currentIndex * spacing}, 0)`}
+                />
             </g>
         </svg>
-    )
-}
+    );
+};
 
 export default CarouselIndicator;

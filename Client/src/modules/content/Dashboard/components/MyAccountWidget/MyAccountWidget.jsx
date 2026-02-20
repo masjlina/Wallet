@@ -1,53 +1,103 @@
 import {Widget} from "../../../../../components/Widget/Widget";
 
-import rightArrowIcon from "../../../../../assets/icons/right-arrow.svg";
+import rightArrow from "../../../../../assets/icons/right-arrow.svg";
 
 import "./myAccountWidget.scss";
 import CarouselIndicator from "../CarouselIndicator/CarouselIndicator";
+import {ROUTES} from "../../../../../consts/routes";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {formatAmountOfMoney} from "../../../../../services/moneyService";
 
-const MyAccountWidget = () => {
+const MyAccountWidget = ({accounts}) => {
+    const navigate = useNavigate();
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const balance = formatAmountOfMoney(
+        accounts.reduce(
+            (sum, account) => sum + account?.balance,
+            0
+        ));
+
+    const prevSlide = () => {
+        setCurrentIndex(prev =>
+            prev === 0 ? accounts.length - 1 : prev - 1
+        );
+    };
+
+    const nextSlide = () => {
+        setCurrentIndex(prev =>
+            prev === accounts.length - 1 ? 0 : prev + 1
+        );
+    };
+
+    const content = accounts.map((account, i) => (
+        <div key={account?.id}
+             className={`carousel__item ${i === currentIndex ? "carousel__item--selected" : ""} accounts__carousel--underlay`}>
+            <div className="accounts__carousel--background">
+                <div className="accounts__carousel--hover">
+                    <div className="content card__content">
+                        <div className="content card__content--top text text__base text__base--white">
+                            <div>Account Type</div>
+                            <div className="text__title text__title--bolder-white">{account?.walletId ? "Credit Card" : "Wallet"}</div>
+                            <div>{account?.walletId ? `•••• •••• •••• ${account.name.slice(-4)}` : ""}</div>
+                        </div>
+
+                        <div className="content card__content--bottom">
+                            <div>09/25</div>
+                            <div className="text__title text__title--white">{formatAmountOfMoney(account?.balance)}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ))
+
   return (
         <Widget>
             <Widget.Header>
                 <div className="text text__title">My Accounts</div>
 
-                <div className="view-all">
-                    <div className="text text__link">View All</div>
-                    <img className="icon--widget__arrow" src={rightArrowIcon} alt=""/>
-                </div>
+                <button
+                    className="view-all text__link"
+                    onClick={() => navigate(ROUTES.WALLET)}>
+                    <div
+                        className="text text__link">
+                        View All
+                    </div>
+                    <img
+                        className="icon--widget__arrow"
+                        src={rightArrow}
+                        alt="Right arrow"
+                    />
+                </button>
             </Widget.Header>
 
             <Widget.Content className="accounts__content--main">
-                <div className="accounts__carousel--underlay">
-                    <div className="accounts__carousel--background">
-                        <div className="accounts__carousel__btn--left" />
-                        <div className="accounts__carousel__btn--right" />
-
-                        <div className="accounts__carousel--hover">
-                            <div className="content card__content">
-                                <div className="content card__content--top text text__base text__base--white">
-                                    <div>Account Type</div>
-                                    <div className="text__title text__title--bolder-white">Credit Card</div>
-                                    <div>•••• •••• •••• 1289</div>
-                                </div>
-
-                                <div className="content card__content--bottom">
-                                    <div>09/25</div>
-                                    <div className="text__title text__title--white">$5 720.20</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="carousel">
+                    <button
+                        className="accounts__carousel__btn--left"
+                        onClick={prevSlide}
+                    />
+                    <button
+                        className="accounts__carousel__btn--right"
+                        onClick={nextSlide}
+                    />
+                    {content}
                 </div>
 
-                <div className="accounts__carousel__indicator">
-                    <CarouselIndicator/>
+                <div className="carousel__nav">
+                    <CarouselIndicator
+                        accountQuantity={accounts.length}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}/>
                 </div>
             </Widget.Content>
 
             <Widget.Footer className="accounts__content--bottom text text__base">
                 <div>Total balance:</div>
-                <div className="text__base--bold">$250.399</div>
+                <div className="text__base--bold">{balance}</div>
             </Widget.Footer>
         </Widget>
   );
