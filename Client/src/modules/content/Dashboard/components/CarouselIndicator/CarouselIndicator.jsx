@@ -69,7 +69,7 @@ const CarouselIndicator = ({
                     y="-6"
                     width="28"
                     height="12"
-                    rx="6" s
+                    rx="6"
                     transform={`translate(${currentIndex * spacing}, 0)`}
                 />
             </g>

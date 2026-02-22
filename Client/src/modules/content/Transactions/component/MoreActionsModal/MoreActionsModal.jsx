@@ -34,7 +34,6 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, openConfirmation, id, onSe
                     type="button"
                     onClick={() => {
                         onSelectTransaction(id);
-                        openConfirmation();
                         onClose();
                     }}>
                     <img src={pencilIcon} alt="Edit"/>

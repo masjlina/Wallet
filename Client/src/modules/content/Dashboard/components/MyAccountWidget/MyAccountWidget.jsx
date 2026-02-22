@@ -52,7 +52,8 @@ const MyAccountWidget = ({accounts}) => {
                 </div>
             </div>
         </div>
-    ))
+    ));
+
 
   return (
         <Widget>
