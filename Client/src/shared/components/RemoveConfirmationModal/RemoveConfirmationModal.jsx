@@ -27,12 +27,13 @@ const RemoveConfirmationModal = ({isOpen, onClose, onRemove, id}) => {
                 </div>
             </Modal.Content>
             <Modal.Footer
-                confirmationButtonClassName="btn__primary--red"
-                onConfirmationButtonClick={() => {
+                confBtnClassName="btn__primary--red"
+                onConfBtnClick={() => {
                     onRemove(id);
                     onClose();
                 }
             }
+                confBtnText="Delete"
                 />
         </Modal>
     )

@@ -80,9 +80,10 @@ const Content = ({children, className = ""}) => {
 const Footer = ({
                     formId = "",
                     className = "",
-                    confirmationButtonClassName = "btn__primary",
-                    confirmationButtonType = "submit",
-                    onConfirmationButtonClick = ""
+                    confBtnClassName = "btn__primary",
+                    confBtnType = "submit",
+                    onConfBtnClick = "",
+                    confBtnText = "Save"
                 }) => {
     const {onClose} = useContext(ModalContext);
 
@@ -92,12 +93,12 @@ const Footer = ({
             type="button"
             onClick={onClose}>Cancel</Button>
         <Button
-            className={confirmationButtonClassName}
-            type={confirmationButtonType}
+            className={confBtnClassName}
+            type={confBtnType}
             form={formId || undefined}
-            onClick={onConfirmationButtonClick || undefined}
+            onClick={onConfBtnClick || undefined}
         >
-            Save
+            {confBtnText}
         </Button>
     </footer>
 }

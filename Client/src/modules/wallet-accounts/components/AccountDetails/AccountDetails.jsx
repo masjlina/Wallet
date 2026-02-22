@@ -26,12 +26,14 @@ import Button from "@/ui/Button/Button";
 
 // Styles
 import "./accountDetails.scss";
+import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";
 
 const AccountDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const editAccountModal = useModal();
+    const removeConfirmationModal = useModal();
 
     const {id} = useParams();
     const isWallet = !!useMatch(`${ROUTES.WALLET}/:id`);
@@ -109,7 +111,7 @@ const AccountDetails = () => {
                             "" :
                             <button
                                 className="btn text--red"
-                                onClick={() => onRemoveAccount(id)}>Remove</button>
+                                onClick={removeConfirmationModal.openModal}>Remove</button>
                         }
                     </Widget.Footer>
                 </Widget>
@@ -146,6 +148,10 @@ const AccountDetails = () => {
                 onSubmit={onEditAccount}
                 account={account}
                 accountType={isWallet ? ACCOUNT_TYPE.CASH : ACCOUNT_TYPE.CARD}/>
+            <RemoveConfirmationModal
+                isOpen={removeConfirmationModal.isOpen}
+                onClose={removeConfirmationModal.closeModal}
+                onRemove={() => onRemoveAccount(id)}/>
         </div>
     )
 }
