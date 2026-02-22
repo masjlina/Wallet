@@ -1,6 +1,8 @@
-import "./transactionsPage.scss";
-import {Transactions} from "../../modules/content/index";
+// App (modules)
+import {Transactions} from "@/modules/transactions";
 
+// Styles
+import "./transactionsPage.scss";
 
 const TransactionsPage = () => {
     return (
@@ -9,4 +11,3 @@ const TransactionsPage = () => {
 };
 
 export default TransactionsPage;
-

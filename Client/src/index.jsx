@@ -1,14 +1,19 @@
+// React
 import React from "react";
-import {Provider} from "react-redux";
 import {createRoot} from "react-dom/client";
+
+// External libs
+import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 
-import App from "./components/App/App";
-import store from "./store/store";
+// App (modules)
+import App from "@/app/App";
+import store from "@/app/store/store";
 
-import "./styles/style.css";
-import "./styles/reset.css";
-import "./styles/variables.css";
+// Styles
+import "./shared/styles/reset.css";
+import "./shared/styles/style.css";
+import "./shared/styles/variables.css";
 
 const root = createRoot(document.getElementById("root"));
 root.render(

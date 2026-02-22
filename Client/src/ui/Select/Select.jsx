@@ -1,3 +1,4 @@
+// Styles
 import "./select.scss";
 
 const Select = ({id, name, value, className, children, ...rest}) => {

@@ -1,6 +1,8 @@
-import "./dashboardPage.scss";
-import {Dashboard} from "../../modules/content/index";
+// App (modules)
+import {Dashboard} from "@/modules/dashboard";
 
+// Styles
+import "./dashboardPage.scss";
 
 const DashboardPage = () => {
     return (
@@ -9,4 +11,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-

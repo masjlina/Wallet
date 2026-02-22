@@ -1,5 +1,7 @@
-import logoIcon from "../../assets/img/logo.svg";
+// Local
+import logoIcon from "@/assets/img/logo.svg";
 
+// Styles
 import "./logo.scss";
 
 const Logo = ({className}) => {

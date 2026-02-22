@@ -1,3 +1,4 @@
+// Styles
 import "./textarea.scss";
 
 const Textarea = ({id, name, value, placeholder, className, ...rest}) => {

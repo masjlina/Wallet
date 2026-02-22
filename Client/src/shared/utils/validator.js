@@ -1,0 +1,21 @@
+// Shared
+import {showErrors, showDefault} from "@/shared/utils/index.js";
+
+export default function validate(form) {
+    const inputs = form.querySelectorAll("input");
+
+    const errorInputs = Array.from(inputs).filter(input => {
+            if (!input.checkValidity()) {
+                return input;
+            } else {
+                showDefault(input);
+            }
+        }
+    );
+
+    if (errorInputs.length > 0) {
+        showErrors(errorInputs);
+        return false;
+    } else
+        return true
+}

@@ -1,5 +1,8 @@
+// App (modules)
+import {Wallet} from "@/modules/wallet-accounts";
+
+// Styles
 import "./walletPage.scss";
-import {Wallet} from "../../modules/content/index";
 
 const WalletPage = () => {
     return (
@@ -8,4 +11,3 @@ const WalletPage = () => {
 };
 
 export default WalletPage;
-

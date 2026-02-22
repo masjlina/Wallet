@@ -1,3 +1,4 @@
+// Styles
 import "./input.scss";
 
 const Input = ({id, type = "text", name, value, placeholder, className = "", ...rest}) => {

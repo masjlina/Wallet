@@ -1,0 +1,22 @@
+.table__row-new {
+  border-top: 1px solid #F5F5F5;
+}
+
+.table tr td:first-child {
+  text-align: left;
+}
+
+.table__first-block {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+  align-items: center;
+  flex-direction: row;
+}
+
+.icon--table__expense {
+  width: 50px;
+  height: 50px;
+  background-image: url("../../../../assets/icons/expense.svg");
+  background-repeat: round;
+}

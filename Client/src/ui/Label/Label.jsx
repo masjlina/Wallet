@@ -1,3 +1,4 @@
+// Styles
 import "./label.scss";
 
 const Label = ({id, labelText, className = "label"}) => {

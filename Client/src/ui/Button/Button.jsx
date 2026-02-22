@@ -1,3 +1,4 @@
+// Styles
 import "./button.scss";
 
 const VARIANT_CLASS = {

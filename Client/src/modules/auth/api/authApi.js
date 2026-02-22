@@ -1,0 +1,52 @@
+// App (modules)
+import createCheckAuthResponse from "@/modules/auth/api/dto/CheckAuthResponseDto";
+import createSignInRequestDto from "@/modules/auth/api/dto/SignInRequestDto";
+import createSignInResponseDto from "@/modules/auth/api/dto/SignInResponseDto";
+import createSignUpRequestDto from "@/modules/auth/api/dto/SignUpRequestDto";
+
+// Shared
+import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
+import createSuccessfulResponseDto from "@/shared/api/SuccessfulResponseDto";
+import endpoints from "@/shared/consts/endpoints";
+import {request} from "@/shared/utils/httpClient";
+import {clearAccessToken, setAccessToken} from "@/shared/utils/tokenManager";
+
+export async function register(formData) {
+    try {
+        const signUpRequest = createSignUpRequestDto(formData);
+
+        await request(endpoints.register, "POST", signUpRequest);
+
+        return createSuccessfulResponseDto();
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+
+export async function login(formData) {
+    try {
+        clearAccessToken();
+
+        const signInRequest = createSignInRequestDto(formData);
+
+        const result = await request(endpoints.login, "POST", signInRequest);
+
+        setAccessToken({
+            accessToken: result.accessToken,
+        });
+
+        return createSignInResponseDto(result);
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+
+export async function checkAuth() {
+    try {
+        const result = await request(endpoints.checkAuth);
+
+        return createCheckAuthResponse(result);
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
