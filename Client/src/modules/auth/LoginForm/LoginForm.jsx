@@ -10,8 +10,8 @@ import AuthLayout from "../components/AuthLayout/AuthLayout";
 import EmailField from "../components/EmailField/EmailField";
 import PasswordField from "../components/PasswordField/PasswordField";
 import RememberMe from "./components/RememberMe/RememberMe";
-import {clearErrors} from "../store/authSlice";
-import {loginUser} from "../store/authThunks";
+import {clearErrors} from "@/modules/auth";
+import {loginUser} from "@/modules/auth";
 
 // Shared
 import {ROUTES} from "@/shared/consts/routes";

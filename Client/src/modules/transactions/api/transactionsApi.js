@@ -44,7 +44,7 @@ export async function updateTransaction(transactionId, transaction) {
 
 export async function removeTransaction(transactionId) {
     try {
-        const result = await request(`${endpoints.transactions}/${transactionId}`, "DELETE");
+        await request(`${endpoints.transactions}/${transactionId}`, "DELETE");
         return transactionId
     } catch (error) {
         return createErrorResponseDto(error);

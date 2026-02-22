@@ -14,7 +14,7 @@ import {
     getAllUserTransactions,
     removeUserTransaction,
     updateUserTransaction
-} from "../../store/transactionsThunks";
+} from "@/modules/transactions";
 
 // Shared
 import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";

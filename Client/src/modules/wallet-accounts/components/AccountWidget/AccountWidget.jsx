@@ -1,5 +1,5 @@
 // App (modules)
-import {maskCardNumber} from "../../helpers/creditCardManager";
+import {maskCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
@@ -73,7 +73,10 @@ const AccountWidget = ({
                     className="account__button"
                 onClick={onNavigateToDetails}>
                     <p>Details</p>
-                    <img className="button__arrow" src={rightArrowIcon}/>
+                    <img
+                        className="button__arrow"
+                        src={rightArrowIcon}
+                        alt="Details of the account"/>
                 </Button>
             </Widget.Footer>
         </Widget>

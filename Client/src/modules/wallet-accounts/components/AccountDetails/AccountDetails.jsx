@@ -10,8 +10,8 @@ import {createAccountToUpdate} from "@/domain/account";
 import { createWalletToUpdate} from "@/domain/wallet";
 import {MonthActivityWidget} from "@/modules/dashboard";
 import AccountModal from "../CreateAccountModal/AccountModal";
-import {formatCardNumber, maskCardNumber} from "../../helpers/creditCardManager";
-import {getWalletAccount, removeWalletAccount, updateWalletAccount} from "../../store/accountsThunks";
+import {formatCardNumber, maskCardNumber} from "@/modules/wallet-accounts";
+import {getWalletAccount, removeWalletAccount, updateWalletAccount} from "@/modules/wallet-accounts";
 import {getUserWallet, updateUserWallet} from "../../store/walletThunks";
 
 // Shared
@@ -53,10 +53,6 @@ const AccountDetails = () => {
                 dispatch(getWalletAccount(id));
         }
     }, [dispatch]);
-
-    const onRemove = async () => {
-        await dispatch(removeWalletAccount(id));
-    }
 
     const onEditAccount = async (account) => {
         if (account.type === ACCOUNT_TYPE.CARD) {

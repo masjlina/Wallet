@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 
 // App (modules)
 import CardField from "../CardField/CardField";
-import {isValidCardNumber} from "../../helpers/creditCardManager";
+import {isValidCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import FieldWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
@@ -12,9 +12,6 @@ import Modal from "@/shared/components/Modal/Modal";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
 import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
-
-// UI
-import Button from "@/ui/Button/Button";
 
 // Styles
 import "./CreateAccountModal.scss";

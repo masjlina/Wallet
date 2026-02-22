@@ -9,8 +9,8 @@ import {useNavigate} from "react-router-dom";
 import AccountWidget from "../AccountWidget/AccountWidget";
 import AccountModal from "../CreateAccountModal/AccountModal";
 import CreateWalletModal from "../CreateWalletModal/CreateWalletModal";
-import {formatCardNumber} from "../../helpers/creditCardManager";
-import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "../../store/accountsThunks";
+import {formatCardNumber} from "@/modules/wallet-accounts";
+import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "@/modules/wallet-accounts";
 import {createUserWallet, getUserWallet} from "../../store/walletThunks";
 
 // Shared
@@ -83,7 +83,7 @@ const Wallet = () => {
     };
 
 
-    let content = "";
+    let content;
 
     if (!wallet) {
         content =

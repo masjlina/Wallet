@@ -42,7 +42,10 @@ const DayLimitWidget = ({
                             <div className="d-row day-limit__input">
                                 <p className="text__primary">${todayExpensesAmount}/{userDailyLimit}</p>
                                 <button onClick={() => dayLimitModal.openModal()}>
-                                    <img className="pencil" src={pencilIcon}/>
+                                    <img
+                                        className="pencil"
+                                        src={pencilIcon}
+                                        alt="Pencil: Change daily limit"/>
                                 </button>
                             </div>
                         </div>

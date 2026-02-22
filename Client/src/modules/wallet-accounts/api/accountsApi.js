@@ -56,7 +56,7 @@ export async function updateAccount(accountId, account) {
 
 export async function removeAccount(accountId) {
     try {
-        const result = await request(`${endpoints.creditCards}/${accountId}`, "DELETE");
+        await request(`${endpoints.creditCards}/${accountId}`, "DELETE");
 
         return {
             accountToDeleteId: accountId

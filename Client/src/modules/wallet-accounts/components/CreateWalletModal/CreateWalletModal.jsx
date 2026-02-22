@@ -4,9 +4,6 @@ import NameField from "@/shared/components/NameField/NameField";
 import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 
-// UI
-import Button from "@/ui/Button/Button";
-
 // Styles
 import "./createWalletModal.scss";
 

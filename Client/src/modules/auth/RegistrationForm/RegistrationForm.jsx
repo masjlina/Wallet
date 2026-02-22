@@ -11,8 +11,8 @@ import EmailField from "../components/EmailField/EmailField";
 import FirstNameField from "../components/FirstNameField/FirstNameField";
 import LastNameField from "../components/LastNameField/LastNameField";
 import PasswordField from "../components/PasswordField/PasswordField";
-import {clearErrors} from "../store/authSlice";
-import {registerUser} from "../store/authThunks";
+import {clearErrors} from "@/modules/auth";
+import {registerUser} from "@/modules/auth";
 
 // Shared
 import {ROUTES} from "@/shared/consts/routes";

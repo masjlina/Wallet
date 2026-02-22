@@ -1,5 +1,5 @@
 // App (modules)
-import {formatCardNumber} from "../../helpers/creditCardManager";
+import {formatCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import FieldWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
