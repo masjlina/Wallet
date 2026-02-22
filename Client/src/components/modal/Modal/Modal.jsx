@@ -69,18 +69,28 @@ const Content = ({children, className = ""}) => {
     return <main className={`content modal__content ${className}`}>{children}</main>;
 };
 
-const Footer = ({formId = "", className = ""}) => {
+const Footer = ({
+                    formId = "",
+                    className = "",
+                    confirmationButtonClassName = "btn__primary",
+                    confirmationButtonType = "submit",
+                    onConfirmationButtonClick = ""
+                }) => {
     const {onClose} = useContext(ModalContext);
 
     return <footer className={`content modal__footer ${className}`}>
         <Button
-            className="btn__day-limit--empty"
+            className="btn__primary--empty"
             type="button"
             onClick={onClose}>Cancel</Button>
         <Button
-            className="btn__day-limit--fill"
-            type="submit"
-            form={formId}>Save</Button>
+            className={confirmationButtonClassName}
+            type={confirmationButtonType}
+            form={formId || undefined}
+            onClick={onConfirmationButtonClick || undefined}
+        >
+            Save
+        </Button>
     </footer>
 }
 

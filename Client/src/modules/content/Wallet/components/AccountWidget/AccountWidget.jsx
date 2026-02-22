@@ -11,7 +11,8 @@ const AccountWidget = ({
                            amount,
                            name,
                            accountType = ACCOUNT_TYPE.CARD,
-                           onRemove,
+                           setAccountIdToRemove,
+                           openConfirmationModal,
                             onNavigateToDetails
                        }) => {
     const isCard = accountType === ACCOUNT_TYPE.CARD;
@@ -51,7 +52,14 @@ const AccountWidget = ({
             </Widget.Content>
 
             <Widget.Footer className="account__footer">
-                {isCard && <button className="btn text--red" onClick={onRemove}>Remove</button>}
+                {isCard &&
+                    <button
+                        className="btn text--red"
+                        onClick={() => {
+                            setAccountIdToRemove();
+                            openConfirmationModal();
+                        }}
+                    >Remove</button>}
                 <Button
                     className="account__button"
                 onClick={onNavigateToDetails}>

@@ -44,12 +44,12 @@ const DayLimitWidget = ({
 
             <Widget.Footer className="content day-limit__bottom-content text__btn">
                 <Button
-                    className="btn btn__day-limit--fill"
+                    className="btn btn__primary"
                     onClick={() => openModal(TRANSACTION_TYPE.EXPENSE)}>
                     Expense
                 </Button>
                 <button
-                    className="btn btn__day-limit--empty"
+                    className="btn btn__primary--empty"
                     onClick={() => openModal(TRANSACTION_TYPE.INCOME)}>
                     Income
                 </button>

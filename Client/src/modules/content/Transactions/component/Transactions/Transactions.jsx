@@ -19,6 +19,7 @@ import {
 } from "../../../Wallet/store/transactionsThunks";
 import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "../../../../../consts/transactionTypes";
 import TransactionCol from "../TransactionCol/TransactionCol";
+import RemoveConfirmationModal from "../../../../RemoveConfirmationModal/RemoveConfirmationModal";
 
 const Transactions = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Transactions = () => {
 
     const contextModal = useModal();
     const transactionModal = useModal();
+    const removeConfirmationModal = useModal();
 
     const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
@@ -115,9 +117,9 @@ const Transactions = () => {
                 isOpen={contextModal.isOpen}
                 anchorEl={contextModal.anchorEl}
                 onClose={contextModal.closeModal}
-                onRemove={onRemoveTransaction}
                 onSelectTransaction={onSelectTransaction}
                 id={id}
+                openConfirmation={removeConfirmationModal.openModal}
             />
 
             <TransactionModal
@@ -126,6 +128,13 @@ const Transactions = () => {
                 onCreate={onCreateTransaction}
                 onUpdate={onUpdateTransaction}
                 transaction={selectedTransaction}/>
+
+            <RemoveConfirmationModal
+                isOpen={removeConfirmationModal.isOpen}
+                onClose={removeConfirmationModal.closeModal}
+                onRemove={onRemoveTransaction}
+                id={id}
+            />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import "./wallet.scss";
 import Toolbar from "../../../components/Toolbar/components/Toolbar/Toolbar";
 import ButtonCreateEntity from "../../../components/Toolbar/components/ButtonCreateEntity/ButtonCreateEntity";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createUserWallet, getUserWallet} from "../../store/walletThunks";
 import {Widget} from "../../../../../components/Widget/Widget";
@@ -14,8 +14,8 @@ import AccountModal from "../CreateAccountModal/AccountModal";
 import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "../../store/accountsThunks";
 import {formatCardNumber} from "../../helpers/creditCardManager";
 import {useNavigate} from "react-router-dom";
-import endpoints from "../../../../../endpoints";
 import {ROUTES} from "../../../../../consts/routes";
+import RemoveConfirmationModal from "../../../../RemoveConfirmationModal/RemoveConfirmationModal";
 
 const Wallet = () => {
     const dispatch = useDispatch();
@@ -23,10 +23,13 @@ const Wallet = () => {
     const user = useSelector(state => state.auth.user);
     const accounts = useSelector(state => state.accounts.accounts);
 
+    const [accountIdToRemove, setAccountIdToRemove] = useState(0);
+
     const navigate = useNavigate();
 
     const createWalletModal = useModal();
     const createAccountModal = useModal();
+    const removeConfirmationModal = useModal();
 
     useEffect(() => {
         if (user) {
@@ -101,7 +104,8 @@ const Wallet = () => {
                         key={card.id}
                         amount={card.balance}
                         name={formatCardNumber(card.name)}
-                        onRemove={() => onRemoveAccount(card.id)}
+                        setAccountIdToRemove={() => setAccountIdToRemove(card.id)}
+                        openConfirmationModal={removeConfirmationModal.openModal}
                         onNavigateToDetails={() => onNavigateToDetails({
                             [ACCOUNT_TYPE.CARD]: card.id
                         })}
@@ -135,6 +139,11 @@ const Wallet = () => {
                 onClose={createAccountModal.closeModal}
                 onSubmit={onCreateAccount}
                 accountType={ACCOUNT_TYPE.CARD}/>
+            <RemoveConfirmationModal
+                isOpen={removeConfirmationModal.isOpen}
+                onClose={removeConfirmationModal.closeModal}
+                onRemove={onRemoveAccount}
+                id={accountIdToRemove}/>
         </div>
     );
 }
