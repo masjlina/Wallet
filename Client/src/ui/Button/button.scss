@@ -62,12 +62,15 @@
 .btn__nav--text:active  { color: var(--text--active); }
 .btn__nav--text:focus,
 .btn__nav--active  { color: var(--accent--primary); }
+.btn__nav--active--underline  {
+  color: var(--accent--primary);
+}
 
 
 .btn__nav--text:focus:hover  { color: var(--accent--hover); }
 .btn__nav--text:focus:active { color: var(--accent--active); }
 
-.btn__nav--text:focus::after {
+.btn__nav--text.btn__nav--active--underline::after {
   content: "";
   position: absolute;
   left: 0;

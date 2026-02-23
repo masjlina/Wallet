@@ -1,5 +1,5 @@
 // React
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 
 // External libs
 import {useDispatch, useSelector} from "react-redux";
@@ -19,10 +19,10 @@ import {
 // Shared
 import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";
 import ButtonCreateEntity from "@/shared/components/Toolbar/components/ButtonCreateEntity/ButtonCreateEntity";
-import Sort from "@/shared/components/Toolbar/components/Sort/Sort";
+import Filter from "@/shared/components/Toolbar/components/Filter/Filter";
 import Toolbar from "@/shared/components/Toolbar/Toolbar";
 import {Widget} from "@/shared/components/Widget/Widget";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import TRANSACTION_TYPE, {TRANSACTION_COLUMNS, TRANSACTION_FILTER_TYPE} from "@/shared/consts/transactionTypes";
 import useModal from "@/shared/hooks/useModal";
 
 // Styles
@@ -31,8 +31,23 @@ import "./transactions.scss";
 const Transactions = () => {
     const dispatch = useDispatch();
     const transactions = useSelector(state => state.transactions.transactions);
+
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [id, setId] = useState("");
+    const [currentFilter, setCurrentFilter] = useState(() => localStorage.getItem("filter") || TRANSACTION_FILTER_TYPE.ALL);
+
+    const filteredTransactions = useMemo(() => {
+        switch (currentFilter) {
+            case TRANSACTION_FILTER_TYPE.INCOME:
+                return transactions.filter(t => t.amount >= 0);
+
+            case TRANSACTION_FILTER_TYPE.EXPENSE:
+                return transactions.filter(t => t.amount < 0);
+
+            default:
+                return transactions;
+        }
+    }, [transactions, currentFilter]);
 
     const contextModal = useModal();
     const transactionModal = useModal();
@@ -45,7 +60,11 @@ const Transactions = () => {
             dispatch(getAllUserTransactions());
         } catch (error) {
         }
-    }, [dispatch])
+    }, [dispatch]);
+
+    useEffect(() => {
+        localStorage.setItem("filter", currentFilter);
+    }, [currentFilter]);
 
     useEffect(() => {
         if (!transactionModal.isOpen) setSelectedTransaction(null);
@@ -79,14 +98,18 @@ const Transactions = () => {
     }
 
     const onSelectTransaction = (id) => {
-        const transactionToSelect = transactions.find(transaction => {
+        const transactionToSelect = filteredTransactions.find(transaction => {
             if (transaction.id === id) return transaction
         });
         setSelectedTransaction(transactionToSelect);
         transactionModal.openModal();
     }
 
-    const content = Array.isArray(transactions) && transactions.map(transaction => {
+    const onChangeCurrentFilter = (newFilter) => {
+        setCurrentFilter(newFilter);
+    }
+
+    const content = Array.isArray(filteredTransactions) && filteredTransactions.map(transaction => {
         return <TransactionRow
             key={transaction.id}
             transaction={transaction}
@@ -101,7 +124,10 @@ const Transactions = () => {
     return (
         <div className="container content__container">
             <Toolbar>
-                <Sort names={["All", "Incomes", "Expenses"]}/>
+                <Filter
+                    currentFilter={currentFilter}
+                    filters={Object.values(TRANSACTION_FILTER_TYPE)}
+                    onChangeCurrentFilter={onChangeCurrentFilter}/>
                 <ButtonCreateEntity onClick={transactionModal.openModal} text="Add transaction"/>
             </Toolbar>
 

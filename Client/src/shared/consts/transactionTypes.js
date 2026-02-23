@@ -3,6 +3,12 @@ const TRANSACTION_TYPE = Object.freeze({
     INCOME: "income"
 });
 
+export const TRANSACTION_FILTER_TYPE = Object.freeze({
+    ALL: "All",
+    EXPENSE: "Expense",
+    INCOME: "Income"
+});
+
 export const TRANSACTION_COLUMNS = Object.freeze({
     NAME: "Name",
     AMOUNT: "Amount",
