@@ -11,7 +11,6 @@ const CarouselIndicator = ({
                            }) => {
     const dots = Array.from({length: accountQuantity});
 
-    // 1. Увеличили расстояние между точками (было 20)
     const spacing = 28;
     const maxVisibleCount = 3;
 
@@ -20,7 +19,7 @@ const CarouselIndicator = ({
 
     const centerX = (currentIndex + 1) * spacing;
 
-    const minViewBoxX = spacing / 2; // 14
+    const minViewBoxX = spacing / 2;
 
     const maxViewBoxX = Math.max(
         minViewBoxX,

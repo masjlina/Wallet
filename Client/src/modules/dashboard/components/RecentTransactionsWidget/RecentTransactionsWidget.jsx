@@ -57,18 +57,16 @@ const RecentTransactionsWidget = ({transactions}) => {
                 />
             </button>
         </Widget.Header>
-
-        <Widget.Content className="recent-transactions__table-content text text__table">
-            <div className="table-scroll scroll-y">
+        <Widget.Content className="table-scroll">
                 <table className="table table__content text text__table">
                     <TransactionCol tableHeaders={tableHeaders}/>
 
-                    <tbody className="text text__table--name scroll-y">
+                    <tbody className="text text__table--name">
                     {content}
                     </tbody>
                 </table>
-            </div>
         </Widget.Content>
+
 
     </Widget>
   );

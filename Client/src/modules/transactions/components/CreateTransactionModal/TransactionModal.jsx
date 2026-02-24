@@ -127,7 +127,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
                 ? { creditCardId: Number(id), walletId: null }
                 : { walletId: Number(id), creditCardId: null };
 
-        const transaction = createTransactionFromObject({
+        const transactionToUpsert = createTransactionFromObject({
             name: nameInput.value,
             description: descriptionInput.value,
             amount: balanceInput.value,
@@ -136,9 +136,9 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
         });
 
         if (!transaction?.id)
-            await onCreate(transaction);
+            await onCreate(transactionToUpsert);
         else
-            await onUpdate(transaction)
+            await onUpdate(transactionToUpsert)
 
         onClose();
     }

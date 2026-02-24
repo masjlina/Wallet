@@ -1,24 +1,19 @@
 // React
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 
 // External libs
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useMatch, useNavigate, useParams} from "react-router-dom";
 
 // App (modules)
-import {createAccountToUpdate} from "@/domain/account";
-import { createWalletToUpdate} from "@/domain/wallet";
 import {MonthActivityWidget} from "@/modules/dashboard";
 import AccountModal from "../CreateAccountModal/AccountModal";
-import {formatCardNumber, maskCardNumber} from "@/modules/wallet-accounts";
-import {getWalletAccount, removeWalletAccount, updateWalletAccount} from "@/modules/wallet-accounts";
-import {getUserWallet, updateUserWallet} from "../../store/walletThunks";
+import {checkAccountType, formatCardNumber, maskCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
 import {ROUTES} from "@/shared/consts/routes";
-import useModal from "@/shared/hooks/useModal";
 import {formatAmountOfMoney} from "@/shared/services/moneyService";
 
 // UI
@@ -27,56 +22,51 @@ import Button from "@/ui/Button/Button";
 // Styles
 import "./accountDetails.scss";
 import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";
+import {filterTransactionByAccount, useTransactionsController} from "@/modules/transactions";
+import TransactionRow from "../../../transactions/components/TransactionRow/TransactionRow";
+import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import TransactionCol from "../../../transactions/components/TransactionCol/TransactionCol";
+import {useAccountsController} from "@/modules/wallet-accounts/hooks/useAccountsController";
+import MoreActionsModal from "../../../transactions/components/MoreActionsModal/MoreActionsModal";
+import TransactionModal from "../../../transactions/components/CreateTransactionModal/TransactionModal";
 
 const AccountDetails = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const accountsController = useAccountsController();
+    const transactionsController = useTransactionsController();
 
-    const editAccountModal = useModal();
-    const removeConfirmationModal = useModal();
+    const transactions = useSelector(state => state.transactions.transactions);
+
+    const navigate = useNavigate();
 
     const {id} = useParams();
     const isWallet = !!useMatch(`${ROUTES.WALLET}/:id`);
-    const account = useSelector((state) => {
-        if (isWallet) {
-            return state.wallet.wallet;
-        }
-
-        return state.accounts.accounts ? state.accounts.accounts.find(
-                (acc) => acc.id === Number(id)) :
-            null;
+    const account = useSelector(state => {
+        if (isWallet) return state.wallet.wallet;
+        return state.accounts.accounts?.find(acc => acc.id === Number(id));
     });
+
+    const filteredTransactions = useMemo(() => {
+        return filterTransactionByAccount(
+            {
+                type: isWallet ? ACCOUNT_TYPE.CASH : ACCOUNT_TYPE.CARD,
+                id: Number(id),
+            },
+            transactions
+        );
+    }, [transactions, id, isWallet]);
+
+    const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
     useEffect(() => {
         if (!account) {
-            if (isWallet)
-                dispatch(getUserWallet());
-            else
-                dispatch(getWalletAccount(id));
+            if (isWallet) {
+                accountsController.getWallet();
+            } else {
+                accountsController.getAccountById(id);
+            }
+            transactionsController.getAll();
         }
-    }, [dispatch]);
-
-    const onEditAccount = async (account) => {
-        if (account.type === ACCOUNT_TYPE.CARD) {
-            await dispatch(updateWalletAccount({
-                accountId: id,
-                account: createAccountToUpdate(account)
-            }));
-        } else {
-            await dispatch(updateUserWallet({
-                walletId: id,
-                wallet: createWalletToUpdate(account)
-            }))
-        }
-    }
-
-    const onRemoveAccount = async (accountId) => {
-        try {
-            await dispatch(removeWalletAccount(accountId));
-            navigate(ROUTES.WALLET);
-        } catch (error) {
-        }
-    }
+    }, [account, isWallet, id, accountsController, transactionsController]);
 
     if (!account) {
         return (
@@ -85,6 +75,17 @@ const AccountDetails = () => {
             </div>
         );
     }
+
+    const content = filteredTransactions.map(transaction => {
+        return <TransactionRow
+            key={transaction.id}
+            transaction={transaction}
+            type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
+            tableHeaders={tableHeaders}
+            onClick={() => transactionsController.openTransaction(transaction)}
+            onContextOpen={transactionsController.openContext}
+        />
+    })
 
     return (
         <div className="container content__container">
@@ -104,14 +105,14 @@ const AccountDetails = () => {
                     <Widget.Footer className="account-details__btn-group">
                         <Button
                             className="account-details__btn"
-                            onClick={() => editAccountModal.openModal()}>
+                            onClick={() => accountsController.openAccount(account)}>
                             <p>Edit details</p>
                         </Button>
                         {isWallet ?
                             "" :
                             <button
                                 className="btn text--red"
-                                onClick={removeConfirmationModal.openModal}>Remove</button>
+                                onClick={() => accountsController.openConfirm(account)}>Remove</button>
                         }
                     </Widget.Footer>
                 </Widget>
@@ -120,38 +121,50 @@ const AccountDetails = () => {
 
             <div className="account-details__bottom">
                 <Widget>
-                    <Widget.Content>
-                        <div className="table-scroll scroll-y">
+                    <Widget.Content className="table-scroll">
                             <table className="table table__content text text__table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">NAME/BUSINESS</th>
-                                    <th>AMOUNT</th>
-                                    <th>CATEGORY</th>
-                                    <th>PAYMENT METHODS</th>
-                                    <th>DATE</th>
-                                    <th>ACTION</th>
-                                </tr>
-                                </thead>
+                                <TransactionCol tableHeaders={tableHeaders}/>
 
-                                <tbody className="text text__table--name scroll-y">
-                                {/*{content}*/}
+                                <tbody className="text text__table--name">
+                                {content}
                                 </tbody>
                             </table>
-                        </div>
                     </Widget.Content>
                 </Widget>
             </div>
             <AccountModal
-                isOpen={editAccountModal.isOpen}
-                onClose={editAccountModal.closeModal}
-                onSubmit={onEditAccount}
-                account={account}
-                accountType={isWallet ? ACCOUNT_TYPE.CASH : ACCOUNT_TYPE.CARD}/>
+                isOpen={accountsController.accountModal.isOpen}
+                onClose={accountsController.accountModal.closeModal}
+                onSubmit={accountsController.update}
+                account={accountsController.selected}
+                accountType={checkAccountType(accountsController?.selected) === ACCOUNT_TYPE.CASH ? ACCOUNT_TYPE.CARD : ACCOUNT_TYPE.CASH}/>
+
+            <TransactionModal
+                isOpen={transactionsController.transactionModal.isOpen}
+                onClose={transactionsController.transactionModal.closeModal}
+                onCreate={transactionsController.create}
+                onUpdate={transactionsController.update}
+                transaction={transactionsController.selected}/>
+
+            <MoreActionsModal
+                isOpen={transactionsController.contextModal.isOpen}
+                anchorEl={transactionsController.contextModal.anchorEl}
+                onClose={transactionsController.contextModal.closeModal}
+                onEditTransaction={transactionsController.openTransaction}
+                openConfirmation={transactionsController.openConfirm}
+            />
             <RemoveConfirmationModal
-                isOpen={removeConfirmationModal.isOpen}
-                onClose={removeConfirmationModal.closeModal}
-                onRemove={() => onRemoveAccount(id)}/>
+                isOpen={accountsController.confirmModal.isOpen}
+                onClose={accountsController.confirmModal.closeModal}
+                onRemove={() => {
+                    accountsController.remove();
+                    navigate(ROUTES.WALLET);
+                }}/>
+
+            <RemoveConfirmationModal
+                isOpen={transactionsController.confirmModal.isOpen}
+                onClose={transactionsController.confirmModal.closeModal}
+                onRemove={transactionsController.remove}/>
         </div>
     )
 }

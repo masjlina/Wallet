@@ -8,10 +8,8 @@ import {useNavigate} from "react-router-dom";
 // App (modules)
 import AccountWidget from "../AccountWidget/AccountWidget";
 import AccountModal from "../CreateAccountModal/AccountModal";
-import CreateWalletModal from "../CreateWalletModal/CreateWalletModal";
+import WalletModal from "../CreateWalletModal/WalletModal";
 import {formatCardNumber} from "@/modules/wallet-accounts";
-import {createWalletAccount, getAllWalletAccounts, removeWalletAccount} from "@/modules/wallet-accounts";
-import {createUserWallet, getUserWallet} from "../../store/walletThunks";
 
 // Shared
 import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";
@@ -20,58 +18,26 @@ import Toolbar from "@/shared/components/Toolbar/Toolbar";
 import {Widget} from "@/shared/components/Widget/Widget";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
 import {ROUTES} from "@/shared/consts/routes";
-import useModal from "@/shared/hooks/useModal";
 
 // UI
 import Button from "@/ui/Button/Button";
 
 // Styles
 import "./wallet.scss";
+import {useAccountsController} from "@/modules/wallet-accounts/hooks/useAccountsController";
 
 const Wallet = () => {
-    const dispatch = useDispatch();
+    const accountsController = useAccountsController();
+
     const wallet = useSelector(state => state.wallet.wallet);
     const user = useSelector(state => state.auth.user);
     const accounts = useSelector(state => state.accounts.accounts);
 
-    const [accountIdToRemove, setAccountIdToRemove] = useState(0);
-
     const navigate = useNavigate();
 
-    const createWalletModal = useModal();
-    const createAccountModal = useModal();
-    const removeConfirmationModal = useModal();
-
     useEffect(() => {
-        if (user) {
-            dispatch(getUserWallet());
-            dispatch(getAllWalletAccounts());
-        }
-    }, [user]);
-
-
-    const onCreateWallet = async (walletName) => {
-        try {
-            await dispatch(createUserWallet(walletName));
-            createWalletModal.closeModal();
-        } catch (error) {
-        }
-    }
-
-    const onCreateAccount = async (account) => {
-        try {
-            await dispatch(createWalletAccount(account));
-            createAccountModal.closeModal();
-        } catch (error) {
-        }
-    }
-
-    const onRemoveAccount = async (accountId) => {
-        try {
-            await dispatch(removeWalletAccount(accountId));
-        } catch (error) {
-        }
-    }
+        accountsController.getAll(user);
+    }, []);
 
     const onNavigateToDetails = (account) => {
         const [[type, id]] = Object.entries(account);
@@ -82,7 +48,6 @@ const Wallet = () => {
             navigate(`${ROUTES.CREDIT_CARDS}/${id}`);
     };
 
-
     let content;
 
     if (!wallet) {
@@ -91,7 +56,7 @@ const Wallet = () => {
                 <Widget.Content className="text text__title d-center">
                     <Button
                         className="btn__add"
-                        onClick={createWalletModal.openModal}>Create wallet</Button>
+                        onClick={accountsController.walletModal.openModal}>Create wallet</Button>
                 </Widget.Content>
             </Widget>
     } else {
@@ -115,8 +80,7 @@ const Wallet = () => {
                         key={card.id}
                         amount={card.balance}
                         name={formatCardNumber(card.name)}
-                        setAccountIdToRemove={() => setAccountIdToRemove(card.id)}
-                        openConfirmationModal={removeConfirmationModal.openModal}
+                        openConfirmationModal={() => accountsController.openConfirm(card)}
                         onNavigateToDetails={() => onNavigateToDetails({
                             [ACCOUNT_TYPE.CARD]: card.id
                         })}
@@ -129,11 +93,13 @@ const Wallet = () => {
             <>
                 <Toolbar>
                     <div/>
-                    <ButtonCreateEntity onClick={createAccountModal.openModal} text="Add account"/>
+                    <ButtonCreateEntity onClick={accountsController.accountModal.openModal} text="Add account"/>
                 </Toolbar>
 
-                <div className="accounts">
-                    {accountsToRender}
+                <div className="accounts__scroll">
+                    <div className="accounts">
+                        {accountsToRender}
+                    </div>
                 </div>
             </>
     }
@@ -141,20 +107,19 @@ const Wallet = () => {
     return (
         <div className="container content__container">
             {content}
-            <CreateWalletModal
-                isOpen={createWalletModal.isOpen}
-                onClose={createWalletModal.closeModal}
-                onSubmit={onCreateWallet}/>
+            <WalletModal
+                isOpen={accountsController.walletModal.isOpen}
+                onClose={accountsController.walletModal.closeModal}
+                onSubmit={accountsController.create}/>
             <AccountModal
-                isOpen={createAccountModal.isOpen}
-                onClose={createAccountModal.closeModal}
-                onSubmit={onCreateAccount}
+                isOpen={accountsController.accountModal.isOpen}
+                onClose={accountsController.accountModal.closeModal}
+                onSubmit={accountsController.create}
                 accountType={ACCOUNT_TYPE.CARD}/>
             <RemoveConfirmationModal
-                isOpen={removeConfirmationModal.isOpen}
-                onClose={removeConfirmationModal.closeModal}
-                onRemove={onRemoveAccount}
-                id={accountIdToRemove}/>
+                isOpen={accountsController.confirmModal.isOpen}
+                onClose={accountsController.confirmModal.closeModal}
+                onRemove={accountsController.remove}/>
         </div>
     );
 }

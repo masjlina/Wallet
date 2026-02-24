@@ -5,9 +5,10 @@ import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 
 // Styles
-import "./createWalletModal.scss";
+import "./walletModal.scss";
+import ACCOUNT_TYPE from "@/shared/consts/accountType";
 
-const CreateWalletModal = ({isOpen, onClose, onSubmit}) => {
+const WalletModal = ({isOpen, onClose, onSubmit}) => {
     const name = useInput("");
 
     return (
@@ -22,7 +23,7 @@ const CreateWalletModal = ({isOpen, onClose, onSubmit}) => {
                     id="create-wallet"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        onSubmit(name.value)
+                        onSubmit(ACCOUNT_TYPE.CASH, name.value);
                     }}>
                     <NameField
                         value={name.value}
@@ -32,8 +33,8 @@ const CreateWalletModal = ({isOpen, onClose, onSubmit}) => {
             </Modal.Content>
 
             <Modal.Footer formId="create-wallet"/>
-        a</Modal>
+        </Modal>
     )
 }
 
-export default CreateWalletModal;
+export default WalletModal;

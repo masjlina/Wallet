@@ -17,11 +17,10 @@ import walletIcon from "@/assets/icons/wallet.svg";
 
 // Styles
 import "./sidebar.scss";
+import {usePersistedState} from "@/shared/hooks/usePersistedState";
 
 const Sidebar = () => {
-    const [isCollapsed, setIsCollapsed] = useState(() => {
-        return localStorage.getItem("isSidebarCollapsed") === "true";
-    });
+    const [isCollapsed, setIsCollapsed] = usePersistedState("isSidebarCollapsed", "true");
 
     const btnClasses = "side-bar__item btn btn__nav";
 
@@ -31,7 +30,6 @@ const Sidebar = () => {
     const toggleSidebar = () => {
         setIsCollapsed(prev => {
             const next = !prev;
-            localStorage.setItem("isSidebarCollapsed", String(next));
             return next;
         });
     };

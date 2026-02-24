@@ -42,11 +42,13 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
             return;
         }
 
-        onSubmit({
+        onSubmit(accountType, {
             name: nameInput.value,
             balance,
-            type: accountType
         });
+
+        nameInput.setValue("");
+        setBalance(0);
 
         onClose();
     };

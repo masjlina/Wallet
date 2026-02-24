@@ -20,7 +20,6 @@ const AccountWidget = ({
                            amount,
                            name,
                            accountType = ACCOUNT_TYPE.CARD,
-                           setAccountIdToRemove,
                            openConfirmationModal,
                             onNavigateToDetails
                        }) => {
@@ -64,10 +63,7 @@ const AccountWidget = ({
                 {isCard &&
                     <button
                         className="btn text--red"
-                        onClick={() => {
-                            setAccountIdToRemove();
-                            openConfirmationModal();
-                        }}
+                        onClick={openConfirmationModal}
                     >Remove</button>}
                 <Button
                     className="account__button"

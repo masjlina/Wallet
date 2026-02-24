@@ -7,6 +7,7 @@ export {default as TransactionRow} from "./components/TransactionRow/Transaction
 
 export {default as getInitialTransactionFormState} from "./helpers/getInitialTransactionFormState";
 export {default as getTodayTransactions} from "./helpers/transactionHelper";
+export {filterTransactionsByType, filterTransactionByAccount} from "./helpers/transactionsService";
 
 export {
     createUserTransaction,
@@ -24,3 +25,5 @@ export {
     removeTransaction,
     updateTransaction
 } from "./api/transactionsApi";
+
+export {useTransactionsController} from "./hooks/useTransactionsController";

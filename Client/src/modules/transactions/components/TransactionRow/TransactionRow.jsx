@@ -10,7 +10,7 @@ import dotsIcon from "@/assets/icons/dots.svg";
 import "./transactionRow.scss";
 
 const TransactionRow = ({
-                            onModalOpen,
+                            onContextOpen,
                             type = TRANSACTION_TYPE.EXPENSE,
                             transaction,
                             setId,
@@ -72,8 +72,7 @@ const TransactionRow = ({
                                     className="btn btn_more-actions"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setId(id);
-                                        onModalOpen(e);
+                                        onContextOpen(e, transaction);
                                     }}
                                 >
                                     <img src={dotsIcon} alt="more actions"/>

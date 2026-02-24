@@ -8,14 +8,14 @@ import trashIcon from "@/assets/icons/trash--purple.svg";
 // Styles
 import "./RemoveConfirmationModal.scss";
 
-const RemoveConfirmationModal = ({isOpen, onClose, onRemove, id}) => {
+const RemoveConfirmationModal = ({isOpen, onClose, onRemove}) => {
     return (
         <Modal
             variant={MODAL_VARIANT.CENTRAL}
             isOpen={isOpen}
             onClose={onClose}>
             <Modal.Content className="remove-confirmation__content">
-                <img src={trashIcon} alt="trash bin" />
+                <img src={trashIcon} alt="trash bin"/>
 
                 <h1 className="text text__base--bold">
                     Delete this item?
@@ -28,15 +28,11 @@ const RemoveConfirmationModal = ({isOpen, onClose, onRemove, id}) => {
             </Modal.Content>
             <Modal.Footer
                 confBtnClassName="btn__primary--red"
-                onConfBtnClick={() => {
-                    onRemove(id);
-                    onClose();
-                }
-            }
+                onConfBtnClick={onRemove}
                 confBtnText="Delete"
-                />
+            />
         </Modal>
-    )
+    );
 }
 
 export default RemoveConfirmationModal;

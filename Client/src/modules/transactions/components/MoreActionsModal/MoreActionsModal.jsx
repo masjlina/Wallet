@@ -9,7 +9,7 @@ import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import pencilIcon from "@/assets/icons/pencil.svg";
 import trashIcon from "@/assets/icons/trash--red.svg";
 
-const MoreActionsModal = ({isOpen, anchorEl, onClose, openConfirmation, id, onSelectTransaction}) => {
+const MoreActionsModal = ({isOpen, anchorEl, onClose, onEditTransaction, openConfirmation}) => {
     const boxRef = useRef(null);
     const [pos, setPos] = useState({top: 0, left: 0});
 
@@ -38,7 +38,7 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, openConfirmation, id, onSe
                     className="btn btn__nav btn__modal text--r"
                     type="button"
                     onClick={() => {
-                        onSelectTransaction(id);
+                        onEditTransaction();
                         onClose();
                     }}>
                     <img src={pencilIcon} alt="Edit"/>
@@ -51,8 +51,8 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, openConfirmation, id, onSe
                     className="btn btn__nav btn__modal text--red"
                     type="button"
                     onClick={() => {
-                        onClose();
                         openConfirmation();
+                        onClose();
                     }}>
                     <img
                         src={trashIcon}
