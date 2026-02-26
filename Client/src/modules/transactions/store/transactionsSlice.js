@@ -11,7 +11,7 @@ import {
 } from "./transactionsThunks";
 
 const initialState = {
-    transactions: [],
+    transactions: null,
     transaction: null
 }
 

@@ -28,7 +28,7 @@ const Dashboard = () => {
     const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
     const transactions = useSelector(state => state.transactions.transactions);
     const accounts = [
-        ...useSelector(state => state.accounts.accounts),
+        ...useSelector(state => state.accounts.accounts) ?? [],
         useSelector(state => state.wallet.wallet)
     ];
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
     }, [transactions]);
 
     useEffect(() => {
-        if (!transactions.length)
+        if (!transactions)
             dispatch(getAllUserTransactions());
     }, [dispatch, transactions]);
 

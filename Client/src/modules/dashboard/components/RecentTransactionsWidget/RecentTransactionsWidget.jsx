@@ -34,7 +34,6 @@ const RecentTransactionsWidget = ({transactions}) => {
             key={transaction.id}
             transaction={transaction}
             type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
-            onClick={() => onSelectTransaction(transaction.id)}
             tableHeaders={tableHeaders}/>
     })
 

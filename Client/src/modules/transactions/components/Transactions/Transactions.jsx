@@ -38,14 +38,15 @@ const Transactions = () => {
 
     // Get all transactions
     useEffect(() => {
-        transactionsController.getAll();
-    }, []);
+        if (!transactions)
+            transactionsController.getAll();
+    }, [transactions]);
 
     const onChangeCurrentFilter = (newFilter) => {
         setCurrentFilter(newFilter);
     };
 
-    const content = filteredTransactions.map(transaction => {
+    const content = filteredTransactions?.map(transaction => {
         return <TransactionRow
             key={transaction.id}
             transaction={transaction}

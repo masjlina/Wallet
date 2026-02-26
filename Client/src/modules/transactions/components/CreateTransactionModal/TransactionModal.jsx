@@ -68,11 +68,11 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
     }, [transaction]);
 
     useEffect(() => {
-        if (!accounts.length)
+        if (!accounts)
             dispatch(getAllWalletAccounts());
         if (!wallet)
             dispatch(getUserWallet());
-    }, [accounts.length, wallet, dispatch])
+    }, [accounts, wallet, dispatch]);
 
     useEffect(() => {
         if (!isOpen || !type) return;

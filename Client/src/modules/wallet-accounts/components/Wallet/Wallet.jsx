@@ -36,8 +36,9 @@ const Wallet = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        accountsController.getAll(user);
-    }, []);
+        if (!wallet || !accounts)
+            accountsController.getAll(user);
+    }, [accounts, wallet]);
 
     const onNavigateToDetails = (account) => {
         const [[type, id]] = Object.entries(account);

@@ -42,7 +42,7 @@ const MyAccountWidget = ({accounts}) => {
     };
 
     const content = accounts.map((account, i) => (
-        <div key={account?.id}
+        <div key={i}
              className={`carousel__item ${i === currentIndex ? "carousel__item--selected" : ""} accounts__carousel--underlay`}>
             <div className="accounts__carousel--background">
                 <div className="accounts__carousel--hover">
