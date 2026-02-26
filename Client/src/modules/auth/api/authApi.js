@@ -31,9 +31,7 @@ export async function login(formData) {
 
         const result = await request(endpoints.login, "POST", signInRequest);
 
-        setAccessToken({
-            accessToken: result.accessToken,
-        });
+        setAccessToken(result.accessToken);
 
         return createSignInResponseDto(result);
     } catch (error) {

@@ -1,6 +1,6 @@
-export default function createSignInResponseDto ({accessToken, applicationUserDTO}) {
+export default function createSignInResponseDto ({accessToken, applicationUserDto}) {
     return {
         accessToken: accessToken,
-        user: applicationUserDTO
+        user: applicationUserDto
     };
 }

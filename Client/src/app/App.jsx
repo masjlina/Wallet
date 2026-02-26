@@ -35,13 +35,10 @@ const App = () => {
     }, [dispatch, status]);
 
     useEffect(() => {
-        if (!user) {
-            try {
-                dispatch(getApplicationUser());
-            } catch (error) {
-            }
+        if (isAuthenticated && !user) {
+            dispatch(getApplicationUser());
         }
-    }, [user]);
+    }, [isAuthenticated, user, dispatch]);
 
     useEffect(() => {
         if (status === STATUSES.FAILED && !isAuthenticated) {
@@ -76,5 +73,4 @@ const App = () => {
 export default App;
 // TODO: get redux state with checkAuth; create wallet-accounts
 
-// TODO: try to make shadow not overflowed
 // TODO: if wallet-accounts doesn't exist, show a button to create it on every page
