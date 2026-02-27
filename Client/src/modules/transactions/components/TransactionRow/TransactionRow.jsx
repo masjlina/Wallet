@@ -13,7 +13,6 @@ const TransactionRow = ({
                             onContextOpen,
                             type = TRANSACTION_TYPE.EXPENSE,
                             transaction,
-                            setId,
                             tableHeaders = [],
         onClick
                         }) => {

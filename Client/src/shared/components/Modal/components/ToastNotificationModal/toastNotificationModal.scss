@@ -1,0 +1,48 @@
+.notification {
+  padding: var(--notification-padding);
+  border-radius: var(--notification-radius);
+  font-size: var(--notification-font-size);
+  box-shadow: var(--notification-shadow);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.notification--success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+  border-left-color: var(--color-success-border);
+}
+
+.notification--error {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+  border-left-color: var(--color-error-border);
+}
+
+.notification--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-left-color: var(--color-warning-border);
+}
+
+.notification--info {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+  border-left-color: var(--color-info-border);
+}
+
+.toast__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px
+}
+
+.toast__message {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}

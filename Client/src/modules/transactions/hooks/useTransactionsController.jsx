@@ -8,6 +8,8 @@ import {
     removeUserTransaction,
     updateUserTransaction
 } from "@/modules/transactions";
+import {showNotification} from "@/app/store/notificationSlice";
+import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
 
 export const useTransactionsController = () => {
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
-export default function onReject(response, thunkAPI) {
+export default function onReject(response, rejectWithValue) {
     if (response.errors) {
-        return thunkAPI.rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
+        return rejectWithValue({errors: [...Object.values(response.errors)] ?? []});
     }
 }

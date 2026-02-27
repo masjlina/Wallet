@@ -11,9 +11,12 @@ import MonthActivityWidget from "../MonthActivityWidget/MonthActivityWidget";
 import MonthBudgetWidget from "../MonthBudgetWidget/MonthBudgetWidget";
 import MyAccountWidget from "../MyAccountWidget/MyAccountWidget";
 import RecentTransactionsWidget from "../RecentTransactionsWidget/RecentTransactionsWidget";
-import {TransactionModal} from "@/modules/transactions";
-import {getTodayTransactions} from "@/modules/transactions";
-import {createUserTransaction, getAllUserTransactions} from "@/modules/transactions";
+import {
+    createUserTransaction,
+    getAllUserTransactions,
+    getTodayTransactions,
+    TransactionModal
+} from "@/modules/transactions";
 import {updateApplicationUser} from "@/modules/user";
 
 // Shared
@@ -32,9 +35,11 @@ const Dashboard = () => {
         useSelector(state => state.wallet.wallet)
     ];
 
+
     const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
 
     const transactionModal = useModal();
+    const toastModal = useModal();
 
     const todayTransactions = useMemo(() => {
         return getTodayTransactions(transactions);
@@ -44,7 +49,7 @@ const Dashboard = () => {
         return todayTransactions
             .filter(t => t.amount < 0)
             .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-    }, [transactions]);
+    }, [todayTransactions]);
 
     useEffect(() => {
         if (!transactions)

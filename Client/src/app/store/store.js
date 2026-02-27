@@ -7,6 +7,7 @@ import {transactionsSlice} from "@/modules/transactions";
 import {userSlice} from "@/modules/user";
 import {accountsSlice} from "@/modules/wallet-accounts";
 import {walletSlice} from "@/modules/wallet-accounts";
+import notificationSlice from "@/app/store/notificationSlice";
 
 const store = configureStore({
     reducer: {
@@ -14,7 +15,8 @@ const store = configureStore({
         wallet: walletSlice,
         accounts: accountsSlice,
         transactions: transactionsSlice,
-        user: userSlice
+        user: userSlice,
+        notification: notificationSlice
     },
     devTools: process.env.NODE_ENV !== "production"
 });

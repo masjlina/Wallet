@@ -1,7 +1,7 @@
 const MODAL_VARIANT = Object.freeze({
     CENTRAL: "central",
     CONTEXT: "context",
-    POPUP: "popup"
+    TOAST: "toast"
 });
 
 export default MODAL_VARIANT;

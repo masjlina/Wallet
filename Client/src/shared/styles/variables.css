@@ -2,6 +2,34 @@
     --header-height: 96px;
     --dashboard-gap: 1.5rem;
 
+    /*NOTIFICATIONS*/
+    /* SUCCESS */
+    --color-success-bg: #e6f9f0;
+    --color-success-border: #28a745;
+    --color-success-text: #1e7e34;
+
+    /* ERROR */
+    --color-error-bg: #fdecea;
+    --color-error-border: #dc3545;
+    --color-error-text: #842029;
+
+    /* WARNING */
+    --color-warning-bg: #fff4e5;
+    --color-warning-border: #ff9800;
+    --color-warning-text: #8a5300;
+
+    /* INFO */
+    --color-info-bg: #e7f3ff;
+    --color-info-border: #0d6efd;
+    --color-info-text: #084298;
+
+    /* Base */
+    --notification-radius: 10px;
+    --notification-padding: 14px 16px;
+    --notification-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --notification-font-size: 14px;
+
+    /*BASE*/
     /*Colors*/
     --accent--active: #6B59D2;
     --accent--primary: #7763EA;

@@ -23,6 +23,13 @@
     align-items: center;
 }
 
+.d-top-right {
+    position: absolute;
+    display: flex;
+    justify-content: right;
+    align-items: flex-start;
+}
+
 .p-0 {
     padding: 0;
 }

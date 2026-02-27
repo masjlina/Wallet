@@ -10,6 +10,8 @@ import {
     removeTransaction,
     updateTransaction
 } from "../api/transactionsApi";
+import {showNotification} from "@/app/store/notificationSlice";
+import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
 
 export const getAllUserTransactions = createAsyncThunk(
     "transactions/getAll",
@@ -37,11 +39,22 @@ export const getUserTransaction = createAsyncThunk(
 
 export const createUserTransaction = createAsyncThunk(
     "transactions/create",
-    async (transaction, thunkAPI) => {
+    async (transaction, {dispatch, rejectWithValue}) => {
         const response = await createTransaction(transaction);
 
-        const rejected = onReject(response, thunkAPI);
-        if (rejected) return rejected;
+        const rejected = onReject(response, rejectWithValue);
+        if (rejected) {
+            dispatch(showNotification({
+                type: NOTIFICATION_INTENT.ERROR,
+                message: "Transaction was not created"
+            }));
+            return rejected;
+        }
+
+        dispatch(showNotification({
+            type: NOTIFICATION_INTENT.SUCCESS,
+            message: "Transaction was created"
+        }));
 
         return response
     }
@@ -49,11 +62,22 @@ export const createUserTransaction = createAsyncThunk(
 
 export const updateUserTransaction = createAsyncThunk(
     "transactions/update",
-    async ({transactionId, transaction}, thunkAPI) => {
+    async ({transactionId, transaction}, {dispatch, rejectWithValue}) => {
         const response = await updateTransaction(transactionId, transaction);
 
-        const rejected = onReject(response, thunkAPI);
-        if (rejected) return rejected;
+        const rejected = onReject(response, rejectWithValue);
+        if (rejected) {
+            dispatch(showNotification({
+                type: NOTIFICATION_INTENT.ERROR,
+                message: "Transaction was not updated"
+            }));
+            return rejected;
+        }
+
+        dispatch(showNotification({
+            type: NOTIFICATION_INTENT.SUCCESS,
+            message: "Transaction was updated"
+        }));
 
         return response
     }
@@ -61,12 +85,23 @@ export const updateUserTransaction = createAsyncThunk(
 
 export const removeUserTransaction = createAsyncThunk(
     "transactions/remove",
-    async (transactionId, thunkAPI) => {
+    async (transactionId, {dispatch, rejectWithValue}) => {
         const response = await removeTransaction(transactionId);
 
-        const rejected = onReject(response, thunkAPI);
-        if (rejected) return rejected;
+        const rejected = onReject(response, rejectWithValue);
+        if (rejected) {
+            dispatch(showNotification({
+                type: NOTIFICATION_INTENT.ERROR,
+                message: "Transaction was not deleted"
+            }));
+            return rejected;
+        }
 
-        return response;
+        dispatch(showNotification({
+            type: NOTIFICATION_INTENT.SUCCESS,
+            message: "Transaction was deleted"
+        }));
+
+        return response
     }
 )
