@@ -5,6 +5,7 @@ export default function mapUser(userDto) {
         lastName: userDto.lastName,
         email: userDto.email,
         dailyLimit: userDto.dailyLimit,
+        monthlyLimit: userDto.monthlyLimit,
         phoneNumber: userDto.phoneNumber,
         avatarUri: userDto.avatarUri,
         walletId: userDto.walletId,
@@ -18,6 +19,7 @@ export function createUserToUpdate({
                                        firstName,
                                        lastName,
                                        dailyLimit,
+                                       monthlyLimit,
                                        phoneNumber,
                                        avatarUri
                                    }) {
@@ -25,6 +27,7 @@ export function createUserToUpdate({
         firstName,
         lastName,
         dailyLimit,
+        monthlyLimit,
         phoneNumber,
         avatarUri
     };

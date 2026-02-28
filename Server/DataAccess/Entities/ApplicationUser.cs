@@ -12,6 +12,7 @@ public sealed class ApplicationUser : IdentityUser
     public string LastName { get; set; }
 
     public decimal DailyLimit { get; set; } = 100;
+    public decimal MonthlyLimit { get; set; } = 1000;
 
     public string? AvatarUri { get; set; } = "";
 

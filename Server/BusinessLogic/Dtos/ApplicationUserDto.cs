@@ -18,6 +18,7 @@ public sealed class ApplicationUserDto
     public string Email { get; set; }
 
     [Precision(14, 2)] public decimal DailyLimit { get; set; } = 100;
+    [Precision(14, 2)] public decimal MonthlyLimit { get; set; } = 1000;
 
 
     [Required(ErrorMessage = "Please enter a phone number")]

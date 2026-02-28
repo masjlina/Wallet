@@ -7,17 +7,17 @@ import Modal from "@/shared/components/Modal/Modal";
 import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 
-const DayLimitModal = ({
+const SetLimitModal = ({
                            isOpen,
                            onClose,
-                           userDailyLimit = 0,
-                           onUpdateDailyLimit
+                           userLimit = 0,
+                           onUpdateLimit
                        }) => {
-    const limitInput = useInput(userDailyLimit);
+    const limitInput = useInput(userLimit);
 
     useEffect(() => {
-        limitInput.setValue(userDailyLimit);
-    }, [userDailyLimit]);
+        limitInput.setValue(userLimit);
+    }, [userLimit]);
 
     return (
         <Modal
@@ -30,7 +30,7 @@ const DayLimitModal = ({
                     id="change-daily-limit"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        onUpdateDailyLimit(limitInput.value, onClose)
+                        onUpdateLimit(limitInput.value, onClose)
                     }}>
 
                     <AmountInput
@@ -43,4 +43,4 @@ const DayLimitModal = ({
     )
 }
 
-export default DayLimitModal;
+export default SetLimitModal;

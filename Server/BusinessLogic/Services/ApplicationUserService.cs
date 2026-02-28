@@ -52,6 +52,9 @@ public class ApplicationUserService : IApplicationUserService
         if (userDto.DailyLimit is not null)
             userToUpdate.DailyLimit = userDto.DailyLimit.Value;
 
+        if (userDto.MonthlyLimit is not null)
+            userToUpdate.MonthlyLimit = userDto.MonthlyLimit.Value;
+
         await _dbContext.SaveChangesAsync();
 
         return _mapper.ToDto(userToUpdate);

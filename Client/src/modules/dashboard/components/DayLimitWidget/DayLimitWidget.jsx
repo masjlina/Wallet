@@ -1,5 +1,5 @@
 // App (modules)
-import DayLimitModal from "../DayLimitModal/DayLimitModal";
+import SetLimitModal from "@/modules/dashboard/components/SetLimitModal/SetLimitModal";
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
@@ -65,11 +65,11 @@ const DayLimitWidget = ({
                     Income
                 </button>
             </Widget.Footer>
-            <DayLimitModal
+            <SetLimitModal
                 isOpen={dayLimitModal.isOpen}
                 onClose={dayLimitModal.closeModal}
-                userDailyLimit={userDailyLimit}
-                onUpdateDailyLimit={onUpdateDailyLimit}
+                userLimit={userDailyLimit}
+                onUpdateLimit={onUpdateDailyLimit}
             />
         </Widget>
     );

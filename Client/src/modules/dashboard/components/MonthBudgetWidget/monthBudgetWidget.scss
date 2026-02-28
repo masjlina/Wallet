@@ -8,6 +8,21 @@
 
   &__right-content {
     width: 50%;
+
+    .graphic,
+    .graphic__background--bar {
+      height: 100%;
+    }
+
+    .graphic__fill--bar {
+      height: 100%;
+      background: linear-gradient(
+        to top,
+        #7763ea 0%,
+        #7763ea 30%,
+        #ea6363 100%
+      );
+      transition: clip-path 0.35s ease;
+    }
   }
 }
-

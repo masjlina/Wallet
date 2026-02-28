@@ -25,21 +25,22 @@ import useModal from "@/shared/hooks/useModal";
 
 // Styles
 import "./dashboard.scss";
+import {getThisMonthTransactions} from "@/modules/transactions/helpers/transactionHelper";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
     const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
+    const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit ?? -1);
+
     const transactions = useSelector(state => state.transactions.transactions);
     const accounts = [
         ...useSelector(state => state.accounts.accounts) ?? [],
         useSelector(state => state.wallet.wallet)
     ];
 
-
     const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
 
     const transactionModal = useModal();
-    const toastModal = useModal();
 
     const todayTransactions = useMemo(() => {
         return getTodayTransactions(transactions);
@@ -50,6 +51,12 @@ const Dashboard = () => {
             .filter(t => t.amount < 0)
             .reduce((sum, t) => sum + Math.abs(t.amount), 0);
     }, [todayTransactions]);
+
+    const spentThisMonth = useMemo(() => {
+        return getThisMonthTransactions(transactions)
+            .filter(t => t.amount < 0)
+            .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    }, [transactions]);
 
     useEffect(() => {
         if (!transactions)
@@ -81,10 +88,24 @@ const Dashboard = () => {
         }
     }
 
+    const onUpdateMonthlyLimit = async (limit, closeModal) => {
+        try {
+            const userToUpdate = createUserToUpdate({
+                monthlyLimit: limit
+            });
+            await dispatch(updateApplicationUser(userToUpdate));
+            closeModal();
+        } catch (error) {
+        }
+    }
+
     return (
         <div className="container content__container">
             <div className="content dashboard__content--top">
-                <MonthBudgetWidget/>
+                <MonthBudgetWidget
+                    userMonthlyLimit={userMonthlyLimit}
+                    spentThisMonth={spentThisMonth}
+                    onUpdateMonthlyLimit={onUpdateMonthlyLimit}/>
 
                 <DayLimitWidget
                     openModal={onOpenTransactionModalWithType}

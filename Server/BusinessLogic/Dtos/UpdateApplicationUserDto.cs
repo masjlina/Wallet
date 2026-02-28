@@ -10,6 +10,7 @@ public sealed class UpdateApplicationUserDto
     public string? LastName { get; set; }
 
     [Precision(14, 2)] public decimal? DailyLimit { get; set; }
+    [Precision(14, 2)] public decimal? MonthlyLimit { get; set; }
 
     public string? PhoneNumber { get; set; }
 
