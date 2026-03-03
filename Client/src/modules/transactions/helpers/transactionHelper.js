@@ -1,3 +1,5 @@
+import {getDayAgo} from "@/shared/services/dateTimeService";
+
 export const getTodayTransactions = (transactions) => {
     if (!transactions)
         return []
@@ -34,6 +36,23 @@ export const getThisMonthTransactions = (transactions) => {
         return (
             date >= startOfMonth &&
             date < startOfNextMonth
+        );
+    });
+};
+
+export const getWeekTransactions = (transactions) => {
+    if (!transactions)
+        return []
+
+    const now = new Date();
+    const weekAgo = getDayAgo(7);
+
+    return transactions.filter(t => {
+        const date = new Date(t.createdAt);
+
+        return (
+            date >= weekAgo &&
+            date <= now
         );
     });
 };

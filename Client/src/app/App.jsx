@@ -71,6 +71,3 @@ const App = () => {
 }
 
 export default App;
-// TODO: get redux state with checkAuth; create wallet-accounts
-
-// TODO: if wallet-accounts doesn't exist, show a button to create it on every page

@@ -7,3 +7,15 @@ export const formatLocalDateTime = (date) => {
         pad(date.getHours())
     }:${pad(date.getMinutes())}`;
 };
+
+export const formatWeekday = (date) =>
+    date.toLocaleString("default", { weekday: "short" });
+
+export const getDayAgo = (day = 1) => {
+    const now = new Date();
+
+    const weekAgo = new Date(now)
+    weekAgo.setDate(now.getDate() - day);
+
+    return weekAgo;
+}

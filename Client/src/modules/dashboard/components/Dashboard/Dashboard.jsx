@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 // App (modules)
 import {createUserToUpdate} from "@/domain/user";
 import DayLimitWidget from "../DayLimitWidget/DayLimitWidget";
-import MonthActivityWidget from "../MonthActivityWidget/MonthActivityWidget";
+import WeekActivityWidget from "@/modules/dashboard/components/WeekActivityWidget/WeekActivityWidget";
 import MonthBudgetWidget from "../MonthBudgetWidget/MonthBudgetWidget";
 import MyAccountWidget from "../MyAccountWidget/MyAccountWidget";
 import RecentTransactionsWidget from "../RecentTransactionsWidget/RecentTransactionsWidget";
@@ -25,7 +25,8 @@ import useModal from "@/shared/hooks/useModal";
 
 // Styles
 import "./dashboard.scss";
-import {getThisMonthTransactions} from "@/modules/transactions/helpers/transactionHelper";
+import {getThisMonthTransactions, getWeekTransactions} from "@/modules/transactions/helpers/transactionHelper";
+import {getDayAgo} from "@/shared/services/dateTimeService";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -56,6 +57,28 @@ const Dashboard = () => {
         return getThisMonthTransactions(transactions)
             .filter(t => t.amount < 0)
             .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    }, [transactions]);
+
+    const everyDaySpentThisWeek = useMemo(() => {
+        const weekTransactions = getWeekTransactions(transactions);
+        const result = [];
+
+        for (let i = 6; i >= 0; i--) {
+            const targetDay = getDayAgo(i);
+
+            const daySum = weekTransactions
+                .filter(
+                    (t) =>
+                        t.amount < 0 &&
+                        new Date(t.createdAt).toDateString() ===
+                        new Date(targetDay).toDateString()
+                )
+                .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+            result.push(daySum);
+        }
+
+        return result;
     }, [transactions]);
 
     useEffect(() => {
@@ -119,7 +142,8 @@ const Dashboard = () => {
 
             <div className="content dashboard__content--bottom">
                 <RecentTransactionsWidget transactions={todayTransactions}/>
-                <MonthActivityWidget/>
+                <WeekActivityWidget
+                everyDaySpentThisWeek={everyDaySpentThisWeek}/>
             </div>
             <TransactionModal
                 isOpen={transactionModal.isOpen}
