@@ -1,6 +1,4 @@
 // React
-import {useEffect} from "react";
-
 // External libs
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
@@ -10,7 +8,6 @@ import AuthLayout from "../components/AuthLayout/AuthLayout";
 import EmailField from "../components/EmailField/EmailField";
 import PasswordField from "../components/PasswordField/PasswordField";
 import RememberMe from "./components/RememberMe/RememberMe";
-import {clearErrors} from "@/modules/auth";
 import {loginUser} from "@/modules/auth";
 
 // Shared
@@ -23,34 +20,37 @@ import Button from "@/ui/Button/Button";
 
 // Styles
 import "../style.scss";
+import {useState} from "react";
 
 export const LoginForm = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const logStatus = useSelector((state) => state.auth.status);
+    const logErrors = useSelector((state) => state.auth.errors);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
     const email = useInput("");
     const password = useInput("");
     const isRemembered = useInput(false);
 
-    const logStatus = useSelector((state) => state.auth.status);
-    const logErrors = useSelector((state) => state.auth.errors);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(clearErrors());
-    }, [])
+    const [isSubmit, setIsSubmit] = useState(false);
 
     const onLogin = async (e) => {
         e.preventDefault();
+        setIsSubmit(true);
 
-        const formData = Object.fromEntries(new FormData(e.currentTarget).entries());
-        formData.rememberMe = !! isRemembered;
+        const formData = {
+            email: email.value,
+            password: password.value,
+            rememberMe: isRemembered.value
+        };
 
         try {
             await dispatch(loginUser(formData)).unwrap();
             navigate(ROUTES.DASHBOARD);
-        } catch (err) {
-        }
-    }
+        } catch {}
+    };
 
     return (
         <AuthLayout>
@@ -82,12 +82,15 @@ export const LoginForm = () => {
                             Login
                         </Button>
                     </div>
-                    {logErrors.length > 0 &&
-                        logErrors.map((error, i) => (
-                            <p key={i} style={{color: "red"}}>
-                                {error}
-                            </p>
-                        ))}
+                    {isSubmit && logErrors.length > 0 && (
+                        <div className="form-errors">
+                            {logErrors.map((error, i) => (
+                                <p key={i} className="text--red">
+                                    {error}
+                                </p>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </form>
 

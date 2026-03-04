@@ -2,10 +2,11 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 // App (modules)
-import {checkUserAuth, loginUser} from "./authThunks";
+import {checkUserAuth, loginUser, logoutUser} from "./authThunks";
 
 // Shared
 import STATUSES from "@/shared/consts/statuses";
+import {clearAccessToken} from "@/shared/utils/tokenManager";
 
 const initialState = {
     user: null,
@@ -23,12 +24,6 @@ const authSlice = createSlice({
         },
         clearErrors: (state) => {
             state.errors = [];
-        },
-        logout: (state) => {
-            state.user = null;
-            state.isAuthenticated = false;
-            state.errors = [];
-            state.status = STATUSES.IDLE;
         }
     },
     extraReducers: (builder) => {
@@ -40,23 +35,28 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
             })
+            .addCase(logoutUser.fulfilled, (state) => {
+                clearAccessToken();
+                state.user = null;
+                state.isAuthenticated = false;
+            })
             .addCase(checkUserAuth.rejected, (state) => {
                 state.user = null;
                 state.isAuthenticated = false;
             })
-            .addMatcher((action) => action.type.startsWith("store/") && action.type.endsWith("/pending"),
+            .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/pending"),
                 (state) => {
                     state.status = STATUSES.LOADING;
                     state.errors = [];
                 }
             )
-            .addMatcher((action) => action.type.startsWith("store/") && action.type.endsWith("/fulfilled"),
+            .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/fulfilled"),
                 (state) => {
                     state.status = STATUSES.SUCCEEDED;
                     state.errors = [];
                 }
             )
-            .addMatcher((action) => action.type.startsWith("store/") && action.type.endsWith("/rejected"),
+            .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/rejected"),
                 (state, action) => {
                     state.status = STATUSES.FAILED;
                     state.errors = action.payload?.errors ?? action.payload ?? ["Something went wrong"];

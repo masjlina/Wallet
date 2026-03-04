@@ -4,6 +4,7 @@ const endpoints = {
     serverUrl,
     register: `${serverUrl}/api/signUp`,
     login: `${serverUrl}/api/signIn`,
+    logout: `${serverUrl}/api/logout`,
     users: `${serverUrl}/api/users`,
     checkAuth: `${serverUrl}/api/me`,
     wallet: `${serverUrl}/api/wallet`,

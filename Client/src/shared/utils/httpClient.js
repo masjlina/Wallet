@@ -1,6 +1,6 @@
 // Shared
 import endpoints from "@/shared/consts/endpoints";
-import { clearAccessToken, getAccessToken, setAccessToken } from "@/shared/utils/tokenManager";
+import {clearAccessToken, getAccessToken, setAccessToken} from "@/shared/utils/tokenManager";
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -38,7 +38,9 @@ export async function request(
         headers: finalHeaders,
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 &&
+        url !== endpoints.login &&
+        url !== endpoints.register) {
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
                 failedQueue.push({ resolve, reject });
@@ -61,8 +63,16 @@ export async function request(
         }
     }
 
-    const text = await response.text();
-    const data = text ? JSON.parse(text) : null;
+    const contentType = response.headers.get("content-type");
+
+    let data = null;
+
+    if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+    } else {
+        const text = await response.text();
+        data = text || null;
+    }
 
     if (!response.ok) {
         const error = new Error(`Could not fetch ${url}, status: ${response.status}`);
@@ -80,8 +90,16 @@ async function refreshAndRepeat(url, method, body, headers) {
             credentials: "include",
         });
 
-        const refreshText = await refreshResponse.text();
-        const refreshData = refreshText ? JSON.parse(refreshText) : null;
+        const refreshContentType = refreshResponse.headers.get("content-type");
+
+        let refreshData = null;
+
+        if (refreshContentType && refreshContentType.includes("application/json")) {
+            refreshData = await refreshResponse.json();
+        } else {
+            const text = await refreshResponse.text();
+            refreshData = text || null;
+        }
 
         if (!refreshResponse.ok) {
             clearAccessToken();

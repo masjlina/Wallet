@@ -3,6 +3,8 @@ using BusinessLogic.Dtos;
 using BusinessLogic.Dtos.Mappers;
 using DataAccess.Data;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +36,9 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("signIn")]
-    public async Task<IActionResult> SignIn([FromBody] SignInRequestDto? signInRequestDTO)
+    public async Task<IActionResult> SignIn([FromBody] SignInRequestDto? signInRequestDto)
     {
-        if (signInRequestDTO == null || !ModelState.IsValid)
+        if (signInRequestDto == null || !ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -52,7 +54,7 @@ public class AccountController : ControllerBase
         //     });
         // }
 
-        var user = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
+        var user = await _userManager.FindByEmailAsync(signInRequestDto.Email);
         if (user == null)
         {
             return Unauthorized(new ErrorResponse
@@ -61,7 +63,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, signInRequestDTO.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, signInRequestDto.Password, false);
         if (!result.Succeeded)
         {
             return Unauthorized(new ErrorResponse
@@ -79,7 +81,7 @@ public class AccountController : ControllerBase
 
         string accessToken = _tokenService.GenerateAccessToken(userClaims);
         string refreshToken = _tokenService.GenerateRefreshToken();
-        
+
         var tokenInfo = _dbContext.TokenInfos.FirstOrDefault(a => a.UserId == user.Id);
 
         if (tokenInfo == null)
@@ -88,7 +90,7 @@ public class AccountController : ControllerBase
             {
                 UserId = user.Id,
                 RefreshToken = refreshToken,
-                ExpiredAt = DateTime.UtcNow.AddDays(signInRequestDTO.RememberMe ? 30 : 1)
+                ExpiredAt = DateTime.UtcNow.AddDays(signInRequestDto.RememberMe ? 30 : 1)
             };
             _dbContext.TokenInfos.Add(ti);
         }
@@ -96,7 +98,7 @@ public class AccountController : ControllerBase
         {
             tokenInfo.RefreshToken = refreshToken;
             tokenInfo.ExpiredAt =
-                signInRequestDTO.RememberMe ? DateTime.UtcNow.AddDays(30) : DateTime.UtcNow.AddDays(7);
+                signInRequestDto.RememberMe ? DateTime.UtcNow.AddDays(30) : DateTime.UtcNow.AddDays(7);
         }
 
         await _dbContext.SaveChangesAsync();
@@ -106,7 +108,7 @@ public class AccountController : ControllerBase
             HttpOnly = true,
             Secure = false,
             SameSite = SameSiteMode.Lax,
-            Expires = signInRequestDTO.RememberMe
+            Expires = signInRequestDto.RememberMe
                 ? DateTimeOffset.UtcNow.AddDays(30)
                 : DateTimeOffset.UtcNow.AddDays(1),
             Path = "/"
@@ -162,6 +164,22 @@ public class AccountController : ControllerBase
     }
 
     [Authorize]
+    [HttpPost("logout")]
+    public async Task<ActionResult> Logout()
+    {
+        var refreshToken = Request.Cookies["refreshToken"];
+
+        if (refreshToken != null)
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        Response.Cookies.Delete("refreshToken");
+
+        return Ok();
+    }
+
+    [Authorize]
     [HttpGet("me")]
     public async Task<IActionResult> CheckAuth()
     {
@@ -197,9 +215,9 @@ public class AccountController : ControllerBase
             .SingleOrDefaultAsync(t =>
                 t.RefreshToken == refreshToken &&
                 t.ExpiredAt > DateTime.UtcNow);
-    
+
         Console.WriteLine("refresh token from request: " + refreshToken);
-        
+
         if (tokenInfo == null)
             return Unauthorized(new ErrorResponse
             {
@@ -219,7 +237,7 @@ public class AccountController : ControllerBase
 
         var newAccessToken = _tokenService.GenerateAccessToken(claims);
         var newRefreshToken = _tokenService.GenerateRefreshToken();
-        
+
         tokenInfo.RefreshToken = newRefreshToken;
         tokenInfo.ExpiredAt = DateTime.UtcNow.AddDays(7);
 

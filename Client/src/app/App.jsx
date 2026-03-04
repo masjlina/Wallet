@@ -46,11 +46,9 @@ const App = () => {
         }
     }, [status, isAuthenticated, navigate]);
 
-    if (status === STATUSES.LOADING) {
-        return <p>Checking auth…</p>;
-    }
-
     return (
+        <>
+            {status === STATUSES.LOADING && <p>Checking auth…</p>}
         <Routes>
             <Route path="/" element={<RootLayout/>}>
                 <Route path={ROUTES.DASHBOARD} element={<HomePage/>}/>
@@ -67,9 +65,11 @@ const App = () => {
                 <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
             </Route>
         </Routes>
+        </>
     );
 }
 
 export default App;
 
 // TODO: in login page on f5 with success auth redirect to dashboard
+// TODO: graph in account details

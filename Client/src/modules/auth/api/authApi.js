@@ -39,6 +39,16 @@ export async function login(formData) {
     }
 }
 
+export async function logout() {
+    try {
+        await request(endpoints.logout, "POST");
+
+        return createSuccessfulResponseDto();
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+
 export async function checkAuth() {
     try {
         const result = await request(endpoints.checkAuth);

@@ -118,12 +118,17 @@ const Graph = ({
                 <path d={areaPath} fill="url(#areaGradient)" stroke="none"/>
 
                 {/* Line on top */}
-                <path d={linePath}
-                      stroke="url(#lineGradient)"
-                      strokeWidth={2}
-                      fill="none"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"/>
+                <path
+                    key={linePath}
+                    className="graph__line-animated"
+                    d={linePath}
+                    pathLength={1}
+                    stroke="url(#lineGradient)"
+                    strokeWidth={2}
+                    fill="none"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                />
 
                 {/* Axes */}
                 <g stroke="#DCE3EB" strokeWidth={1.5}>

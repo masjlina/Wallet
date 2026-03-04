@@ -1,8 +1,7 @@
 // React
-import {useState} from "react";
-
 // External libs
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 // Shared
 import {ROUTES} from "@/shared/consts/routes";
@@ -18,8 +17,12 @@ import walletIcon from "@/assets/icons/wallet.svg";
 // Styles
 import "./sidebar.scss";
 import {usePersistedState} from "@/shared/hooks/usePersistedState";
+import {logoutUser} from "@/modules/auth/store/authThunks";
 
 const Sidebar = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [isCollapsed, setIsCollapsed] = usePersistedState("isSidebarCollapsed", "true");
 
     const btnClasses = "side-bar__item btn btn__nav";
@@ -33,6 +36,11 @@ const Sidebar = () => {
             return next;
         });
     };
+
+    const onLogout = () => {
+        dispatch(logoutUser());
+        navigate(ROUTES.LOGIN);
+    }
 
     return (
         <div className={`wrapper side-bar__wrapper ${isCollapsed ? "side-bar__wrapper--collapsed" : ""}`}>
@@ -69,7 +77,13 @@ const Sidebar = () => {
                             <p>Settings</p>
                         </NavLink>
 
-                        <button type="button" className={btnClasses}>
+                        <button
+                            type="button"
+                            className={btnClasses}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onLogout();
+                            }}>
                             <img className="icon" src={logoutIcon} alt="Logout"/>
                             <p>Logout</p>
                         </button>
