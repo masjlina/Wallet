@@ -23,7 +23,7 @@ const WeekActivityWidget = ({everyDaySpentThisWeek}) => {
     const weekAgoDay = weekAgo.getDate();
 
     return (
-        <Widget>
+        <Widget className="">
             <Widget.Header>
                 <div className="text text__title">Activities</div>
 
@@ -36,7 +36,6 @@ const WeekActivityWidget = ({everyDaySpentThisWeek}) => {
             </Widget.Header>
 
             <Widget.Content className="activities__graphic-content">
-                {/*<img className="graphic" src={graphicIcon} alt="graphic"/>*/}
                 <Graph data={everyDaySpentThisWeek}/>
             </Widget.Content>
         </Widget>

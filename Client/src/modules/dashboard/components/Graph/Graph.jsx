@@ -77,108 +77,116 @@ const Graph = ({
     const xLabels = data.map((_, i) => ({x: getX(i), label: week[i] ?? `#${i + 1}`}));
 
     return (
-        <svg
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{fontFamily: "Inter, Arial, sans-serif"}}
-        >
-            <defs>
-                <linearGradient id="areaGradient" x1="0" y1="1" x2="0" y2="0">
-                    <stop offset="0%" stopColor="#7763EA" stopOpacity={0.05}/>
-                    <stop offset="60%" stopColor="#EA6363" stopOpacity={0.12}/>
-                    <stop offset="100%" stopColor="#EA6363" stopOpacity={0.25}/>
-                </linearGradient>
+        <div className="graph-wrap">
+            <svg
+                width="100%"
+                height="100%"
+                className="graph"
+                preserveAspectRatio="none"
+                viewBox={`0 0 ${width} ${height}`}
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{fontFamily: "Inter, Arial, sans-serif"}}
+            >
+                <defs>
+                    <linearGradient id="areaGradient" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stopColor="#7763EA" stopOpacity={0.05}/>
+                        <stop offset="60%" stopColor="#EA6363" stopOpacity={0.12}/>
+                        <stop offset="100%" stopColor="#EA6363" stopOpacity={0.25}/>
+                    </linearGradient>
 
-                <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#4CDFE8"/>
-                    <stop offset="100%" stopColor="#7947F7"/>
-                </linearGradient>
-            </defs>
+                    <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#4CDFE8"/>
+                        <stop offset="100%" stopColor="#7947F7"/>
+                    </linearGradient>
+                </defs>
 
-            {/* Grid lines */}
-            <g stroke="#DCE3EB" strokeDasharray="3 4" strokeLinecap="round" strokeWidth={1}>
-                {yLines.map((ln, idx) => (
+                {/* Grid lines */}
+                <g stroke="#DCE3EB" strokeDasharray="3 4" strokeLinecap="round" strokeWidth={1}>
+                    {yLines.map((ln, idx) => (
+                        <line
+                            key={idx}
+                            x1={graphLeftPadding}
+                            x2={width - graphRightPadding}
+                            y1={ln.y}
+                            y2={ln.y}
+                        />
+                    ))}
+                </g>
+
+                {/* Area (filled polygon) */}
+                <path d={areaPath} fill="url(#areaGradient)" stroke="none"/>
+
+                {/* Line on top */}
+                <path d={linePath}
+                      stroke="url(#lineGradient)"
+                      strokeWidth={2}
+                      fill="none"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"/>
+
+                {/* Axes */}
+                <g stroke="#DCE3EB" strokeWidth={1.5}>
+                    {/* Y axis */}
                     <line
-                        key={idx}
+                        x1={graphLeftPadding}
+                        x2={graphLeftPadding}
+                        y1={graphTopPadding}
+                        y2={height - graphBottomPadding}
+                    />
+                    {/* X axis */}
+                    <line
                         x1={graphLeftPadding}
                         x2={width - graphRightPadding}
-                        y1={ln.y}
-                        y2={ln.y}
+                        y1={height - graphBottomPadding}
+                        y2={height - graphBottomPadding}
                     />
-                ))}
-            </g>
+                </g>
 
-            {/* Area (filled polygon) */}
-            <path d={areaPath} fill="url(#areaGradient)" stroke="none"/>
+                {/* Y labels (aligned to axis) */}
+                <g fill="#707D8A" fontSize={12}>
+                    {yLines.map((ln, idx) => (
+                        <text
+                            key={idx}
+                            x={graphLeftPadding - 10}
+                            y={ln.y + 4} // small vertical offset to vertically center with line
+                            textAnchor="end"
+                        >
+                            {formatY(ln.value)}
+                        </text>
+                    ))}
+                </g>
 
-            {/* Line on top */}
-            <path d={linePath}
-                  stroke="url(#lineGradient)"
-                  strokeWidth={2}
-                  fill="none"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"/>
+                {/* X labels (centered under points) */}
+                <g fill="#8b95a3" fontSize={11}>
+                    {xLabels.map((t, i) => (
+                        <text key={i} x={t.x} y={height - graphBottomPadding + 20} textAnchor="middle">
+                            {t.label}
+                        </text>
+                    ))}
+                </g>
 
-            {/* Axes */}
-            <g stroke="#DCE3EB" strokeWidth={1.5}>
-                {/* Y axis */}
-                <line
-                    x1={graphLeftPadding}
-                    x2={graphLeftPadding}
-                    y1={graphTopPadding}
-                    y2={height - graphBottomPadding}
-                />
-                {/* X axis */}
-                <line
-                    x1={graphLeftPadding}
-                    x2={width - graphRightPadding}
-                    y1={height - graphBottomPadding}
-                    y2={height - graphBottomPadding}
-                />
-            </g>
+                {/* Axis titles */}
+                <text
+                    x={graphLeftPadding - 35}
+                    y={graphTopPadding + innerHeight / 2}
+                    textAnchor="middle"
+                    transform={`rotate(-90 ${graphLeftPadding - 41} ${graphTopPadding + innerHeight / 2})`}
+                    fill="#707D8A"
+                    fontSize={12}
+                >
+                    Amount ($)
+                </text>
 
-            {/* Y labels (aligned to axis) */}
-            <g fill="#707D8A" fontSize={12}>
-                {yLines.map((ln, idx) => (
-                    <text
-                        key={idx}
-                        x={graphLeftPadding - 10}
-                        y={ln.y + 4} // small vertical offset to vertically center with line
-                        textAnchor="end"
-                    >
-                        {formatY(ln.value)}
-                    </text>
-                ))}
-            </g>
-
-            {/* X labels (centered under points) */}
-            <g fill="#8b95a3" fontSize={11}>
-                {xLabels.map((t, i) => (
-                    <text key={i} x={t.x} y={height - graphBottomPadding + 20} textAnchor="middle">
-                        {t.label}
-                    </text>
-                ))}
-            </g>
-
-            {/* Axis titles */}
-            <text
-                x={graphLeftPadding - 35}
-                y={graphTopPadding + innerHeight / 2}
-                textAnchor="middle"
-                transform={`rotate(-90 ${graphLeftPadding - 41} ${graphTopPadding + innerHeight / 2})`}
-                fill="#707D8A"
-                fontSize={12}
-            >
-                Amount ($)
-            </text>
-
-            <text x={graphLeftPadding + innerWidth / 2} y={height - 8} textAnchor="middle" fill="#707D8A" fontSize={12}>
-                Week
-            </text>
-        </svg>
+                <text x={graphLeftPadding + innerWidth / 2}
+                      y={height - 8}
+                      textAnchor="middle"
+                      fill="#707D8A"
+                      fontSize={12}>
+                    Week
+                </text>
+            </svg>
+        </div>
     );
 };
 

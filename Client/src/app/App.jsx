@@ -71,3 +71,5 @@ const App = () => {
 }
 
 export default App;
+
+// TODO: in login page on f5 with success auth redirect to dashboard

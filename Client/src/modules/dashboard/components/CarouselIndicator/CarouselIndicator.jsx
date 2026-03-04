@@ -39,7 +39,12 @@ const CarouselIndicator = ({
             focusable="false"
         >
             <defs>
-                <filter id="gooey">
+                <filter
+                    id="gooey"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%">
                     <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
                     <feColorMatrix in="blur" type="matrix"
                                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -7"
@@ -48,7 +53,7 @@ const CarouselIndicator = ({
                 </filter>
             </defs>
 
-            <g id="carousel-indicator" filter="url(#gooey)">
+            <g id="carousel-indicator" filter="url(#gooey)" clipPath="url(#clip0)">
                 <g id="pages">
                     {dots.map((_, i) => (
                         <ellipse
