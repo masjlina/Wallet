@@ -29,18 +29,19 @@ const Transactions = () => {
     const [currentFilter, setCurrentFilter] =
         usePersistedState("filter", TRANSACTION_FILTER_TYPE.ALL);
 
-    const transactions = useSelector(state => state.transactions.transactions);
+    const transactions = useSelector(
+        state => state.transactions.transactions || []
+    );
+
     const filteredTransactions = useMemo(() => {
         return filterTransactionsByType(currentFilter, transactions);
     }, [transactions, currentFilter]);
 
-    const tableHeaders = Object.values(TRANSACTION_COLUMNS);
-
-    // Get all transactions
     useEffect(() => {
-        if (!transactions)
-            transactionsController.getAll();
-    }, [transactions]);
+        transactionsController.getAll();
+    }, []);
+
+    const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
     const onChangeCurrentFilter = (newFilter) => {
         setCurrentFilter(newFilter);

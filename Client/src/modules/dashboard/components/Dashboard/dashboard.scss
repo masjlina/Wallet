@@ -5,9 +5,12 @@
 
 
   height: 100%;
-  min-height: 680px;
-  min-width: 1250px;
   box-sizing: border-box;
+}
+
+.dashboard {
+  min-height: 680px;
+  min-width: 1150px;
 }
 
 .dashboard__content--top,

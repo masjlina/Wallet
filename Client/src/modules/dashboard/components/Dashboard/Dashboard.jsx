@@ -123,7 +123,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="container content__container">
+        <div className="container content__container dashboard">
             <div className="content dashboard__content--top">
                 <MonthBudgetWidget
                     userMonthlyLimit={userMonthlyLimit}

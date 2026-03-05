@@ -25,7 +25,7 @@ const WeekActivityWidget = ({everyDaySpentThisWeek}) => {
     return (
         <Widget className="">
             <Widget.Header>
-                <div className="text text__title">Activities</div>
+                <div className="text text__title">Expenses activity</div>
 
                 <div className="content widget__header-right">
                     <img className="icon icon--base-24" src={calendarIcon} alt="calendar" />

@@ -73,3 +73,4 @@ export default App;
 
 // TODO: in login page on f5 with success auth redirect to dashboard
 // TODO: graph in account details
+// TODO: subtract or add up to account balance with new transaction
