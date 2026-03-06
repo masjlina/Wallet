@@ -60,11 +60,9 @@ export const useAccountsController = () => {
         await dispatch(getWalletAccount(id));
     }
 
-    const getAll = async (user) => {
-        if (!user) {
-            await dispatch(getUserWallet());
-            await dispatch(getAllWalletAccounts());
-        }
+    const getAll = async () => {
+        await dispatch(getUserWallet());
+        await dispatch(getAllWalletAccounts());
     }
 
     const create = async (type, data) => {

@@ -15,10 +15,12 @@ export const filterTransactionsByType = (type, transactions) => {
 }
 
 export const filterTransactionByAccount = (account, transactions) => {
+    if (!transactions) return [];
+
     switch (account.type) {
         case ACCOUNT_TYPE.CARD:
-            return transactions.filter(t => t.creditCardId == account.id);
+            return transactions.filter(t => t.creditCardId === account.id);
         case ACCOUNT_TYPE.CASH:
-            return transactions.filter(t => t.walletId == account.id);
+            return transactions.filter(t => t.walletId === account.id);
     }
 }

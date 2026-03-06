@@ -12,6 +12,8 @@ import {
 } from "../api/transactionsApi";
 import {showNotification} from "@/app/store/notificationSlice";
 import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
+import {getAllWalletAccounts} from "@/modules/wallet-accounts/store/accountsThunks";
+import {getUserWallet} from "@/modules/wallet-accounts/store/walletThunks";
 
 export const getAllUserTransactions = createAsyncThunk(
     "transactions/getAll",
@@ -56,6 +58,9 @@ export const createUserTransaction = createAsyncThunk(
             message: "Transaction was created"
         }));
 
+        await dispatch(getAllWalletAccounts());
+        await dispatch(getUserWallet());
+
         return response
     }
 );
@@ -79,6 +84,9 @@ export const updateUserTransaction = createAsyncThunk(
             message: "Transaction was updated"
         }));
 
+        await dispatch(getAllWalletAccounts());
+        await dispatch(getUserWallet());
+
         return response
     }
 );
@@ -101,6 +109,9 @@ export const removeUserTransaction = createAsyncThunk(
             type: NOTIFICATION_INTENT.SUCCESS,
             message: "Transaction was deleted"
         }));
+
+        await dispatch(getAllWalletAccounts());
+        await dispatch(getUserWallet());
 
         return response
     }

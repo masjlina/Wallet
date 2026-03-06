@@ -68,11 +68,11 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
     }, [transaction]);
 
     useEffect(() => {
-        if (!accounts)
+        if (accounts.length === 0)
             dispatch(getAllWalletAccounts());
         if (!wallet)
             dispatch(getUserWallet());
-    }, [accounts, wallet, dispatch]);
+    }, [accounts.length, wallet, dispatch]);
 
     useEffect(() => {
         if (!isOpen || !type) return;
@@ -139,6 +139,14 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
             await onCreate(transactionToUpsert);
         else
             await onUpdate(transactionToUpsert)
+
+        const form = getInitialTransactionFormState(transaction);
+
+        nameInput.setValue(form.name);
+        descriptionInput.setValue(form.description);
+        balanceInput.setValue(form.amount);
+        accountInput.setValue(form.account);
+        dateTimeInput.setValue(form.createdAt);
 
         onClose();
     }

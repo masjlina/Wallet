@@ -13,7 +13,7 @@ import arrowRightIcon from "@/assets/icons/btn-arrow--right.svg";
 import "./amountInput.scss";
 
 const AmountInput = ({balance, setBalance}) => {
-    const formattedInput = useInput("+$");
+    const formattedInput = useInput("$");
     const [inputColor, setInputColor] = useState("text--green");
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const AmountInput = ({balance, setBalance}) => {
         if ((numericString.match(/\./g) || []).length > 1) return;
 
         const parts = numericString.split(".");
-        if (parts[1] && parts[1].length > 2) return; // Игнорируем ввод 3-й цифры
+        if (parts[1] && parts[1].length > 2) return;
 
         formattedInput.setValue(raw);
 

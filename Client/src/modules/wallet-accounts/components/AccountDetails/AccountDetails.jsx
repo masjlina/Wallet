@@ -29,6 +29,7 @@ import TransactionCol from "../../../transactions/components/TransactionCol/Tran
 import {useAccountsController} from "@/modules/wallet-accounts/hooks/useAccountsController";
 import MoreActionsModal from "../../../transactions/components/MoreActionsModal/MoreActionsModal";
 import TransactionModal from "../../../transactions/components/CreateTransactionModal/TransactionModal";
+import {getDayAgo} from "@/shared/services/dateTimeService";
 
 const AccountDetails = () => {
     const accountsController = useAccountsController();
@@ -55,18 +56,37 @@ const AccountDetails = () => {
         );
     }, [transactions, id, isWallet]);
 
+    const everyDaySpentThisWeek = useMemo(() => {
+        const result = [];
+
+        for (let i = 6; i >= 0; i--) {
+            const targetDay = getDayAgo(i);
+
+            const daySum = filteredTransactions
+                .filter(
+                    (t) =>
+                        t.amount < 0 &&
+                        new Date(t.createdAt).toDateString() ===
+                        new Date(targetDay).toDateString()
+                )
+                .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+            result.push(daySum);
+        }
+
+        return result;
+    }, [transactions]);
+
     const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
     useEffect(() => {
-        if (!account) {
             if (isWallet) {
                 accountsController.getWallet();
             } else {
                 accountsController.getAccountById(id);
             }
             transactionsController.getAll();
-        }
-    }, [account, isWallet, id, accountsController, transactionsController]);
+    }, [account, isWallet, id]);
 
     if (!account) {
         return (
@@ -116,7 +136,8 @@ const AccountDetails = () => {
                         }
                     </Widget.Footer>
                 </Widget>
-                <MonthActivityWidget/>
+                <MonthActivityWidget
+                    everyDaySpentThisWeek={everyDaySpentThisWeek}/>
             </div>
 
             <div className="account-details__bottom">

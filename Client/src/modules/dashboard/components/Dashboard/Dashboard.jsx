@@ -27,6 +27,7 @@ import useModal from "@/shared/hooks/useModal";
 import "./dashboard.scss";
 import {getThisMonthTransactions, getWeekTransactions} from "@/modules/transactions/helpers/transactionHelper";
 import {getDayAgo} from "@/shared/services/dateTimeService";
+import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -34,10 +35,12 @@ const Dashboard = () => {
     const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit ?? -1);
 
     const transactions = useSelector(state => state.transactions.transactions);
-    const accounts = [
-        ...useSelector(state => state.accounts.accounts) ?? [],
-        useSelector(state => state.wallet.wallet)
-    ];
+    const accountsList = useSelector(state => state.accounts.accounts) ?? [];
+    const wallet = useSelector(state => state.wallet.wallet);
+
+    const accounts = useMemo(() => {
+        return wallet ? [...accountsList, wallet] : accountsList;
+    }, [accountsList, wallet]);
 
     const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
 
@@ -82,9 +85,13 @@ const Dashboard = () => {
     }, [transactions]);
 
     useEffect(() => {
-        if (!transactions)
-            dispatch(getAllUserTransactions());
-    }, [dispatch, transactions]);
+        dispatch(getAllUserTransactions());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getAllWalletAccounts());
+        dispatch(getUserWallet());
+    }, [dispatch]);
 
     const onCreateTransaction = async (transaction) => {
         try {
@@ -143,7 +150,7 @@ const Dashboard = () => {
             <div className="content dashboard__content--bottom">
                 <RecentTransactionsWidget transactions={todayTransactions}/>
                 <WeekActivityWidget
-                everyDaySpentThisWeek={everyDaySpentThisWeek}/>
+                    everyDaySpentThisWeek={everyDaySpentThisWeek}/>
             </div>
             <TransactionModal
                 isOpen={transactionModal.isOpen}

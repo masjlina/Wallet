@@ -6,7 +6,7 @@ const getInitialTransactionFormState = (transaction) => {
     return {
         name: transaction?.name ?? "",
         description: transaction?.description ?? "",
-        amount: transaction?.amount ?? 0,
+        amount: transaction?.amount ?? -1,
         account: transaction?.walletId
             ? `${ACCOUNT_TYPE.CASH}: ${transaction.walletId}`
             : transaction?.creditCardId

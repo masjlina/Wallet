@@ -11,7 +11,7 @@ import {
 } from "./accountsThunks";
 
 const initialState = {
-    accounts: null
+    accounts: []
 }
 
 const accountsSlice = createSlice({
