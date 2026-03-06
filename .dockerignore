@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+**/.vs
+**/bin
+**/obj
+**/node_modules
+Client/dist
+Client/js
+*.user
+*.suo
+*.swp
+*.tmp
+README.md
