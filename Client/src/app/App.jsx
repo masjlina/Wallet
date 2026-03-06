@@ -3,7 +3,7 @@ import {useEffect} from "react";
 
 // External libs
 import {useDispatch, useSelector} from "react-redux";
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useMatch, useNavigate} from "react-router-dom";
 
 // App (modules)
 import AuthLayout from "@/app/layouts/AuthLayout/AuthLayout";
@@ -23,6 +23,7 @@ import STATUSES from "@/shared/consts/statuses";
 
 const App = () => {
     const navigate = useNavigate();
+    const isLoginPage = !!useMatch(`${ROUTES.LOGIN}`);
 
     const dispatch = useDispatch();
     const {isAuthenticated, status} = useSelector(state => state.auth);
@@ -41,7 +42,7 @@ const App = () => {
     }, [isAuthenticated, user, dispatch]);
 
     useEffect(() => {
-        if (status === STATUSES.FAILED && !isAuthenticated) {
+        if (status === STATUSES.FAILED && !isAuthenticated && isLoginPage) {
             navigate(ROUTES.LOGIN, { replace: true });
         }
     }, [status, isAuthenticated, navigate]);
@@ -70,7 +71,3 @@ const App = () => {
 }
 
 export default App;
-
-// TODO: in login page on f5 with success auth redirect to dashboard
-// TODO: graph in account details
-// TODO: subtract or add up to account balance with new transaction

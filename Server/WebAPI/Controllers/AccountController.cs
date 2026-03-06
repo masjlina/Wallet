@@ -43,17 +43,6 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        // if (HttpContext.User.Identity.IsAuthenticated)
-        // {
-        //     var authenticatedUser = await _userManager.FindByEmailAsync(signInRequestDTO.Email);
-        //
-        //     return Ok(new SignInResponseDTO
-        //     {
-        //         ApplicationUserDto = _userMapper.ToDto(authenticatedUser),
-        //         IsSuccessful = true
-        //     });
-        // }
-
         var user = await _userManager.FindByEmailAsync(signInRequestDto.Email);
         if (user == null)
         {

@@ -1,5 +1,5 @@
 // React
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 // External libs
 import {useDispatch, useSelector} from "react-redux";
@@ -7,14 +7,14 @@ import {useDispatch, useSelector} from "react-redux";
 // App (modules)
 import {createTransactionFromObject} from "@/domain/transaction";
 import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState";
-import {getAllWalletAccounts} from "@/modules/wallet-accounts";
-import {getUserWallet} from "@/modules/wallet-accounts";
+import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 
 // Shared
 import FieldWithIcon from "@/shared/components/FieldWithIcon/FieldWithIcon";
 import FieldWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
 import AmountInput from "@/shared/components/Modal/components/AmountInput/AmountInput";
-import TransactionTypeSwitcher from "@/shared/components/Modal/components/TransactionTypeSwitcher/TransactionTypeSwitcher";
+import TransactionTypeSwitcher
+    from "@/shared/components/Modal/components/TransactionTypeSwitcher/TransactionTypeSwitcher";
 import Modal from "@/shared/components/Modal/Modal";
 import accountType from "@/shared/consts/accountType";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
@@ -34,13 +34,15 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
     const wallet = useSelector(state => state.wallet.wallet);
     const dispatch = useDispatch();
 
-    const initialForm = getInitialTransactionFormState(transaction);
+    const initialForm = useMemo(
+        () => getInitialTransactionFormState(transaction),
+        [transaction]);
 
-    const nameInput = useInput(initialForm.name);
-    const descriptionInput = useInput(initialForm.description);
-    const balanceInput = useInput(initialForm.amount);
-    const accountInput = useInput(initialForm.account);
-    const dateTimeInput = useInput(initialForm.createdAt);
+    const nameInput = useInput("");
+    const descriptionInput = useInput("");
+    const balanceInput = useInput("");
+    const accountInput = useInput("");
+    const dateTimeInput = useInput("");
 
     const [transactionType, setTransactionType] = useState(
         type ??
@@ -55,7 +57,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
         nameInput.setValue(form.name);
         descriptionInput.setValue(form.description);
         balanceInput.setValue(form.amount);
-        accountInput.setValue(form.account);
+        accountInput.setValue(wallet ? `${accountType.CASH}: ${wallet.id}` : form.account);
         dateTimeInput.setValue(form.createdAt);
 
         if (form.amount !== 0) {
@@ -65,14 +67,12 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
                     : TRANSACTION_TYPE.EXPENSE
             );
         }
-    }, [transaction]);
+    }, [transaction, wallet]);
 
     useEffect(() => {
-        if (accounts.length === 0)
-            dispatch(getAllWalletAccounts());
-        if (!wallet)
-            dispatch(getUserWallet());
-    }, [accounts.length, wallet, dispatch]);
+        dispatch(getAllWalletAccounts());
+        dispatch(getUserWallet());
+    }, [dispatch]);
 
     useEffect(() => {
         if (!isOpen || !type) return;
@@ -145,7 +145,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
         nameInput.setValue(form.name);
         descriptionInput.setValue(form.description);
         balanceInput.setValue(form.amount);
-        accountInput.setValue(form.account);
+        accountInput.setValue(wallet ? `${accountType.CASH}: ${wallet.id}` : form.account);
         dateTimeInput.setValue(form.createdAt);
 
         onClose();

@@ -80,13 +80,14 @@ const AccountDetails = () => {
     const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
     useEffect(() => {
-            if (isWallet) {
-                accountsController.getWallet();
-            } else {
-                accountsController.getAccountById(id);
-            }
-            transactionsController.getAll();
-    }, [account, isWallet, id]);
+        if (isWallet) {
+            accountsController.getWallet();
+        } else {
+            accountsController.getAccountById(id);
+        }
+
+        transactionsController.getAll();
+    }, [id, isWallet]);
 
     if (!account) {
         return (
@@ -143,13 +144,13 @@ const AccountDetails = () => {
             <div className="account-details__bottom">
                 <Widget>
                     <Widget.Content className="table-scroll">
-                            <table className="table table__content text text__table">
-                                <TransactionCol tableHeaders={tableHeaders}/>
+                        <table className="table table__content text text__table">
+                            <TransactionCol tableHeaders={tableHeaders}/>
 
-                                <tbody className="text text__table--name">
-                                {content}
-                                </tbody>
-                            </table>
+                            <tbody className="text text__table--name">
+                            {content}
+                            </tbody>
+                        </table>
                     </Widget.Content>
                 </Widget>
             </div>
