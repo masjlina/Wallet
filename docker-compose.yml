@@ -33,20 +33,20 @@ services:
       Authentication__Schemes__Bearer__ValidAudiences__0: ${JWT_VALID_AUDIENCE:-http://localhost}
       Authentication__Schemes__Bearer__SigningKeys__0__Value: ${JWT_SIGNING_KEY:?Set JWT_SIGNING_KEY}
     ports:
-      - "5000:5000"
+      - "8080:5000"
 
   client:
     build:
       context: ./Client
       dockerfile: Dockerfile
       args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5000}
+        VITE_API_BASE_URL: /api
     container_name: wallet-client
     restart: unless-stopped
     depends_on:
       - api
     ports:
-      - "80:80"
+      - "3000:80"
 
 volumes:
   wallet_db_data:

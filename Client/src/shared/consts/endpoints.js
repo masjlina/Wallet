@@ -1,17 +1,16 @@
-const rawServerUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5231";
-const serverUrl = rawServerUrl.replace(/\/+$/, "");
+const serverUrl = import.meta.env.VITE_API_BASE_URL || "/api";
 
 const endpoints = {
     serverUrl,
-    register: `${serverUrl}/api/signUp`,
-    login: `${serverUrl}/api/signIn`,
-    logout: `${serverUrl}/api/logout`,
-    users: `${serverUrl}/api/users`,
-    checkAuth: `${serverUrl}/api/me`,
-    wallet: `${serverUrl}/api/wallet`,
-    creditCards: `${serverUrl}/api/credit-cards`,
-    transactions: `${serverUrl}/api/transactions`,
-    refresh: `${serverUrl}/api/refresh`,
+    register: `${serverUrl}/signUp`,
+    login: `${serverUrl}/signIn`,
+    logout: `${serverUrl}/logout`,
+    users: `${serverUrl}/users`,
+    checkAuth: `${serverUrl}/me`,
+    wallet: `${serverUrl}/wallet`,
+    creditCards: `${serverUrl}/credit-cards`,
+    transactions: `${serverUrl}/transactions`,
+    refresh: `${serverUrl}/refresh`,
 };
 
 export default endpoints;

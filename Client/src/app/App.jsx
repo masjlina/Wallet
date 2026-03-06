@@ -42,10 +42,16 @@ const App = () => {
     }, [isAuthenticated, user, dispatch]);
 
     useEffect(() => {
-        if (status === STATUSES.FAILED && !isAuthenticated && isLoginPage) {
+        if (status === STATUSES.FAILED && !isAuthenticated && !isLoginPage) {
             navigate(ROUTES.LOGIN, { replace: true });
         }
-    }, [status, isAuthenticated, navigate]);
+    }, [status, isAuthenticated, isLoginPage, navigate]);
+
+    useEffect(() => {
+        if (status === STATUSES.SUCCEEDED && isAuthenticated && isLoginPage) {
+            navigate(ROUTES.DASHBOARD, { replace: true });
+        }
+    }, [status, isAuthenticated, isLoginPage, navigate]);
 
     return (
         <>

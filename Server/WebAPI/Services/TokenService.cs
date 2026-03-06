@@ -23,11 +23,17 @@ public class TokenService : ITokenService
 
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
+	var audience = _apiSettings.ValidAudiences?.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(audience))
+        {
+            throw new InvalidOperationException("Authentication:Schemes:Bearer:ValidAudiences must contain at least one value.");
+	}
+
         var signingKey = new SymmetricSecurityKey(Convert.FromBase64String(_apiSettings.SigningKey));
 
         var tokenOptions = new JwtSecurityToken(
             issuer: _apiSettings.ValidIssuer,
-            audience: _apiSettings.ValidAudiences[2],
+            audience: audience,
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
