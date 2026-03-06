@@ -1,4 +1,5 @@
-const serverUrl = "http://localhost:5231";
+const rawServerUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5231";
+const serverUrl = rawServerUrl.replace(/\/+$/, "");
 
 const endpoints = {
     serverUrl,

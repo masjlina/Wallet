@@ -5,6 +5,9 @@
 
 # dotenv files
 .env
+.env.*
+!.env.example
+!**/.env.example
 
 # User-specific files
 *.rsuser
@@ -69,6 +72,8 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 WebAPI/appsettings.Development.json
+Server/WebAPI/appsettings.Development.json
+Server/WebAPI/appsettings.Local.json
 # Tye
 .tye/
 
@@ -294,6 +299,7 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
+Client/dist/
 
 # Visual Studio 6 build log
 *.plg

@@ -108,9 +108,19 @@ builder.Services.AddSwaggerGen(x =>
 });
 
 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+if (allowedOrigins.Length == 0 && builder.Environment.IsDevelopment())
+{
+    allowedOrigins = ["http://localhost:5500"];
+}
+if (allowedOrigins.Length == 0)
+{
+    throw new InvalidOperationException("Missing CORS configuration. Set Cors:AllowedOrigins.");
+}
+
 builder.Services.AddCors(o => o.AddPolicy("Wallet", policy =>
 {
-    policy.WithOrigins("http://localhost:5500")
+    policy.WithOrigins(allowedOrigins)
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();
