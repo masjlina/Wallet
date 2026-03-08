@@ -24,6 +24,7 @@ import STATUSES from "@/shared/consts/statuses";
 const App = () => {
     const navigate = useNavigate();
     const isLoginPage = !!useMatch(`${ROUTES.LOGIN}`);
+    const isRegPage = !!useMatch(`${ROUTES.REGISTRATION}`);
 
     const dispatch = useDispatch();
     const {isAuthenticated, status} = useSelector(state => state.auth);
@@ -42,7 +43,7 @@ const App = () => {
     }, [isAuthenticated, user, dispatch]);
 
     useEffect(() => {
-        if (status === STATUSES.FAILED && !isAuthenticated && !isLoginPage) {
+        if (status === STATUSES.FAILED && !isAuthenticated && !isLoginPage && !isRegPage) {
             navigate(ROUTES.LOGIN, { replace: true });
         }
     }, [status, isAuthenticated, isLoginPage, navigate]);
