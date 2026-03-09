@@ -1,5 +1,5 @@
-const serverUrl = import.meta.env.VITE_API_BASE_URL || "/api";
-
+const serverUrl = `${import.meta.env.VITE_API_BASE_URL}/api` || "/api";
+console.log(serverUrl)
 const endpoints = {
     serverUrl,
     register: `${serverUrl}/signUp`,

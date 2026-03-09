@@ -11,7 +11,8 @@ const SetLimitModal = ({
                            isOpen,
                            onClose,
                            userLimit = 0,
-                           onUpdateLimit
+                           onUpdateLimit,
+                           title = "Change daily limit"
                        }) => {
     const limitInput = useInput(userLimit);
 
@@ -24,7 +25,7 @@ const SetLimitModal = ({
             variant={MODAL_VARIANT.CENTRAL}
             isOpen={isOpen}
             onClose={onClose}>
-            <Modal.Header title="Change daily limit"/>
+            <Modal.Header title={title}/>
             <Modal.Content>
                 <form
                     id="change-daily-limit"

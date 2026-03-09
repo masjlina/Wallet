@@ -78,6 +78,7 @@ const MonthBudgetWidget = ({
                 onClose={monthlyLimitModal.closeModal}
                 userLimit={userMonthlyLimit}
                 onUpdateLimit={onUpdateMonthlyLimit}
+                title="Change monthly limit"
             />
         </Widget>
   );
