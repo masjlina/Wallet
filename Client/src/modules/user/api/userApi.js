@@ -25,3 +25,29 @@ export async function updateUser(user) {
         return createErrorResponseDto(error);
     }
 }
+export async function uploadAvatar(formData) {
+    try {
+        const result = await request(
+            endpoints.avatars,
+            "POST",
+            formData
+        );
+
+        return mapUser(result);
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+
+export async function removeAvatar() {
+    try {
+        await request(
+            endpoints.avatars,
+            "DELETE"
+        );
+
+        return true;
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}

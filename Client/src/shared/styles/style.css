@@ -438,14 +438,18 @@
     height: 32px;
 }
 
+.icon__r-50 {
+    border-radius: 50%;
+}
+
 .icon--base-24 {
     width: 24px;
     height: 24px;
 }
 
-.icon--profile {
-    width: 54px;
-    height: 54px;
+.icon--profile--150 {
+    width: 150px;
+    height: 150px;
 }
 
 /*.icon--side-bar__arrow {*/

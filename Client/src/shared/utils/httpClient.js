@@ -24,9 +24,10 @@ export async function request(
     headers = {}
 ) {
     const accessToken = getAccessToken();
+    const isFormData = body instanceof FormData;
 
     const finalHeaders = {
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...headers,
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     };
@@ -34,7 +35,9 @@ export async function request(
     let response = await fetch(url, {
         credentials: "include",
         method,
-        body: body ? JSON.stringify(body) : null,
+        body: body
+            ? (isFormData ? body : JSON.stringify(body))
+            : null,
         headers: finalHeaders,
     });
 
@@ -113,8 +116,10 @@ async function refreshAndRepeat(url, method, body, headers) {
         setAccessToken(newAccessToken);
         processQueue(null, newAccessToken);
 
+        const isFormData = body instanceof FormData;
+
         const newHeaders = {
-            "Content-Type": "application/json",
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
             ...headers,
             Authorization: `Bearer ${newAccessToken}`,
         };
@@ -122,7 +127,9 @@ async function refreshAndRepeat(url, method, body, headers) {
         return fetch(url, {
             credentials: "include",
             method,
-            body: body ? JSON.stringify(body) : null,
+            body: body
+                ? (isFormData ? body : JSON.stringify(body))
+                : null,
             headers: newHeaders,
         });
     } catch (error) {

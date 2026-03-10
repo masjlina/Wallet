@@ -2,7 +2,12 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 // App (modules)
-import {getApplicationUser, updateApplicationUser} from "./userThunks";
+import {
+    getApplicationUser,
+    removeApplicationUserAvatar,
+    updateApplicationUser,
+    uploadApplicationUserAvatar
+} from "./userThunks";
 
 const initialState = {
     user: null
@@ -17,6 +22,12 @@ const userSlice = createSlice({
             })
             .addCase(updateApplicationUser.fulfilled, (state, action) => {
                 state.user = action.payload;
+            })
+            .addCase(uploadApplicationUserAvatar.fulfilled, (state, action) => {
+                state.user = action.payload;
+            })
+            .addCase(removeApplicationUserAvatar.fulfilled, (state, action) => {
+                state.user.avatarUri = "";
             })
         }
     }

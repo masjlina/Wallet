@@ -20,6 +20,7 @@ import WalletPage from "@/pages/WalletPage/WalletPage";
 // Shared
 import {ROUTES} from "@/shared/consts/routes";
 import STATUSES from "@/shared/consts/statuses";
+import SettingsPage from "@/pages/SettingsPage/SettingsPage";
 
 const App = () => {
     const navigate = useNavigate();
@@ -66,6 +67,8 @@ const App = () => {
                 <Route path={`${ROUTES.WALLET}/:id`} element={<AccountDetails/>}/>
 
                 <Route path={`${ROUTES.CREDIT_CARDS}/:id`} element={<AccountDetails/>}/>
+
+                <Route path={`${ROUTES.SETTINGS}`} element={<SettingsPage/>}/>
             </Route>
 
             <Route element={<AuthLayout/>}>
@@ -78,3 +81,5 @@ const App = () => {
 }
 
 export default App;
+
+// TODO: rename endpoints const

@@ -75,6 +75,7 @@ artifacts/
 WebAPI/appsettings.Development.json
 Server/WebAPI/appsettings.Development.json
 Server/WebAPI/appsettings.Local.json
+Server/WebAPI/wwwroot/uploads/*
 # Tye
 .tye/
 

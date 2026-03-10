@@ -1,3 +1,5 @@
+import {buildPatch} from "@/shared/utils/buildPatch";
+
 export default function mapUser(userDto) {
     return {
         id: userDto.id,
@@ -23,7 +25,7 @@ export function createUserToUpdate({
                                        phoneNumber,
                                        avatarUri
                                    }) {
-    return {
+    const dto = {
         firstName,
         lastName,
         dailyLimit,
@@ -31,5 +33,7 @@ export function createUserToUpdate({
         phoneNumber,
         avatarUri
     };
+
+    return buildPatch(dto);
 }
 

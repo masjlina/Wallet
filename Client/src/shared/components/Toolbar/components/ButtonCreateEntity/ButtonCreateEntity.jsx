@@ -10,10 +10,10 @@ import plusIcon from "@/assets/icons/plus.svg";
 // Styles
 import "./buttonCreateEntity.scss";
 
-const ButtonCreateEntity = ({ onClick, text = "Create" }) => {
+const ButtonCreateEntity = ({ onClick, text = "Create", className }) => {
     return (
         <Button
-            className="btn__add text text__base--bold text__base--white"
+            className={`btn__add text text__base--bold text__base--white ${className}`}
             variant="primary"
             onClick={onClick}
         >

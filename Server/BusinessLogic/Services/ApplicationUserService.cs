@@ -46,7 +46,7 @@ public class ApplicationUserService : IApplicationUserService
         if (!string.IsNullOrWhiteSpace(userDto.PhoneNumber))
             userToUpdate.PhoneNumber = userDto.PhoneNumber;
 
-        if (!string.IsNullOrWhiteSpace(userDto.AvatarUri))
+        if (userDto.AvatarUri is not null)
             userToUpdate.AvatarUri = userDto.AvatarUri;
 
         if (userDto.DailyLimit is not null)

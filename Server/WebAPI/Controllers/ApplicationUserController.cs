@@ -33,6 +33,7 @@ public class ApplicationUserController : ControllerBase
         return Ok(user);
     }
 
+    [Authorize]
     [HttpPatch]
     public async Task<ActionResult> Update([FromBody] UpdateApplicationUserDto applicationUserDTO)
     {

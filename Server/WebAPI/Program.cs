@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi;
@@ -113,6 +114,7 @@ if (allowedOrigins.Length == 0 && builder.Environment.IsDevelopment())
 {
     allowedOrigins = ["http://localhost:5500"];
 }
+
 if (allowedOrigins.Length == 0)
 {
     throw new InvalidOperationException("Missing CORS configuration. Set Cors:AllowedOrigins.");
@@ -134,6 +136,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.WebRootPath, "uploads", "avatars")),
+    RequestPath = "/api/uploads/avatars"
+});
 
 app.UseRouting();
 app.UseCors("Wallet");
