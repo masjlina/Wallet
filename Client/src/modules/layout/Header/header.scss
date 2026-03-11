@@ -23,5 +23,8 @@
 .icon--profile {
   width: 54px;
   height: 54px;
+
+  border: 2px outset var(--accent--primary);
   border-radius: 50%;
+  cursor: pointer;
 }

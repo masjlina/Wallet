@@ -24,7 +24,8 @@ const ModalRoot = ({
                        boxRef,
                        pos,
                        toastOffset = 0,
-                       children
+                       children,
+                       className = ""
                    }) => {
     const [shouldRender, setShouldRender] = useState(isOpen);
 
@@ -90,7 +91,7 @@ const ModalRoot = ({
 
     const content = (
         <div
-            className={!isToast ? `modal__wrapper` : "notification__block"}
+            className={!isToast ? `modal__wrapper ${className}` : "notification__block"}
             ref={boxRef}
             style={contextStyle}
             onClick={(e) => {
