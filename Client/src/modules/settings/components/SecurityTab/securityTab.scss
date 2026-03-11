@@ -1,0 +1,19 @@
+.security {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    min-width: 300px;
+  }
+
+  &__btns {
+    min-height: 50px;
+    max-width: 200px;
+  }
+}

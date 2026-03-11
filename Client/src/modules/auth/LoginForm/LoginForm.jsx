@@ -21,6 +21,7 @@ import Button from "@/ui/Button/Button";
 // Styles
 import "../style.scss";
 import {useState} from "react";
+import ErrorText from "@/shared/components/ErrorText";
 
 export const LoginForm = () => {
     const navigate = useNavigate();
@@ -83,13 +84,7 @@ export const LoginForm = () => {
                         </Button>
                     </div>
                     {isSubmit && logErrors.length > 0 && (
-                        <div className="form-errors">
-                            {logErrors.map((error, i) => (
-                                <p key={i} className="text--red">
-                                    {error}
-                                </p>
-                            ))}
-                        </div>
+                        <ErrorText errors={logErrors}/>
                     )}
                 </div>
             </form>

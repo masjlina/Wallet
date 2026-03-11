@@ -58,3 +58,14 @@ export async function checkAuth() {
         return createErrorResponseDto(error);
     }
 }
+
+export async function changePassword(data) {
+    try {
+        await request(endpoints.changePassword, "POST", data);
+
+        return createSuccessfulResponseDto();
+    } catch (error) {
+        return createErrorResponseDto(error);
+    }
+}
+

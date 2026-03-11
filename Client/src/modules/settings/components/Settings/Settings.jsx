@@ -6,6 +6,7 @@ import {TABS} from "@/shared/consts/tabs";
 import ProfileTab from "@/modules/settings/components/ProfileTab/ProfileTab";
 import {useDispatch, useSelector} from "react-redux";
 import {getApplicationUser} from "@/modules/user";
+import SecurityTab from "@/modules/settings/components/SecurityTab/SecurityTab";
 
 const Settings = () => {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const Settings = () => {
             break;
         }
         case TABS.SECURITY: {
-            content = "Security";
+            content = <SecurityTab/>;
             break;
         }
         case TABS.PREFERENCES: {

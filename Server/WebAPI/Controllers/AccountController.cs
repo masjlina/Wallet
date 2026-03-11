@@ -194,6 +194,40 @@ public class AccountController : ControllerBase
         });
     }
 
+    [HttpPost("change-password")]
+    public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequestDto dto)
+    {
+        if (dto.NewPassword != dto.ConfirmPassword)
+        {
+            return BadRequest(new ErrorResponse()
+            {
+                Errors = new[] { "New and Confirmation password are not the same" }
+            });
+        }
+
+        var userId = _userManager.GetUserId(User)!;
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return Unauthorized(new ErrorResponse
+            {
+                Errors = new[] { "Could not find user" }
+            });
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
+        if (!result.Succeeded)
+        {
+            return BadRequest(new ErrorResponse
+            {
+                Errors = result.Errors.Select(e => e.Description)
+            });
+        }
+
+        return Ok();
+    }
+
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
