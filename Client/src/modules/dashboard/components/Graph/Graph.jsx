@@ -22,7 +22,7 @@ const Graph = ({
     const innerWidth = width - graphLeftPadding - graphRightPadding;
     const innerHeight = height - graphTopPadding - graphBottomPadding;
 
-    const week = sortedDaysOfWeek().reverse();
+    const week = sortedDaysOfWeek() ? sortedDaysOfWeek().slice().reverse() : [];
 
     // helpers
     const formatY = (v) => {
