@@ -1,0 +1,23 @@
+.day-summary__header {
+  gap: 1rem;
+}
+
+.day-summary__content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.day-summary__text-block {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  justify-content: space-between;
+
+  text-wrap: nowrap;
+}
+
+
+.day-summary__content p span:first-of-type {
+  font-size: 1.25rem;
+}

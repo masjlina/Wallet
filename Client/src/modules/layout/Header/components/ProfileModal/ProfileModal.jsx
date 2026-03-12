@@ -31,7 +31,7 @@ const ProfileModal = ({isOpen, anchorEl, onClose, onNavigateSettings, onLogout})
             pos={pos}
             className="profile-modal"
         >
-            <Modal.Content className="text--base">
+            <Modal.Content className="d-col text--base">
                 <button
                     className="btn btn__nav btn__modal"
                     type="button"

@@ -131,12 +131,16 @@ const ModalRoot = ({
     );
 };
 
-const Header = ({title = "", className = ""}) => {
+const Header = ({
+                    title = "",
+                    className = "",
+                    children
+                }) => {
     const {onClose} = useContext(ModalContext);
 
     return (
         <header className={`content modal__header text__title ${className}`}>
-            <p>{title}</p>
+            {children || <p>{title}</p>}
             <button
                 type="button"
                 className="modal__close pointer"

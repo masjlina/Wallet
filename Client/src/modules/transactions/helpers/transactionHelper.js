@@ -10,6 +10,14 @@ export const getTodayTransactions = (transactions) => {
         .filter(t => new Date(t.createdAt).toDateString() === today);
 }
 
+export const getDayTransactions = (transactions, day) => {
+    if (!transactions)
+        return []
+
+    return transactions
+        .filter(t => new Date(t.createdAt).toDateString() === day);
+}
+
 export const getThisMonthTransactions = (transactions) => {
     if (!transactions)
         return []

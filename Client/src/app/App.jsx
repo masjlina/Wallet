@@ -21,13 +21,19 @@ import WalletPage from "@/pages/WalletPage/WalletPage";
 import {ROUTES} from "@/shared/consts/routes";
 import STATUSES from "@/shared/consts/statuses";
 import SettingsPage from "@/pages/SettingsPage/SettingsPage";
+import useModal from "@/shared/hooks/useModal";
+import DaySummaryModal from "@/app/components/DaySummaryModal/DaySummaryModal";
+import {markDaySummarySeen, shouldShowDaySummary} from "@/app/helpers/daySummary";
 
 const App = () => {
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
     const isLoginPage = !!useMatch(`${ROUTES.LOGIN}`);
     const isRegPage = !!useMatch(`${ROUTES.REGISTRATION}`);
 
-    const dispatch = useDispatch();
+    const daySummaryModal = useModal();
+
     const {isAuthenticated, status} = useSelector(state => state.auth);
     const user = useSelector(state => state.user.user);
 
@@ -55,6 +61,32 @@ const App = () => {
         }
     }, [status, isAuthenticated, isLoginPage, navigate]);
 
+    // Day result
+
+    useEffect(() => {
+        const now = new Date();
+
+        const target = new Date();
+        target.setDate(target.getDate() + 1);
+        target.setHours(0, 0, 0, 0);
+
+        const delay = target - now;
+
+        const timer = setTimeout(() => {
+            if (shouldShowDaySummary()) {
+                daySummaryModal.openModal();
+            }
+        }, delay);
+
+        return () => clearTimeout(timer);
+
+    }, []);
+
+    const handleClose = () => {
+        markDaySummarySeen();
+        daySummaryModal.closeModal();
+    };
+
     return (
         <>
             {status === STATUSES.LOADING && <p>Checking auth…</p>}
@@ -76,6 +108,10 @@ const App = () => {
                 <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
             </Route>
         </Routes>
+
+            <DaySummaryModal
+                isOpen={daySummaryModal.isOpen}
+                onClose={handleClose}/>
         </>
     );
 }

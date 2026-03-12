@@ -33,7 +33,7 @@ const MoreActionsModal = ({isOpen, anchorEl, onClose, onEditTransaction, openCon
             boxRef={boxRef}
             pos={pos}
         >
-            <Modal.Content>
+            <Modal.Content className="d-col">
                 <button
                     className="btn btn__nav btn__modal text--r"
                     type="button"

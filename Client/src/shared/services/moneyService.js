@@ -10,4 +10,10 @@ export const formatAmountOfMoney = (num) => {
     return `${sign}$${abs}`;
 };
 
+export const getClazzAmountOfMoneyColor = (num) => {
+    if (num < 0) return "text--red";
+    else if (num === 0) return "text--inactive";
+    else return "text--green";
+};
+
 export {round2};

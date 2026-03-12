@@ -35,7 +35,7 @@ const RecentTransactionsWidget = ({transactions}) => {
             transaction={transaction}
             type={transaction.amount <= 0 ? TRANSACTION_TYPE.EXPENSE : TRANSACTION_TYPE.INCOME}
             tableHeaders={tableHeaders}/>
-    })
+    });
 
   return (
     <Widget className="recent-transactions__widget">

@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     const todayTransactions = useMemo(() => {
         return getTodayTransactions(transactions);
-    }, [transactions])
+    }, [transactions]);
 
     const todayExpensesAmount = useMemo(() => {
         return todayTransactions
