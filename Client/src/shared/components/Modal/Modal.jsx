@@ -157,7 +157,8 @@ const Footer = ({
                     confBtnClassName = "btn__primary",
                     confBtnType = "submit",
                     onConfBtnClick = "",
-                    confBtnText = "Save"
+                    confBtnText = "Save",
+                    children
                 }) => {
     const {onClose} = useContext(ModalContext);
 
@@ -166,6 +167,7 @@ const Footer = ({
             className="btn__primary--empty"
             type="button"
             onClick={onClose}>Cancel</Button>
+        {children}
         <Button
             className={confBtnClassName}
             type={confBtnType}

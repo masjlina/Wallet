@@ -42,6 +42,9 @@
     cursor: pointer;
 }
 
+.t-center {
+    text-align: center;
+}
 
 
 .bg-inactive {

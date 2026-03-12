@@ -19,3 +19,8 @@ export const getDayAgo = (day = 1) => {
 
     return weekAgo;
 }
+
+export const getThisMonthDays = () => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+}

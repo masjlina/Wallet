@@ -140,6 +140,7 @@ const Dashboard = () => {
                 <DayLimitWidget
                     openModal={onOpenTransactionModalWithType}
                     userDailyLimit={userDailyLimit}
+                    userMonthlyLimit={userMonthlyLimit}
                     todayExpensesAmount={todayExpensesAmount}
                     onUpdateDailyLimit={onUpdateDailyLimit}/>
 

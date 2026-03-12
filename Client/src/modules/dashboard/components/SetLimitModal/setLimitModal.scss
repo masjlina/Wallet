@@ -1,0 +1,13 @@
+.set-limit-modal__footer {
+  gap: 12px;
+}
+
+.set-limit-modal__shortcut {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--accent--primary);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(119, 99, 234, 0.12) 0%, rgba(119, 99, 234, 0.04) 100%);
+  color: var(--accent--active);
+  font-weight: 600;
+}

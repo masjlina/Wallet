@@ -11,8 +11,9 @@ public sealed class ApplicationUser : IdentityUser
 
     public string LastName { get; set; }
 
-    public decimal DailyLimit { get; set; } = 100;
     public decimal MonthlyLimit { get; set; } = 1000;
+
+    public decimal DailyLimit { get; set; } = 1000 / DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
 
     public string? AvatarUri { get; set; } = "";
 

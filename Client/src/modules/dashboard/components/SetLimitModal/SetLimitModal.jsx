@@ -6,13 +6,19 @@ import AmountInput from "@/shared/components/Modal/components/AmountInput/Amount
 import Modal from "@/shared/components/Modal/Modal";
 import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
+import Button from "@/ui/Button/Button";
+import {getThisMonthDays} from "@/shared/services/dateTimeService";
+
+import "./setLimitModal.scss";
 
 const SetLimitModal = ({
                            isOpen,
                            onClose,
                            userLimit = 0,
+                           userMonthlyLimit,
                            onUpdateLimit,
-                           title = "Change daily limit"
+                           title = "Change daily limit",
+                           isDaily = true
                        }) => {
     const limitInput = useInput(userLimit);
 
@@ -39,9 +45,22 @@ const SetLimitModal = ({
                         setBalance={limitInput.setValue}/>
                 </form>
             </Modal.Content>
-            <Modal.Footer formId="change-daily-limit"/>
+            <Modal.Footer
+                formId="change-daily-limit"
+                className="set-limit-modal__footer">
+                {isDaily &&
+                    <Button
+                        className="btn__primary--empty set-limit-modal__shortcut"
+                        type="button"
+                        onClick={() => {
+                            const days = getThisMonthDays();
+                            const daily = userMonthlyLimit / days;
+
+                            limitInput.setValue(Math.round(daily * 100) / 100);
+                        }}>Calculate from monthly limit</Button>}
+            </Modal.Footer>
         </Modal>
     )
-}
+};
 
 export default SetLimitModal;

@@ -79,6 +79,7 @@ const MonthBudgetWidget = ({
                 userLimit={userMonthlyLimit}
                 onUpdateLimit={onUpdateMonthlyLimit}
                 title="Change monthly limit"
+                isDaily={false}
             />
         </Widget>
   );

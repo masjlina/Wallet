@@ -18,6 +18,7 @@ import "./dayLimitWidget.scss";
 const DayLimitWidget = ({
                             openModal,
                             userDailyLimit,
+                            userMonthlyLimit,
                             todayExpensesAmount,
                             onUpdateDailyLimit
                         }) => {
@@ -69,6 +70,7 @@ const DayLimitWidget = ({
                 isOpen={dayLimitModal.isOpen}
                 onClose={dayLimitModal.closeModal}
                 userLimit={userDailyLimit}
+                userMonthlyLimit={userMonthlyLimit}
                 onUpdateLimit={onUpdateDailyLimit}
             />
         </Widget>

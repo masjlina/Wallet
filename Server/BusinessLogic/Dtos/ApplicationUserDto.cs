@@ -17,8 +17,8 @@ public sealed class ApplicationUserDto
     [EmailAddress(ErrorMessage = "Invalid email")]
     public string Email { get; set; }
 
-    [Precision(14, 2)] public decimal DailyLimit { get; set; } = 100;
-    [Precision(14, 2)] public decimal MonthlyLimit { get; set; } = 1000;
+    [Precision(14, 2)] public decimal DailyLimit { get; set; }
+    [Precision(14, 2)] public decimal MonthlyLimit { get; set; }
 
 
     [Required(ErrorMessage = "Please enter a phone number")]
@@ -26,11 +26,11 @@ public sealed class ApplicationUserDto
     public string PhoneNumber { get; set; }
 
     [MaxLength(300, ErrorMessage = "The length is too long")]
-    public string? AvatarUri { get; set; } = "";
+    public string? AvatarUri { get; set; }
 
     public int? WalletId { get; set; }
     public WalletDto? WalletDto { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }
