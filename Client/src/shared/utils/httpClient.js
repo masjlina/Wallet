@@ -5,6 +5,9 @@ import {clearAccessToken, getAccessToken, setAccessToken} from "@/shared/utils/t
 let isRefreshing = false;
 let failedQueue = [];
 
+const isJsonContentType = (contentType) =>
+    !!contentType && (contentType.includes("application/json") || contentType.includes("+json"));
+
 const processQueue = (error, token = null) => {
     failedQueue.forEach(prom => {
         if (error) {
@@ -70,7 +73,7 @@ export async function request(
 
     let data = null;
 
-    if (contentType && contentType.includes("application/json")) {
+    if (isJsonContentType(contentType)) {
         data = await response.json();
     } else {
         const text = await response.text();
@@ -97,7 +100,7 @@ async function refreshAndRepeat(url, method, body, headers) {
 
         let refreshData = null;
 
-        if (refreshContentType && refreshContentType.includes("application/json")) {
+        if (isJsonContentType(refreshContentType)) {
             refreshData = await refreshResponse.json();
         } else {
             const text = await refreshResponse.text();

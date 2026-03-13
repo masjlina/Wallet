@@ -95,7 +95,7 @@ public class AccountController : ControllerBase
         Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
+            Secure = true,
             SameSite = SameSiteMode.Lax,
             Expires = signInRequestDto.RememberMe
                 ? DateTimeOffset.UtcNow.AddDays(30)
@@ -194,6 +194,7 @@ public class AccountController : ControllerBase
         });
     }
 
+    [Authorize]
     [HttpPost("change-password")]
     public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequestDto dto)
     {
@@ -239,8 +240,6 @@ public class AccountController : ControllerBase
                 t.RefreshToken == refreshToken &&
                 t.ExpiredAt > DateTime.UtcNow);
 
-        Console.WriteLine("refresh token from request: " + refreshToken);
-
         if (tokenInfo == null)
             return Unauthorized(new ErrorResponse
             {
@@ -269,7 +268,7 @@ public class AccountController : ControllerBase
         Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
+            Secure = true,
             SameSite = SameSiteMode.Lax,
             Expires = tokenInfo.ExpiredAt,
             Path = "/"

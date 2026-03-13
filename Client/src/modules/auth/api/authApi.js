@@ -13,6 +13,8 @@ import {clearAccessToken, setAccessToken} from "@/shared/utils/tokenManager";
 
 export async function register(formData) {
     try {
+        clearAccessToken();
+
         const signUpRequest = createSignUpRequestDto(formData);
 
         await request(endpoints.register, "POST", signUpRequest);

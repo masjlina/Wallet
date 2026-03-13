@@ -1,5 +1,5 @@
 // React
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 // External libs
 import {useNavigate} from "react-router-dom";
@@ -22,6 +22,12 @@ const MyAccountWidget = ({accounts}) => {
     const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const visibleAccounts =
+        (accounts.length > 3
+            ? accounts.slice(accounts.length - 3)
+            : accounts.slice(0, 3)).reverse();
+
+    const visibleAccountsCount = visibleAccounts.length;
 
     const balance = formatAmountOfMoney(
         accounts.reduce(
@@ -29,19 +35,40 @@ const MyAccountWidget = ({accounts}) => {
             0
         ));
 
+    useEffect(() => {
+        if (visibleAccountsCount === 0) {
+            setCurrentIndex(0);
+            return;
+        }
+
+        if (currentIndex > visibleAccountsCount - 1) {
+            setCurrentIndex(visibleAccountsCount - 1);
+        }
+    }, [currentIndex, visibleAccountsCount]);
+
     const prevSlide = () => {
+        if (visibleAccountsCount <= 1) {
+            setCurrentIndex(0);
+            return;
+        }
+
         setCurrentIndex(prev =>
-            prev === 0 ? accounts.length - 1 : prev - 1
+            prev === 0 ? visibleAccountsCount - 1 : prev - 1
         );
     };
 
     const nextSlide = () => {
+        if (visibleAccountsCount <= 1) {
+            setCurrentIndex(0);
+            return;
+        }
+
         setCurrentIndex(prev =>
-            prev === accounts.length - 1 ? 0 : prev + 1
+            prev === visibleAccountsCount - 1 ? 0 : prev + 1
         );
     };
 
-    const content = accounts.map((account, i) => (
+    const content = visibleAccounts.map((account, i) => (
         <div key={i}
              className={`carousel__item ${i === currentIndex ? "carousel__item--selected" : ""} accounts__carousel--underlay`}>
             <div className="accounts__carousel--background">
@@ -99,7 +126,7 @@ const MyAccountWidget = ({accounts}) => {
 
                 <div className="carousel__nav">
                     <CarouselIndicator
-                        accountQuantity={accounts.length}
+                        accountQuantity={visibleAccountsCount}
                         currentIndex={currentIndex}
                         setCurrentIndex={setCurrentIndex}/>
                 </div>

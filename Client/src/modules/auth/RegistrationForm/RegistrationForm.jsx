@@ -24,6 +24,7 @@ import Button from "@/ui/Button/Button";
 
 // Styles
 import "../style.scss";
+import ErrorText from "@/shared/components/ErrorText";
 
 export const RegistrationForm = () => {
     const firstName = useInput("");
@@ -94,11 +95,7 @@ export const RegistrationForm = () => {
                         </Button>
                     </div>
                     {regErrors.length > 0 &&
-                        regErrors.map((error, i) => (
-                            <p key={i} style={{color: "red"}}>
-                                {error}
-                            </p>
-                        ))}
+                       <ErrorText errors={regErrors}/> }
                 </div>
             </form>
 

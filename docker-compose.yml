@@ -10,7 +10,7 @@ services:
     volumes:
       - wallet_db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d Wallet"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,10 +27,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:5000
-      ConnStr: Host=db;Port=5432;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD};Database=${POSTGRES_DB:-Wallet};Include Error Detail=true
-      Cors__AllowedOrigins__0: ${CORS_ALLOWED_ORIGIN:-http://localhost}
+      ConnStr: Host=db;Port=5432;Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD};Database=${POSTGRES_DB:-Wallet}
+      Cors__AllowedOrigins__0: ${CORS_ALLOWED_ORIGIN:-http://localhost:3000}
       Authentication__Schemes__Bearer__ValidIssuer: ${JWT_VALID_ISSUER:-wallet-api}
-      Authentication__Schemes__Bearer__ValidAudiences__0: ${JWT_VALID_AUDIENCE:-http://localhost}
+      Authentication__Schemes__Bearer__ValidAudiences__0: ${JWT_VALID_AUDIENCE:-http://localhost:3000}
       Authentication__Schemes__Bearer__SigningKeys__0__Value: ${JWT_SIGNING_KEY:?Set JWT_SIGNING_KEY}
     ports:
       - "8080:5000"
@@ -40,7 +40,7 @@ services:
       context: ./Client
       dockerfile: Dockerfile
       args:
-        VITE_API_BASE_URL: /api
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
     container_name: wallet-client
     restart: unless-stopped
     depends_on:

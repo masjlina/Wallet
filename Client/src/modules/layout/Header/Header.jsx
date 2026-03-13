@@ -35,7 +35,7 @@ const Header = () => {
             <div className="container header__container">
                 <Logo className="logo--header"/>
                 <div className="content header__content">
-                    <img className="icon" src={bellIcon} alt="bell"/>
+                    {/*<img className="icon" src={bellIcon} alt="bell"/>*/}
                     <img
                         className="icon--profile"
                         src={avatarSrc}

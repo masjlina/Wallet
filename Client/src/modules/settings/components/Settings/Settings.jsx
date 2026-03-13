@@ -28,10 +28,10 @@ const Settings = () => {
             content = <SecurityTab/>;
             break;
         }
-        case TABS.PREFERENCES: {
-            content = "Preferences";
-            break;
-        }
+        // case TABS.PREFERENCES: {
+        //     content = "Preferences";
+        //     break;
+        // }
         default: {
             content = "Empty";
         }

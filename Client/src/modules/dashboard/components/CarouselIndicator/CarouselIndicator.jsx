@@ -9,31 +9,29 @@ const CarouselIndicator = ({
                                currentIndex = 0,
                                setCurrentIndex
                            }) => {
-    const dots = Array.from({length: accountQuantity});
+    const safeCurrentIndex = Math.min(
+        Math.max(currentIndex, 0),
+        Math.max(accountQuantity - 1, 0)
+    );
 
     const spacing = 28;
     const maxVisibleCount = 3;
 
     const visibleCount = Math.min(accountQuantity, maxVisibleCount);
     const visibleWidth = spacing * visibleCount;
-
-    const centerX = (currentIndex + 1) * spacing;
-
-    const minViewBoxX = spacing / 2;
-
-    const maxViewBoxX = Math.max(
-        minViewBoxX,
-        (accountQuantity * spacing) + (spacing / 2) - visibleWidth
+    const visibleStartIndex = Math.min(
+        Math.max(safeCurrentIndex - 1, 0),
+        Math.max(accountQuantity - visibleCount, 0)
     );
+    const dots = Array.from({length: visibleCount}, (_, offset) => visibleStartIndex + offset);
 
-    let viewBoxX = centerX - visibleWidth / 2;
-    viewBoxX = Math.max(minViewBoxX, Math.min(viewBoxX, maxViewBoxX));
+    const activeIndicatorOffset = safeCurrentIndex - visibleStartIndex;
 
     return (
         <svg
             width={visibleWidth}
             height="32"
-            viewBox={`${viewBoxX} -16 ${visibleWidth} 32`}
+            viewBox={`14 -16 ${visibleWidth} 32`}
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
             focusable="false"
@@ -51,16 +49,24 @@ const CarouselIndicator = ({
                                    result="gooey"/>
                     <feBlend in="SourceGraphic" in2="gooey" mode="hue"/>
                 </filter>
+                <clipPath id="clip0">
+                    <rect
+                        x="14"
+                        y="-16"
+                        width={visibleWidth}
+                        height="32"
+                    />
+                </clipPath>
             </defs>
 
             <g id="carousel-indicator" filter="url(#gooey)" clipPath="url(#clip0)">
                 <g id="pages">
-                    {dots.map((_, i) => (
+                    {dots.map((dotIndex, i) => (
                         <ellipse
-                            key={i}
-                            onClick={() => setCurrentIndex(i)}
+                            key={dotIndex}
+                            onClick={() => setCurrentIndex(dotIndex)}
                             style={{cursor: "pointer"}}
-                            className={`dot dot-${i + 1}`}
+                            className={`dot dot-${dotIndex + 1}`}
                             cx={(i + 1) * spacing}
                             cy="0"
                             rx="6"
@@ -77,7 +83,7 @@ const CarouselIndicator = ({
                     width="28"
                     height="12"
                     rx="6"
-                    transform={`translate(${currentIndex * spacing}, 0)`}
+                    transform={`translate(${activeIndicatorOffset * spacing}, 0)`}
                 />
             </g>
         </svg>

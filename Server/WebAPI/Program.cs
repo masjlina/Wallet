@@ -15,6 +15,8 @@ using Microsoft.OpenApi;
 using WebAPI.Middlewares;
 using WebAPI.Services;
 
+LoadServerEnv(Path.Combine(Directory.GetCurrentDirectory(), ".env.server"));
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -109,10 +111,18 @@ builder.Services.AddSwaggerGen(x =>
 });
 
 
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-if (allowedOrigins.Length == 0 && builder.Environment.IsDevelopment())
+var allowedOrigins = (builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
+    .Where(origin => !string.IsNullOrWhiteSpace(origin))
+    .Select(origin => origin.Trim().TrimEnd('/'))
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray();
+
+if (builder.Environment.IsDevelopment())
 {
-    allowedOrigins = ["http://localhost:5500"];
+    allowedOrigins = allowedOrigins
+        .Concat(["http://localhost:5500"])
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .ToArray();
 }
 
 if (allowedOrigins.Length == 0)
@@ -158,3 +168,43 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+static void LoadServerEnv(string filePath)
+{
+    if (!File.Exists(filePath))
+    {
+        return;
+    }
+
+    foreach (var rawLine in File.ReadAllLines(filePath))
+    {
+        var line = rawLine.Trim();
+
+        if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
+        {
+            continue;
+        }
+
+        var separatorIndex = line.IndexOf('=');
+        if (separatorIndex <= 0)
+        {
+            continue;
+        }
+
+        var key = line[..separatorIndex].Trim();
+        if (string.IsNullOrWhiteSpace(key) || Environment.GetEnvironmentVariable(key) is not null)
+        {
+            continue;
+        }
+
+        var value = line[(separatorIndex + 1)..].Trim();
+        if (value.Length >= 2 &&
+            ((value.StartsWith('"') && value.EndsWith('"')) ||
+             (value.StartsWith('\'') && value.EndsWith('\''))))
+        {
+            value = value[1..^1];
+        }
+
+        Environment.SetEnvironmentVariable(key, value);
+    }
+}
