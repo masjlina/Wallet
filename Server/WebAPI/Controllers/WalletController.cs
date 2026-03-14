@@ -25,6 +25,8 @@ public class WalletController : ControllerBase
     public async Task<ActionResult<WalletDto>> Get()
     {
         var userId = _userManager.GetUserId(User);
+        if (string.IsNullOrWhiteSpace(userId))
+            return Unauthorized();
 
         var wallet = await _walletService.GetByUserIdAsync(userId);
 
@@ -35,6 +37,9 @@ public class WalletController : ControllerBase
     public async Task<ActionResult<WalletDto>> CreateWallet([FromBody] WalletCreateRequestDto request)
     {
         var userId = _userManager.GetUserId(User);
+        if (string.IsNullOrWhiteSpace(userId))
+            return Unauthorized();
+
         var walletToCreate = new WalletDto
         {
             ApplicationUserId = userId,
@@ -49,7 +54,9 @@ public class WalletController : ControllerBase
     [HttpPatch("{walletId}")]
     public async Task<ActionResult<WalletDto>> UpdateAsync(int walletId, UpdateWalletDto dto)
     {
-        string userId = _userManager.GetUserId(User);
+        var userId = _userManager.GetUserId(User);
+        if (string.IsNullOrWhiteSpace(userId))
+            return Unauthorized();
 
         WalletDto updatedWallet = await _walletService.UpdateAsync(userId, walletId, dto);
 

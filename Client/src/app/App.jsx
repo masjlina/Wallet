@@ -117,6 +117,3 @@ const App = () => {
 }
 
 export default App;
-
-// TODO: rename endpoints const
-// TODO: on 2k monitor make height smaller

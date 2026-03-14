@@ -9,10 +9,10 @@ import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
 
 export const getUserWallet = createAsyncThunk(
     "wallet-accounts/get",
-    async (arg, thunkAPI) => {
+    async (arg, {rejectWithValue}) => {
         const response = await getWallet();
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
         if (rejected) return rejected;
 
         return response;

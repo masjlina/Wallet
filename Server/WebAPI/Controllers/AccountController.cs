@@ -3,8 +3,6 @@ using BusinessLogic.Dtos;
 using BusinessLogic.Dtos.Mappers;
 using DataAccess.Data;
 using DataAccess.Entities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,27 +13,19 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api")]
-public class AccountController : ControllerBase
+public class AccountController(
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager,
+    IMapper<ApplicationUser, ApplicationUserDto> userMapper,
+    ITokenService tokenService,
+    ApplicationDbContext dbContext)
+    : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IMapper<ApplicationUser, ApplicationUserDto> _userMapper;
-    private readonly ITokenService _tokenService;
-    private readonly ApplicationDbContext _dbContext;
-
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-        IMapper<ApplicationUser, ApplicationUserDto> userMapper, ITokenService tokenService,
-        ApplicationDbContext dbContext)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _userMapper = userMapper;
-        _tokenService = tokenService;
-        _dbContext = dbContext;
-    }
+    private const int DefaultRefreshTokenLifetimeDays = 1;
+    private const int RememberMeRefreshTokenLifetimeDays = 30;
 
     [HttpPost]
-    [Route("signIn")]
+    [Route("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] SignInRequestDto? signInRequestDto)
     {
         if (signInRequestDto == null || !ModelState.IsValid)
@@ -43,35 +33,36 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var user = await _userManager.FindByEmailAsync(signInRequestDto.Email);
+        var user = await userManager.FindByEmailAsync(signInRequestDto.Email);
         if (user == null)
         {
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "Invalid email or password" }
+                Errors = ["Invalid email or password"]
             });
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, signInRequestDto.Password, false);
+        var result = await signInManager.CheckPasswordSignInAsync(user, signInRequestDto.Password, false);
         if (!result.Succeeded)
         {
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "Invalid email or password" }
+                Errors = ["Invalid email or password"]
             });
         }
 
         var userClaims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.UserName ?? user.Email)
+            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id)
         };
 
-        string accessToken = _tokenService.GenerateAccessToken(userClaims);
-        string refreshToken = _tokenService.GenerateRefreshToken();
+        string accessToken = tokenService.GenerateAccessToken(userClaims);
+        string refreshToken = tokenService.GenerateRefreshToken();
+        var refreshTokenExpiration = GetRefreshTokenExpiration(signInRequestDto.RememberMe);
 
-        var tokenInfo = _dbContext.TokenInfos.FirstOrDefault(a => a.UserId == user.Id);
+        var tokenInfo = await dbContext.TokenInfos.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         if (tokenInfo == null)
         {
@@ -79,40 +70,37 @@ public class AccountController : ControllerBase
             {
                 UserId = user.Id,
                 RefreshToken = refreshToken,
-                ExpiredAt = DateTime.UtcNow.AddDays(signInRequestDto.RememberMe ? 30 : 1)
+                ExpiredAt = refreshTokenExpiration.UtcDateTime
             };
-            _dbContext.TokenInfos.Add(ti);
+            dbContext.TokenInfos.Add(ti);
         }
         else
         {
             tokenInfo.RefreshToken = refreshToken;
-            tokenInfo.ExpiredAt =
-                signInRequestDto.RememberMe ? DateTime.UtcNow.AddDays(30) : DateTime.UtcNow.AddDays(7);
+            tokenInfo.ExpiredAt = refreshTokenExpiration.UtcDateTime;
         }
 
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
 
         Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.Lax,
-            Expires = signInRequestDto.RememberMe
-                ? DateTimeOffset.UtcNow.AddDays(30)
-                : DateTimeOffset.UtcNow.AddDays(1),
+            Expires = refreshTokenExpiration,
             Path = "/"
         });
 
 
         return Ok(new SignInResponseDto
         {
-            ApplicationUserDto = _userMapper.ToDto(user),
+            ApplicationUserDto = userMapper.ToDto(user),
             AccessToken = accessToken
         });
     }
 
     [HttpPost]
-    [Route("signUp")]
+    [Route("sign-up")]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequestDto signUpRequestDto)
     {
         if (signUpRequestDto == null || !ModelState.IsValid)
@@ -120,13 +108,13 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var userExist = await _userManager.FindByEmailAsync(signUpRequestDto.Email);
+        var userExist = await userManager.FindByEmailAsync(signUpRequestDto.Email);
 
         if (userExist != null)
         {
             return Conflict(new ErrorResponse
             {
-                Errors = new[] { "User already exists" }
+                Errors = ["User already exists"]
             });
         }
 
@@ -139,7 +127,7 @@ public class AccountController : ControllerBase
             EmailConfirmed = true,
         };
 
-        var result = await _userManager.CreateAsync(user, signUpRequestDto.Password);
+        var result = await userManager.CreateAsync(user, signUpRequestDto.Password);
 
         if (!result.Succeeded)
         {
@@ -149,21 +137,30 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(StatusCodes.Status201Created);
+        return Created();
     }
 
     [Authorize]
     [HttpPost("logout")]
     public async Task<ActionResult> Logout()
     {
-        var refreshToken = Request.Cookies["refreshToken"];
-
-        if (refreshToken != null)
+        if (Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
         {
-            await _signInManager.SignOutAsync();
+            var userId = userManager.GetUserId(User);
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                await dbContext.TokenInfos
+                    .Where(t => t.UserId == userId && t.RefreshToken == refreshToken)
+                    .ExecuteDeleteAsync();
+            }
         }
 
-        Response.Cookies.Delete("refreshToken");
+        await signInManager.SignOutAsync();
+
+        Response.Cookies.Delete("refreshToken", new CookieOptions
+        {
+            Path = "/"
+        });
 
         return Ok();
     }
@@ -176,17 +173,17 @@ public class AccountController : ControllerBase
         if (string.IsNullOrWhiteSpace(userId))
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "Id does not exist" }
+                Errors = ["Id does not exist"]
             });
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
         if (user is null)
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "User does not exist" }
+                Errors = ["User does not exist"]
             });
 
-        ApplicationUserDto applicationUserDto = _userMapper.ToDto(user);
+        ApplicationUserDto applicationUserDto = userMapper.ToDto(user);
 
         return Ok(new CheckAuthResponseDto
         {
@@ -202,22 +199,22 @@ public class AccountController : ControllerBase
         {
             return BadRequest(new ErrorResponse()
             {
-                Errors = new[] { "New and Confirmation password are not the same" }
+                Errors = ["New and Confirmation password are not the same"]
             });
         }
 
-        var userId = _userManager.GetUserId(User)!;
+        var userId = userManager.GetUserId(User)!;
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
         if (user == null)
         {
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "Could not find user" }
+                Errors = ["Could not find user"]
             });
         }
 
-        var result = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
+        var result = await userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
         if (!result.Succeeded)
         {
             return BadRequest(new ErrorResponse
@@ -235,7 +232,7 @@ public class AccountController : ControllerBase
         if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
             return Unauthorized("Refresh token missing");
 
-        var tokenInfo = await _dbContext.TokenInfos
+        var tokenInfo = await dbContext.TokenInfos
             .SingleOrDefaultAsync(t =>
                 t.RefreshToken == refreshToken &&
                 t.ExpiredAt > DateTime.UtcNow);
@@ -243,27 +240,26 @@ public class AccountController : ControllerBase
         if (tokenInfo == null)
             return Unauthorized(new ErrorResponse
             {
-                Errors = new[] { "Invalid refresh token" }
+                Errors = ["Invalid refresh token"]
             });
 
-        var user = await _userManager.FindByIdAsync(tokenInfo.UserId);
+        var user = await userManager.FindByIdAsync(tokenInfo.UserId);
         if (user == null)
             return Unauthorized();
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.UserName ?? user.Email)
+            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id)
         };
 
-        var newAccessToken = _tokenService.GenerateAccessToken(claims);
-        var newRefreshToken = _tokenService.GenerateRefreshToken();
+        var newAccessToken = tokenService.GenerateAccessToken(claims);
+        var newRefreshToken = tokenService.GenerateRefreshToken();
 
         tokenInfo.RefreshToken = newRefreshToken;
-        tokenInfo.ExpiredAt = DateTime.UtcNow.AddDays(7);
 
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
 
         Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
         {
@@ -278,5 +274,14 @@ public class AccountController : ControllerBase
         {
             AccessToken = newAccessToken
         });
+    }
+
+    private static DateTimeOffset GetRefreshTokenExpiration(bool rememberMe)
+    {
+        var lifetimeDays = rememberMe
+            ? RememberMeRefreshTokenLifetimeDays
+            : DefaultRefreshTokenLifetimeDays;
+
+        return DateTimeOffset.UtcNow.AddDays(lifetimeDays);
     }
 }

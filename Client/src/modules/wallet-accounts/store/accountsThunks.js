@@ -9,10 +9,10 @@ import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
 
 export const getAllWalletAccounts = createAsyncThunk(
     "/getAllAccounts",
-    async (arg, thunkAPI) => {
+    async (arg, {rejectWithValue}) => {
         const response = await getAllAccounts();
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
         if (rejected) return rejected;
 
         return response;
@@ -21,10 +21,10 @@ export const getAllWalletAccounts = createAsyncThunk(
 
 export const getWalletAccount = createAsyncThunk(
     "/getAccount",
-    async (accountId, thunkAPI) => {
+    async (accountId, {rejectWithValue}) => {
         const response = await getAccount(accountId);
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
         if (rejected) return rejected;
 
         return response;

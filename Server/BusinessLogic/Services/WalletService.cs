@@ -21,7 +21,7 @@ public class WalletService : IWalletService
         _mapper = mapper;
     }
 
-    public async Task<WalletDto> GetByUserIdAsync(string userId)
+    public async Task<WalletDto?> GetByUserIdAsync(string userId)
     {
         var wallet = await _dbContext.Wallets
             .Include(w => w.CreditCards)
@@ -40,6 +40,9 @@ public class WalletService : IWalletService
     public async Task<WalletDto> CreateAsync(WalletDto walletDto)
     {
         Wallet walletToCreate = _mapper.ToEntity(walletDto);
+        var now = DateTime.UtcNow;
+        walletToCreate.CreatedAt = now;
+        walletToCreate.UpdatedAt = now;
 
         Wallet createdWallet = _dbContext.Add(walletToCreate).Entity;
         await _dbContext.SaveChangesAsync();
@@ -62,6 +65,8 @@ public class WalletService : IWalletService
         if (dto.Balance.HasValue)
             walletToUpdate.Cash = dto.Balance.Value;
 
+        walletToUpdate.UpdatedAt = DateTime.UtcNow;
+
         await _dbContext.SaveChangesAsync();
 
         return _mapper.ToDto(walletToUpdate);
@@ -69,7 +74,7 @@ public class WalletService : IWalletService
 
     public async Task RemoveAsync(int id)
     {
-        Wallet walletToDelete = await _dbContext.Wallets.FirstOrDefaultAsync(i => i.Id == id);
+        var walletToDelete = await _dbContext.Wallets.FirstOrDefaultAsync(i => i.Id == id);
 
         if (walletToDelete is null)
         {

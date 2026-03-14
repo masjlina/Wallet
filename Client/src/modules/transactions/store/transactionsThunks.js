@@ -17,10 +17,10 @@ import {getUserWallet} from "@/modules/wallet-accounts/store/walletThunks";
 
 export const getAllUserTransactions = createAsyncThunk(
     "transactions/getAll",
-    async (arg, thunkAPI) => {
+    async (arg, {rejectWithValue}) => {
         const response = await getAllTransactions();
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
         if (rejected) return rejected;
 
         return response;
@@ -29,10 +29,10 @@ export const getAllUserTransactions = createAsyncThunk(
 
 export const getUserTransaction = createAsyncThunk(
     "transactions/getById",
-    async (transactionId, thunkAPI) => {
+    async (transactionId, {rejectWithValue}) => {
         const response = await getTransaction(transactionId);
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
         if (rejected) return rejected;
 
         return response;

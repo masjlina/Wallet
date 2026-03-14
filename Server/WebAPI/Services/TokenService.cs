@@ -35,7 +35,7 @@ public class TokenService : ITokenService
             issuer: _apiSettings.ValidIssuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
+            expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
 
         return new JwtSecurityTokenHandler().WriteToken(tokenOptions);

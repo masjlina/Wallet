@@ -3,12 +3,12 @@ import mapUser from "@/domain/user";
 
 // Shared
 import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
-import endpoints from "@/shared/consts/endpoints";
+import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 
 export async function getUser() {
     try {
-        const result = await request(`${endpoints.users}`, "GET");
+        const result = await request(`${ENDPOINTS.USERS}`, "GET");
 
         return mapUser(result);
     } catch (error) {
@@ -18,7 +18,7 @@ export async function getUser() {
 
 export async function updateUser(user) {
     try {
-        const result = await request(`${endpoints.users}`, "PATCH", user);
+        const result = await request(`${ENDPOINTS.USERS}`, "PATCH", user);
 
         return mapUser(result);
     } catch (error) {
@@ -28,7 +28,7 @@ export async function updateUser(user) {
 export async function uploadAvatar(formData) {
     try {
         const result = await request(
-            endpoints.avatars,
+            ENDPOINTS.AVATARS,
             "POST",
             formData
         );
@@ -42,7 +42,7 @@ export async function uploadAvatar(formData) {
 export async function removeAvatar() {
     try {
         await request(
-            endpoints.avatars,
+            ENDPOINTS.AVATARS,
             "DELETE"
         );
 

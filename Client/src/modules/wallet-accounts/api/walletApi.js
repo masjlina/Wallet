@@ -4,12 +4,12 @@ import createWalletRequest from "@/modules/wallet-accounts/api/dto/WalletCreateR
 
 // Shared
 import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
-import endpoints from "@/shared/consts/endpoints";
+import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 
 export async function getWallet() {
     try {
-        const result = await request(`${endpoints.wallet}`);
+        const result = await request(`${ENDPOINTS.WALLET}`);
 
         return {
             wallet: mapWallet(result)
@@ -23,7 +23,7 @@ export async function createWallet(walletName) {
     try {
         const walletRequest = createWalletRequest(walletName);
 
-        const result = await request(endpoints.wallet, "POST", walletRequest);
+        const result = await request(ENDPOINTS.WALLET, "POST", walletRequest);
 
         return {
             wallet: mapWallet(result)
@@ -35,7 +35,7 @@ export async function createWallet(walletName) {
 
 export async function updateWallet(walletId, wallet) {
     try {
-        const result = await request(`${endpoints.wallet}/${walletId}`, "PATCH", wallet);
+        const result = await request(`${ENDPOINTS.WALLET}/${walletId}`, "PATCH", wallet);
 
         return {
             wallet: mapWallet(result)

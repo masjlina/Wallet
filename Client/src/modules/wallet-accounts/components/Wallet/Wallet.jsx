@@ -1,8 +1,8 @@
 // React
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 // External libs
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 // App (modules)

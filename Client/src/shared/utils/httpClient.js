@@ -1,5 +1,5 @@
 // Shared
-import endpoints from "@/shared/consts/endpoints";
+import ENDPOINTS from "@/shared/consts/endpoints";
 import {clearAccessToken, getAccessToken, setAccessToken} from "@/shared/utils/tokenManager";
 
 let isRefreshing = false;
@@ -45,8 +45,8 @@ export async function request(
     });
 
     if (response.status === 401 &&
-        url !== endpoints.login &&
-        url !== endpoints.register) {
+        url !== ENDPOINTS.LOGIN &&
+        url !== ENDPOINTS.REGISTER) {
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
                 failedQueue.push({ resolve, reject });
@@ -91,7 +91,7 @@ export async function request(
 
 async function refreshAndRepeat(url, method, body, headers) {
     try {
-        const refreshResponse = await fetch(endpoints.refresh, {
+        const refreshResponse = await fetch(ENDPOINTS.REFRESH, {
             method: "POST",
             credentials: "include",
         });

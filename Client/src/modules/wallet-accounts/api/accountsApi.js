@@ -3,12 +3,12 @@ import mapAccount from "@/domain/account";
 
 // Shared
 import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
-import endpoints from "@/shared/consts/endpoints";
+import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 
 export async function getAllAccounts() {
     try {
-        const result = await request(`${endpoints.creditCards}`);
+        const result = await request(`${ENDPOINTS.CREDIT_CARDS}`);
 
         return {
             accounts: result.map(cc => mapAccount(cc))
@@ -20,7 +20,7 @@ export async function getAllAccounts() {
 
 export async function getAccount(accountId) {
     try {
-        const result = await request(`${endpoints.creditCards}/${accountId}`);
+        const result = await request(`${ENDPOINTS.CREDIT_CARDS}/${accountId}`);
 
         return {
             account: result
@@ -32,7 +32,7 @@ export async function getAccount(accountId) {
 
 export async function createAccount(account) {
     try {
-        const result = await request(endpoints.creditCards, "POST", account);
+        const result = await request(ENDPOINTS.CREDIT_CARDS, "POST", account);
 
         return {
             account: mapAccount(result)
@@ -44,7 +44,7 @@ export async function createAccount(account) {
 
 export async function updateAccount(accountId, account) {
     try {
-        const result = await request(`${endpoints.creditCards}/${accountId}`, "PATCH", account);
+        const result = await request(`${ENDPOINTS.CREDIT_CARDS}/${accountId}`, "PATCH", account);
 
         return {
             account: mapAccount(result)
@@ -56,7 +56,7 @@ export async function updateAccount(accountId, account) {
 
 export async function removeAccount(accountId) {
     try {
-        await request(`${endpoints.creditCards}/${accountId}`, "DELETE");
+        await request(`${ENDPOINTS.CREDIT_CARDS}/${accountId}`, "DELETE");
 
         return {
             accountToDeleteId: accountId

@@ -82,7 +82,7 @@ public class TransactionService : ITransactionService
             .ToList();
     }
 
-    public async Task<TransactionDto> CreateAsync(string userId, TransactionDto dto)
+    public async Task<TransactionDto> CreateAsync(string userId, TransactionCreateRequestDto dto)
     {
         if ((dto.WalletId is null && dto.CreditCardId is null) ||
             (dto.WalletId is not null && dto.CreditCardId is not null))
@@ -92,26 +92,33 @@ public class TransactionService : ITransactionService
                 HttpStatusCode.BadRequest);
         }
 
-        var transaction = _mapper.ToEntity(dto);
-
-        _dbContext.Transactions.Add(transaction);
+        var now = DateTime.UtcNow;
+        var transaction = new Transaction
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            Amount = dto.Amount,
+            WalletId = dto.WalletId,
+            CreditCardId = dto.CreditCardId,
+            CategoryId = dto.CategoryId,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
 
         if (dto.WalletId is not null)
         {
-            var wallet = await CheckOwnership.GetWalletByUserId(
-                userId,
-                _dbContext);
+            var wallet = await CheckOwnership.GetWalletByUserAndId(userId, dto.WalletId.Value, _dbContext);
             wallet.Cash += dto.Amount;
+            transaction.Wallet = wallet;
         }
         else
         {
-            var creditCard = await CheckOwnership.GetCreditCardByUserAndId(
-                userId,
-                dto.CreditCardId,
-                _dbContext);
+            var creditCard = await CheckOwnership.GetCreditCardByUserAndId(userId, dto.CreditCardId!.Value, _dbContext);
             creditCard.Balance += dto.Amount;
+            transaction.CreditCard = creditCard;
         }
 
+        _dbContext.Transactions.Add(transaction);
         await _dbContext.SaveChangesAsync();
 
         return _mapper.ToDto(transaction);
@@ -122,16 +129,24 @@ public class TransactionService : ITransactionService
         var transactionToUpdate = await _dbContext.Transactions
             .Include(t => t.Wallet)
             .Include(t => t.CreditCard)
+            .ThenInclude(cc => cc!.Wallet)
             .FirstOrDefaultAsync(t =>
                 t.Id == transactionId &&
                 (
-                    t.Wallet.ApplicationUserId == userId ||
-                    t.CreditCard.Wallet.ApplicationUserId == userId
+                    (t.Wallet != null && t.Wallet.ApplicationUserId == userId) ||
+                    (t.CreditCard != null && t.CreditCard.Wallet.ApplicationUserId == userId)
                 )
             );
 
         if (transactionToUpdate is null)
             throw new BusinessException("Transaction was not found", HttpStatusCode.NotFound);
+
+        if (dto.WalletId is not null && dto.CreditCardId is not null)
+        {
+            throw new BusinessException(
+                "Transaction must belong to either wallet or credit card",
+                HttpStatusCode.BadRequest);
+        }
 
         if (!string.IsNullOrWhiteSpace(dto.Name) &&
             dto.Name != transactionToUpdate.Name)
@@ -145,37 +160,48 @@ public class TransactionService : ITransactionService
             transactionToUpdate.Description = dto.Description;
         }
 
-        if (dto.Amount is not null &&
-            dto.Amount.Value != transactionToUpdate.Amount)
-        {
-            var difference = dto.Amount.Value - transactionToUpdate.Amount;
-
-            transactionToUpdate.Amount = dto.Amount.Value;
-
-            if (transactionToUpdate.CreditCard != null)
-                transactionToUpdate.CreditCard.Balance += difference;
-            else
-                transactionToUpdate.Wallet.Cash += difference;
-        }
+        var targetWallet = transactionToUpdate.Wallet;
+        var targetCreditCard = transactionToUpdate.CreditCard;
+        var newAmount = dto.Amount ?? transactionToUpdate.Amount;
 
         if (dto.WalletId is not null)
         {
-            transactionToUpdate.WalletId = dto.WalletId;
-            transactionToUpdate.CreditCardId = null;
+            targetWallet = await CheckOwnership.GetWalletByUserAndId(userId, dto.WalletId.Value, _dbContext);
+            targetCreditCard = null;
         }
         else if (dto.CreditCardId is not null)
         {
-            transactionToUpdate.CreditCardId = dto.CreditCardId;
-            transactionToUpdate.WalletId = null;
+            targetCreditCard = await CheckOwnership.GetCreditCardByUserAndId(userId, dto.CreditCardId.Value, _dbContext);
+            targetWallet = null;
         }
 
-        if (dto.CreatedAt is not null &&
-            transactionToUpdate.CreatedAt != dto.CreatedAt)
+        if (targetWallet is null && targetCreditCard is null)
         {
-            transactionToUpdate.CreatedAt = dto.CreatedAt.Value;
+            throw new BusinessException("Transaction target was not found", HttpStatusCode.BadRequest);
         }
 
+        var targetChanged =
+            targetWallet?.Id != transactionToUpdate.WalletId ||
+            targetCreditCard?.Id != transactionToUpdate.CreditCardId;
+
+        if (targetChanged)
+        {
+            RevertAmount(transactionToUpdate);
+            ApplyAmount(targetWallet, targetCreditCard, newAmount);
+            transactionToUpdate.WalletId = targetWallet?.Id;
+            transactionToUpdate.CreditCardId = targetCreditCard?.Id;
+            transactionToUpdate.Wallet = targetWallet;
+            transactionToUpdate.CreditCard = targetCreditCard;
+        }
+        else if (newAmount != transactionToUpdate.Amount)
+        {
+            var difference = newAmount - transactionToUpdate.Amount;
+            ApplyDelta(transactionToUpdate, difference);
+        }
+
+        transactionToUpdate.Amount = newAmount;
         transactionToUpdate.CategoryId = dto.CategoryId;
+        transactionToUpdate.UpdatedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
 
@@ -214,5 +240,44 @@ public class TransactionService : ITransactionService
 
         _dbContext.Remove(transaction);
         await _dbContext.SaveChangesAsync();
+    }
+
+    private static void RevertAmount(Transaction transaction)
+    {
+        ApplyDelta(transaction, -transaction.Amount);
+    }
+
+    private static void ApplyAmount(Wallet? wallet, CreditCard? creditCard, decimal amount)
+    {
+        if (creditCard is not null)
+        {
+            creditCard.Balance += amount;
+            return;
+        }
+
+        if (wallet is not null)
+        {
+            wallet.Cash += amount;
+            return;
+        }
+
+        throw new BusinessException("Transaction target was not found", HttpStatusCode.BadRequest);
+    }
+
+    private static void ApplyDelta(Transaction transaction, decimal amountDelta)
+    {
+        if (transaction.CreditCard is not null)
+        {
+            transaction.CreditCard.Balance += amountDelta;
+            return;
+        }
+
+        if (transaction.Wallet is not null)
+        {
+            transaction.Wallet.Cash += amountDelta;
+            return;
+        }
+
+        throw new BusinessException("Transaction target was not found", HttpStatusCode.BadRequest);
     }
 }

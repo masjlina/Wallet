@@ -38,7 +38,7 @@ public class CreditCardController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<CreditCardDto>> Create([FromBody] CreditCardDto creditCardDto)
+    public async Task<ActionResult<CreditCardDto>> Create([FromBody] CreditCardCreateRequestDto creditCardDto)
     {
         var userId = _userManager.GetUserId(User)!;
         

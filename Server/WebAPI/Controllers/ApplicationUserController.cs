@@ -9,6 +9,7 @@ using WebAPI.Controllers.IControllers;
 
 namespace WebAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/users")]
 public class ApplicationUserController : ControllerBase
@@ -33,7 +34,6 @@ public class ApplicationUserController : ControllerBase
         return Ok(user);
     }
 
-    [Authorize]
     [HttpPatch]
     public async Task<ActionResult> Update([FromBody] UpdateApplicationUserDto applicationUserDTO)
     {

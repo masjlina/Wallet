@@ -26,9 +26,10 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Webpack
-Client/src/js/bundle.js
-Client/src/js/bundle.js.map
+# Client build artifacts
+Client/dist/
+Client/node_modules/
+Client/js/
 
 # Mono auto generated files
 mono_crash.*

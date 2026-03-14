@@ -11,7 +11,7 @@ import {createUserToUpdate} from "@/domain/user";
 import {updateApplicationUser} from "@/modules/user";
 import {useDispatch} from "react-redux";
 import {removeApplicationUserAvatar, uploadApplicationUserAvatar} from "@/modules/user/store/userThunks";
-import {serverUrl} from "@/shared/consts/endpoints";
+import {SERVER_URL} from "@/shared/consts/endpoints";
 
 const ProfileTab = ({firstName, lastName, avatarUri}) => {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
     const [avatarPreview, setAvatarPreview] = useState(null);
     const avatarSrc = useMemo(() => {
         return avatarPreview ||
-            (avatarUri ? `${serverUrl}${avatarUri}?t=${Date.now()}` : null) ||
+            (avatarUri ? `${SERVER_URL}${avatarUri}?t=${encodeURIComponent(avatarUri)}` : null) ||
             profileIcon;
     }, [avatarPreview, avatarUri]);
 

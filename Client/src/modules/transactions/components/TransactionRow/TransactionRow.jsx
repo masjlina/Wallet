@@ -18,7 +18,7 @@ const TransactionRow = ({
                         }) => {
     if (!transaction) return null;
 
-    const { id, name, amount, createdAt, category, walletId } = transaction;
+    const { name, amount, createdAt, category, walletId } = transaction;
 
     const d = new Date(createdAt);
 

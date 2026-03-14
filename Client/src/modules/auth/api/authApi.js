@@ -7,7 +7,7 @@ import createSignUpRequestDto from "@/modules/auth/api/dto/SignUpRequestDto";
 // Shared
 import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
 import createSuccessfulResponseDto from "@/shared/api/SuccessfulResponseDto";
-import endpoints from "@/shared/consts/endpoints";
+import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 import {clearAccessToken, setAccessToken} from "@/shared/utils/tokenManager";
 
@@ -17,7 +17,7 @@ export async function register(formData) {
 
         const signUpRequest = createSignUpRequestDto(formData);
 
-        await request(endpoints.register, "POST", signUpRequest);
+        await request(ENDPOINTS.REGISTER, "POST", signUpRequest);
 
         return createSuccessfulResponseDto();
     } catch (error) {
@@ -31,7 +31,7 @@ export async function login(formData) {
 
         const signInRequest = createSignInRequestDto(formData);
 
-        const result = await request(endpoints.login, "POST", signInRequest);
+        const result = await request(ENDPOINTS.LOGIN, "POST", signInRequest);
 
         setAccessToken(result.accessToken);
 
@@ -43,7 +43,7 @@ export async function login(formData) {
 
 export async function logout() {
     try {
-        await request(endpoints.logout, "POST");
+        await request(ENDPOINTS.LOGOUT, "POST");
 
         return createSuccessfulResponseDto();
     } catch (error) {
@@ -53,7 +53,7 @@ export async function logout() {
 
 export async function checkAuth() {
     try {
-        const result = await request(endpoints.checkAuth);
+        const result = await request(ENDPOINTS.CHECK_AUTH);
 
         return createCheckAuthResponse(result);
     } catch (error) {
@@ -63,7 +63,7 @@ export async function checkAuth() {
 
 export async function changePassword(data) {
     try {
-        await request(endpoints.changePassword, "POST", data);
+        await request(ENDPOINTS.CHANGE_PASSWORD, "POST", data);
 
         return createSuccessfulResponseDto();
     } catch (error) {

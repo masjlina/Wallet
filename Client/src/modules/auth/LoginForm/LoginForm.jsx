@@ -29,7 +29,6 @@ export const LoginForm = () => {
 
     const logStatus = useSelector((state) => state.auth.status);
     const logErrors = useSelector((state) => state.auth.errors);
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     const email = useInput("");
     const password = useInput("");

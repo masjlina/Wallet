@@ -38,7 +38,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<TransactionDto>> Create([FromBody] TransactionDto dto)
+    public async Task<ActionResult<TransactionDto>> Create([FromBody] TransactionCreateRequestDto dto)
     {
         var userId = _userManager.GetUserId(User)!;
 

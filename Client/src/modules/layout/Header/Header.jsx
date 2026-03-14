@@ -1,15 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
+import {useMemo} from "react";
 
 import Logo from "@/ui/Logo/Logo";
-
-import bellIcon from "@/assets/icons/bell.svg";
 import profileIcon from "@/assets/img/profile.svg";
 
-import {serverUrl} from "@/shared/consts/endpoints";
+import {SERVER_URL} from "@/shared/consts/endpoints";
 
 import "./header.scss";
 import useModal from "@/shared/hooks/useModal";
-import React from "react";
 import ProfileModal from "@/modules/layout/Header/components/ProfileModal/ProfileModal";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "@/shared/consts/routes";
@@ -22,13 +20,18 @@ const Header = () => {
 
     const avatarUri = useSelector(state => state.user?.user?.avatarUri);
 
-    const avatarSrc =
-        (avatarUri ? `${serverUrl}${avatarUri}?t=${Date.now()}` : profileIcon);
+    const avatarSrc = useMemo(() => {
+        if (!avatarUri) {
+            return profileIcon;
+        }
+
+        return `${SERVER_URL}${avatarUri}?t=${encodeURIComponent(avatarUri)}`;
+    }, [avatarUri]);
 
     const onLogout = () => {
         dispatch(logoutUser());
         navigate(ROUTES.LOGIN);
-    }
+    };
 
     return (
         <div className="wrapper header__wrapper">
@@ -53,6 +56,6 @@ const Header = () => {
             />
         </div>
     );
-}
+};
 
 export default Header;

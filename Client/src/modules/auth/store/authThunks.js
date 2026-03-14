@@ -9,7 +9,7 @@ import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
 
 export const registerUser = createAsyncThunk(
     "auth/register",
-    async (formData, {dispatch, rejectWithValue}) => {
+    async (formData, {rejectWithValue}) => {
         const response = await register(formData);
 
         const rejected = onReject(response, rejectWithValue);
@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async (formData, {dispatch, rejectWithValue}) => {
+    async (formData, {rejectWithValue}) => {
         const response = await login(formData);
 
         const rejected = onReject(response, rejectWithValue);
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
     "auth/logout",
-    async (formData, {dispatch, rejectWithValue}) => {
+    async (formData, {rejectWithValue}) => {
         const response = await logout();
 
         const rejected = onReject(response, rejectWithValue);
@@ -54,10 +54,10 @@ export const logoutUser = createAsyncThunk(
 
 export const checkUserAuth = createAsyncThunk(
     "auth/checkAuth",
-    async (arg, thunkAPI) => {
+    async (arg, {rejectWithValue}) => {
         const response = await checkAuth();
 
-        const rejected = onReject(response, thunkAPI);
+        const rejected = onReject(response, rejectWithValue);
 
         if (rejected) return rejected;
 

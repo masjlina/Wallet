@@ -67,12 +67,18 @@ public class CreditCardService : ICreditCardService
             .ToList();
     }
 
-    public async Task<CreditCardDto> CreateAsync(string userId, CreditCardDto dto)
+    public async Task<CreditCardDto> CreateAsync(string userId, CreditCardCreateRequestDto dto)
     {
         Wallet wallet = await CheckOwnership.GetWalletByUserId(userId, _dbContext);
-
-        dto.WalletId = wallet.Id;
-        CreditCard creditCardToCreate = _mapper.ToEntity(dto);
+        var now = DateTime.UtcNow;
+        var creditCardToCreate = new CreditCard
+        {
+            Name = dto.Name,
+            Balance = dto.Balance,
+            WalletId = wallet.Id,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
 
         CreditCard createdCreditCard = _dbContext.Add(creditCardToCreate).Entity;
         await _dbContext.SaveChangesAsync();
