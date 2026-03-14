@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const SERVER_URL = API_BASE_URL ? `${API_BASE_URL}/api` : "/api";
-
+console.log(import.meta.env.VITE_API_BASE_URL);
 const ENDPOINTS = {
     REGISTER: `${SERVER_URL}/sign-up`,
     LOGIN: `${SERVER_URL}/sign-in`,
