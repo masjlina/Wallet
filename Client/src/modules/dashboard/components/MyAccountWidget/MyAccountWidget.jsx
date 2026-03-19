@@ -92,7 +92,7 @@ const MyAccountWidget = ({accounts}) => {
 
 
   return (
-        <Widget>
+        <Widget className="my-accounts">
             <Widget.Header>
                 <div className="text text__title">My Accounts</div>
 

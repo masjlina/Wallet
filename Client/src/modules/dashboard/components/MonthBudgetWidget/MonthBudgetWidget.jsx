@@ -26,7 +26,7 @@ const MonthBudgetWidget = ({
     }, [userMonthlyLimit, spentThisMonth]);
 
   return (
-        <Widget>
+        <Widget className="month-limit">
             <Widget.Header>
                 <div className="text text__title">Month Budget</div>
             </Widget.Header>

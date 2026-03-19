@@ -1,5 +1,7 @@
 .toolbar {
+  height: auto;
   max-height: 8vh;
+  flex: 0 0 auto;
 }
 
 .toolbar__content {
@@ -10,6 +12,7 @@
 
 @media (max-width: 768px) {
   .toolbar {
+    height: auto;
     max-height: fit-content;
   }
 

@@ -56,3 +56,9 @@
     min-width: 640px;
   }
 }
+
+@media (max-width: 500px) {
+  .btn__nav--text {
+    font-size: 16px;
+  }
+}

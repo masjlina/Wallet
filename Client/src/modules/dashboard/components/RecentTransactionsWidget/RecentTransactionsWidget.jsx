@@ -38,7 +38,7 @@ const RecentTransactionsWidget = ({transactions}) => {
     });
 
   return (
-    <Widget className="recent-transactions__widget">
+    <Widget className="recent-transactions">
         <Widget.Header>
             <div className="text text__title">Recent Transactions</div>
 

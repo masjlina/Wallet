@@ -29,7 +29,7 @@ const DayLimitWidget = ({
     const dayLimitModal = useModal();
 
     return (
-        <Widget>
+        <Widget className="day-limit">
             <Widget.Content className="content day-limit__graphic-content text">
                 <div className="graphic">
                     <div className="graphic__background--radial">

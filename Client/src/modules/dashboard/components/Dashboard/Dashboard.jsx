@@ -131,7 +131,7 @@ const Dashboard = () => {
 
     return (
         <div className="container content__container dashboard">
-            <div className="content dashboard__content--top">
+            <div className="dashboard__content--top">
                 <MonthBudgetWidget
                     userMonthlyLimit={userMonthlyLimit}
                     spentThisMonth={spentThisMonth}
@@ -148,7 +148,7 @@ const Dashboard = () => {
                     accounts={accounts}/>
             </div>
 
-            <div className="content dashboard__content--bottom">
+            <div className="dashboard__content--bottom">
                 <RecentTransactionsWidget transactions={todayTransactions}/>
                 <WeekActivityWidget
                     everyDaySpentThisWeek={everyDaySpentThisWeek}/>
