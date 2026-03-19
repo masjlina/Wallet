@@ -109,9 +109,9 @@ const AccountDetails = () => {
     })
 
     return (
-        <div className="container content__container">
+        <div className="content__container account-details">
             <div className="account-details__top">
-                <Widget>
+                <Widget className="account-details__widget">
                     <Widget.Content className="d-col account-details__info">
                         <div className="text">
                             <p className="text--inactive">Account number</p>
@@ -142,7 +142,7 @@ const AccountDetails = () => {
             </div>
 
             <div className="account-details__bottom">
-                <Widget>
+                <Widget className="transactions">
                     <Widget.Content className="table-scroll">
                         <table className="table table__content text text__table">
                             <TransactionCol tableHeaders={tableHeaders}/>
