@@ -7,3 +7,19 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  .toolbar {
+    max-height: fit-content;
+  }
+
+  .toolbar__content {
+    flex-direction: row;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .toolbar__content > * {
+    width: 100%;
+  }
+}

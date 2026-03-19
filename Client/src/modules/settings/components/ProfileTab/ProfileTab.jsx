@@ -100,23 +100,26 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
             <div className="profile__top">
                 <div className="profile__image">
                     <img
-                        className="icon__r-50 icon--profile--150"
+                        className="icon__r-50 icon--profile--big"
                         src={avatarSrc}
                         alt="profile"
                     />
-                    <input
-                        type="file"
-                        accept="image/*"
-                        style={{display: "none"}}
-                        id="avatarInput"
-                        onChange={onAvatarChange}
-                    />
-                    <ButtonCreateEntity
-                        className="profile__btn-load"
-                        text="Load image"
-                        onClick={() => document.getElementById("avatarInput").click()}
-                    />
-                    <button className="btn text--red" onClick={onRemoveAvatar}>Remove</button>
+                    <div className="profile__image--control">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{display: "none"}}
+                            id="avatarInput"
+                            onChange={onAvatarChange}
+                        />
+                        <ButtonCreateEntity
+                            className="profile__btn-load"
+                            text="Load image"
+                            onClick={() => document.getElementById("avatarInput").click()}
+                        />
+                        <button className="btn text--red" onClick={onRemoveAvatar}>Remove</button>
+                    </div>
+
                 </div>
                 <div className="profile__input">
                     <FirstNameField

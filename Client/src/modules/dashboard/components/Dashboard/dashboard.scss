@@ -36,3 +36,40 @@
   grid-auto-rows: 1fr;
   align-items: stretch;
 }
+
+@media (max-width: 1100px) {
+  .dashboard {
+    min-width: 0;
+    min-height: auto;
+  }
+
+  .dashboard__content--top {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard__content--bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    overflow-y: scroll;
+  }
+
+  .content__container.dashboard {
+    padding-top: 4px;
+  }
+
+  .dashboard__content--top,
+  .dashboard__content--bottom {
+    gap: 16px;
+  }
+
+  .dashboard__content--top {
+  }
+
+  .dashboard__content--bottom {
+    flex-direction: column;
+  }
+}

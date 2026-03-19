@@ -45,3 +45,14 @@
 .table tbody tr:active td {
   background: var(--surface-white-active);
 }
+
+@media (max-width: 768px) {
+  .transactions__content {
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .table__content {
+    min-width: 640px;
+  }
+}

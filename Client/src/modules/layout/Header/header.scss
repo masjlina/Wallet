@@ -28,3 +28,20 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .header {
+    &__container {
+      padding: 16px;
+    }
+
+    &__content {
+      gap: 16px;
+    }
+  }
+
+  .icon--profile {
+    width: 44px;
+    height: 44px;
+  }
+}

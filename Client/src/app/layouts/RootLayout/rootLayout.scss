@@ -1,6 +1,7 @@
 .main__grid-layout {
   display: grid;
   width: 100%;
+  min-height: 100vh;
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
 
@@ -20,4 +21,21 @@
   background: #F5F5F5;
   flex: 1 1 auto;
   min-height: 0;
+}
+
+@media (max-width: 768px) {
+  .main__grid-layout {
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "content"
+      "sidebar";
+    min-height: 100dvh;
+  }
+
+  .content__wrapper {
+    min-width: 0;
+    padding-bottom: 92px;
+  }
 }

@@ -36,3 +36,26 @@
     gap: 20px;
   }
 }
+
+@media (max-width: 768px) {
+  .account-details {
+    &__top {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    &__bottom {
+      gap: 16px;
+    }
+
+    &__btn-group {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    &__btn {
+      width: 100%;
+      height: 56px;
+    }
+  }
+}

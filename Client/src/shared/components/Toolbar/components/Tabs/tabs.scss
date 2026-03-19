@@ -1,0 +1,23 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+}

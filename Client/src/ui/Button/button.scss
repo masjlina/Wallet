@@ -4,7 +4,9 @@
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
-  color: var(--text--primary)
+  color: var(--text--primary);
+  max-width: 200px;
+  max-height: 100px;
 }
 
 .btn--disabled { opacity: .6; pointer-events: none; }

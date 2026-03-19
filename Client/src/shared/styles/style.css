@@ -80,6 +80,7 @@
     gap: 30px;
 
     width: 30vw;
+    max-width: min(560px, calc(100vw - 32px));
     height: fit-content;
 
     border-radius: 28px;
@@ -288,6 +289,42 @@
     gap: 35px;
 }
 
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .modal-underlay__wrapper {
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    .modal-underlay__wrapper .modal__wrapper {
+        width: 100%;
+        max-width: 100%;
+        gap: 20px;
+    }
+
+    .modal-underlay__wrapper .modal__container {
+        padding: 20px;
+        gap: 1rem;
+    }
+
+    .content__container {
+        padding: 0 16px 16px;
+        gap: 1rem;
+        min-width: 0;
+    }
+
+    .log-reg__container {
+        width: min(400px, 100%);
+        padding: 0 16px;
+        box-sizing: border-box;
+        gap: 24px;
+    }
+}
+
 /*.side-bar-content {*/
 /*    justify-content: space-between;*/
 /*    flex-direction: column;*/
@@ -316,16 +353,16 @@
 /*    flex-grow: 0;*/
 /*}*/
 
-.dashboard__content--top {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr 1fr;
-    gap: 35px;
+/*.dashboard__content--top {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1.3fr 1fr;*/
+/*    gap: 35px;*/
 
-    flex: 1 1 0;
-    min-height: 0;
-    grid-auto-rows: 1fr;
-    align-items: stretch;
-}
+/*    flex: 1 1 0;*/
+/*    min-height: 0;*/
+/*    grid-auto-rows: 1fr;*/
+/*    align-items: stretch;*/
+/*}*/
 
 /*.dashboard__content--bottom {*/
 /*    display: grid;*/
@@ -451,11 +488,6 @@
 .icon--base-24 {
     width: 24px;
     height: 24px;
-}
-
-.icon--profile--150 {
-    width: 150px;
-    height: 150px;
 }
 
 /*.icon--side-bar__arrow {*/
@@ -1226,15 +1258,15 @@
    Transactions
    =========================== */
 
-.tabs {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 1rem;
-}
+/*.tabs {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    align-content: center;*/
+/*    gap: 1rem;*/
+/*}*/
 
 /*.table__row-new {*/
 /*    border-top: 1px solid #F5F5F5;*/
