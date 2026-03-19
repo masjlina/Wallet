@@ -23,3 +23,9 @@
     }
   }
 }
+
+// Hide MS Edge eye
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

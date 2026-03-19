@@ -15,7 +15,7 @@ using Microsoft.OpenApi;
 using WebAPI.Middlewares;
 using WebAPI.Services;
 
-LoadServerEnv(Path.Combine(Directory.GetCurrentDirectory(), ".env.server"));
+LoadServerEnv(Path.Combine(Directory.GetCurrentDirectory(), ".env.local"));
 
 var builder = WebApplication.CreateBuilder(args);
 
