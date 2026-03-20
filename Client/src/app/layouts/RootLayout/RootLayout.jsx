@@ -14,7 +14,7 @@ const RootLayout = () => {
     const dispatch = useDispatch();
 
     const notifications = useSelector(
-        state => state.notification.items
+        state => state.notification?.items || []
     );
 
     return (

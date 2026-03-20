@@ -8,16 +8,10 @@ import {userSlice} from "@/modules/user";
 import {accountsSlice} from "@/modules/wallet-accounts";
 import {walletSlice} from "@/modules/wallet-accounts";
 import notificationSlice from "@/app/store/notificationSlice";
+import {rootReducer} from "@/app/store/rootReducer";
 
 const store = configureStore({
-    reducer: {
-        auth: authSlice,
-        wallet: walletSlice,
-        accounts: accountsSlice,
-        transactions: transactionsSlice,
-        user: userSlice,
-        notification: notificationSlice
-    },
+    reducer: rootReducer,
     devTools: process.env.NODE_ENV !== "production"
 });
 

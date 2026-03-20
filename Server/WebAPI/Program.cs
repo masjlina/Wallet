@@ -120,7 +120,7 @@ var allowedOrigins = (builder.Configuration.GetSection("Cors:AllowedOrigins").Ge
 if (builder.Environment.IsDevelopment())
 {
     allowedOrigins = allowedOrigins
-        .Concat(["http://localhost:5500"])
+        .Concat(["http://localhost:5500", "http://192.168.6.2:5500"])
         .Distinct(StringComparer.OrdinalIgnoreCase)
         .ToArray();
 }

@@ -34,9 +34,9 @@ const Dashboard = () => {
     const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
     const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit ?? -1);
 
-    const transactions = useSelector(state => state.transactions.transactions);
-    const accountsList = useSelector(state => state.accounts.accounts) ?? [];
-    const wallet = useSelector(state => state.wallet.wallet);
+    const transactions = useSelector(state => state.transactions?.transactions ?? []);
+    const accountsList = useSelector(state => state.accounts?.accounts) ?? [];
+    const wallet = useSelector(state => state.wallet?.wallet);
 
     const accounts = useMemo(() => {
         return wallet ? [...accountsList, wallet] : accountsList;

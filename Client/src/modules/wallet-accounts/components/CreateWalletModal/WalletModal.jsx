@@ -18,7 +18,7 @@ const WalletModal = ({isOpen, onClose, onSubmit}) => {
             onClose={onClose}>
             <Modal.Header title="Create wallet"/>
 
-            <Modal.Content className="create-wallet__content d-col">
+            <Modal.Content>
                 <form
                     id="create-wallet"
                     onSubmit={(e) => {

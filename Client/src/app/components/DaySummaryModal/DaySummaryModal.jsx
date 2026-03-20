@@ -10,7 +10,7 @@ import {getDayTransactions} from "@/modules/transactions/helpers/transactionHelp
 import {formatAmountOfMoney, getClazzAmountOfMoneyColor} from "@/shared/services/moneyService";
 
 const DaySummaryModal = ({isOpen, onClose}) => {
-    const transactions = useSelector(state => state.transactions.transactions);
+    const transactions = useSelector(state => state.transactions?.transactions);
 
     const daysSummary = new Date();
     daysSummary.setDate(daysSummary.getDate() - 1);

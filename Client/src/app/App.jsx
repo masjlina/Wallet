@@ -35,7 +35,7 @@ const App = () => {
     const daySummaryModal = useModal();
 
     const {isAuthenticated, status} = useSelector(state => state.auth);
-    const user = useSelector(state => state.user.user);
+    const user = useSelector(state => state.user?.user);
 
     useEffect(() => {
         if (status === STATUSES.IDLE) {
