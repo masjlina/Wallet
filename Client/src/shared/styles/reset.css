@@ -32,7 +32,8 @@ html, body {
     height: 100%;
     margin: 0;
     background: #F5F5F5;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body {
