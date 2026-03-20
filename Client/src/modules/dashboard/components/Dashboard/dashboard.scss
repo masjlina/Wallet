@@ -44,7 +44,6 @@
   .dashboard {
     overflow-y: scroll;
     min-width: 0;
-    min-height: auto;
   }
 
   .dashboard__content--top, .dashboard__content--bottom {
@@ -77,6 +76,7 @@
 @media (max-width: 600px) {
   .dashboard {
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .day-limit {

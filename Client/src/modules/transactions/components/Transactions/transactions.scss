@@ -1,3 +1,10 @@
+.transactions-page {
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 .transactions__content {
   display: flex;
   flex-direction: column;
@@ -44,6 +51,22 @@
 
 .table tbody tr:active td {
   background: var(--surface-white-active);
+}
+
+.transactions-page > .widget__wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.transactions-page .widget__container,
+.transactions-page .widget__content,
+.transactions-page .table-scroll {
+  min-height: 0;
+}
+
+.transactions-page .table-scroll {
+  overflow-y: auto;
 }
 
 @media (max-width: 768px) {

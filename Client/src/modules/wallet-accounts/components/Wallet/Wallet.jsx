@@ -104,7 +104,7 @@ const Wallet = () => {
     }
 
     return (
-        <div className="container content__container">
+        <div className="container content__container wallet-page">
             {content}
             <WalletModal
                 isOpen={accountsController.walletModal.isOpen}

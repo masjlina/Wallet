@@ -23,7 +23,7 @@ const WeekActivityWidget = ({everyDaySpentThisWeek}) => {
     const weekAgoDay = weekAgo.getDate();
 
     return (
-        <Widget className="">
+        <Widget className="week-activity">
             <Widget.Header>
                 <div className="text text__title">Expenses activity</div>
 
