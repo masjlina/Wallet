@@ -16,4 +16,5 @@ public sealed class UpdateTransactionDto
     public int? CreditCardId { get; set; }
     public int? WalletId { get; set; }
     public int? CategoryId { get; set; }
+    public DateTime? CreatedAt { get; set; }
 }

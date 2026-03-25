@@ -1,5 +1,5 @@
 // React
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 // External libs
 import {useDispatch, useSelector} from "react-redux";
@@ -9,7 +9,7 @@ import {Route, Routes, useMatch, useNavigate} from "react-router-dom";
 import AuthLayout from "@/app/layouts/AuthLayout/AuthLayout";
 import RootLayout from "@/app/layouts/RootLayout/RootLayout";
 import {checkUserAuth} from "@/modules/auth";
-import {getApplicationUser} from "@/modules/user";
+import {getApplicationUser, updateApplicationUser} from "@/modules/user";
 import {AccountDetails} from "@/modules/wallet-accounts";
 import HomePage from "@/pages/DashboardPage/DashboardPage";
 import LoginPage from "@/pages/LoginPage";
@@ -23,7 +23,14 @@ import STATUSES from "@/shared/consts/statuses";
 import SettingsPage from "@/pages/SettingsPage/SettingsPage";
 import useModal from "@/shared/hooks/useModal";
 import DaySummaryModal from "@/app/components/DaySummaryModal/DaySummaryModal";
-import {markDaySummarySeen, shouldShowDaySummary} from "@/app/helpers/daySummary";
+import {
+    markDaySummarySeen,
+    markMonthlyLimitReset,
+    shouldResetMonthlyLimit,
+    shouldShowDaySummary
+} from "@/app/helpers/daySummary";
+import {createUserToUpdate} from "@/domain/user";
+import {getThisMonthDays} from "@/shared/services/dateTimeService";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -33,9 +40,11 @@ const App = () => {
     const isRegPage = !!useMatch(`${ROUTES.REGISTRATION}`);
 
     const daySummaryModal = useModal();
+    const monthlyResetInProgressRef = useRef(false);
 
     const {isAuthenticated, status} = useSelector(state => state.auth);
     const user = useSelector(state => state.user?.user);
+    const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit);
 
     useEffect(() => {
         if (status === STATUSES.IDLE) {
@@ -81,6 +90,38 @@ const App = () => {
         return () => clearTimeout(timer);
 
     }, []);
+
+    // Reset daily limit for new month
+    useEffect(() => {
+        if (!isAuthenticated || !user || userMonthlyLimit == null) {
+            return;
+        }
+
+        if (!shouldResetMonthlyLimit()) {
+            return;
+        }
+
+        if (monthlyResetInProgressRef.current) {
+            return;
+        }
+
+        const days = getThisMonthDays();
+        const newDailyLimit = Number((userMonthlyLimit / days).toFixed(2));
+        const userToUpdate = createUserToUpdate({
+            dailyLimit: newDailyLimit
+        });
+
+        monthlyResetInProgressRef.current = true;
+        dispatch(updateApplicationUser(userToUpdate))
+            .unwrap()
+            .then(() => {
+                markMonthlyLimitReset();
+            })
+            .catch(() => {
+                monthlyResetInProgressRef.current = false;
+            });
+    }, [dispatch, isAuthenticated, user, userMonthlyLimit]);
+
 
     const handleClose = () => {
         markDaySummarySeen();

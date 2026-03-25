@@ -7,7 +7,7 @@ import Modal from "@/shared/components/Modal/Modal";
 import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 import Button from "@/ui/Button/Button";
-import {getThisMonthDays} from "@/shared/services/dateTimeService";
+import {getRemainingMonthDays, getThisMonthDays} from "@/shared/services/dateTimeService";
 
 import "./setLimitModal.scss";
 

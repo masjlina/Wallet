@@ -1,11 +1,31 @@
+import {getLocalDateKey, getMonthKey} from "@/shared/services/dateTimeService";
+
+const LAST_SEEN_DAY_SUMMARY_KEY = "lastSeenDaySummary";
+const LAST_MONTHLY_RESET_KEY = "lastMonthlyLimitReset";
+
 export function shouldShowDaySummary() {
-    const today = new Date().toISOString().slice(0, 10);
-    const lastSeen = localStorage.getItem("lastSeenDaySummary");
+    const today = getLocalDateKey();
+    const lastSeen = localStorage.getItem(LAST_SEEN_DAY_SUMMARY_KEY);
 
     return lastSeen !== today;
 }
 
 export function markDaySummarySeen() {
-    const today = new Date().toISOString().slice(0, 10);
-    localStorage.setItem("lastSeenDaySummary", today);
+    localStorage.setItem(LAST_SEEN_DAY_SUMMARY_KEY, getLocalDateKey());
+}
+
+export function shouldResetMonthlyLimit() {
+    const currentMonth = getMonthKey();
+    const lastResetMonth = localStorage.getItem(LAST_MONTHLY_RESET_KEY);
+
+    if (lastResetMonth === null) {
+        localStorage.setItem(LAST_MONTHLY_RESET_KEY, currentMonth);
+        return false;
+    }
+
+    return lastResetMonth !== currentMonth;
+}
+
+export function markMonthlyLimitReset() {
+    localStorage.setItem(LAST_MONTHLY_RESET_KEY, getMonthKey());
 }

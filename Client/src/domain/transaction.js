@@ -8,7 +8,8 @@ export default function createTransactionFromDto(transactionDto) {
         name: transactionDto.name,
         description: transactionDto.description,
         amount: transactionDto.amount,
-        createdAt: transactionDto.createdAt
+        createdAt: transactionDto.createdAt,
+        updatedAt: transactionDto.updatedAt
     }
 }
 
@@ -19,7 +20,8 @@ export function createTransactionFromObject({
                                                 name,
                                                 description,
                                                 amount,
-                                                createdAt
+                                                createdAt,
+                                                updatedAt
                                             }) {
     return {
         walletId,
@@ -28,6 +30,7 @@ export function createTransactionFromObject({
         name,
         description,
         amount,
-        createdAt
+        createdAt,
+        updatedAt
     };
 }

@@ -1,3 +1,5 @@
+import {retry} from "@reduxjs/toolkit/query";
+
 function round2(n) {
     return Math.round(n * 100) / 100;
 }
@@ -15,5 +17,10 @@ export const getClazzAmountOfMoneyColor = (num) => {
     else if (num === 0) return "text--inactive";
     else return "text--green";
 };
+
+export const formatParentheses = (num) => {
+    if (num < 0) return `(${num})`
+    else return num
+}
 
 export {round2};

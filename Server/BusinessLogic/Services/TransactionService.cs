@@ -160,6 +160,11 @@ public class TransactionService : ITransactionService
             transactionToUpdate.Description = dto.Description;
         }
 
+        if (dto.CreatedAt.HasValue && dto.CreatedAt != transactionToUpdate.CreatedAt)
+        {
+            transactionToUpdate.CreatedAt = (DateTime)dto.CreatedAt;
+        }
+
         var targetWallet = transactionToUpdate.Wallet;
         var targetCreditCard = transactionToUpdate.CreditCard;
         var newAmount = dto.Amount ?? transactionToUpdate.Amount;

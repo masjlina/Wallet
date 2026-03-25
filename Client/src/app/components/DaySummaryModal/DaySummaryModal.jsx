@@ -5,17 +5,24 @@ import "./daySummaryModal.scss";
 import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
 import {TransactionCol, TransactionRow} from "@/modules/transactions";
 import React, {useMemo} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getDayTransactions} from "@/modules/transactions/helpers/transactionHelper";
-import {formatAmountOfMoney, getClazzAmountOfMoneyColor} from "@/shared/services/moneyService";
+import {formatAmountOfMoney, formatParentheses, getClazzAmountOfMoneyColor} from "@/shared/services/moneyService";
+import Button from "@/ui/Button/Button";
+import {getRemainingMonthDays} from "@/shared/services/dateTimeService";
+import {createUserToUpdate} from "@/domain/user";
+import {updateApplicationUser} from "@/modules/user";
 
 const DaySummaryModal = ({isOpen, onClose}) => {
+    const dispatch = useDispatch();
+
     const transactions = useSelector(state => state.transactions?.transactions);
+    const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
 
-    const daysSummary = new Date();
-    daysSummary.setDate(daysSummary.getDate() - 1);
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() - 1);
 
-    const formattedDate = daysSummary.toLocaleDateString(undefined, {
+    const formattedDate = targetDate.toLocaleDateString(undefined, {
         weekday: "long",
         month: "short",
         day: "numeric",
@@ -35,8 +42,8 @@ const DaySummaryModal = ({isOpen, onClose}) => {
     ];
 
     const daysSummaryTransactions = useMemo(() => {
-        return getDayTransactions(transactions, daysSummary.toDateString());
-    }, [transactions]);
+        return getDayTransactions(transactions, targetDate.toDateString());
+    }, [transactions, targetDate]);
 
     const tableContent = daysSummaryTransactions.map(transaction => (
         <TransactionRow
@@ -47,19 +54,37 @@ const DaySummaryModal = ({isOpen, onClose}) => {
         />
     ));
 
-    const daysSummaryExpensesAmount = useMemo(() => {
-        return daysSummaryTransactions
+    const daysSummaryExpensesAmount = daysSummaryTransactions
             .filter(t => t.amount < 0)
             .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-    }, [daysSummaryTransactions]);
 
-    const daysSummaryIncomesAmount = useMemo(() => {
-        return daysSummaryTransactions
+    const daysSummaryIncomesAmount = daysSummaryTransactions
             .filter(t => t.amount >= 0)
             .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-    }, [daysSummaryTransactions]);
 
     const dayBalance = daysSummaryIncomesAmount - daysSummaryExpensesAmount;
+    const daySummary = Number((userDailyLimit - daysSummaryExpensesAmount).toFixed(2));
+
+    const onDistribute = async () => {
+        const remainingDays = getRemainingMonthDays({ includeToday: true });
+
+        if (remainingDays <= 0) return;
+
+        const amountToAdd = daySummary / remainingDays;
+
+        const newDailyLimit = Number(
+            (userDailyLimit + amountToAdd).toFixed(2)
+        );
+
+        try {
+            const userToUpdate = createUserToUpdate({
+                dailyLimit: newDailyLimit
+            });
+            await dispatch(updateApplicationUser(userToUpdate));
+            onClose();
+        } catch (error) {
+        }
+    };
 
     return (
         <Modal
@@ -76,7 +101,7 @@ const DaySummaryModal = ({isOpen, onClose}) => {
                     <p>
                         <span>Spent Today: </span>
                         <span
-                            className={`text__primary ${getClazzAmountOfMoneyColor(daysSummaryExpensesAmount)}`}
+                            className={`text__primary text--inactive`}
                         >{formatAmountOfMoney(daysSummaryExpensesAmount)}</span>
                     </p>
                     <p>
@@ -92,23 +117,44 @@ const DaySummaryModal = ({isOpen, onClose}) => {
                              {formatAmountOfMoney(dayBalance)}
                         </span>
                     </p>
+                    <p>
+                        <span>Summary: </span>
+                        <br/>
+                        <br/>
+                        <span>
+                            {userDailyLimit} - {formatParentheses(daysSummaryExpensesAmount)} =
+                            <span
+                                className={getClazzAmountOfMoneyColor(daySummary)}>
+                                {formatAmountOfMoney(daySummary)}
+                            </span>
+                        </span>
+                    </p>
                 </div>
 
                 <div className="w-100">
                     <p className="text__title">Day's Activity</p>
-                    <table className="table table__content text text__table">
-                        <TransactionCol tableHeaders={tableHeaders}/>
+                    <div className="table-scroll day-summary__table">
+                        <table className="table text text__table">
+                            <TransactionCol tableHeaders={tableHeaders}/>
+                            <tbody className="text text__table--name">
+                            {tableContent}
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <tbody className="text text__table--name">
-                        {tableContent}
-                        </tbody>
-                    </table>
                 </div>
             </Modal.Content>
 
 
             <Modal.Footer
-                confBtnText="OK"/>
+                confBtnText="OK"
+                onConfBtnClick={onClose}
+                className="set-limit-modal__footer">
+                <Button
+                    className="btn__primary--empty set-limit-modal__shortcut"
+                    type="button"
+                    onClick={onDistribute}>Distribute</Button>
+            </Modal.Footer>
         </Modal>
     );
 }

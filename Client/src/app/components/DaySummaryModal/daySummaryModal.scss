@@ -5,19 +5,28 @@
 .day-summary__content {
   display: flex;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .day-summary__text-block {
   display: flex;
   width: fit-content;
   flex-direction: column;
-  justify-content: space-between;
-
+  justify-content: space-evenly;
+font-size: 1em !important;
   text-wrap: nowrap;
 }
 
+.day-summary__table {
+  max-height: 200px !important;
+}
 
 .day-summary__content p span:first-of-type {
   font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .day-summary__text-block span {
+    font-size: 1em;
+  }
 }
