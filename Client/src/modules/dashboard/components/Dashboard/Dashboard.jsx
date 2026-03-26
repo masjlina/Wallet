@@ -57,9 +57,11 @@ const Dashboard = () => {
     }, [todayTransactions]);
 
     const spentThisMonth = useMemo(() => {
-        return getThisMonthTransactions(transactions)
+        return  getThisMonthTransactions(transactions)
             .filter(t => t.amount < 0)
-            .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+            .reduce((sum, t) => sum + Math.abs(t.amount), 0)
+            .toFixed(2);
+
     }, [transactions]);
 
     const everyDaySpentThisWeek = useMemo(() => {

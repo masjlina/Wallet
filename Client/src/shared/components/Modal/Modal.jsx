@@ -162,6 +162,7 @@ const Footer = ({
                     confBtnType = "submit",
                     onConfBtnClick = "",
                     confBtnText = "Save",
+                    isSubmitBtnDisabled = false,
                     children
                 }) => {
     const {onClose} = useContext(ModalContext);
@@ -173,10 +174,11 @@ const Footer = ({
             onClick={onClose}>Cancel</Button>
         {children}
         <Button
-            className={confBtnClassName}
+            className={`${confBtnClassName} ${isSubmitBtnDisabled && "btn--disabled"}`}
             type={confBtnType}
             form={formId || undefined}
             onClick={onConfBtnClick || undefined}
+            disabled={isSubmitBtnDisabled}
         >
             {confBtnText}
         </Button>

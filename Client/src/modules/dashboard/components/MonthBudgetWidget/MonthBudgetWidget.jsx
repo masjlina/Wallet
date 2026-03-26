@@ -16,7 +16,7 @@ const MonthBudgetWidget = ({
                            }) => {
     const monthlyLimitModal = useModal();
 
-    const remainingBalance = userMonthlyLimit - spentThisMonth;
+    const remainingBalance = (userMonthlyLimit - spentThisMonth).toFixed(2);
 
     const progress = useMemo(() => {
         if (!userMonthlyLimit || userMonthlyLimit <= 0) return 0;

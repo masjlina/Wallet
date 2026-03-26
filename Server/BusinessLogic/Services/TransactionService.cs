@@ -101,7 +101,7 @@ public class TransactionService : ITransactionService
             WalletId = dto.WalletId,
             CreditCardId = dto.CreditCardId,
             CategoryId = dto.CategoryId,
-            CreatedAt = now,
+            CreatedAt = dto.CreatedAt,
             UpdatedAt = now
         };
 

@@ -18,4 +18,6 @@ public sealed class TransactionCreateRequestDto
     public int? CreditCardId { get; set; }
     public int? WalletId { get; set; }
     public int? CategoryId { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

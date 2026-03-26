@@ -20,6 +20,7 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
     const nameInput = useInput(account?.name ?? "");
     const [balance, setBalance] = useState(account?.balance ?? 0);
     const [errorMessage, setErrorMessage] = useState("");
+    const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
     useEffect(() => {
         if (account) {
@@ -42,6 +43,8 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
             return;
         }
 
+        setIsBtnDisabled(true);
+
         onSubmit(accountType, {
             name: nameInput.value,
             balance,
@@ -50,6 +53,7 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
         nameInput.setValue("");
         setBalance(0);
 
+        setIsBtnDisabled(false);
         onClose();
     };
 
@@ -83,7 +87,7 @@ const AccountModal = ({isOpen, onClose, onSubmit, account, accountType}) => {
                 </form>
             </Modal.Content>
 
-            <Modal.Footer formId="update-account"/>
+            <Modal.Footer formId="update-account" isSubmitBtnDisabled={isBtnDisabled}/>
         </Modal>
     )
 }

@@ -50,6 +50,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
             ? TRANSACTION_TYPE.INCOME
             : TRANSACTION_TYPE.EXPENSE)
     );
+    const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
     useEffect(() => {
         const form = getInitialTransactionFormState(transaction);
@@ -135,6 +136,8 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
             ...ownership
         });
 
+        setIsBtnDisabled(true);
+
         if (!transaction?.id)
             await onCreate(transactionToUpsert);
         else
@@ -148,6 +151,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
         accountInput.setValue(wallet ? `${accountType.CASH}: ${wallet.id}` : form.account);
         dateTimeInput.setValue(form.createdAt);
 
+        setIsBtnDisabled(false);
         onClose();
     }
 
@@ -262,7 +266,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
                     </div>
                 </form>
             </Modal.Content>
-            <Modal.Footer formId="add-transaction-form"/>
+            <Modal.Footer formId="add-transaction-form" isSubmitBtnDisabled={isBtnDisabled}/>
         </Modal>
     )
 }

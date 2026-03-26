@@ -30,10 +30,12 @@ const MyAccountWidget = ({accounts}) => {
     const visibleAccountsCount = visibleAccounts.length;
 
     const balance = formatAmountOfMoney(
-        accounts.reduce(
+        accounts
+            .reduce(
             (sum, account) => sum + account?.balance,
-            0
-        ));
+            0)
+            .toFixed(2)
+        );
 
     useEffect(() => {
         if (visibleAccountsCount === 0) {
