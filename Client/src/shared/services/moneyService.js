@@ -1,5 +1,3 @@
-import {retry} from "@reduxjs/toolkit/query";
-
 function round2(n) {
     return Math.round(n * 100) / 100;
 }
