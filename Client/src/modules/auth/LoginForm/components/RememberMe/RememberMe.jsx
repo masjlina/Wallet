@@ -14,6 +14,7 @@ const RememberMe = ({checked, onChange}) => {
                     checked={checked}
                     onChange={onChange}
                     id="remember-me-checkbox"
+                    data-testid="remember-me"
                 />
                 <span className="remember-me__checkbox"/>
                 <p>Remember me</p>
