@@ -7,12 +7,15 @@ import {rootReducer} from "@/app/store/rootReducer";
 export function renderWithProviders(component, preloadedState) {
     const customStore = createMockStore(preloadedState);
 
-    render(
-        <Provider store={customStore}>
-            <BrowserRouter>
-                {component}
-            </BrowserRouter>
-        </Provider>);
+    return {
+        ...render(
+            <Provider store={customStore}>
+                <BrowserRouter>
+                    {component}
+                </BrowserRouter>
+            </Provider>),
+        store: customStore
+    }
 }
 
 function createMockStore(preloadedState) {

@@ -1,13 +1,13 @@
-import {screen} from "@testing-library/react";
-import {userEvent} from "@testing-library/user-event";
+import {act, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {afterEach, test} from "vitest"
-import * as authModule from "@/modules/auth";
-import {LoginForm} from "@/modules/auth";
+import {LoginForm, loginUser} from "@/modules/auth";
 import {renderWithProviders} from "@/shared/utils/test-utils";
 import Statuses from "@/shared/consts/statuses";
 
-const {mockNavigate} = vi.hoisted(() => ({
-    mockNavigate: vi.fn()
+const {mockNavigate, mockLogin} = vi.hoisted(() => ({
+    mockNavigate: vi.fn(),
+    mockLogin: vi.fn()
 }));
 
 vi.mock("react-router-dom", async () => {
@@ -21,13 +21,17 @@ vi.mock("react-router-dom", async () => {
 
 const DEFAULT_CREDENTIALS = {
     email: "test@mail.com",
-    password: "123456"
+    password: "123456",
+    rememberMe: false
 };
 
+const createUser = () => userEvent.setup();
+
 const renderLoginForm = (preloadedState) => {
-    renderWithProviders(<LoginForm/>, preloadedState);
+    const {store} = renderWithProviders(<LoginForm/>, preloadedState);
 
     return {
+        store,
         emailInput: screen.getByRole("textbox"),
         passwordInput: screen.getByLabelText(/password/i),
         submitButton: screen.getByRole("button", {name: /login/i}),
@@ -39,22 +43,32 @@ const fillLoginForm = async ({
                                  email = DEFAULT_CREDENTIALS.email,
                                  password = DEFAULT_CREDENTIALS.password
                              } = {}) => {
+    const user = createUser();
     const emailInput = screen.getByRole("textbox");
     const passwordInput = screen.getByLabelText(/password/i);
 
-    await userEvent.type(emailInput, email);
-    await userEvent.type(passwordInput, password);
+    await user.type(emailInput, email);
+    await user.type(passwordInput, password);
 
-    return {emailInput, passwordInput};
+    return {emailInput, passwordInput, user};
 };
 
-const mockSuccessfulLogin = () => vi.spyOn(authModule, "loginUser").mockReturnValue(() => ({
-    unwrap: () => Promise.resolve()
+vi.mock("@/modules/auth/api/authApi", () => ({
+    login: mockLogin
 }));
 
+mockLogin.mockResolvedValue({
+    accessToken: "fake-token",
+    user: {id: 1, email: "test@mail.com"}
+});
 
 describe("LoginForm", () => {
     afterEach(() => {
+        mockLogin.mockResolvedValue({
+            accessToken: "fake-token",
+            user: {id: 1, email: "test@mail.com"}
+        });
+        vi.restoreAllMocks();
         vi.clearAllMocks();
     });
 
@@ -78,13 +92,12 @@ describe("LoginForm", () => {
     });
 
     test("send form with right data", async () => {
-        mockSuccessfulLogin();
         const {submitButton} = renderLoginForm();
 
-        await fillLoginForm();
-        await userEvent.click(submitButton);
+        const {user} = await fillLoginForm();
+        await user.click(submitButton);
 
-        expect(authModule.loginUser).toHaveBeenCalledWith({
+        expect(mockLogin).toHaveBeenCalledWith({
             email: DEFAULT_CREDENTIALS.email,
             password: DEFAULT_CREDENTIALS.password,
             rememberMe: false
@@ -92,20 +105,18 @@ describe("LoginForm", () => {
     });
 
     test("rememberMe is in form data", async () => {
-        mockSuccessfulLogin();
         const {rememberMeCheckbox, submitButton} = renderLoginForm();
 
-        await fillLoginForm();
-        await userEvent.click(rememberMeCheckbox);
-        await userEvent.click(submitButton);
+        const {user} = await fillLoginForm();
+        await user.click(rememberMeCheckbox);
+        await user.click(submitButton);
 
-        expect(authModule.loginUser).toHaveBeenCalledWith(
+        expect(mockLogin).toHaveBeenCalledWith(
             expect.objectContaining({rememberMe: true})
         );
     });
 
     test("redirect after successful login", async () => {
-        mockSuccessfulLogin();
         const {submitButton} = renderLoginForm({
             auth: {
                 status: Statuses.IDLE,
@@ -113,13 +124,17 @@ describe("LoginForm", () => {
             }
         });
 
-        await fillLoginForm();
-        await userEvent.click(submitButton);
+        const {user} = await fillLoginForm();
+        await user.click(submitButton);
 
         expect(mockNavigate).toHaveBeenCalled();
     });
 
     test("show error after submission", async () => {
+        mockLogin.mockResolvedValue({
+            errors: ["Invalid credentials"]
+        });
+
         const {submitButton} = renderLoginForm({
             auth: {
                 status: Statuses.IDLE,
@@ -127,9 +142,22 @@ describe("LoginForm", () => {
             }
         });
 
-        await fillLoginForm();
-        await userEvent.click(submitButton);
+        const {user} = await fillLoginForm();
+        await user.click(submitButton);
 
         expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+    });
+
+    test("store user in redux after success login", async () => {
+        const {store} = renderLoginForm();
+
+        await act(async () => {
+            await store.dispatch(loginUser(DEFAULT_CREDENTIALS));
+        });
+
+        expect(store.getState().auth.user).toEqual({
+            id: 1,
+            email: "test@mail.com"
+        });
     });
 });
