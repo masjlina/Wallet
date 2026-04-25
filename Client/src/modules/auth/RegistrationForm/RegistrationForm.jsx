@@ -73,6 +73,7 @@ export const RegistrationForm = () => {
                         onChange={email.onChange}/>
 
                     <PasswordField
+                        id="password-input"
                         value={password.value}
                         onChange={password.onChange}/>
                     <PasswordField
