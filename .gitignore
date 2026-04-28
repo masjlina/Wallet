@@ -504,3 +504,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+*storybook.log
+storybook-static

@@ -1,26 +1,35 @@
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
-import {render} from "@testing-library/react";
 import {configureStore} from "@reduxjs/toolkit";
+import {render} from "@testing-library/react";
 import {rootReducer} from "@/app/store/rootReducer";
 
-export function renderWithProviders(component, preloadedState) {
-    const customStore = createMockStore(preloadedState);
-
-    return {
-        ...render(
-            <Provider store={customStore}>
-                <BrowserRouter>
-                    {component}
-                </BrowserRouter>
-            </Provider>),
-        store: customStore
-    }
-}
-
-function createMockStore(preloadedState) {
+export function createMockStore(preloadedState) {
     return configureStore({
         reducer: rootReducer,
         preloadedState
     });
+}
+
+export const withProviders = (state) => (Story) => (
+    <Provider store={createMockStore(state)}>
+        <BrowserRouter>
+            <Story/>
+        </BrowserRouter>
+    </Provider>
+);
+
+export function renderWithProviders(ui, preloadedState) {
+    const store = createMockStore(preloadedState);
+
+    return {
+        store,
+        ...render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    {ui}
+                </BrowserRouter>
+            </Provider>
+        )
+    };
 }
