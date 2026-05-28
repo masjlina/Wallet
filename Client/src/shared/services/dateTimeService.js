@@ -1,3 +1,5 @@
+import {DAYS_OF_WEEK} from "@/shared/consts/date";
+
 export const formatLocalDateTime = (date) => {
     const pad = (n) => String(n).padStart(2, "0");
 
@@ -47,4 +49,16 @@ export const getRemainingMonthDays = ({ includeToday = true } = {}) => {
     const daysToNextMonth = getDaysToNextMonth();
 
     return includeToday ? daysToNextMonth + 1 : daysToNextMonth;
+};
+
+export const sortedDaysOfWeek = () => {
+    const today = formatWeekday(new Date());
+    const todayIndex = DAYS_OF_WEEK.indexOf(today);
+
+    if (todayIndex === -1) return DAYS_OF_WEEK;
+
+    const before = DAYS_OF_WEEK.slice(0, todayIndex).reverse();
+    const after = DAYS_OF_WEEK.slice(todayIndex + 1).reverse();
+
+    return [DAYS_OF_WEEK[todayIndex], ...before, ...after];
 };

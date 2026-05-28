@@ -1,3 +1,11 @@
+export interface ICreditCard {
+    id: number,
+    walletId: number,
+    name: string,
+    balance: number,
+    transactionsIds: number[]
+}
+
 export default function mapAccount(accountDto) {
     return {
         id: accountDto.id,

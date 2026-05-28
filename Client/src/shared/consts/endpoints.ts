@@ -1,6 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
-export const SERVER_URL = API_BASE_URL ? `${API_BASE_URL}/api` : "/api";
+export const SERVER_URL: string = API_BASE_URL ? `${API_BASE_URL}/api` : "/api";
 
 const ENDPOINTS = {
     REGISTER: `${SERVER_URL}/sign-up`,
@@ -17,6 +17,6 @@ const ENDPOINTS = {
     WALLET: `${SERVER_URL}/wallet`,
     CREDIT_CARDS: `${SERVER_URL}/credit-cards`,
     TRANSACTIONS: `${SERVER_URL}/transactions`,
-};
+} as const;
 
-export default ENDPOINTS;
+export type ENDPOINTS = typeof ENDPOINTS[keyof typeof ENDPOINTS];

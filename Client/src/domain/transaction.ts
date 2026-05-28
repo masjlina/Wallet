@@ -1,3 +1,16 @@
+export interface ITransaction {
+    id: number,
+    walletId?: number,
+    creditCardId?: number,
+    categoryId?: number,
+
+    name: string,
+    description?: string,
+    amount: number,
+    createdAt: Date,
+    updatedAt: Date
+}
+
 export default function createTransactionFromDto(transactionDto) {
     return {
         id: transactionDto.id,

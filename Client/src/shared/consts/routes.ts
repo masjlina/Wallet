@@ -1,4 +1,4 @@
-export const ROUTES = {
+const ROUTES = {
     LOGIN: "/login",
     REGISTRATION: "/registration",
 
@@ -8,4 +8,6 @@ export const ROUTES = {
     CREDIT_CARDS: "/credit-cards",
     SETTINGS: "/settings",
     LOGOUT: "/logout",
-};
+} as const;
+
+export type ROUTES = typeof ROUTES[keyof typeof ROUTES];
