@@ -1,4 +1,4 @@
-const DAYS_OF_WEEK = [
+export const DAYS_OF_WEEK = [
     "Mon",
     "Tue",
     "Wed",
@@ -7,5 +7,3 @@ const DAYS_OF_WEEK = [
     "Sat",
     "Sun",
 ] as const;
-
-export type DAYS_OF_WEEK = typeof DAYS_OF_WEEK[number];

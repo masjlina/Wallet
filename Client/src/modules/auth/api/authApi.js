@@ -5,8 +5,8 @@ import createSignInResponseDto from "@/modules/auth/api/dto/SignInResponseDto";
 import createSignUpRequestDto from "@/modules/auth/api/dto/SignUpRequestDto";
 
 // Shared
-import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
-import createSuccessfulResponseDto from "@/shared/api/SuccessfulResponseDto";
+import createErrorResponseDto from "@/shared/api/errorResponse";
+import createSuccessfulResponseDto from "@/shared/api/successfulResponse";
 import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 import {clearAccessToken, setAccessToken} from "@/shared/utils/tokenManager";

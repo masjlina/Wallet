@@ -1,6 +1,4 @@
-const AccountType = {
+export const ACCOUNT_TYPE = {
     CASH: "cash",
     CARD: "card"
 } as const;
-
-export type ACCOUNT_TYPE = typeof AccountType[keyof typeof AccountType];

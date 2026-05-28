@@ -2,7 +2,7 @@ const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
 export const SERVER_URL: string = API_BASE_URL ? `${API_BASE_URL}/api` : "/api";
 
-const ENDPOINTS = {
+export const ENDPOINTS = {
     REGISTER: `${SERVER_URL}/sign-up`,
     LOGIN: `${SERVER_URL}/sign-in`,
     LOGOUT: `${SERVER_URL}/logout`,
@@ -18,5 +18,3 @@ const ENDPOINTS = {
     CREDIT_CARDS: `${SERVER_URL}/credit-cards`,
     TRANSACTIONS: `${SERVER_URL}/transactions`,
 } as const;
-
-export type ENDPOINTS = typeof ENDPOINTS[keyof typeof ENDPOINTS];

@@ -2,7 +2,7 @@
 import createTransactionFromDto from "@/domain/transaction";
 
 // Shared
-import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
+import createErrorResponseDto from "@/shared/api/errorResponse";
 import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 

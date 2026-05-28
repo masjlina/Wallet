@@ -1,4 +1,4 @@
-const ROUTES = {
+export const ROUTES = {
     LOGIN: "/login",
     REGISTRATION: "/registration",
 
@@ -9,5 +9,3 @@ const ROUTES = {
     SETTINGS: "/settings",
     LOGOUT: "/logout",
 } as const;
-
-export type ROUTES = typeof ROUTES[keyof typeof ROUTES];

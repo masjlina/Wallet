@@ -3,7 +3,7 @@ import mapWallet from "@/domain/wallet";
 import createWalletRequest from "@/modules/wallet-accounts/api/dto/WalletCreateRequest";
 
 // Shared
-import createErrorResponseDto from "@/shared/api/ErrorResponseDto";
+import createErrorResponseDto from "@/shared/api/errorResponse";
 import ENDPOINTS from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 
