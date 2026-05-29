@@ -19,3 +19,5 @@ export const TRANSACTION_COLUMNS = {
     DATE: "Date",
     ACTION: "Action",
 } as const;
+
+export default TRANSACTION_TYPE;

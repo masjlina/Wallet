@@ -3,3 +3,5 @@ export const MODAL_VARIANT = {
     CONTEXT: "context",
     TOAST: "toast"
 } as const;
+
+export default MODAL_VARIANT;

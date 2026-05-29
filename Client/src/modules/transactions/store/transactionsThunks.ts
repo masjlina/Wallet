@@ -2,7 +2,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 // App (modules)
-import onReject from "@/app/store/onReject";
 import {
     createTransaction,
     getAllTransactions,
@@ -10,48 +9,45 @@ import {
     removeTransaction,
     updateTransaction
 } from "../api/transactionsApi";
-import {showNotification} from "@/app/store/notificationSlice";
-import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
+import type {IRemoveTransactionResponse} from "@/modules/transactions/api/types/removeTransactionResponse.ts";
+import type {IUpsertTransactionRequest} from "@/modules/transactions/api/types/upsertTransactionRequest.ts";
 import {getAllWalletAccounts} from "@/modules/wallet-accounts/store/accountsThunks";
 import {getUserWallet} from "@/modules/wallet-accounts/store/walletThunks";
+import {showNotification} from "@/app/store/notificationSlice";
+import {returnRejectOrResult} from "@/app/store/returnRejectOrResult.ts";
+import type {ITransaction} from "@/domain/transaction.ts";
 
-export const getAllUserTransactions = createAsyncThunk(
+// Shared
+import {NOTIFICATION_INTENT} from "@/shared/consts/notificationIntentTypes";
+
+interface IUpdateUserTransactionRequest {
+    transactionId: number;
+    transaction: IUpsertTransactionRequest;
+}
+
+export const getAllUserTransactions = createAsyncThunk<ITransaction[], void>(
     "transactions/getAll",
-    async (arg, {rejectWithValue}) => {
+    async (_, {rejectWithValue}) => {
         const response = await getAllTransactions();
 
-        const rejected = onReject(response, rejectWithValue);
-        if (rejected) return rejected;
-
-        return response;
+        return returnRejectOrResult<ITransaction[]>(response, rejectWithValue);
     }
 );
 
-export const getUserTransaction = createAsyncThunk(
+export const getUserTransaction = createAsyncThunk<ITransaction, number>(
     "transactions/getById",
     async (transactionId, {rejectWithValue}) => {
         const response = await getTransaction(transactionId);
 
-        const rejected = onReject(response, rejectWithValue);
-        if (rejected) return rejected;
-
-        return response;
+        return returnRejectOrResult<ITransaction>(response, rejectWithValue);
     }
 );
 
-export const createUserTransaction = createAsyncThunk(
+export const createUserTransaction = createAsyncThunk<ITransaction, IUpsertTransactionRequest>(
     "transactions/create",
     async (transaction, {dispatch, rejectWithValue}) => {
         const response = await createTransaction(transaction);
-
-        const rejected = onReject(response, rejectWithValue);
-        if (rejected) {
-            dispatch(showNotification({
-                type: NOTIFICATION_INTENT.ERROR,
-                message: "Transaction was not created"
-            }));
-            return rejected;
-        }
+        const result = returnRejectOrResult<ITransaction>(response, rejectWithValue);
 
         dispatch(showNotification({
             type: NOTIFICATION_INTENT.SUCCESS,
@@ -61,23 +57,15 @@ export const createUserTransaction = createAsyncThunk(
         await dispatch(getAllWalletAccounts());
         await dispatch(getUserWallet());
 
-        return response
+        return result;
     }
 );
 
-export const updateUserTransaction = createAsyncThunk(
+export const updateUserTransaction = createAsyncThunk<ITransaction, IUpdateUserTransactionRequest>(
     "transactions/update",
     async ({transactionId, transaction}, {dispatch, rejectWithValue}) => {
         const response = await updateTransaction(transactionId, transaction);
-
-        const rejected = onReject(response, rejectWithValue);
-        if (rejected) {
-            dispatch(showNotification({
-                type: NOTIFICATION_INTENT.ERROR,
-                message: "Transaction was not updated"
-            }));
-            return rejected;
-        }
+        const result = returnRejectOrResult<ITransaction>(response, rejectWithValue);
 
         dispatch(showNotification({
             type: NOTIFICATION_INTENT.SUCCESS,
@@ -87,23 +75,15 @@ export const updateUserTransaction = createAsyncThunk(
         await dispatch(getAllWalletAccounts());
         await dispatch(getUserWallet());
 
-        return response
+        return result;
     }
 );
 
-export const removeUserTransaction = createAsyncThunk(
+export const removeUserTransaction = createAsyncThunk<IRemoveTransactionResponse, number>(
     "transactions/remove",
     async (transactionId, {dispatch, rejectWithValue}) => {
         const response = await removeTransaction(transactionId);
-
-        const rejected = onReject(response, rejectWithValue);
-        if (rejected) {
-            dispatch(showNotification({
-                type: NOTIFICATION_INTENT.ERROR,
-                message: "Transaction was not deleted"
-            }));
-            return rejected;
-        }
+        const result = returnRejectOrResult<IRemoveTransactionResponse>(response, rejectWithValue);
 
         dispatch(showNotification({
             type: NOTIFICATION_INTENT.SUCCESS,
@@ -113,6 +93,6 @@ export const removeUserTransaction = createAsyncThunk(
         await dispatch(getAllWalletAccounts());
         await dispatch(getUserWallet());
 
-        return response
+        return result;
     }
-)
+);

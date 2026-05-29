@@ -8,5 +8,9 @@ export function returnRejectOrResult<T>(
         return rejectWithValue(response) as any;
     }
 
+    if (response && typeof response === "object" && "errors" in response) {
+        return rejectWithValue(AppError.from(response)) as any;
+    }
+
     return response;
 }

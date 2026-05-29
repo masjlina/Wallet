@@ -8,7 +8,6 @@ import {checkUserAuth, loginUser, logoutUser} from "./authThunks";
 import {STATUSES, type StatusType} from "@/shared/consts/statuses";
 import {clearAccessToken} from "@/shared/utils/tokenManager";
 import type {IUser} from "@/domain/user.ts";
-import type {AppError} from "@/shared/utils/AppError.ts";
 import type {ISignInResponse} from "@/modules/auth/api/types/signInResponse.ts";
 import type {ICheckAuthResponse} from "@/modules/auth/api/types/checkAuthResponse.ts";
 
@@ -30,11 +29,16 @@ const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
-        setErrors: (state, action) => {
+        setErrors: (state, action: PayloadAction<string[]>) => {
             state.errors = action.payload;
         },
         clearErrors: (state) => {
             state.errors = [];
+        },
+        logout: (state) => {
+            clearAccessToken();
+            state.user = null;
+            state.isAuthenticated = false;
         }
     },
     extraReducers: (builder) => {
@@ -68,7 +72,7 @@ const authSlice = createSlice({
                 }
             )
             .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/rejected"),
-                (state, action: PayloadAction<AppError>) => {
+                (state, action: PayloadAction<any>) => {
                     state.status = STATUSES.FAILED;
                     state.errors = action.payload?.messages ?? action.payload ?? ["Something went wrong"];
                 }
@@ -76,5 +80,5 @@ const authSlice = createSlice({
     }
 });
 
-export const {setErrors, clearErrors} = authSlice.actions;
+export const {setErrors, clearErrors, logout} = authSlice.actions;
 export default authSlice.reducer;

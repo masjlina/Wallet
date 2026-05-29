@@ -1,5 +1,5 @@
 // External libs
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 
 // App (modules)
 import {
@@ -9,33 +9,41 @@ import {
     uploadApplicationUserAvatar
 } from "./userThunks";
 import {checkUserAuth, logoutUser} from "@/modules/auth/store/authThunks";
+import type {IUser} from "@/domain/user.ts";
 
-const initialState = {
+interface IInitialState {
+    user: IUser | null
+}
+
+const initialState: IInitialState = {
     user: null
 };
 
 const userSlice = createSlice({
     name: "user",
     initialState: initialState,
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getApplicationUser.fulfilled, (state, action) => {
+        builder.addCase(getApplicationUser.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.user = action.payload;
             })
-            .addCase(updateApplicationUser.fulfilled, (state, action) => {
+            .addCase(updateApplicationUser.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.user = action.payload;
             })
-            .addCase(uploadApplicationUserAvatar.fulfilled, (state, action) => {
+            .addCase(uploadApplicationUserAvatar.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.user = action.payload;
             })
-            .addCase(removeApplicationUserAvatar.fulfilled, (state, action) => {
-                state.user.avatarUri = "";
+            .addCase(removeApplicationUserAvatar.fulfilled, (state) => {
+                if (state.user) {
+                    state.user.avatarUri = "";
+                }
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.user = null;
             })
             .addCase(checkUserAuth.rejected, (state) => {
                 state.user = null;
-            })
+            });
     }
 });
 

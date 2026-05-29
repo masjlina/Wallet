@@ -6,3 +6,5 @@ export const STATUSES = {
 } as const;
 
 export type StatusType = typeof STATUSES[keyof typeof STATUSES];
+
+export default STATUSES;

@@ -18,3 +18,5 @@ export const ENDPOINTS = {
     CREDIT_CARDS: `${SERVER_URL}/credit-cards`,
     TRANSACTIONS: `${SERVER_URL}/transactions`,
 } as const;
+
+export default ENDPOINTS;

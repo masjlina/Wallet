@@ -4,3 +4,5 @@ export const NOTIFICATION_INTENT = {
     WARNING: "warning",
     INFO: "info"
 };
+
+export default NOTIFICATION_INTENT;

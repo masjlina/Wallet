@@ -14,8 +14,7 @@ import type {IChangePasswordRequest} from "@/modules/auth/api/types/changePasswo
 import type {ISignUpRequest} from "@/modules/auth/api/types/signUpRequest.ts";
 
 type ReturnType<T extends ISuccessfulResponse |
-    ISignInResponse |
-    IChangePasswordRequest> = Promise<T | AppError>;
+    ISignInResponse> = Promise<T | AppError>;
 
 export async function register(data: ISignUpRequest): ReturnType<ISuccessfulResponse> {
     try {

@@ -49,9 +49,9 @@ export const checkUserAuth = createAsyncThunk(
     }
 );
 
-export const changeUserPassword = createAsyncThunk<ISuccessfulResponse, IChangePasswordRequest>(
+export const changeUserPassword = createAsyncThunk(
     "auth/changePassword",
-    async (data, { dispatch, rejectWithValue }) => {
+    async (data: IChangePasswordRequest, { dispatch, rejectWithValue }) => {
         const response = await changePassword(data);
 
         const result = returnRejectOrResult<ISuccessfulResponse>(response, rejectWithValue);
