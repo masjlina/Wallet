@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import useInput from "@/shared/hooks/useInput";
 import {useDispatch, useSelector} from "react-redux";
 import {changeUserPassword} from "@/modules/auth/store/authThunks";
-import createChangePasswordDto from "@/modules/auth/api/dto/ChangePasswordRequestDto";
+import createChangePasswordDto from "@/modules/auth/api/types/changePasswordRequest";
 import ErrorText from "@/shared/components/ErrorText";
 
 const SecurityTab = () => {

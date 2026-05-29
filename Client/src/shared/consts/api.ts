@@ -1,7 +1,7 @@
-export interface IRequest {
+export interface IRequest<T = Record<string, any>> {
     url: string;
     method: MethodType;
-    body?: FormData | string | null;
+    body?: FormData | T | null;
     headers?: {
         "Content-Type"?: "application/json" | "multipart/form-data",
         "Authorization"?: string

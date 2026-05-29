@@ -4,3 +4,5 @@ export const STATUSES = {
     "IDLE": "IDLE",
     "FAILED": "FAILED"
 } as const;
+
+export type StatusType = typeof STATUSES[keyof typeof STATUSES];

@@ -41,7 +41,7 @@ export interface IUser {
 //                                        phoneNumber,
 //                                        avatarUri
 //                                    }) {
-//     const dto = {
+//     const types = {
 //         firstName,
 //         lastName,
 //         dailyLimit,
@@ -50,6 +50,6 @@ export interface IUser {
 //         avatarUri
 //     };
 //
-//     return buildPatch(dto);
+//     return buildPatch(types);
 // }
 

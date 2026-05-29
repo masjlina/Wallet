@@ -1,7 +1,7 @@
-interface ISuccessfulResponse {
+export interface ISuccessfulResponse {
     isSuccessful: boolean
 }
 
-export const SuccessfulResponse: ISuccessfulResponse = {
+export const SUCCESSFUL_RESPONSE: ISuccessfulResponse = {
     isSuccessful: true
 }

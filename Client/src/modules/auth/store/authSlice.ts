@@ -1,14 +1,25 @@
 // External libs
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 
 // App (modules)
 import {checkUserAuth, loginUser, logoutUser} from "./authThunks";
 
 // Shared
-import STATUSES from "@/shared/consts/statuses";
+import {STATUSES, type StatusType} from "@/shared/consts/statuses";
 import {clearAccessToken} from "@/shared/utils/tokenManager";
+import type {IUser} from "@/domain/user.ts";
+import type {AppError} from "@/shared/utils/AppError.ts";
+import type {ISignInResponse} from "@/modules/auth/api/types/signInResponse.ts";
+import type {ICheckAuthResponse} from "@/modules/auth/api/types/checkAuthResponse.ts";
 
-const initialState = {
+interface IInitialState {
+    user: IUser | null;
+    isAuthenticated: boolean,
+    status: StatusType,
+    errors: string[] | []
+}
+
+const initialState: IInitialState = {
     user: null,
     isAuthenticated: false,
     status: STATUSES.IDLE,
@@ -27,11 +38,11 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loginUser.fulfilled, (state, action) => {
+        builder.addCase(loginUser.fulfilled, (state, action: PayloadAction<ISignInResponse>) => {
             state.user = action.payload.user;
             state.isAuthenticated = true;
         })
-            .addCase(checkUserAuth.fulfilled, (state, action) => {
+            .addCase(checkUserAuth.fulfilled, (state, action: PayloadAction<ICheckAuthResponse>) => {
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
             })
@@ -57,13 +68,13 @@ const authSlice = createSlice({
                 }
             )
             .addMatcher((action) => action.type.startsWith("auth/") && action.type.endsWith("/rejected"),
-                (state, action) => {
+                (state, action: PayloadAction<AppError>) => {
                     state.status = STATUSES.FAILED;
-                    state.errors = action.payload?.errors ?? action.payload ?? ["Something went wrong"];
+                    state.errors = action.payload?.messages ?? action.payload ?? ["Something went wrong"];
                 }
             )
     }
 });
 
-export const {setErrors, logout, clearErrors} = authSlice.actions;
+export const {setErrors, clearErrors} = authSlice.actions;
 export default authSlice.reducer;
