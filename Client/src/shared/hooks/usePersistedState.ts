@@ -1,10 +1,13 @@
 import {useState} from "react";
 import type {TRANSACTION_FILTER_TYPE} from "../consts/transactionTypes.ts";
 
-interface IPersistedStore {
+export interface IPersistedStore {
     filter: TRANSACTION_FILTER_TYPE,
-    isSidebarCollapsed: "true" | "false"
+    isSidebarCollapsed: "true" | "false",
+    accessToken: string
 }
+
+export type PersistedStoreItemType = keyof IPersistedStore;
 
 export const usePersistedState = <K extends keyof IPersistedStore>(
     key: K,

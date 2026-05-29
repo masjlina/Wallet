@@ -7,3 +7,6 @@ export const DAYS_OF_WEEK = [
     "Sat",
     "Sun",
 ] as const;
+
+export type DayOfWeekType = typeof DAYS_OF_WEEK[number];
+export type DaysOfWeekType = readonly [DayOfWeekType, DayOfWeekType, DayOfWeekType, DayOfWeekType, DayOfWeekType, DayOfWeekType, DayOfWeekType];

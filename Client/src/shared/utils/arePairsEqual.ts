@@ -1,4 +1,4 @@
-export const arePairsEqual = (...values) => {
+export const arePairsEqual = (...values: string[]): boolean => {
     if (values.length % 2 !== 0)
         return false;
 

@@ -1,10 +1,10 @@
+import {describe, expect, test} from 'vitest'
 import {
     formatAmountOfMoney,
     formatParentheses,
     getClazzAmountOfMoneyColor,
     round2
-} from "@/shared/services/moneyService";
-import {describe, expect, test} from 'vitest'
+} from "@/shared/services/moneyService.ts"
 
 
 describe("round2", () => {

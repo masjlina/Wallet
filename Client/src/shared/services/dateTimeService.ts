@@ -1,7 +1,7 @@
-import {DAYS_OF_WEEK} from "@/shared/consts/date";
+import {type DayOfWeekType, DAYS_OF_WEEK, type DaysOfWeekType} from "@/shared/consts/date";
 
-export const formatLocalDateTime = (date) => {
-    const pad = (n) => String(n).padStart(2, "0");
+export const formatLocalDateTime = (date: Date): string => {
+    const pad = (n: number) => String(n).padStart(2, "0");
 
     return `${date.getFullYear()}-${
         pad(date.getMonth() + 1)
@@ -10,22 +10,22 @@ export const formatLocalDateTime = (date) => {
     }:${pad(date.getMinutes())}`;
 };
 
-export const formatWeekday = (date) =>
-    date.toLocaleString("default", { weekday: "short" });
+export const formatWeekday = (date: Date): DayOfWeekType =>
+    date.toLocaleString("default", { weekday: "short" }) as DayOfWeekType;
 
-export const getLocalDateKey = (date = new Date()) => {
-    const pad = (n) => String(n).padStart(2, "0");
+export const getLocalDateKey = (date = new Date()): string => {
+    const pad = (n: number) => String(n).padStart(2, "0");
 
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 };
 
-export const getMonthKey = (date = new Date()) => {
-    const pad = (n) => String(n).padStart(2, "0");
+export const getMonthKey = (date: Date = new Date()): string => {
+    const pad = (n: number) => String(n).padStart(2, "0");
 
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}`;
 };
 
-export const getDayAgo = (day = 1) => {
+export const getDayAgo = (day: number = 1): Date => {
     const now = new Date();
 
     const weekAgo = new Date(now)
@@ -34,24 +34,24 @@ export const getDayAgo = (day = 1) => {
     return weekAgo;
 }
 
-export const getThisMonthDays = () => {
+export const getThisMonthDays = (): number => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 }
 
-export const getDaysToNextMonth = () => {
+export const getDaysToNextMonth = (): number => {
     const today = new Date();
     const daysInMonth = getThisMonthDays();
     return daysInMonth - today.getDate();
 }
 
-export const getRemainingMonthDays = ({ includeToday = true } = {}) => {
+export const getRemainingMonthDays = ({ includeToday = true } = {}): number => {
     const daysToNextMonth = getDaysToNextMonth();
 
     return includeToday ? daysToNextMonth + 1 : daysToNextMonth;
 };
 
-export const sortedDaysOfWeek = () => {
+export const sortedDaysOfWeek = (): DaysOfWeekType => {
     const today = formatWeekday(new Date());
     const todayIndex = DAYS_OF_WEEK.indexOf(today);
 
@@ -60,5 +60,7 @@ export const sortedDaysOfWeek = () => {
     const before = DAYS_OF_WEEK.slice(0, todayIndex).reverse();
     const after = DAYS_OF_WEEK.slice(todayIndex + 1).reverse();
 
-    return [DAYS_OF_WEEK[todayIndex], ...before, ...after];
+    const result = [DAYS_OF_WEEK[todayIndex], ...before, ...after] as const;
+
+    return result as unknown as DaysOfWeekType;
 };
