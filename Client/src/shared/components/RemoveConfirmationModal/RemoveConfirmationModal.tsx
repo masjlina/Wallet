@@ -1,14 +1,25 @@
 // Shared
 import Modal from "@/shared/components/Modal/Modal";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
 
 // Local
 import trashIcon from "@/assets/icons/trash--purple.svg";
 
 // Styles
 import "./RemoveConfirmationModal.scss";
+import type {ReactNode} from "react";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants.ts";
 
-const RemoveConfirmationModal = ({isOpen, onClose, onRemove}) => {
+interface IProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onRemove: () => void;
+}
+
+const RemoveConfirmationModal = ({
+                                     isOpen,
+                                     onClose,
+                                     onRemove
+                                 }: IProps): ReactNode => {
     return (
         <Modal
             variant={MODAL_VARIANT.CENTRAL}

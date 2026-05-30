@@ -3,6 +3,7 @@ export const NOTIFICATION_INTENT = {
     ERROR: "error",
     WARNING: "warning",
     INFO: "info"
-};
+} as const;
 
-export default NOTIFICATION_INTENT;
+export type NotificationIntentType = typeof NOTIFICATION_INTENT[keyof typeof NOTIFICATION_INTENT];
+

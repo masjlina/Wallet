@@ -6,6 +6,17 @@ import Input from "@/ui/Input/Input";
 import Label from "@/ui/Label/Label";
 import Select from "@/ui/Select/Select";
 import Textarea from "@/ui/Textarea/Textarea";
+import type {ReactNode} from "react";
+
+export interface IFieldWithLabelProps {
+    id: string;
+    labelText: string;
+    as?: "input" | "select" | "textarea";
+    variant?: "default" | "password";
+    children?: ReactNode;
+
+    [key: string]: any;
+}
 
 const FieldWithLabel = ({
                             id,
@@ -14,8 +25,8 @@ const FieldWithLabel = ({
                             variant = "default",
                             children,
                             ...props
-                        }) => {
-    const renderControl = () => {
+                        }: IFieldWithLabelProps) => {
+    const renderControl = (): ReactNode => {
         if (variant === "password") return <InputWithEye id={id} {...props} />;
 
         if (as === "select") return <Select id={id} {...props}>{children}</Select>;

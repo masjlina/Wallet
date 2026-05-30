@@ -1,8 +1,8 @@
 // React
-import React from "react";
+import {type ReactNode} from "react";
 
 // UI
-import Button from "@/ui/Button/Button";
+import Button, {type IButtonProps} from "@/ui/Button/Button";
 
 // Local
 import plusIcon from "@/assets/icons/plus.svg";
@@ -10,7 +10,15 @@ import plusIcon from "@/assets/icons/plus.svg";
 // Styles
 import "./buttonCreateEntity.scss";
 
-const ButtonCreateEntity = ({ onClick, text = "Create", className }) => {
+interface IProps extends IButtonProps {
+    text: string
+}
+
+const ButtonCreateEntity = ({
+                                onClick,
+                                text = "Create",
+                                className = ""
+                            }: IProps): ReactNode => {
     return (
         <Button
             className={`btn__add text text__base--bold text__base--white ${className}`}

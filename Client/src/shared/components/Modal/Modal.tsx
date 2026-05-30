@@ -1,21 +1,49 @@
 // React
-import {createContext, useContext, useEffect, useState} from "react";
+import {
+    type ButtonHTMLAttributes,
+    createContext,
+    type ReactNode,
+    type RefObject,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import {createPortal} from "react-dom";
 
 // Shared
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
-
-// UI
-import Button from "@/ui/Button/Button";
+import {MODAL_VARIANT, type ModalVariantType} from "@/shared/consts/modalVariants";
 
 // Local
 import xIcon from "@/assets/icons/x.svg";
 
 // Styles
 import "./modal.scss";
+import Button from "@/ui/Button/Button.tsx";
 
+type PositionType = {
+    top: number,
+    left: number
+};
 
-const ModalContext = createContext(null);
+interface IBaseProps {
+    children?: ReactNode | ReactNode[]
+    className?: string
+}
+
+interface IModalRootProps extends IBaseProps {
+    variant: ModalVariantType;
+    isOpen: boolean;
+    onClose: () => void;
+    boxRef?: RefObject<any>
+    pos?: PositionType
+    toastOffset?: number;
+}
+
+interface IModalContext {
+    onClose: () => void;
+}
+
+const ModalContext = createContext<IModalContext | null>(null);
 
 const ModalRoot = ({
                        variant,
@@ -26,7 +54,7 @@ const ModalRoot = ({
                        toastOffset = 0,
                        children,
                        className = ""
-                   }) => {
+                   }: IModalRootProps) => {
     const [shouldRender, setShouldRender] = useState(isOpen);
 
     useEffect(() => {
@@ -105,6 +133,8 @@ const ModalRoot = ({
         </div>
     );
 
+    const portalRoot = document.getElementById(isToast ? "toast-root" : "modal-root") ?? document.body;
+
     return createPortal(
         <ModalContext.Provider value={{onClose}}>
             {isToast ? (
@@ -127,16 +157,21 @@ const ModalRoot = ({
                 </div>
             )}
         </ModalContext.Provider>,
-        document.getElementById("modal-root")
+        portalRoot
     );
 };
+
+interface IHeaderProps extends IBaseProps {
+    title: string;
+}
 
 const Header = ({
                     title = "",
                     className = "",
                     children
-                }) => {
-    const {onClose} = useContext(ModalContext);
+                }: IHeaderProps) => {
+    const context = useContext(ModalContext);
+    if (!context) throw new Error("Modal Header must be used within a Modal component");
 
     return (
         <header className={`content modal__header text__title ${className}`}>
@@ -144,34 +179,47 @@ const Header = ({
             <button
                 type="button"
                 className="modal__close pointer"
-                onClick={onClose}>
+                onClick={context.onClose}>
                 <img src={xIcon} alt="Close modal"/>
             </button>
         </header>
     )
 }
 
-const Content = ({children, className = ""}) => {
+interface IContentProps extends IBaseProps {
+}
+
+const Content = ({children, className = ""}: IContentProps) => {
     return <main className={`content modal__content ${className}`}>{children}</main>;
 };
+
+interface IFooterProps extends IBaseProps {
+    formId?: string;
+    confBtnClassName?: string,
+    confBtnType?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+    onConfBtnClick?: () => void;
+    confBtnText?: string;
+    isSubmitBtnDisabled?: boolean;
+}
 
 const Footer = ({
                     formId = "",
                     className = "",
                     confBtnClassName = "btn__primary",
                     confBtnType = "submit",
-                    onConfBtnClick = "",
+                    onConfBtnClick,
                     confBtnText = "Save",
                     isSubmitBtnDisabled = false,
                     children
-                }) => {
-    const {onClose} = useContext(ModalContext);
+                }: IFooterProps) => {
+    const context = useContext(ModalContext);
+    if (!context) throw new Error("Modal.Footer must be used within a Modal component");
 
     return <footer className={`content modal__footer ${className}`}>
         <Button
             className="btn__primary--empty"
             type="button"
-            onClick={onClose}>Cancel</Button>
+            onClick={context.onClose}>Cancel</Button>
         {children}
         <Button
             className={`${confBtnClassName} ${isSubmitBtnDisabled && "btn--disabled"}`}

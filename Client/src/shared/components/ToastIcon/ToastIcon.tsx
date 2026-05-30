@@ -1,8 +1,13 @@
-import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
+import {NOTIFICATION_INTENT, type NotificationIntentType} from "@/shared/consts/notificationIntentTypes";
 
 import "./toastIcon.scss";
+import type {ReactNode} from "react";
 
-const ToastIcon = ({type = NOTIFICATION_INTENT.INFO}) => {
+interface IProps {
+    type: NotificationIntentType
+}
+
+const ToastIcon = ({type = NOTIFICATION_INTENT.INFO}: IProps): ReactNode => {
     let content;
 
     switch (type) {

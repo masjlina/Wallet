@@ -1,7 +1,13 @@
 // Styles
 import "./widget.scss";
+import type {ReactNode} from "react";
 
-const WidgetRoot = ({children, className = ""}) => {
+interface IBaseProps {
+    children: ReactNode | ReactNode[];
+    className?: string;
+}
+
+const WidgetRoot = ({children, className = ""}: IBaseProps) => {
     return (
         <section className={`wrapper widget__wrapper ${className}`}>
             <div className="container widget__container">
@@ -11,15 +17,15 @@ const WidgetRoot = ({children, className = ""}) => {
     );
 };
 
-const Header = ({children}) => {
+const Header = ({children}: IBaseProps) => {
     return <header className="widget__header">{children}</header>;
 };
 
-const Content = ({children, className = ""}) => {
+const Content = ({children, className = ""}: IBaseProps) => {
     return <main className={`content widget__content ${className}`}>{children}</main>;
 };
 
-const Footer = ({children, className = ""}) => {
+const Footer = ({children, className = ""}: IBaseProps) => {
     return <footer className={`content widget__footer ${className}`}>{children}</footer>;
 };
 

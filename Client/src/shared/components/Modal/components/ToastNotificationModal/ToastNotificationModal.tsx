@@ -1,11 +1,29 @@
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
 import Modal from "@/shared/components/Modal/Modal";
-import NOTIFICATION_INTENT from "@/shared/consts/notificationIntentTypes";
+import {
+    NOTIFICATION_INTENT,
+    type NotificationIntentType
+} from "@/shared/consts/notificationIntentTypes";
 
 import "./toastNotificationModal.scss";
 import ToastIcon from "@/shared/components/ToastIcon/ToastIcon";
+import type {ReactNode} from "react";
 
-const ToastNotificationModal = ({isOpen, onClose, type = NOTIFICATION_INTENT.INFO, message, stackIndex = 0}) => {
+interface IProps {
+    isOpen: boolean;
+    stackIndex: number;
+    type: NotificationIntentType;
+    message: string;
+    onClose: () => void;
+}
+
+const ToastNotificationModal = ({
+                                    isOpen,
+                                    onClose,
+                                    type = NOTIFICATION_INTENT.INFO,
+                                    message,
+                                    stackIndex = 0
+                                }: IProps): ReactNode => {
     const messageToShow =
         message ?? `This is an ${type.toLowerCase()} message`;
     return (

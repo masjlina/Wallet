@@ -1,13 +1,20 @@
 // Styles
 import "./tabs.scss";
-import {TABS} from "@/shared/consts/tabs";
+import {TABS, type TabsType} from "@/shared/consts/tabs";
+import type {ReactNode} from "react";
+
+interface IProps {
+    tabs: TabsType[];
+    currentTab: TabsType | undefined;
+    onChangeTab: (newTab: TabsType) => void
+}
 
 const Tabs = ({
                   tabs = [],
                   currentTab = TABS.PROFILE,
                   onChangeTab
-              }) => {
-    const content = tabs.map((tab, i) => {
+              }: IProps): ReactNode => {
+    const content: ReactNode = tabs.map((tab, i) => {
         return <button
             key={i}
             className={`btn btn__nav--text ${tab === currentTab ? "btn__nav--active--underline" : ""}`}

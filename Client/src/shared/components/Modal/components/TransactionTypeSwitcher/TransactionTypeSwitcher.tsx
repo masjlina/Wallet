@@ -1,10 +1,16 @@
 // Shared
-import TRANSACTION_TYPE from "@/shared/consts/transactionTypes";
+import TRANSACTION_TYPE, {type TransactionType} from "@/shared/consts/transactionTypes";
 
 // Styles
 import "./transactionTypeSwitcher.scss";
+import type {ReactNode} from "react";
 
-const TransactionTypeSwitcher = ({ transactionType, onChange }) => {
+interface IProps {
+    transactionType: TransactionType;
+    onChange: (nextType: TransactionType) => void;
+}
+
+const TransactionTypeSwitcher = ({transactionType, onChange}: IProps): ReactNode => {
     return (
         <div className="transaction-switcher text__base">
             <button

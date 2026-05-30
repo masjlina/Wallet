@@ -2,8 +2,8 @@ export const round2 = (n: number): number => {
     return Math.round(n * 100) / 100;
 }
 
-export const formatAmountOfMoney = (num: number): string | 0 => {
-    if (isNaN(num)) return 0;
+export const formatAmountOfMoney = (num: number): string => {
+    if (isNaN(num)) return "";
 
     const sign = num < 0 ? "-" : "";
     const abs = Math.abs(num);

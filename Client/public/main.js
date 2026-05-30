@@ -1,1 +1,1 @@
-import "../src/index.jsx";
+import "@";

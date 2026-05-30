@@ -3,13 +3,15 @@ export const TRANSACTION_TYPE = {
     INCOME: "income"
 } as const;
 
+export type TransactionType = typeof TRANSACTION_TYPE[keyof typeof TRANSACTION_TYPE];
+
 export const TRANSACTION_FILTER_TYPE = {
     ALL: "All",
     EXPENSE: "Expense",
     INCOME: "Income"
 } as const;
 
-export type TRANSACTION_FILTER_TYPE = typeof TRANSACTION_FILTER_TYPE[keyof typeof TRANSACTION_FILTER_TYPE];
+export type TransactionFilterType = typeof TRANSACTION_FILTER_TYPE[keyof typeof TRANSACTION_FILTER_TYPE];
 
 export const TRANSACTION_COLUMNS = {
     NAME: "Name",

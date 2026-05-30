@@ -5,6 +5,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import react from "eslint-plugin-react";
 import {defineConfig} from "eslint/config";
+import * as tsEslint from "typescript-eslint";
 
 export default defineConfig([{
     ignores: [
@@ -12,29 +13,38 @@ export default defineConfig([{
         "node_modules",
         "build"
     ]
-}, js.configs.recommended, react.configs.flat.recommended, {
-    files: ["**/*.{js,jsx}"],
+},
+    js.configs.recommended,
+    react.configs.flat.recommended,
+    ...tsEslint.configs.recommended,
+    {
+        files: ["**/*.{ts,tsx}"],
 
-    languageOptions: {
-        globals: globals.browser,
-        parserOptions: {
-            ecmaFeatures: {jsx: true}
+        languageOptions: {
+            globals: globals.browser,
+            parser: tsEslint.parser,
+            parserOptions: {
+                ecmaVersion: "latest",
+                sourceType: "module",
+            }
+        },
+
+        settings: {
+            react: {
+                version: "detect"
+            }
+        },
+
+        rules: {
+            "react/react-in-jsx-scope": "off",
+            "react/prop-types": "off"
         }
     },
-
-    settings: {
-        react: {
-            version: "detect"
+    {
+        files: ["vite.config.js"],
+        languageOptions: {
+            globals: globals.node
         }
     },
-
-    rules: {
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off"
-    }
-}, {
-    files: ["vite.config.js"],
-    languageOptions: {
-        globals: globals.node
-    }
-}, ...storybook.configs["flat/recommended"]]);
+    ...storybook.configs["flat/recommended"]
+]);

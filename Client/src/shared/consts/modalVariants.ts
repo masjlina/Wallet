@@ -4,4 +4,4 @@ export const MODAL_VARIANT = {
     TOAST: "toast"
 } as const;
 
-export default MODAL_VARIANT;
+export type ModalVariantType = typeof MODAL_VARIANT[keyof typeof MODAL_VARIANT];

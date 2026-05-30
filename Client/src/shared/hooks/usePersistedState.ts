@@ -1,8 +1,8 @@
 import {useState} from "react";
-import type {TRANSACTION_FILTER_TYPE} from "../consts/transactionTypes.ts";
+import type {TransactionFilterType} from "@/shared/consts/transactionTypes.ts";
 
 export interface IPersistedStore {
-    filter: TRANSACTION_FILTER_TYPE,
+    filter: TransactionFilterType,
     isSidebarCollapsed: "true" | "false",
     accessToken: string
 }

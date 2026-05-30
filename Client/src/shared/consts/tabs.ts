@@ -3,3 +3,5 @@ export const TABS = {
     SECURITY: "Security",
     // PREFERENCES: "Preferences"
 } as const;
+
+export type TabsType = typeof TABS[keyof typeof TABS];

@@ -1,23 +1,23 @@
 // Shared
-import FieldWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
+import FieldWithLabel, {type IFieldWithLabelProps} from "@/shared/components/FieldWithLabel/FieldWithLabel";
 
 // Styles
 import "./fieldWithIcon.scss";
 
+interface IProps extends IFieldWithLabelProps {
+    icon: string
+}
+
 const FieldWithIcon = ({
-                           id,
-                           labelText,
                            as = "input",
                            icon,
-                           className,
+                           className = "",
                            children,
                            ...props
-                       }) => {
+                       }: IProps) => {
     return (
         <div className="input-section__with-icon-wrapper">
             <FieldWithLabel
-                id={id}
-                labelText={labelText}
                 as={as}
                 className={className}
                 {...props}

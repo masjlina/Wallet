@@ -4,6 +4,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import {render} from "@testing-library/react";
 import {rootReducer} from "@/app/store/rootReducer";
 
+// TODO: rewrite tests
 export function createMockStore(preloadedState) {
     return configureStore({
         reducer: rootReducer,

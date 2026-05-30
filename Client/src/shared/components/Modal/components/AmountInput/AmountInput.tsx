@@ -1,5 +1,5 @@
 // React
-import {useEffect, useState} from "react";
+import {type ChangeEvent, type Dispatch, type MouseEvent, type SetStateAction, useEffect, useState} from "react";
 
 // Shared
 import useInput from "@/shared/hooks/useInput";
@@ -12,8 +12,13 @@ import arrowRightIcon from "@/assets/icons/btn-arrow--right.svg";
 // Styles
 import "./amountInput.scss";
 
-const AmountInput = ({balance, setBalance}) => {
-    const formattedInput = useInput("$");
+interface IProps {
+    balance: number;
+    setBalance: Dispatch<SetStateAction<number>>;
+}
+
+const AmountInput = ({balance, setBalance}: IProps) => {
+    const formattedInput = useInput<string>("$");
     const [inputColor, setInputColor] = useState("text--green");
 
     useEffect(() => {
@@ -31,11 +36,11 @@ const AmountInput = ({balance, setBalance}) => {
     }, [balance]);
 
 
-    const onChange = (e) => {
-        let raw = e.target.value.replace(/[^0-9.,+\-$]/g, "");
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/[^0-9.,+\-$]/g, "");
         const sign = raw.includes("-") ? -1 : 1;
 
-        let numericString = raw.replace(/[^0-9.,]/g, "").replace(",", ".");
+        const numericString = raw.replace(/[^0-9.,]/g, "").replace(",", ".");
 
         if ((numericString.match(/\./g) || []).length > 1) return;
 
@@ -52,12 +57,12 @@ const AmountInput = ({balance, setBalance}) => {
         formattedInput.setValue(formatAmountOfMoney(balance));
     };
 
-    const onIncrease = (e) => {
+    const onIncrease = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setBalance(v => round2(v + 1));
     };
 
-    const onDecrease = (e) => {
+    const onDecrease = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setBalance(v => round2(v - 1));
     };
