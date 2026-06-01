@@ -5,6 +5,7 @@ import {render} from "@testing-library/react";
 import {rootReducer} from "@/app/store/rootReducer";
 
 // TODO: rewrite tests
+// TODO: use custom dispatch and selector
 export function createMockStore(preloadedState) {
     return configureStore({
         reducer: rootReducer,

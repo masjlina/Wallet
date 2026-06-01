@@ -2,7 +2,6 @@
 import {useEffect, useRef} from "react";
 
 // External libs
-import {useDispatch, useSelector} from "react-redux";
 import {Route, Routes, useMatch, useNavigate} from "react-router-dom";
 
 // App (modules)
@@ -31,9 +30,11 @@ import {
 } from "@/app/helpers/daySummary";
 import {createUserToUpdate} from "@/domain/user";
 import {getThisMonthDays} from "@/shared/services/dateTimeService";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 
 const App = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
     const isLoginPage = !!useMatch(`${ROUTES.LOGIN}`);
@@ -42,9 +43,9 @@ const App = () => {
     const daySummaryModal = useModal();
     const monthlyResetInProgressRef = useRef(false);
 
-    const {isAuthenticated, status} = useSelector(state => state.auth);
-    const user = useSelector(state => state.user?.user);
-    const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit);
+    const {isAuthenticated, status} = useAppSelector(state => state.auth);
+    const user = useAppSelector(state => state.user?.user);
+    const userMonthlyLimit = useAppSelector(state => state.user?.user?.monthlyLimit);
 
     useEffect(() => {
         if (status === STATUSES.IDLE) {
@@ -79,7 +80,7 @@ const App = () => {
         target.setDate(target.getDate() + 1);
         target.setHours(0, 0, 0, 0);
 
-        const delay = target - now;
+        const delay = target.getTime() - now.getTime();
 
         const timer = setTimeout(() => {
             if (shouldShowDaySummary()) {

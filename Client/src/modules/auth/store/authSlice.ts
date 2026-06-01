@@ -11,14 +11,14 @@ import type {IUser} from "@/domain/user.ts";
 import type {ISignInResponse} from "@/modules/auth/api/types/signInResponse.ts";
 import type {ICheckAuthResponse} from "@/modules/auth/api/types/checkAuthResponse.ts";
 
-interface IInitialState {
+export interface IAuthState {
     user: IUser | null;
     isAuthenticated: boolean,
     status: StatusType,
     errors: string[] | []
 }
 
-const initialState: IInitialState = {
+const initialState: IAuthState = {
     user: null,
     isAuthenticated: false,
     status: STATUSES.IDLE,

@@ -6,7 +6,8 @@ import {rootReducer} from "@/app/store/rootReducer";
 
 const store = configureStore({
     reducer: rootReducer,
-    devTools: process.env.NODE_ENV !== "production"
+    devTools: import.meta.env.NODE_ENV !== "production"
 });
 
+export type AppDispatch = typeof store.dispatch;
 export default store;

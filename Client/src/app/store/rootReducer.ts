@@ -1,4 +1,4 @@
-import {combineReducers} from "@reduxjs/toolkit";
+import {combineReducers, type UnknownAction} from "@reduxjs/toolkit";
 import {authSlice} from "@/modules/auth";
 import {accountsSlice, walletSlice} from "@/modules/wallet-accounts";
 import {transactionsSlice} from "@/modules/transactions";
@@ -15,7 +15,11 @@ const appReducer = combineReducers({
     notification: notificationSlice,
 });
 
-export const rootReducer = (state, action) => {
+export type RootState = ReturnType<typeof appReducer>;
+
+export const rootReducer = (
+    state: RootState | undefined,
+    action: UnknownAction) => {
     if (action.type === logoutUser.fulfilled.type) {
         return appReducer(undefined, action)
 

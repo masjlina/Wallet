@@ -6,8 +6,8 @@ import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 
 // App (modules)
-import App from "@/app/App";
-import store from "@/app/store/store";
+import App from "@/app/App.tsx";
+import store from "@/app/store/store.ts";
 
 // Styles
 import "./shared/styles/reset.css";
