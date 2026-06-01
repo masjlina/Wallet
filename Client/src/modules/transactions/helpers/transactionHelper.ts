@@ -1,6 +1,7 @@
 import {getDayAgo} from "@/shared/services/dateTimeService";
+import type {ITransaction} from "@/domain/transaction.ts";
 
-export const getTodayTransactions = (transactions) => {
+export const getTodayTransactions = (transactions: ITransaction[]): ITransaction[] => {
     if (!transactions)
         return []
 
@@ -10,7 +11,7 @@ export const getTodayTransactions = (transactions) => {
         .filter(t => new Date(t.createdAt).toDateString() === today);
 }
 
-export const getDayTransactions = (transactions, day) => {
+export const getDayTransactions = (transactions: ITransaction[], day: string): ITransaction[] => {
     if (!transactions)
         return []
 
@@ -18,7 +19,7 @@ export const getDayTransactions = (transactions, day) => {
         .filter(t => new Date(t.createdAt).toDateString() === day);
 }
 
-export const getThisMonthTransactions = (transactions) => {
+export const getThisMonthTransactions = (transactions: ITransaction[]): ITransaction[] => {
     if (!transactions)
         return []
 
@@ -48,7 +49,7 @@ export const getThisMonthTransactions = (transactions) => {
     });
 };
 
-export const getWeekTransactions = (transactions) => {
+export const getWeekTransactions = (transactions: ITransaction[]): ITransaction[] => {
     if (!transactions)
         return []
 

@@ -1,19 +1,29 @@
 // External libs
-import {createSlice, nanoid} from "@reduxjs/toolkit";
+import {createSlice, nanoid, type PayloadAction} from "@reduxjs/toolkit";
+import type {NotificationIntentType} from "@/shared/consts/notificationIntentTypes.ts";
 
 // App (modules)
 
-const initialState = {
-    items: []
+export interface INotification {
+    id: string;
+    type: NotificationIntentType;
+    message: string
 }
 
+export interface INotificationState {
+    items: INotification[]
+}
+
+const initialState: INotificationState = {
+    items: []
+}
 
 const notificationSlice = createSlice({
         name: "notification",
         initialState: initialState,
         reducers: {
             showNotification: {
-                reducer: (state, action) => {
+                reducer: (state, action: PayloadAction<INotification>) => {
                     state.items.unshift(action.payload);
                 },
                 prepare: ({type, message}) => ({

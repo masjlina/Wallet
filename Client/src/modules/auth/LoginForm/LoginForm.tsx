@@ -1,6 +1,5 @@
 // React
 // External libs
-import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 
 // App (modules)
@@ -20,15 +19,18 @@ import Button from "@/ui/Button/Button";
 
 // Styles
 import "../style.scss";
-import {useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import ErrorText from "@/shared/components/ErrorText";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import type {ISignInRequest} from "@/modules/auth/api/types/signInRequest.ts";
 
 export const LoginForm = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const logStatus = useSelector((state) => state.auth.status);
-    const logErrors = useSelector((state) => state.auth.errors);
+    const logStatus = useAppSelector((state) => state.auth.status);
+    const logErrors = useAppSelector((state) => state.auth.errors);
 
     const email = useInput("");
     const password = useInput("");
@@ -36,20 +38,18 @@ export const LoginForm = () => {
 
     const [isSubmit, setIsSubmit] = useState(false);
 
-    const onLogin = async (e) => {
+    const onLogin = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmit(true);
 
-        const formData = {
+        const formData: ISignInRequest = {
             email: email.value,
             password: password.value,
             rememberMe: isRemembered.value
         };
 
-        try {
-            await dispatch(loginUser(formData)).unwrap();
-            navigate(ROUTES.DASHBOARD);
-        } catch {}
+        await dispatch(loginUser(formData)).unwrap();
+        navigate(ROUTES.DASHBOARD);
     };
 
     return (

@@ -1,7 +1,12 @@
 // Styles
 import "./rememberMe.scss";
+import type {InputHTMLAttributes} from "react";
 
-const RememberMe = ({checked, onChange}) => {
+type IProps = InputHTMLAttributes<HTMLInputElement>
+
+const RememberMe = ({
+                        checked,
+                        onChange}: IProps) => {
     return (
         <div className="remember-me">
             <label

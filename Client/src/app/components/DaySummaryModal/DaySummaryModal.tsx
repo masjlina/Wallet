@@ -1,23 +1,29 @@
 import Modal from "@/shared/components/Modal/Modal";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
 import calendarIcon from "../../../assets/icons/calendar.svg";
 import "./daySummaryModal.scss";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import {TRANSACTION_COLUMNS, TRANSACTION_TYPE} from "@/shared/consts/transactionTypes";
 import {TransactionCol, TransactionRow} from "@/modules/transactions";
-import React, {useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {getDayTransactions} from "@/modules/transactions/helpers/transactionHelper";
+import {useMemo} from "react";
+import {getDayTransactions} from "@/modules/transactions/helpers/transactionHelper.ts";
 import {formatAmountOfMoney, formatParentheses, getClazzAmountOfMoneyColor} from "@/shared/services/moneyService";
 import Button from "@/ui/Button/Button";
 import {getRemainingMonthDays} from "@/shared/services/dateTimeService";
-import {createUserToUpdate} from "@/domain/user";
+import {type IUserToUpdate} from "@/domain/user";
 import {updateApplicationUser} from "@/modules/user";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 
-const DaySummaryModal = ({isOpen, onClose}) => {
-    const dispatch = useDispatch();
+interface IProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
 
-    const transactions = useSelector(state => state.transactions?.transactions);
-    const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
+const DaySummaryModal = ({isOpen, onClose}: IProps) => {
+    const dispatch = useAppDispatch();
+
+    const transactions = useAppSelector(state => state.transactions?.transactions);
+    const userDailyLimit = useAppSelector(state => state.user?.user?.dailyLimit ?? -1);
 
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() - 1);
@@ -36,7 +42,7 @@ const DaySummaryModal = ({isOpen, onClose}) => {
         </div>
     );
 
-    const tableHeaders = [
+    const tableHeaders: ("Name" | "Amount")[] = [
         TRANSACTION_COLUMNS.NAME,
         TRANSACTION_COLUMNS.AMOUNT
     ];
@@ -76,14 +82,12 @@ const DaySummaryModal = ({isOpen, onClose}) => {
             (userDailyLimit + amountToAdd).toFixed(2)
         );
 
-        try {
-            const userToUpdate = createUserToUpdate({
-                dailyLimit: newDailyLimit
-            });
-            await dispatch(updateApplicationUser(userToUpdate));
-            onClose();
-        } catch (error) {
+        const userToUpdate: IUserToUpdate = {
+            dailyLimit: newDailyLimit
         }
+
+        await dispatch(updateApplicationUser(userToUpdate));
+        onClose();
     };
 
     return (
@@ -111,7 +115,7 @@ const DaySummaryModal = ({isOpen, onClose}) => {
                             {formatAmountOfMoney(daysSummaryIncomesAmount)}</span>
                     </p>
                     <p>
-                        <span>Day's Balance: </span>
+                        <span>Day&#39;s Balance: </span>
                         <span
                             className={`text__primary ${getClazzAmountOfMoneyColor(dayBalance)}`}>
                              {formatAmountOfMoney(dayBalance)}
@@ -132,7 +136,7 @@ const DaySummaryModal = ({isOpen, onClose}) => {
                 </div>
 
                 <div className="w-100">
-                    <p className="text__title">Day's Activity</p>
+                    <p className="text__title">Day&#39;s Activity</p>
                     <div className="table-scroll day-summary__table">
                         <table className="table text text__table">
                             <TransactionCol tableHeaders={tableHeaders}/>

@@ -162,7 +162,7 @@ const ModalRoot = ({
 };
 
 interface IHeaderProps extends IBaseProps {
-    title: string;
+    title?: string;
 }
 
 const Header = ({
@@ -186,8 +186,7 @@ const Header = ({
     )
 }
 
-interface IContentProps extends IBaseProps {
-}
+type IContentProps = IBaseProps
 
 const Content = ({children, className = ""}: IContentProps) => {
     return <main className={`content modal__content ${className}`}>{children}</main>;

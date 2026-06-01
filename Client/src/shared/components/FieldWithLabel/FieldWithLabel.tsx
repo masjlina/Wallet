@@ -6,34 +6,40 @@ import Input from "@/ui/Input/Input";
 import Label from "@/ui/Label/Label";
 import Select from "@/ui/Select/Select";
 import Textarea from "@/ui/Textarea/Textarea";
-import type {ReactNode} from "react";
+import type {ComponentPropsWithRef, ReactNode} from "react";
 
-export interface IFieldWithLabelProps {
-    id: string;
-    labelText: string;
-    as?: "input" | "select" | "textarea";
-    variant?: "default" | "password";
-    children?: ReactNode;
-
-    [key: string]: any;
+type AsComponents = {
+    input: typeof Input;
+    select: typeof Select;
+    textarea: typeof Textarea;
 }
 
-const FieldWithLabel = ({
+export type IFieldWithLabelProps<T extends keyof AsComponents = "input"> = {
+    id: string;
+    labelText: string;
+    as?: T;
+    variant?: "default" | "password";
+    children?: ReactNode;
+} & ComponentPropsWithRef<AsComponents[T]>;
+
+const FieldWithLabel = <T extends keyof AsComponents = "input">({
                             id,
                             labelText,
-                            as = "input",
+                            as,
                             variant = "default",
                             children,
                             ...props
-                        }: IFieldWithLabelProps) => {
+                                                                }: IFieldWithLabelProps<T>) => {
+    const controlProps = props as any;
+
     const renderControl = (): ReactNode => {
-        if (variant === "password") return <InputWithEye id={id} {...props} />;
+        if (variant === "password") return <InputWithEye id={id} {...controlProps} />;
 
-        if (as === "select") return <Select id={id} {...props}>{children}</Select>;
+        if (as === "select") return <Select id={id} {...controlProps}>{children}</Select>;
 
-        if (as === "textarea") return <Textarea id={id} {...props}/>
+        if (as === "textarea") return <Textarea id={id} {...controlProps}/>
 
-        return <Input id={id} {...props} />;
+        return <Input id={id} {...controlProps} />;
     };
 
     return (

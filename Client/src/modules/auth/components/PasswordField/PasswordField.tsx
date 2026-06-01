@@ -1,4 +1,10 @@
-import InputWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
+import InputWithLabel, {type IFieldWithLabelProps} from "@/shared/components/FieldWithLabel/FieldWithLabel";
+
+interface IProps extends Omit<IFieldWithLabelProps, "id" | "labelText" | "type" | "autoComplete" | "required" | "minLength" | "maxLength"> {
+    id?: string;
+    labelText?: string;
+    placeholder?: string
+}
 
 const PasswordField = ({
                            id = "password-input",
@@ -6,7 +12,7 @@ const PasswordField = ({
                            name = "password",
                            labelText,
                            ...rest
-                       }) => {
+                       }: IProps) => {
     return (
         <InputWithLabel
             id={id}
@@ -17,7 +23,7 @@ const PasswordField = ({
             type="password"
             name={name}
             required
-            minLength="5"
+            minLength={5}
             {...rest}
         />
     );

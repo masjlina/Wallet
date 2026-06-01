@@ -7,6 +7,8 @@ export interface ITransaction {
     name: string,
     description?: string,
     amount: number,
+    // TODO: add category
+    category?: null,
     createdAt: Date,
     updatedAt: Date
 }

@@ -22,4 +22,4 @@ export const TRANSACTION_COLUMNS = {
     ACTION: "Action",
 } as const;
 
-export default TRANSACTION_TYPE;
+export type TransactionColType = typeof TRANSACTION_COLUMNS[keyof typeof TRANSACTION_COLUMNS];

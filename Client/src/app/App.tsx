@@ -2,7 +2,7 @@
 import {useEffect, useRef} from "react";
 
 // External libs
-import {Route, Routes, useMatch, useNavigate} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 
 // App (modules)
 import AuthLayout from "@/app/layouts/AuthLayout/AuthLayout";
@@ -28,17 +28,18 @@ import {
     shouldResetMonthlyLimit,
     shouldShowDaySummary
 } from "@/app/helpers/daySummary";
-import {createUserToUpdate} from "@/domain/user";
 import {getThisMonthDays} from "@/shared/services/dateTimeService";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import type {IUserToUpdate} from "@/domain/user.ts";
 
 const App = () => {
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
-    const isLoginPage = !!useMatch(`${ROUTES.LOGIN}`);
-    const isRegPage = !!useMatch(`${ROUTES.REGISTRATION}`);
+    const location = useLocation();
+    const isLoginPage = location.pathname === ROUTES.LOGIN;
+    const isRegPage = location.pathname === ROUTES.REGISTRATION;
 
     const daySummaryModal = useModal();
     const monthlyResetInProgressRef = useRef(false);
@@ -108,9 +109,9 @@ const App = () => {
 
         const days = getThisMonthDays();
         const newDailyLimit = Number((userMonthlyLimit / days).toFixed(2));
-        const userToUpdate = createUserToUpdate({
+        const userToUpdate: IUserToUpdate = {
             dailyLimit: newDailyLimit
-        });
+        };
 
         monthlyResetInProgressRef.current = true;
         dispatch(updateApplicationUser(userToUpdate))

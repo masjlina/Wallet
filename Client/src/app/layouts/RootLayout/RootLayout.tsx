@@ -7,15 +7,16 @@ import {Header, Sidebar} from "@/modules/layout";
 // Styles
 import "./rootLayout.scss";
 import ToastNotificationModal from "@/shared/components/Modal/components/ToastNotificationModal/ToastNotificationModal";
-import {useDispatch, useSelector} from "react-redux";
-import {removeNotification} from "@/app/store/notificationSlice";
+import {type INotification, removeNotification} from "@/app/store/notificationSlice";
 import {ROUTES} from "@/shared/consts/routes";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 
 const RootLayout = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
-    const notifications = useSelector(
+    const notifications = useAppSelector(
         state => state.notification?.items || []
     );
 
@@ -33,7 +34,7 @@ const RootLayout = () => {
                 </div>
             </div>
 
-            {notifications.map((n, index) => (
+            {notifications.map((n: INotification, index) => (
                 <ToastNotificationModal
                     key={n.id}
                     isOpen={true}

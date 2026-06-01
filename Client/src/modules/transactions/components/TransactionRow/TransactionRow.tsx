@@ -1,21 +1,35 @@
 // Shared
 import accountType from "@/shared/consts/accountType";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import {
+    TRANSACTION_COLUMNS,
+    TRANSACTION_TYPE,
+    type TransactionColType,
+    type TransactionType
+} from "@/shared/consts/transactionTypes";
 import {formatAmountOfMoney} from "@/shared/services/moneyService";
-
+import type {MouseEvent} from "react";
 // Local
 import dotsIcon from "@/assets/icons/dots.svg";
 
 // Styles
 import "./transactionRow.scss";
+import type {ITransaction} from "@/domain/transaction.ts";
+
+interface IProps {
+    onContextOpen?: (e: MouseEvent<HTMLButtonElement>, transaction: ITransaction) => void,
+    type: TransactionType,
+    transaction: ITransaction
+    tableHeaders: TransactionColType[],
+    onClick?: () => void
+}
 
 const TransactionRow = ({
                             onContextOpen,
                             type = TRANSACTION_TYPE.EXPENSE,
                             transaction,
                             tableHeaders = [],
-        onClick
-                        }) => {
+                            onClick
+                        }: IProps) => {
     if (!transaction) return null;
 
     const { name, amount, createdAt, category, walletId } = transaction;
@@ -71,7 +85,8 @@ const TransactionRow = ({
                                     className="btn btn_more-actions"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        onContextOpen(e, transaction);
+                                        if (onContextOpen)
+                                            onContextOpen(e, transaction);
                                     }}
                                 >
                                     <img src={dotsIcon} alt="more actions"/>

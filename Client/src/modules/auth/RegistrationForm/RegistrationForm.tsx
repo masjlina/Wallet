@@ -1,8 +1,7 @@
 // React
-import {useEffect} from "react";
+import {type ChangeEvent, useEffect} from "react";
 
 // External libs
-import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 
 // App (modules)
@@ -11,8 +10,7 @@ import EmailField from "../components/EmailField/EmailField";
 import FirstNameField from "../components/FirstNameField/FirstNameField";
 import LastNameField from "../components/LastNameField/LastNameField";
 import PasswordField from "../components/PasswordField/PasswordField";
-import {clearErrors} from "@/modules/auth";
-import {registerUser} from "@/modules/auth";
+import {clearErrors, registerUser} from "@/modules/auth";
 
 // Shared
 import {ROUTES} from "@/shared/consts/routes";
@@ -25,6 +23,9 @@ import Button from "@/ui/Button/Button";
 // Styles
 import "../style.scss";
 import ErrorText from "@/shared/components/ErrorText";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import type {ISignUpRequest} from "@/modules/auth/api/types/signUpRequest.ts";
 
 export const RegistrationForm = () => {
     const firstName = useInput("");
@@ -33,9 +34,9 @@ export const RegistrationForm = () => {
     const password = useInput("");
     const passwordConfirmation = useInput("");
 
-    const dispatch = useDispatch();
-    const regStatus = useSelector((state) => state.auth.status);
-    const regErrors = useSelector((state) => state.auth.errors);
+    const dispatch = useAppDispatch();
+    const regStatus = useAppSelector((state) => state.auth.status);
+    const regErrors = useAppSelector((state) => state.auth.errors);
 
     const navigate = useNavigate();
 
@@ -43,16 +44,19 @@ export const RegistrationForm = () => {
         dispatch(clearErrors());
     }, [])
 
-    const onCreateAccount = async (e) => {
+    const onCreateAccount = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = Object.fromEntries(new FormData(e.currentTarget).entries());
-
-        try {
-            await dispatch(registerUser(formData)).unwrap();
-            navigate(ROUTES.LOGIN);
-        } catch (err) {
+        const formData: ISignUpRequest = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            password: password.value,
+            confirmPassword: passwordConfirmation.value,
         }
+
+        await dispatch(registerUser(formData));
+        navigate(ROUTES.LOGIN);
     }
 
     return (
