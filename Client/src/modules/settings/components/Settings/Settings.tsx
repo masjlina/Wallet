@@ -1,26 +1,27 @@
 import Toolbar from "@/shared/components/Toolbar/Toolbar";
 import {Widget} from "@/shared/components/Widget/Widget";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Tabs from "@/shared/components/Toolbar/components/Tabs/Tabs";
-import {TABS} from "@/shared/consts/tabs";
+import {TABS, type TabsType} from "@/shared/consts/tabs";
 import ProfileTab from "@/modules/settings/components/ProfileTab/ProfileTab";
-import {useDispatch, useSelector} from "react-redux";
 import {getApplicationUser} from "@/modules/user";
 import SecurityTab from "@/modules/settings/components/SecurityTab/SecurityTab";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 
 const Settings = () => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user.user);
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user.user);
 
-    const [currentTab, setCurrentTab] = useState(TABS.PROFILE);
+    const [currentTab, setCurrentTab] = useState<TabsType>(TABS.PROFILE);
 
     let content;
 
     switch (currentTab) {
         case TABS.PROFILE: {
             content = <ProfileTab
-                firstName={user?.firstName}
-                lastName={user?.lastName}
+                firstName={user?.firstName ?? ""}
+                lastName={user?.lastName ?? ""}
                 avatarUri={user?.avatarUri}/>
             break;
         }
@@ -42,7 +43,7 @@ const Settings = () => {
             dispatch(getApplicationUser());
     }, [user]);
 
-    const onChangeTab = (newTab) => {
+    const onChangeTab = (newTab: TabsType) => {
         setCurrentTab(newTab);
     }
 

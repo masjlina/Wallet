@@ -2,15 +2,16 @@ import {PasswordField} from "@/modules/auth";
 
 import "./securityTab.scss";
 import Button from "@/ui/Button/Button";
-import {useEffect, useState} from "react";
+import {type ChangeEvent, useEffect, useState} from "react";
 import useInput from "@/shared/hooks/useInput";
-import {useDispatch, useSelector} from "react-redux";
 import {changeUserPassword} from "@/modules/auth/store/authThunks";
-import {} from "@/modules/auth/api/types/changePasswordRequest";
 import ErrorText from "@/shared/components/ErrorText";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import type {IChangePasswordRequest} from "@/modules/auth/api/types/changePasswordRequest.ts";
 
 const SecurityTab = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const oldPassword = useInput("");
     const newPassword = useInput("");
@@ -18,8 +19,8 @@ const SecurityTab = () => {
 
     const [areInputsChanged, setAreInputsChanged] = useState(false);
 
-    const serverErrors = useSelector(state => state.auth.errors);
-    const [localErrors, setLocalErrors] = useState([]);
+    const serverErrors = useAppSelector(state => state.auth.errors);
+    const [localErrors, setLocalErrors] = useState<string[]>([]);
     const allErrors = [...localErrors, ...serverErrors];
 
     useEffect(() => {
@@ -27,7 +28,7 @@ const SecurityTab = () => {
             setAreInputsChanged(true);
     }, [oldPassword.value, newPassword.value, confirmPassword.value]);
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (newPassword.value !== confirmPassword.value) {
@@ -35,20 +36,17 @@ const SecurityTab = () => {
             return;
         }
 
-        const changePasswordDto = createChangePasswordDto({
+        const changePasswordDto: IChangePasswordRequest = {
             oldPassword: oldPassword.value,
             newPassword: newPassword.value,
             confirmPassword: confirmPassword.value
-        });
+        };
 
-        try {
-            await dispatch(changeUserPassword(changePasswordDto)).unwrap();
+        await dispatch(changeUserPassword(changePasswordDto)).unwrap();
 
-            oldPassword.setValue("");
-            newPassword.setValue("");
-            confirmPassword.setValue("");
-        } catch (errors) {
-        }
+        oldPassword.setValue("");
+        newPassword.setValue("");
+        confirmPassword.setValue("");
     };
 
     return (

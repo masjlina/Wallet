@@ -15,7 +15,7 @@ import rightArrow from "@/assets/icons/right-arrow.svg";
 // Styles
 import "./myAccountWidget.scss";
 import type {IWallet} from "@/domain/wallet.ts";
-import type {ICreditCard} from "@/domain/account.ts";
+import type {ICreditCard} from "@/domain/creditCard.ts";
 
 interface IProps {
     accounts: (IWallet | ICreditCard)[]

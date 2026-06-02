@@ -5,24 +5,27 @@ import "./profileTab.scss"
 import {FirstNameField, LastNameField} from "@/modules/auth";
 import Button from "@/ui/Button/Button";
 import useInput from "@/shared/hooks/useInput";
-import {useEffect, useMemo, useState} from "react";
+import type {MouseEvent} from "react";
+import {type ChangeEvent, useEffect, useMemo, useState} from "react";
 import {arePairsEqual} from "@/shared/utils/arePairsEqual";
-import {createUserToUpdate} from "@/domain/user";
 import {updateApplicationUser} from "@/modules/user";
-import {useDispatch} from "react-redux";
 import {removeApplicationUserAvatar, uploadApplicationUserAvatar} from "@/modules/user/store/userThunks";
 import {SERVER_URL} from "@/shared/consts/endpoints";
+import type {IUser, IUserToUpdate} from "@/domain/user.ts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 
-const ProfileTab = ({firstName, lastName, avatarUri}) => {
-    const dispatch = useDispatch();
+type PropsType = Pick<IUser, "firstName" | "lastName" | "avatarUri">;
+
+const ProfileTab = ({firstName, lastName, avatarUri}: PropsType) => {
+    const dispatch = useAppDispatch();
 
     const firstNameInput = useInput(firstName ?? "");
     const lastNameInput = useInput(lastName ?? "");
 
     const [areInputsChanged, setAreInputsChanged] = useState(false);
 
-    const [avatarFile, setAvatarFile] = useState(null);
-    const [avatarPreview, setAvatarPreview] = useState(null);
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const avatarSrc = useMemo(() => {
         return avatarPreview ||
             (avatarUri ? `${SERVER_URL}${avatarUri}?t=${encodeURIComponent(avatarUri)}` : null) ||
@@ -36,13 +39,13 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
         setAvatarFile(null);
     };
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const userToUpdate = createUserToUpdate({
+        const userToUpdate: IUserToUpdate = {
             firstName: firstNameInput.value,
             lastName: lastNameInput.value,
-        });
+        };
 
         await dispatch(updateApplicationUser(userToUpdate));
 
@@ -55,8 +58,8 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
         }
     };
 
-    const onAvatarChange = (e) => {
-        const file = e.target.files[0];
+    const onAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e?.target?.files?.[0];
 
         if (!file) return;
 
@@ -67,7 +70,7 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
         setAreInputsChanged(true);
     };
 
-    const onRemoveAvatar = async (e) => {
+    const onRemoveAvatar = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (avatarSrc !== profileIcon) {
@@ -115,7 +118,7 @@ const ProfileTab = ({firstName, lastName, avatarUri}) => {
                         <ButtonCreateEntity
                             className="profile__btn-load"
                             text="Load image"
-                            onClick={() => document.getElementById("avatarInput").click()}
+                            onClick={() => document.getElementById("avatarInput")?.click()}
                         />
                         <button className="btn text--red" onClick={onRemoveAvatar}>Remove</button>
                     </div>

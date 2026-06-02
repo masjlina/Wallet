@@ -9,7 +9,7 @@ import {
     removeWalletAccount,
     updateWalletAccount
 } from "./accountsThunks";
-import type {ICreditCard} from "@/domain/account.ts";
+import type {ICreditCard} from "@/domain/creditCard.ts";
 import type {IAccountResponse} from "@/modules/wallet-accounts/api/types/accountResponse.ts";
 import type {IAccountsResponse} from "@/modules/wallet-accounts/api/types/accountsResponse.ts";
 import type {IRemoveAccountResponse} from "@/modules/wallet-accounts/api/types/removeAccountResponse.ts";

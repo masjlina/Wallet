@@ -1,4 +1,4 @@
-import type {ICreditCard} from "./account.ts";
+import type {ICreditCard} from "./creditCard.ts";
 
 export interface IWallet {
     id: number,

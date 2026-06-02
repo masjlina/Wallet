@@ -1,13 +1,27 @@
-import React, {useLayoutEffect, useRef, useState} from "react";
+import {useLayoutEffect, useRef, useState} from "react";
 import Modal from "@/shared/components/Modal/Modal";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
 import settingsIcon from "@/assets/icons/gear.svg";
 import logoutIcon from "@/assets/icons/out-door.svg";
 
 import "./profileModal.scss";
 
-const ProfileModal = ({isOpen, anchorEl, onClose, onNavigateSettings, onLogout}) => {
-    const boxRef = useRef(null);
+interface IProps {
+    isOpen: boolean;
+    anchorEl: HTMLElement | null;
+    onClose: () => void;
+    onNavigateSettings: () => void;
+    onLogout: () => void;
+}
+
+const ProfileModal = ({
+                          isOpen,
+                          anchorEl,
+                          onClose,
+                          onNavigateSettings,
+                          onLogout
+                      }: IProps) => {
+    const boxRef = useRef<HTMLElement>(null);
     const [pos, setPos] = useState({top: 0, left: 0});
 
     useLayoutEffect(() => {

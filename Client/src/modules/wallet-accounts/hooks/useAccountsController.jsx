@@ -13,7 +13,7 @@ import {
 } from "@/modules/wallet-accounts";
 import accountType from "@/shared/consts/accountType";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
-import {createAccountToUpdate} from "@/domain/account";
+import {createAccountToUpdate} from "@/domain/creditCard";
 import {createWalletToUpdate} from "@/domain/wallet";
 
 export const useAccountsController = () => {
