@@ -3,7 +3,7 @@ import SetLimitModal from "@/modules/dashboard/components/SetLimitModal/SetLimit
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
-import TRANSACTION_TYPE from "@/shared/consts/transactionTypes";
+import {TRANSACTION_TYPE, type TransactionType} from "@/shared/consts/transactionTypes";
 import useModal from "@/shared/hooks/useModal";
 
 // UI
@@ -14,6 +14,16 @@ import pencilIcon from "@/assets/icons/pencil--grey.svg";
 
 // Styles
 import "./dayLimitWidget.scss";
+import React from "react";
+import type {OnUpdateLimitType} from "@/modules/dashboard/components/Dashboard/Dashboard.tsx";
+
+interface IProps {
+    openModal: (transactionType: TransactionType) => void;
+    userDailyLimit: number;
+    userMonthlyLimit: number;
+    todayExpensesAmount: number;
+    onUpdateDailyLimit: OnUpdateLimitType;
+}
 
 const DayLimitWidget = ({
                             openModal,
@@ -21,7 +31,7 @@ const DayLimitWidget = ({
                             userMonthlyLimit,
                             todayExpensesAmount,
                             onUpdateDailyLimit
-                        }) => {
+                        }: IProps) => {
     const progress = userDailyLimit > 0 ? todayExpensesAmount / userDailyLimit : 0;
     const safeProgress = Math.min(progress, 1);
     const angle = safeProgress * 360;
@@ -35,7 +45,7 @@ const DayLimitWidget = ({
                     <div className="graphic__background--radial">
                         <div
                             className="graphic__fill--radial"
-                            style={{"--angle": `${angle}deg`}}
+                            style={{"--angle": `${angle}deg`} as React.CSSProperties}
                         />
 
                         <div className="graphic__overlap--radial">

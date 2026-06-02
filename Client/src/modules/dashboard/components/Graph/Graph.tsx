@@ -1,13 +1,14 @@
-// React
-import React from "react";
-
 // Styles
 import "./graph.scss";
 import {sortedDaysOfWeek} from "@/shared/consts/date";
 
+interface IProps {
+    data: number[]
+}
+
 const Graph = ({
                    data = [1000, 3000, 2200, 2350, 1200, 900, 5000]
-               }
+               }: IProps
 ) => {
     const maxItem = Math.max(...data, 1);
 
@@ -25,25 +26,25 @@ const Graph = ({
     const week = sortedDaysOfWeek() ? sortedDaysOfWeek().slice().reverse() : [];
 
     // helpers
-    const formatY = (v) => {
+    const formatY = (v: number) => {
         if (v >= 1000) return `$${(v / 1000).toFixed(1)}k`;
         return `$${v}`;
     };
 
-    const getX = (i) => graphLeftPadding + i * (innerWidth / (data.length - 1));
-    const getY = (value) => {
+    const getX = (i: number) => graphLeftPadding + i * (innerWidth / (data.length - 1));
+    const getY = (value: number) => {
         const normalized = (value / maxItem) * innerHeight;
         return graphTopPadding + (innerHeight - normalized);
     };
 
     // generate line path (M/L)
-    const generateLinePath = (arr) =>
+    const generateLinePath = (arr: number[]) =>
         arr
             .map((v, i) => `${i === 0 ? "M" : "L"} ${getX(i)} ${getY(v)}`)
             .join(" ");
 
     // generate closed area path (baseline -> points -> baseline -> Z)
-    const generateAreaPath = (arr) => {
+    const generateAreaPath = (arr: number[]) => {
         const baselineY = height - graphBottomPadding;
         const firstX = getX(0);
         const lastX = getX(arr.length - 1);

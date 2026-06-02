@@ -17,7 +17,7 @@ type AsComponents = {
 export type IFieldWithLabelProps<T extends keyof AsComponents = "input"> = {
     id: string;
     labelText: string;
-    as?: T;
+    as?: "input" | "select" | "textarea";
     variant?: "default" | "password";
     children?: ReactNode;
 } & ComponentPropsWithRef<AsComponents[T]>;

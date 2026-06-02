@@ -2,14 +2,12 @@
 import {useEffect, useMemo, useState} from "react";
 
 // External libs
-import {useDispatch, useSelector} from "react-redux";
-
 // App (modules)
-import {createUserToUpdate} from "@/domain/user";
+import {type IUserToUpdate} from "@/domain/user";
 import DayLimitWidget from "../DayLimitWidget/DayLimitWidget";
 import WeekActivityWidget from "@/modules/dashboard/components/WeekActivityWidget/WeekActivityWidget";
 import MonthBudgetWidget from "../MonthBudgetWidget/MonthBudgetWidget";
-import MyAccountWidget from "../MyAccountWidget/MyAccountWidget";
+import MyAccountWidget from "../MyAccountWidget/MyAccountWidget.tsx";
 import RecentTransactionsWidget from "../RecentTransactionsWidget/RecentTransactionsWidget";
 import {
     createUserTransaction,
@@ -20,7 +18,7 @@ import {
 import {updateApplicationUser} from "@/modules/user";
 
 // Shared
-import TRANSACTION_TYPE from "@/shared/consts/transactionTypes";
+import {TRANSACTION_TYPE, type TransactionType} from "@/shared/consts/transactionTypes";
 import useModal from "@/shared/hooks/useModal";
 
 // Styles
@@ -28,21 +26,26 @@ import "./dashboard.scss";
 import {getThisMonthTransactions, getWeekTransactions} from "@/modules/transactions/helpers/transactionHelper";
 import {getDayAgo} from "@/shared/services/dateTimeService";
 import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import type {ITransactionToUpsert} from "@/domain/transaction.ts";
+
+export type OnUpdateLimitType = (limit: number, closeModal: () => void) => void;
 
 const Dashboard = () => {
-    const dispatch = useDispatch();
-    const userDailyLimit = useSelector(state => state.user?.user?.dailyLimit ?? -1);
-    const userMonthlyLimit = useSelector(state => state.user?.user?.monthlyLimit ?? -1);
+    const dispatch = useAppDispatch();
+    const userDailyLimit = useAppSelector(state => state.user?.user?.dailyLimit ?? -1);
+    const userMonthlyLimit = useAppSelector(state => state.user?.user?.monthlyLimit ?? -1);
 
-    const transactions = useSelector(state => state.transactions?.transactions ?? []);
-    const accountsList = useSelector(state => state.accounts?.accounts) ?? [];
-    const wallet = useSelector(state => state.wallet?.wallet);
+    const transactions = useAppSelector(state => state.transactions?.transactions ?? []);
+    const accountsList = useAppSelector(state => state.accounts?.accounts) ?? [];
+    const wallet = useAppSelector(state => state.wallet?.wallet);
 
     const accounts = useMemo(() => {
         return wallet ? [...accountsList, wallet] : accountsList;
     }, [accountsList, wallet]);
 
-    const [transactionType, setTransactionType] = useState(TRANSACTION_TYPE.EXPENSE);
+    const [transactionType, setTransactionType] = useState<TransactionType>(TRANSACTION_TYPE.EXPENSE);
 
     const transactionModal = useModal();
 
@@ -95,40 +98,34 @@ const Dashboard = () => {
         dispatch(getUserWallet());
     }, [dispatch]);
 
-    const onCreateTransaction = async (transaction) => {
-        try {
+    const onCreateTransaction = async (transaction: ITransactionToUpsert) => {
             await dispatch(createUserTransaction(transaction));
             transactionModal.closeModal();
-        } catch (error) {
-        }
     }
 
-    const onOpenTransactionModalWithType = (type) => {
+    const onOpenTransactionModalWithType = (type: TransactionType) => {
         if (type)
             setTransactionType(type);
         transactionModal.openModal();
     }
 
-    const onUpdateDailyLimit = async (limit, closeModal) => {
-        try {
-            const userToUpdate = createUserToUpdate({
+    const onUpdateDailyLimit: OnUpdateLimitType = async (limit: number, closeModal: () => void) => {
+        const userToUpdate: IUserToUpdate = {
                 dailyLimit: limit
-            });
-            await dispatch(updateApplicationUser(userToUpdate));
-            closeModal();
-        } catch (error) {
-        }
+        };
+
+        await dispatch(updateApplicationUser(userToUpdate));
+        closeModal();
     }
 
-    const onUpdateMonthlyLimit = async (limit, closeModal) => {
-        try {
-            const userToUpdate = createUserToUpdate({
-                monthlyLimit: limit
-            });
-            await dispatch(updateApplicationUser(userToUpdate));
-            closeModal();
-        } catch (error) {
-        }
+
+    const onUpdateMonthlyLimit: OnUpdateLimitType = async (limit, closeModal) => {
+        const userToUpdate: IUserToUpdate = {
+            dailyLimit: limit
+        };
+
+        await dispatch(updateApplicationUser(userToUpdate));
+        closeModal();
     }
 
     return (
@@ -136,7 +133,7 @@ const Dashboard = () => {
             <div className="dashboard__content--top">
                 <MonthBudgetWidget
                     userMonthlyLimit={userMonthlyLimit}
-                    spentThisMonth={spentThisMonth}
+                    spentThisMonth={+spentThisMonth}
                     onUpdateMonthlyLimit={onUpdateMonthlyLimit}/>
 
                 <DayLimitWidget

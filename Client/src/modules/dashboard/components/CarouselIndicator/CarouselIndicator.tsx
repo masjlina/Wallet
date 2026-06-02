@@ -1,14 +1,17 @@
-// React
-import React from "react";
-
 // Styles
 import "./carouselIndicator.scss";
+
+interface IProps {
+    accountQuantity: number;
+    currentIndex: number;
+    setCurrentIndex: (index: number) => void;
+}
 
 const CarouselIndicator = ({
                                accountQuantity = 1,
                                currentIndex = 0,
                                setCurrentIndex
-                           }) => {
+                           }: IProps) => {
     const safeCurrentIndex = Math.min(
         Math.max(currentIndex, 0),
         Math.max(accountQuantity - 1, 0)

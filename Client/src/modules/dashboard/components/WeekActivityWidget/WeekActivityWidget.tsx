@@ -9,7 +9,11 @@ import "./weekActivityWidget.scss";
 import Graph from "@/modules/dashboard/components/Graph/Graph";
 import {getDayAgo} from "@/shared/services/dateTimeService";
 
-const WeekActivityWidget = ({everyDaySpentThisWeek}) => {
+interface IProps {
+    everyDaySpentThisWeek: number[]
+}
+
+const WeekActivityWidget = ({everyDaySpentThisWeek}: IProps) => {
     const year = new Date().getFullYear();
 
     const today = new Date();

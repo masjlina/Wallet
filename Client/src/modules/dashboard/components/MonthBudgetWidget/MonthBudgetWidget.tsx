@@ -8,15 +8,22 @@ import SetLimitModal from "@/modules/dashboard/components/SetLimitModal/SetLimit
 import useModal from "@/shared/hooks/useModal";
 import pencilIcon from "@/assets/icons/pencil--grey.svg";
 import {useMemo} from "react";
+import type {OnUpdateLimitType} from "@/modules/dashboard/components/Dashboard/Dashboard.tsx";
+
+interface IProps {
+    userMonthlyLimit: number;
+    onUpdateMonthlyLimit: OnUpdateLimitType;
+    spentThisMonth: number;
+}
 
 const MonthBudgetWidget = ({
                                userMonthlyLimit,
                                onUpdateMonthlyLimit,
                                spentThisMonth
-                           }) => {
+                           }: IProps) => {
     const monthlyLimitModal = useModal();
 
-    const remainingBalance = (userMonthlyLimit - spentThisMonth).toFixed(2);
+    const remainingBalance: number = +(userMonthlyLimit - spentThisMonth).toFixed(2);
 
     const progress = useMemo(() => {
         if (!userMonthlyLimit || userMonthlyLimit <= 0) return 0;

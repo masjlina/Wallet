@@ -1,6 +1,3 @@
-// React
-import React from "react";
-
 // External libs
 import {useNavigate} from "react-router-dom";
 
@@ -11,22 +8,27 @@ import {TransactionRow} from "@/modules/transactions";
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
 import {ROUTES} from "@/shared/consts/routes";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import {TRANSACTION_COLUMNS, TRANSACTION_TYPE, type TransactionColType} from "@/shared/consts/transactionTypes";
 
 // Local
 import rightArrow from "@/assets/icons/right-arrow.svg";
 
 // Styles
 import "./recentTransactionsWidget.scss";
+import type {ITransaction} from "@/domain/transaction.ts";
 
-const RecentTransactionsWidget = ({transactions}) => {
+interface IProps {
+    transactions: ITransaction[]
+}
+
+const RecentTransactionsWidget = ({transactions}: IProps) => {
     const navigate = useNavigate();
 
-    const tableHeaders = [
+    const tableHeaders: TransactionColType[] = [
         TRANSACTION_COLUMNS.NAME,
         TRANSACTION_COLUMNS.AMOUNT,
         TRANSACTION_COLUMNS.CATEGORY,
-        TRANSACTION_COLUMNS.DATE
+        TRANSACTION_COLUMNS.DATE,
     ];
 
     const content = Array.isArray(transactions) && transactions.map(transaction => {

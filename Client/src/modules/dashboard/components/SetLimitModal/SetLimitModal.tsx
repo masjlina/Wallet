@@ -4,12 +4,22 @@ import {useEffect} from "react";
 // Shared
 import AmountInput from "@/shared/components/Modal/components/AmountInput/AmountInput";
 import Modal from "@/shared/components/Modal/Modal";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 import Button from "@/ui/Button/Button";
-import {getRemainingMonthDays, getThisMonthDays} from "@/shared/services/dateTimeService";
+import {getThisMonthDays} from "@/shared/services/dateTimeService";
 
 import "./setLimitModal.scss";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants.ts";
+
+interface IProps {
+    isOpen: boolean;
+    onClose: () => void;
+    userLimit: number;
+    userMonthlyLimit?: number;
+    onUpdateLimit: (limit: number, onClose: () => void) => void;
+    title?: string;
+    isDaily?: boolean;
+}
 
 const SetLimitModal = ({
                            isOpen,
@@ -19,7 +29,7 @@ const SetLimitModal = ({
                            onUpdateLimit,
                            title = "Change daily limit",
                            isDaily = true
-                       }) => {
+                       }: IProps) => {
     const limitInput = useInput(userLimit);
 
     useEffect(() => {
@@ -53,10 +63,12 @@ const SetLimitModal = ({
                         className="btn__primary--empty set-limit-modal__shortcut"
                         type="button"
                         onClick={() => {
-                            const days = getThisMonthDays();
-                            const daily = userMonthlyLimit / days;
+                            if (userMonthlyLimit) {
+                                const days = getThisMonthDays();
+                                const daily = userMonthlyLimit / days;
 
-                            limitInput.setValue(Math.round(daily * 100) / 100);
+                                limitInput.setValue(Math.round(daily * 100) / 100);
+                            }
                         }}>Calculate from monthly limit</Button>}
             </Modal.Footer>
         </Modal>

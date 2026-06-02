@@ -1,23 +1,24 @@
 // React
-import {type ChangeEvent, useState} from "react";
+import {type MouseEvent, useState} from "react";
 
-type AnchorElType = HTMLAnchorElement | null;
-type OpenModalEventType = ChangeEvent<HTMLAnchorElement>;
+type AnchorElType = HTMLElement | null;
 
 interface IReturn {
-    isOpen: boolean,
-    anchorEl: AnchorElType,
-    openModal: (e?: OpenModalEventType) => void,
-    closeModal: () => void
+    isOpen: boolean;
+    anchorEl: AnchorElType;
+    openModal: (e?: MouseEvent<HTMLElement>) => void;
+    closeModal: () => void;
 }
 
 const useModal = (): IReturn => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<AnchorElType>(null);
 
-    const openModal = (e?: OpenModalEventType): void => {
+    const openModal = (e?: MouseEvent<HTMLElement>): void => {
         setIsOpen(true);
-        setAnchorEl(e?.currentTarget ?? null);
+        if (e?.currentTarget) {
+            setAnchorEl(e.currentTarget);
+        }
     };
 
     const closeModal = (): void => {

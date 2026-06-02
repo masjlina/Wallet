@@ -5,5 +5,5 @@ export {default as DayLimitModal} from "@/modules/dashboard/components/SetLimitM
 export {default as DayLimitWidget} from "./components/DayLimitWidget/DayLimitWidget";
 export {default as MonthActivityWidget} from "@/modules/dashboard/components/WeekActivityWidget/WeekActivityWidget";
 export {default as MonthBudgetWidget} from "./components/MonthBudgetWidget/MonthBudgetWidget";
-export {default as MyAccountWidget} from "./components/MyAccountWidget/MyAccountWidget";
+export {default as MyAccountWidget} from "./components/MyAccountWidget/MyAccountWidget.tsx";
 export {default as RecentTransactionsWidget} from "./components/RecentTransactionsWidget/RecentTransactionsWidget";

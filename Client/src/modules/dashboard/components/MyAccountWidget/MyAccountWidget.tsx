@@ -1,9 +1,6 @@
-// React
-import React, {useEffect, useState} from "react";
-
 // External libs
 import {useNavigate} from "react-router-dom";
-
+import {useEffect, useState} from "react";
 // App (modules)
 import CarouselIndicator from "../CarouselIndicator/CarouselIndicator";
 
@@ -17,8 +14,14 @@ import rightArrow from "@/assets/icons/right-arrow.svg";
 
 // Styles
 import "./myAccountWidget.scss";
+import type {IWallet} from "@/domain/wallet.ts";
+import type {ICreditCard} from "@/domain/account.ts";
 
-const MyAccountWidget = ({accounts}) => {
+interface IProps {
+    accounts: (IWallet | ICreditCard)[]
+}
+
+const MyAccountWidget = ({accounts}: IProps) => {
     const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,10 +33,8 @@ const MyAccountWidget = ({accounts}) => {
     const visibleAccountsCount = visibleAccounts.length;
 
     const balance = formatAmountOfMoney(
-        accounts
-            .reduce(
-            (sum, account) => sum + account?.balance,
-            0)
+        +accounts
+            .reduce((sum, account) => sum + account?.balance, 0)
             .toFixed(2)
         );
 
@@ -70,27 +71,31 @@ const MyAccountWidget = ({accounts}) => {
         );
     };
 
-    const content = visibleAccounts.map((account, i) => (
-        <div key={i}
-             className={`carousel__item ${i === currentIndex ? "carousel__item--selected" : ""} accounts__carousel--underlay`}>
-            <div className="accounts__carousel--background">
-                <div className="accounts__carousel--hover">
-                    <div className="content card__content">
-                        <div className="content card__content--top text text__base text__base--white">
-                            <div>Account Type</div>
-                            <div className="text__title text__title--bolder-white">{account?.walletId ? "Credit Card" : "Wallet"}</div>
-                            <div>{account?.walletId ? `•••• •••• •••• ${account.name.slice(-4)}` : ""}</div>
-                        </div>
+    const content = visibleAccounts.map((account, i) => {
+        const isCreditCard = account && 'walletId' in account;
 
-                        <div className="content card__content--bottom">
-                            <div>09/25</div>
-                            <div className="text__title text__title--white">{formatAmountOfMoney(account?.balance)}</div>
+        return (
+            <div key={i}
+                 className={`carousel__item ${i === currentIndex ? "carousel__item--selected" : ""} accounts__carousel--underlay`}>
+                <div className="accounts__carousel--background">
+                    <div className="accounts__carousel--hover">
+                        <div className="content card__content">
+                            <div className="content card__content--top text text__base text__base--white">
+                                <div>Account Type</div>
+                                <div className="text__title text__title--bolder-white">{isCreditCard ? "Credit Card" : "Wallet"}</div>
+                                <div>{isCreditCard ? `•••• •••• •••• ${account.name.slice(-4)}` : ""}</div>
+                            </div>
+
+                            <div className="content card__content--bottom">
+                                <div>09/25</div>
+                                <div className="text__title text__title--white">{formatAmountOfMoney(account?.balance)}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    ));
+        )
+    });
 
 
   return (

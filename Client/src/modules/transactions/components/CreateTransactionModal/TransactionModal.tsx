@@ -1,11 +1,9 @@
 // React
-import {useEffect, useMemo, useState} from "react";
+import {type ChangeEvent, useEffect, useMemo, useState} from "react";
 
-// External libs
-import {useDispatch, useSelector} from "react-redux";
 
 // App (modules)
-import {createTransactionFromObject} from "@/domain/transaction";
+import {type ITransaction, type ITransactionToUpsert} from "@/domain/transaction";
 import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState";
 import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 
@@ -18,8 +16,8 @@ import TransactionTypeSwitcher
 import Modal from "@/shared/components/Modal/Modal";
 import accountType from "@/shared/consts/accountType";
 import ACCOUNT_TYPE from "@/shared/consts/accountType";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
-import TRANSACTION_TYPE from "@/shared/consts/transactionTypes";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
+import {TRANSACTION_TYPE, type TransactionType} from "@/shared/consts/transactionTypes";
 import useInput from "@/shared/hooks/useInput";
 
 // Local
@@ -28,11 +26,30 @@ import calendarIcon from "@/assets/icons/calendar.svg";
 
 // Styles
 import "./addTransactionModal.scss";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 
-const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, type}) => {
-    const accounts = useSelector(state => state.accounts.accounts);
-    const wallet = useSelector(state => state.wallet.wallet);
-    const dispatch = useDispatch();
+interface IProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onCreate: (transaction: ITransactionToUpsert) => Promise<void>;
+    onUpdate?: (transaction: ITransactionToUpsert) => Promise<void>;
+    transaction?: ITransaction;
+    type: TransactionType;
+}
+
+const TransactionModal = ({
+                              isOpen,
+                              onClose,
+                              onCreate,
+                              onUpdate,
+                              transaction,
+                              type
+                          }: IProps) => {
+    const dispatch = useAppDispatch();
+
+    const accounts = useAppSelector(state => state.accounts.accounts);
+    const wallet = useAppSelector(state => state.wallet.wallet);
 
     const initialForm = useMemo(
         () => getInitialTransactionFormState(transaction),
@@ -40,9 +57,9 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
 
     const nameInput = useInput("");
     const descriptionInput = useInput("");
-    const balanceInput = useInput("");
-    const accountInput = useInput("");
-    const dateTimeInput = useInput("");
+    const balanceInput = useInput<number>(0);
+    const accountInput = useInput<string>("");
+    const dateTimeInput = useInput<string>("");
 
     const [transactionType, setTransactionType] = useState(
         type ??
@@ -104,7 +121,7 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
 
     }, [balanceInput.value]);
 
-    const onChangeTransactionType = (nextType) => {
+    const onChangeTransactionType = (nextType: TransactionType) => {
         setTransactionType(nextType);
 
         balanceInput.setValue(prev =>
@@ -115,33 +132,35 @@ const TransactionModal = ({isOpen, onClose, onCreate, onUpdate, transaction, typ
     };
 
 
-    const validateAndSubmit = async (e) => {
+    const validateAndSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const iso = new Date(dateTimeInput.value).toISOString();
+        const iso = new Date(dateTimeInput.value);
 
         if (!accountInput.value) return;
         const [type, id] = accountInput.value.split(": ").map(v => v.trim());
 
         const ownership =
             type === ACCOUNT_TYPE.CARD
-                ? { creditCardId: Number(id), walletId: null }
-                : { walletId: Number(id), creditCardId: null };
+                ? {creditCardId: Number(id), walletId: undefined}
+                : {walletId: Number(id), creditCardId: undefined};
 
-        const transactionToUpsert = createTransactionFromObject({
+        const transactionToUpsert: ITransactionToUpsert = {
             name: nameInput.value,
             description: descriptionInput.value,
             amount: balanceInput.value,
             createdAt: iso,
             ...ownership
-        });
+        };
 
         setIsBtnDisabled(true);
 
         if (!transaction?.id)
             await onCreate(transactionToUpsert);
-        else
-            await onUpdate(transactionToUpsert)
+        else {
+            if (onUpdate)
+                await onUpdate(transactionToUpsert)
+        }
 
         const form = getInitialTransactionFormState(transaction);
 
