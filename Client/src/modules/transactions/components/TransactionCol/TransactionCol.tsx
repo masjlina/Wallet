@@ -1,10 +1,10 @@
-// React
-import React from "react";
-
 // Styles
 import "./transactionCol.scss";
+import type {TransactionColType} from "@/shared/consts/transactionTypes.ts";
 
-const TransactionCol = ({ tableHeaders }) => {
+type PropsType = { tableHeaders: TransactionColType[] }
+
+const TransactionCol = ({tableHeaders}: PropsType) => {
     return (
         <thead>
         <tr>

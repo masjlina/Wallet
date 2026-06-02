@@ -1,16 +1,29 @@
 // React
-import React, {useLayoutEffect, useRef, useState} from "react";
+import {useLayoutEffect, useRef, useState} from "react";
 
 // Shared
 import Modal from "@/shared/components/Modal/Modal";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
 
 // Local
 import pencilIcon from "@/assets/icons/pencil.svg";
 import trashIcon from "@/assets/icons/trash--red.svg";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants.ts";
 
-const MoreActionsModal = ({isOpen, anchorEl, onClose, onEditTransaction, openConfirmation}) => {
-    const boxRef = useRef(null);
+interface IProps {
+    isOpen: boolean;
+    anchorEl: HTMLElement | null;
+    onClose: () => void;
+    onEditTransaction: () => void;
+    openConfirmation: () => void;
+}
+
+const MoreActionsModal = ({
+                              isOpen,
+                              anchorEl,
+                              onClose,
+                              onEditTransaction,
+                              openConfirmation}: IProps) => {
+    const boxRef = useRef<HTMLElement>(null);
     const [pos, setPos] = useState({top: 0, left: 0});
 
     useLayoutEffect(() => {

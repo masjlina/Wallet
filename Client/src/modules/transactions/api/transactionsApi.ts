@@ -1,5 +1,5 @@
 // App (modules)
-import {createTransactionFromDto, type ITransaction} from "@/domain/transaction.ts";
+import {type ITransaction} from "@/domain/transaction.ts";
 import type {IRemoveTransactionResponse} from "@/modules/transactions/api/types/removeTransactionResponse.ts";
 import type {IUpsertTransactionRequest} from "@/modules/transactions/api/types/upsertTransactionRequest.ts";
 
@@ -17,7 +17,7 @@ export async function getAllTransactions(): ReturnType<ITransaction[]> {
             method: "GET"
         });
 
-        return result.map(transaction => createTransactionFromDto(transaction));
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
@@ -30,7 +30,7 @@ export async function getTransaction(transactionId: number): ReturnType<ITransac
             method: "GET"
         });
 
-        return createTransactionFromDto(result);
+            return result;
     } catch (error) {
         return AppError.from(error);
     }
@@ -44,7 +44,7 @@ export async function createTransaction(transaction: IUpsertTransactionRequest):
             body: transaction
         });
 
-        return createTransactionFromDto(result);
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
@@ -61,7 +61,7 @@ export async function updateTransaction(
             body: transaction
         });
 
-        return createTransactionFromDto(result);
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
@@ -76,7 +76,7 @@ export async function removeTransaction(transactionId: number): ReturnType<IRemo
 
         return {
             transactionToDeleteId: transactionId
-        };
+        } as IRemoveTransactionResponse;
     } catch (error) {
         return AppError.from(error);
     }

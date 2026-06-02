@@ -1,8 +1,9 @@
 // Shared
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE} from "@/shared/consts/accountType";
 import {formatLocalDateTime} from "@/shared/services/dateTimeService";
+import type {ITransaction} from "@/domain/transaction.ts";
 
-const getInitialTransactionFormState = (transaction) => {
+const getInitialTransactionFormState = (transaction: ITransaction | undefined) => {
     return {
         name: transaction?.name ?? "",
         description: transaction?.description ?? "",

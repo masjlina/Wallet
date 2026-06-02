@@ -5,9 +5,9 @@ export {default as TransactionCol} from "./components/TransactionCol/Transaction
 export {default as TransactionModal} from "./components/CreateTransactionModal/TransactionModal";
 export {default as TransactionRow} from "./components/TransactionRow/TransactionRow";
 
-export {default as getInitialTransactionFormState} from "./helpers/getInitialTransactionFormState";
+export {default as getInitialTransactionFormState} from "./helpers/getInitialTransactionFormState.ts";
 export {default as getTodayTransactions} from "./helpers/transactionHelper";
-export {filterTransactionsByType, filterTransactionByAccount} from "./helpers/transactionsService";
+export {filterTransactionsByType, filterTransactionByAccount} from "./helpers/transactionsService.ts";
 
 export {
     createUserTransaction,
@@ -26,4 +26,4 @@ export {
     updateTransaction
 } from "./api/transactionsApi";
 
-export {useTransactionsController} from "./hooks/useTransactionsController";
+export {useTransactionsController} from "./hooks/useTransactionsController.tsx";

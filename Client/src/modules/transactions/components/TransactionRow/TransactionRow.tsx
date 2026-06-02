@@ -1,5 +1,5 @@
 // Shared
-import accountType from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE} from "@/shared/consts/accountType.ts";
 import {
     TRANSACTION_COLUMNS,
     TRANSACTION_TYPE,
@@ -40,7 +40,7 @@ const TransactionRow = ({
         d.toLocaleDateString() + "\n" +
         d.toLocaleTimeString();
     const formattedAmount = formatAmountOfMoney(amount);
-    const paymentMethod = walletId ? accountType.CASH : accountType.CARD;
+    const paymentMethod = walletId ? ACCOUNT_TYPE.CASH : ACCOUNT_TYPE.CARD;
 
     const iconClazz =
         type === TRANSACTION_TYPE.EXPENSE

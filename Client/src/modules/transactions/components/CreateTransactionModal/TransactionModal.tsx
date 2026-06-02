@@ -1,10 +1,9 @@
 // React
 import {type ChangeEvent, useEffect, useMemo, useState} from "react";
 
-
 // App (modules)
 import {type ITransaction} from "@/domain/transaction";
-import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState";
+import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState.ts";
 import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 
 // Shared
@@ -14,8 +13,7 @@ import AmountInput from "@/shared/components/Modal/components/AmountInput/Amount
 import TransactionTypeSwitcher
     from "@/shared/components/Modal/components/TransactionTypeSwitcher/TransactionTypeSwitcher";
 import Modal from "@/shared/components/Modal/Modal";
-import accountType from "@/shared/consts/accountType";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE} from "@/shared/consts/accountType";
 import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
 import {TRANSACTION_TYPE, type TransactionType} from "@/shared/consts/transactionTypes";
 import useInput from "@/shared/hooks/useInput";
@@ -36,7 +34,7 @@ interface IProps {
     onCreate: (transaction: IUpsertTransactionRequest) => Promise<void>;
     onUpdate?: (transaction: IUpsertTransactionRequest) => Promise<void>;
     transaction?: ITransaction;
-    type: TransactionType;
+    type?: TransactionType;
 }
 
 const TransactionModal = ({
@@ -56,8 +54,8 @@ const TransactionModal = ({
         () => getInitialTransactionFormState(transaction),
         [transaction]);
 
-    const nameInput = useInput("");
-    const descriptionInput = useInput("");
+    const nameInput = useInput<string>("");
+    const descriptionInput = useInput<string>("");
     const balanceInput = useInput<number>(0);
     const accountInput = useInput<string>("");
     const dateTimeInput = useInput<string>("");
@@ -76,7 +74,7 @@ const TransactionModal = ({
         nameInput.setValue(form.name);
         descriptionInput.setValue(form.description);
         balanceInput.setValue(form.amount);
-        accountInput.setValue(wallet ? `${accountType.CASH}: ${wallet.id}` : form.account);
+        accountInput.setValue(wallet ? `${ACCOUNT_TYPE.CASH}: ${wallet.id}` : form.account);
         dateTimeInput.setValue(form.createdAt);
 
         if (form.amount !== 0) {
@@ -168,7 +166,7 @@ const TransactionModal = ({
         nameInput.setValue(form.name);
         descriptionInput.setValue(form.description);
         balanceInput.setValue(form.amount);
-        accountInput.setValue(wallet ? `${accountType.CASH}: ${wallet.id}` : form.account);
+        accountInput.setValue(wallet ? `${ACCOUNT_TYPE.CASH}: ${wallet.id}` : form.account);
         dateTimeInput.setValue(form.createdAt);
 
         setIsBtnDisabled(false);
@@ -227,7 +225,7 @@ const TransactionModal = ({
                                 {wallet && (
                                     <option
                                         key={wallet.id}
-                                        value={`${accountType.CASH}: ${wallet.id}`}>
+                                        value={`${ACCOUNT_TYPE.CASH}: ${wallet.id}`}>
                                         Wallet
                                     </option>
                                 )
@@ -236,7 +234,7 @@ const TransactionModal = ({
                                     accounts.map(account => {
                                             return <option
                                                 key={account.id}
-                                                value={`${accountType.CARD}: ${account.id}`}>
+                                                value={`${ACCOUNT_TYPE.CARD}: ${account.id}`}>
                                                 Card •••• {account.name.slice(-4)}
                                             </option>
 

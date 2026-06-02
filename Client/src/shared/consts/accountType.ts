@@ -3,4 +3,4 @@ export const ACCOUNT_TYPE = {
     CARD: "card"
 } as const;
 
-export default ACCOUNT_TYPE;
+export type AccountType = typeof ACCOUNT_TYPE[keyof typeof ACCOUNT_TYPE];

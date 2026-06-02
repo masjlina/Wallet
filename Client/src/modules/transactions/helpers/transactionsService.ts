@@ -1,7 +1,14 @@
+import type {TransactionFilterType} from "@/shared/consts/transactionTypes";
 import {TRANSACTION_FILTER_TYPE} from "@/shared/consts/transactionTypes";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE, type AccountType} from "@/shared/consts/accountType";
+import type {ITransaction} from "@/domain/transaction.ts";
 
-export const filterTransactionsByType = (type, transactions) => {
+interface IAccount {
+    id: number,
+    type: AccountType
+}
+
+export const filterTransactionsByType = (type: TransactionFilterType, transactions: ITransaction[]) => {
     switch (type) {
         case TRANSACTION_FILTER_TYPE.INCOME:
             return transactions.filter(t => t.amount >= 0);
@@ -14,7 +21,7 @@ export const filterTransactionsByType = (type, transactions) => {
     }
 }
 
-export const filterTransactionByAccount = (account, transactions) => {
+export const filterTransactionByAccount = (account: IAccount, transactions: ITransaction[]) => {
     if (!transactions) return [];
 
     switch (account.type) {

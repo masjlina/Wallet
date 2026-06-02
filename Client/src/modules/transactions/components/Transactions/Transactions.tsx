@@ -1,8 +1,5 @@
 // React
-import React, {useEffect, useMemo} from "react";
-
-// External libs
-import {useSelector} from "react-redux";
+import {useEffect, useMemo} from "react";
 
 // App (modules)
 import TransactionModal from "../CreateTransactionModal/TransactionModal";
@@ -17,11 +14,17 @@ import ButtonCreateEntity from "@/shared/components/Toolbar/components/ButtonCre
 import Filter from "@/shared/components/Toolbar/components/Filter/Filter";
 import Toolbar from "@/shared/components/Toolbar/Toolbar";
 import {Widget} from "@/shared/components/Widget/Widget";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS, TRANSACTION_FILTER_TYPE} from "@/shared/consts/transactionTypes";
+import {
+    TRANSACTION_COLUMNS,
+    TRANSACTION_FILTER_TYPE,
+    TRANSACTION_TYPE,
+    type TransactionFilterType
+} from "@/shared/consts/transactionTypes";
 import {usePersistedState} from "@/shared/hooks/usePersistedState";
 
 // Styles
 import "./transactions.scss";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 
 const Transactions = () => {
     const transactionsController = useTransactionsController();
@@ -29,7 +32,7 @@ const Transactions = () => {
     const [currentFilter, setCurrentFilter] =
         usePersistedState("filter", TRANSACTION_FILTER_TYPE.ALL);
 
-    const transactions = useSelector(
+    const transactions = useAppSelector(
         state => state.transactions.transactions || []
     );
 
@@ -43,7 +46,7 @@ const Transactions = () => {
 
     const tableHeaders = Object.values(TRANSACTION_COLUMNS);
 
-    const onChangeCurrentFilter = (newFilter) => {
+    const onChangeCurrentFilter = (newFilter: TransactionFilterType) => {
         setCurrentFilter(newFilter);
     };
 
@@ -65,7 +68,7 @@ const Transactions = () => {
                     currentFilter={currentFilter}
                     filters={Object.values(TRANSACTION_FILTER_TYPE)}
                     onChangeCurrentFilter={onChangeCurrentFilter}/>
-                <ButtonCreateEntity onClick={transactionsController.openTransaction} text="Add transaction"/>
+                <ButtonCreateEntity onClick={() => transactionsController.openTransaction()} text="Add transaction"/>
             </Toolbar>
 
             <Widget>

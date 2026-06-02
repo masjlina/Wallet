@@ -12,12 +12,12 @@ import {
 import type {ITransaction} from "@/domain/transaction.ts";
 import type {IRemoveTransactionResponse} from "@/modules/transactions/api/types/removeTransactionResponse.ts";
 
-interface IInitialState {
+interface ITransactionState {
     transactions: ITransaction[];
     transaction: ITransaction | null;
 }
 
-const initialState: IInitialState = {
+const initialState: ITransactionState = {
     transactions: [],
     transaction: null
 };
