@@ -94,7 +94,7 @@ public class AccountController(
 
         return Ok(new SignInResponseDto
         {
-            ApplicationUserDto = userMapper.ToDto(user),
+            User = userMapper.ToDto(user),
             AccessToken = accessToken
         });
     }

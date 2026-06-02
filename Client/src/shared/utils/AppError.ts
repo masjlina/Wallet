@@ -1,4 +1,5 @@
 import type {IErrorResponse} from "@/shared/api/errorResponse.ts";
+import type {ISerializedAppError} from "@/app/store/returnRejectOrResult.ts";
 
 export class AppError extends Error {
     public readonly messages: string[];
@@ -11,6 +12,15 @@ export class AppError extends Error {
 
         this.messages = messages.length > 0 ? messages : [message];
         Object.setPrototypeOf(this, AppError.prototype);
+    }
+
+    toPlainObject(): ISerializedAppError {
+        return {
+            name: this.name,
+            message: this.message,
+            messages: this.messages,
+            status: this.status
+        };
     }
 
     static from(error: unknown, status?: number): AppError {
