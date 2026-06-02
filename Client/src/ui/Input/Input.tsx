@@ -2,8 +2,7 @@
 import "./input.scss";
 import type {InputHTMLAttributes, ReactNode} from "react";
 
-export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
-}
+export type IInputProps = InputHTMLAttributes<HTMLInputElement>
 
 const Input = ({
                    type = "text",

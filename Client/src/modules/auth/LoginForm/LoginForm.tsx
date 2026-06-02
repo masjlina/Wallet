@@ -48,8 +48,12 @@ export const LoginForm = () => {
             rememberMe: isRemembered.value
         };
 
-        await dispatch(loginUser(formData)).unwrap();
-        navigate(ROUTES.DASHBOARD);
+        try {
+            await dispatch(loginUser(formData)).unwrap();
+            navigate(ROUTES.DASHBOARD);
+        } catch {
+            // Errors are stored in auth state by the rejected thunk and rendered below.
+        }
     };
 
     return (

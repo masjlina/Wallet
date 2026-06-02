@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test';
 
-const apiOrigin = process.env.PLAYWRIGHT_API_ORIGIN || 'http://127.0.0.1:5231';
+const apiOrigin = import.meta.env.PLAYWRIGHT_API_ORIGIN || 'http://127.0.0.1:5231';
 const apiUrl = `${apiOrigin}/api`;
 
 test("user can login", async ({page, request}) => {

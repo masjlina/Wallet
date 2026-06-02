@@ -2,8 +2,7 @@
 import "./textarea.scss";
 import type {ReactNode, TextareaHTMLAttributes} from "react";
 
-interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-}
+type IProps = TextareaHTMLAttributes<HTMLTextAreaElement>
 
 const Textarea = ({
                       className = "",

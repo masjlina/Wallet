@@ -2,8 +2,7 @@
 import InputWithLabel, {type IFieldWithLabelProps} from "@/shared/components/FieldWithLabel/FieldWithLabel";
 import type {ReactNode} from "react";
 
-interface IProps extends IFieldWithLabelProps {
-}
+type IProps = IFieldWithLabelProps
 
 const NameField = ({
                        placeholder,

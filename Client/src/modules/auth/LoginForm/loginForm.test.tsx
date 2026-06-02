@@ -1,12 +1,13 @@
 import {act, screen, waitFor} from "@testing-library/react";
 import {afterEach, test} from "vitest"
 import {composeStory} from '@storybook/react-vite';
-import {LoginForm, loginUser} from "@/modules/auth";
-import Meta, {FilledForm as FilledFormStory} from "./loginForm.stories";
+import {loginUser} from "@/modules/auth";
+import Meta, {FilledForm as FilledFormStory} from "./loginForm.stories.tsx";
 import LoginPo from "../../../../tests/pages/login.po";
 import {userEvent} from "storybook/test";
 import {user as userData} from "@/stub/user";
-import {renderWithProviders} from "@/shared/utils/test-utils";
+import {createMockStore} from "@/shared/utils/test-utils.tsx";
+import {vi, describe, expect} from "vitest";
 
 const FilledForm = composeStory(FilledFormStory, Meta);
 
@@ -126,7 +127,7 @@ describe("LoginForm", () => {
     });
 
     test("store user in redux after success login", async () => {
-        const {store} = renderWithProviders(<LoginForm/>);
+        const store = createMockStore();
 
         await act(async () => {
             await store.dispatch(loginUser(userData));

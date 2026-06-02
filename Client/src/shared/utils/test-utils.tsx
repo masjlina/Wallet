@@ -1,19 +1,22 @@
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
-import {render} from "@testing-library/react";
-import {rootReducer} from "@/app/store/rootReducer";
+import {render, type RenderResult} from "@testing-library/react";
+import {rootReducer, type RootState} from "@/app/store/rootReducer";
+import type {ComponentType, ReactElement} from "react";
 
 // TODO: rewrite tests
 // TODO: use custom dispatch and selector
-export function createMockStore(preloadedState) {
+export function createMockStore(preloadedState?: Partial<RootState>) {
     return configureStore({
         reducer: rootReducer,
-        preloadedState
+        preloadedState: preloadedState as RootState
     });
 }
 
-export const withProviders = (state) => (Story) => (
+type MockStore = ReturnType<typeof createMockStore>;
+
+export const withProviders = (state: Partial<RootState>) => (Story: ComponentType) => (
     <Provider store={createMockStore(state)}>
         <BrowserRouter>
             <Story/>
@@ -21,7 +24,14 @@ export const withProviders = (state) => (Story) => (
     </Provider>
 );
 
-export function renderWithProviders(ui, preloadedState) {
+interface RenderWithProvidersResult extends RenderResult {
+    store: MockStore;
+}
+
+export function renderWithProviders(
+    ui: ReactElement,
+    preloadedState?: Partial<RootState>
+): RenderWithProvidersResult {
     const store = createMockStore(preloadedState);
 
     return {

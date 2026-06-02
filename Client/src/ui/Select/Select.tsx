@@ -2,8 +2,7 @@
 import "./select.scss";
 import type {ReactNode, SelectHTMLAttributes} from "react";
 
-interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
-}
+type IProps = SelectHTMLAttributes<HTMLSelectElement>
 
 const Select = ({
                     className = "",
