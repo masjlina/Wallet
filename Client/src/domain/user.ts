@@ -14,12 +14,3 @@ export interface IUser {
     createdAt: Date,
     updatedAt: Date
 }
-
-export type IUserToUpdate = Partial<Pick<IUser,
-    "firstName" |
-    "lastName" |
-    "dailyLimit" |
-    "monthlyLimit" |
-    "phoneNumber" |
-    "avatarUri"
->>;

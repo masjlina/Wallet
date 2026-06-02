@@ -7,5 +7,3 @@ export interface IWallet {
     transactionsIds?: number[],
     creditCards?: ICreditCard[]
 }
-
-export type IWalletToUpdate = Partial<Pick<IWallet, "name" | "balance">>;

@@ -11,11 +11,11 @@ import {
 import {checkUserAuth, logoutUser} from "@/modules/auth/store/authThunks";
 import type {IUser} from "@/domain/user.ts";
 
-interface IInitialState {
+interface IUserState {
     user: IUser | null
 }
 
-const initialState: IInitialState = {
+const initialState: IUserState = {
     user: null
 };
 

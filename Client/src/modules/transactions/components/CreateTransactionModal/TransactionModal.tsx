@@ -3,7 +3,7 @@ import {type ChangeEvent, useEffect, useMemo, useState} from "react";
 
 
 // App (modules)
-import {type ITransaction, type ITransactionToUpsert} from "@/domain/transaction";
+import {type ITransaction} from "@/domain/transaction";
 import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState";
 import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 
@@ -28,12 +28,13 @@ import calendarIcon from "@/assets/icons/calendar.svg";
 import "./addTransactionModal.scss";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import type {IUpsertTransactionRequest} from "@/modules/transactions/api/types/upsertTransactionRequest.ts";
 
 interface IProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (transaction: ITransactionToUpsert) => Promise<void>;
-    onUpdate?: (transaction: ITransactionToUpsert) => Promise<void>;
+    onCreate: (transaction: IUpsertTransactionRequest) => Promise<void>;
+    onUpdate?: (transaction: IUpsertTransactionRequest) => Promise<void>;
     transaction?: ITransaction;
     type: TransactionType;
 }
@@ -145,7 +146,7 @@ const TransactionModal = ({
                 ? {creditCardId: Number(id), walletId: undefined}
                 : {walletId: Number(id), creditCardId: undefined};
 
-        const transactionToUpsert: ITransactionToUpsert = {
+        const transactionToUpsert: IUpsertTransactionRequest = {
             name: nameInput.value,
             description: descriptionInput.value,
             amount: balanceInput.value,

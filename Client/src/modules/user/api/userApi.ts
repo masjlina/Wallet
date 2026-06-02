@@ -1,5 +1,5 @@
 // App (modules)
-import {mapUser, type IUser} from "@/domain/user.ts";
+import {type IUser} from "@/domain/user.ts";
 import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
 
 // Shared
@@ -17,35 +17,35 @@ export async function getUser(): ReturnType<IUser> {
             method: "GET"
         });
 
-        return mapUser(result);
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
 }
 
-export async function updateUser(user: IUpdateUserRequest): ReturnType<IUser> {
+export async function updateUser(data: IUpdateUserRequest): ReturnType<IUser> {
     try {
         const result = await request<IUser>({
             url: ENDPOINTS.USERS,
             method: "PATCH",
-            body: user
+            body: data
         });
 
-        return mapUser(result);
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
 }
 
-export async function uploadAvatar(formData: FormData): ReturnType<IUser> {
+export async function uploadAvatar(data: FormData): ReturnType<IUser> {
     try {
         const result = await request<IUser>({
             url: ENDPOINTS.AVATARS,
             method: "POST",
-            body: formData
+            body: data
         });
 
-        return mapUser(result);
+        return result;
     } catch (error) {
         return AppError.from(error);
     }

@@ -3,7 +3,6 @@ import {useEffect, useMemo, useState} from "react";
 
 // External libs
 // App (modules)
-import {type IUserToUpdate} from "@/domain/user";
 import DayLimitWidget from "../DayLimitWidget/DayLimitWidget";
 import WeekActivityWidget from "@/modules/dashboard/components/WeekActivityWidget/WeekActivityWidget";
 import MonthBudgetWidget from "../MonthBudgetWidget/MonthBudgetWidget";
@@ -28,7 +27,8 @@ import {getDayAgo} from "@/shared/services/dateTimeService";
 import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
-import type {ITransactionToUpsert} from "@/domain/transaction.ts";
+import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
+import type {IUpsertTransactionRequest} from "@/modules/transactions/api/types/upsertTransactionRequest.ts";
 
 export type OnUpdateLimitType = (limit: number, closeModal: () => void) => void;
 
@@ -98,7 +98,7 @@ const Dashboard = () => {
         dispatch(getUserWallet());
     }, [dispatch]);
 
-    const onCreateTransaction = async (transaction: ITransactionToUpsert) => {
+    const onCreateTransaction = async (transaction: IUpsertTransactionRequest) => {
             await dispatch(createUserTransaction(transaction));
             transactionModal.closeModal();
     }
@@ -110,7 +110,7 @@ const Dashboard = () => {
     }
 
     const onUpdateDailyLimit: OnUpdateLimitType = async (limit: number, closeModal: () => void) => {
-        const userToUpdate: IUserToUpdate = {
+        const userToUpdate: IUpdateUserRequest = {
                 dailyLimit: limit
         };
 
@@ -120,7 +120,7 @@ const Dashboard = () => {
 
 
     const onUpdateMonthlyLimit: OnUpdateLimitType = async (limit, closeModal) => {
-        const userToUpdate: IUserToUpdate = {
+        const userToUpdate: IUpdateUserRequest = {
             dailyLimit: limit
         };
 

@@ -5,5 +5,3 @@ export interface ICreditCard {
     balance: number,
     transactionsIds: number[]
 }
-
-export type ICreditCardToUpdate = Partial<Pick<ICreditCard, "name" | "balance">>;

@@ -13,18 +13,18 @@ import type {ISignInResponse} from "@/modules/auth/api/types/signInResponse.ts";
 import type {ICheckAuthResponse} from "@/modules/auth/api/types/checkAuthResponse.ts";
 import type {IChangePasswordRequest} from "@/modules/auth/api/types/changePasswordRequest.ts";
 
-export const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk<ISuccessfulResponse, ISignUpRequest>(
     "auth/register",
-    async (data: ISignUpRequest, {rejectWithValue}) => {
+    async (data, {rejectWithValue}) => {
         const response = await register(data);
 
         return returnRejectOrResult<ISuccessfulResponse>(response, rejectWithValue);
     }
 );
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<ISignInResponse, ISignInRequest>(
     "auth/login",
-    async (data: ISignInRequest, {rejectWithValue}) => {
+    async (data, {rejectWithValue}) => {
         const response = await login(data);
 
         return returnRejectOrResult<ISignInResponse>(response, rejectWithValue);
@@ -40,7 +40,7 @@ export const logoutUser = createAsyncThunk<ISuccessfulResponse, void>(
     }
 );
 
-export const checkUserAuth = createAsyncThunk(
+export const checkUserAuth = createAsyncThunk<ICheckAuthResponse, void>(
     "auth/checkAuth",
     async (_, {rejectWithValue}) => {
         const response = await checkAuth();
@@ -49,7 +49,7 @@ export const checkUserAuth = createAsyncThunk(
     }
 );
 
-export const changeUserPassword = createAsyncThunk(
+export const changeUserPassword = createAsyncThunk<ISuccessfulResponse, IChangePasswordRequest>(
     "auth/changePassword",
     async (data: IChangePasswordRequest, { dispatch, rejectWithValue }) => {
         const response = await changePassword(data);

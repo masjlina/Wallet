@@ -12,6 +12,3 @@ export interface ITransaction {
     createdAt: Date,
     updatedAt: Date
 }
-
-export type ITransactionToUpsert = Pick<ITransaction, "name" | "amount"> &
-    Partial<Pick<ITransaction, "walletId" | "creditCardId" | "categoryId" | "description" | "createdAt" | "updatedAt">>;

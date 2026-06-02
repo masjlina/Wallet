@@ -9,10 +9,10 @@ import {getDayTransactions} from "@/modules/transactions/helpers/transactionHelp
 import {formatAmountOfMoney, formatParentheses, getClazzAmountOfMoneyColor} from "@/shared/services/moneyService";
 import Button from "@/ui/Button/Button";
 import {getRemainingMonthDays} from "@/shared/services/dateTimeService";
-import {type IUserToUpdate} from "@/domain/user";
 import {updateApplicationUser} from "@/modules/user";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
 
 interface IProps {
     isOpen: boolean;
@@ -82,7 +82,7 @@ const DaySummaryModal = ({isOpen, onClose}: IProps) => {
             (userDailyLimit + amountToAdd).toFixed(2)
         );
 
-        const userToUpdate: IUserToUpdate = {
+        const userToUpdate: IUpdateUserRequest = {
             dailyLimit: newDailyLimit
         }
 

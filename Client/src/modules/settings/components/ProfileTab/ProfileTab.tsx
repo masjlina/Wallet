@@ -11,8 +11,9 @@ import {arePairsEqual} from "@/shared/utils/arePairsEqual";
 import {updateApplicationUser} from "@/modules/user";
 import {removeApplicationUserAvatar, uploadApplicationUserAvatar} from "@/modules/user/store/userThunks";
 import {SERVER_URL} from "@/shared/consts/endpoints";
-import type {IUser, IUserToUpdate} from "@/domain/user.ts";
+import type {IUser} from "@/domain/user.ts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
 
 type PropsType = Pick<IUser, "firstName" | "lastName" | "avatarUri">;
 
@@ -42,7 +43,7 @@ const ProfileTab = ({firstName, lastName, avatarUri}: PropsType) => {
     const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const userToUpdate: IUserToUpdate = {
+        const userToUpdate: IUpdateUserRequest = {
             firstName: firstNameInput.value,
             lastName: lastNameInput.value,
         };

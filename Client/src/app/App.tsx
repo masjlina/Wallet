@@ -31,7 +31,7 @@ import {
 import {getThisMonthDays} from "@/shared/services/dateTimeService";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
-import type {IUserToUpdate} from "@/domain/user.ts";
+import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
 
 const App = () => {
     const dispatch = useAppDispatch();
@@ -109,7 +109,7 @@ const App = () => {
 
         const days = getThisMonthDays();
         const newDailyLimit = Number((userMonthlyLimit / days).toFixed(2));
-        const userToUpdate: IUserToUpdate = {
+        const userToUpdate: IUpdateUserRequest = {
             dailyLimit: newDailyLimit
         };
 
