@@ -1,7 +1,6 @@
 // React
 // External libs
 import {NavLink, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
 
 // Shared
 import {ROUTES} from "@/shared/consts/routes";
@@ -18,20 +17,21 @@ import walletIcon from "@/assets/icons/wallet.svg";
 import "./sidebar.scss";
 import {usePersistedState} from "@/shared/hooks/usePersistedState";
 import {logoutUser} from "@/modules/auth/store/authThunks";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 
 const Sidebar = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const [isCollapsed, setIsCollapsed] = usePersistedState("isSidebarCollapsed", "true");
+    const [isCollapsed, setIsCollapsed] = usePersistedState("isSidebarCollapsed", true);
 
     const btnClasses = "side-bar__item btn btn__nav";
 
-    const navClass = ({isActive}) =>
+    const navClass = ({isActive}: { isActive: boolean }) =>
         isActive ? `${btnClasses} btn__nav--active` : btnClasses;
 
     const toggleSidebar = () => {
-        setIsCollapsed(prev => {
+        setIsCollapsed((prev) => {
             const next = !prev;
             return next;
         });

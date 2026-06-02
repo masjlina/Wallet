@@ -1,4 +1,3 @@
-import {useDispatch, useSelector} from "react-redux";
 import {useMemo} from "react";
 
 import Logo from "@/ui/Logo/Logo";
@@ -12,13 +11,15 @@ import ProfileModal from "@/modules/layout/Header/components/ProfileModal/Profil
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "@/shared/consts/routes";
 import {logoutUser} from "@/modules/auth/store/authThunks";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 
 const Header = () => {
+    const dispatch = useAppDispatch();
     const contextModal = useModal();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const avatarUri = useSelector(state => state.user?.user?.avatarUri);
+    const avatarUri = useAppSelector(state => state.user?.user?.avatarUri);
 
     const avatarSrc = useMemo(() => {
         if (!avatarUri) {
