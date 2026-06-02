@@ -1,4 +1,4 @@
-export function formatCardNumber(cardNumber) {
+export function formatCardNumber(cardNumber: string): string {
     return cardNumber
         .replace(/\D/g, "")
         .slice(0, 19)
@@ -6,11 +6,11 @@ export function formatCardNumber(cardNumber) {
         .trim();
 }
 
-export const maskCardNumber = (cardNumber) => {
+export const maskCardNumber = (cardNumber: string): string => {
     return cardNumber.slice(0, -3) + "***";
 }
 
-const luhnCheck = (number) => {
+const luhnCheck = (number: string): boolean => {
     let sum = 0;
     let shouldDouble = false;
 
@@ -29,7 +29,7 @@ const luhnCheck = (number) => {
     return sum % 10 === 0;
 };
 
-export const isValidCardNumber = (value) => {
+export const isValidCardNumber = (value: string): boolean => {
     const digits = value.replace(/\D/g, "");
 
     return (
@@ -38,5 +38,5 @@ export const isValidCardNumber = (value) => {
     );
 };
 
-const isValidLength = (digits) =>
+const isValidLength = (digits: string): boolean =>
     digits.length >= 13 && digits.length <= 19;

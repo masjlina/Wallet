@@ -1,6 +1,4 @@
-import type {PersistedStoreItemType} from "../hooks/usePersistedState.ts";
-
-const accessTokenKey: PersistedStoreItemType = "accessToken";
+const accessTokenKey = "accessToken";
 
 export const getAccessToken = (): string | null => localStorage.getItem(accessTokenKey);
 

@@ -4,32 +4,33 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 // App (modules)
 import {createWallet, getWallet, updateWallet} from "../api/walletApi";
 import type {IUpdateWalletRequest} from "@/modules/wallet-accounts/api/types/updateWalletRequest.ts";
-import type {IWalletResponse} from "@/modules/wallet-accounts/api/types/walletResponse.ts";
 import {showNotification} from "@/app/store/notificationSlice";
 import {returnRejectOrResult} from "@/app/store/returnRejectOrResult.ts";
 
 // Shared
 import {NOTIFICATION_INTENT} from "@/shared/consts/notificationIntentTypes";
+import type {IWallet} from "@/domain/wallet.ts";
+import type {ICreateWalletRequest} from "@/modules/wallet-accounts/api/types/createWalletRequest.ts";
 
 interface IUpdateUserWalletRequest {
-    walletId: number;
+    id: number;
     wallet: IUpdateWalletRequest;
 }
 
-export const getUserWallet = createAsyncThunk<IWalletResponse, void>(
+export const getUserWallet = createAsyncThunk<IWallet, void>(
     "wallet-accounts/get",
     async (_, {rejectWithValue}) => {
         const response = await getWallet();
 
-        return returnRejectOrResult<IWalletResponse>(response, rejectWithValue);
+        return returnRejectOrResult<IWallet>(response, rejectWithValue);
     }
 );
 
-export const createUserWallet = createAsyncThunk<IWalletResponse, string>(
+export const createUserWallet = createAsyncThunk<IWallet, ICreateWalletRequest>(
     "wallet-accounts/create",
-    async (walletName, {dispatch, rejectWithValue}) => {
-        const response = await createWallet(walletName);
-        const result = returnRejectOrResult<IWalletResponse>(response, rejectWithValue);
+    async (data, {dispatch, rejectWithValue}) => {
+        const response = await createWallet(data);
+        const result = returnRejectOrResult<IWallet>(response, rejectWithValue);
 
         dispatch(showNotification({
             type: NOTIFICATION_INTENT.SUCCESS,
@@ -40,11 +41,11 @@ export const createUserWallet = createAsyncThunk<IWalletResponse, string>(
     }
 );
 
-export const updateUserWallet = createAsyncThunk<IWalletResponse, IUpdateUserWalletRequest>(
+export const updateUserWallet = createAsyncThunk<IWallet, IUpdateUserWalletRequest>(
     "wallet-accounts/update",
-    async ({walletId, wallet}, {dispatch, rejectWithValue}) => {
-        const response = await updateWallet(walletId, wallet);
-        const result = returnRejectOrResult<IWalletResponse>(response, rejectWithValue);
+    async ({id, wallet}, {dispatch, rejectWithValue}) => {
+        const response = await updateWallet(id, wallet);
+        const result = returnRejectOrResult<IWallet>(response, rejectWithValue);
 
         dispatch(showNotification({
             type: NOTIFICATION_INTENT.SUCCESS,

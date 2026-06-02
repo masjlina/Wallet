@@ -1,52 +1,43 @@
 // App (modules)
-import {mapWallet, type IWallet} from "@/domain/wallet.ts";
+import {type IWallet} from "@/domain/wallet.ts";
 import type {ICreateWalletRequest} from "@/modules/wallet-accounts/api/types/createWalletRequest.ts";
 import type {IUpdateWalletRequest} from "@/modules/wallet-accounts/api/types/updateWalletRequest.ts";
-import type {IWalletResponse} from "@/modules/wallet-accounts/api/types/walletResponse.ts";
 
 // Shared
 import {ENDPOINTS} from "@/shared/consts/endpoints";
 import {request} from "@/shared/utils/httpClient";
 import {AppError} from "@/shared/utils/AppError.ts";
 
-type ReturnType<T extends IWalletResponse> = Promise<T | AppError>;
+type ReturnType<T extends IWallet> = Promise<T | AppError>;
 
-export async function getWallet(): ReturnType<IWalletResponse> {
+export async function getWallet(): ReturnType<IWallet> {
     try {
         const result = await request<IWallet>({
             url: ENDPOINTS.WALLET,
             method: "GET"
         });
 
-        return {
-            wallet: mapWallet(result)
-        };
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
 }
 
-export async function createWallet(walletName: string): ReturnType<IWalletResponse> {
+export async function createWallet(data: ICreateWalletRequest): ReturnType<IWallet> {
     try {
-        const walletRequest: ICreateWalletRequest = {
-            name: walletName
-        };
-
         const result = await request<IWallet>({
             url: ENDPOINTS.WALLET,
             method: "POST",
-            body: walletRequest
+            body: data
         });
 
-        return {
-            wallet: mapWallet(result)
-        };
+        return result;
     } catch (error) {
         return AppError.from(error);
     }
 }
 
-export async function updateWallet(walletId: number, wallet: IUpdateWalletRequest): ReturnType<IWalletResponse> {
+export async function updateWallet(walletId: number, wallet: IUpdateWalletRequest): ReturnType<IWallet> {
     try {
         const result = await request<IWallet>({
             url: `${ENDPOINTS.WALLET}/${walletId}`,
@@ -54,9 +45,7 @@ export async function updateWallet(walletId: number, wallet: IUpdateWalletReques
             body: wallet
         });
 
-        return {
-            wallet: mapWallet(result)
-        };
+        return result;
     } catch (error) {
         return AppError.from(error);
     }

@@ -1,5 +1,5 @@
 // Shared
-import TRANSACTION_TYPE, {type TransactionType} from "@/shared/consts/transactionTypes";
+import {TRANSACTION_TYPE, type TransactionType} from "@/shared/consts/transactionTypes";
 
 // Styles
 import "./transactionTypeSwitcher.scss";

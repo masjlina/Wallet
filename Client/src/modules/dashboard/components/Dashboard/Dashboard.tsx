@@ -24,7 +24,7 @@ import useModal from "@/shared/hooks/useModal";
 import "./dashboard.scss";
 import {getThisMonthTransactions, getWeekTransactions} from "@/modules/transactions/helpers/transactionHelper";
 import {getDayAgo} from "@/shared/services/dateTimeService";
-import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
+import {getAllWalletCreditCards, getUserWallet} from "@/modules/wallet-accounts";
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 import {useAppSelector} from "@/shared/hooks/useAppSelector.ts";
 import type {IUpdateUserRequest} from "@/modules/user/api/types/updateUserRequest.ts";
@@ -38,7 +38,7 @@ const Dashboard = () => {
     const userMonthlyLimit = useAppSelector(state => state.user?.user?.monthlyLimit ?? -1);
 
     const transactions = useAppSelector(state => state.transactions?.transactions ?? []);
-    const accountsList = useAppSelector(state => state.accounts?.accounts) ?? [];
+    const accountsList = useAppSelector(state => state.accounts.creditCards) ?? [];
     const wallet = useAppSelector(state => state.wallet?.wallet);
 
     const accounts = useMemo(() => {
@@ -94,7 +94,7 @@ const Dashboard = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getAllWalletAccounts());
+        dispatch(getAllWalletCreditCards());
         dispatch(getUserWallet());
     }, [dispatch]);
 

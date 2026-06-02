@@ -1,8 +1,7 @@
 // React
-import React, {useEffect, useMemo} from "react";
+import {useEffect, useMemo} from "react";
 
 // External libs
-import {useSelector} from "react-redux";
 import {useMatch, useNavigate, useParams} from "react-router-dom";
 
 // App (modules)
@@ -12,7 +11,7 @@ import {checkAccountType, formatCardNumber, maskCardNumber} from "@/modules/wall
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE} from "@/shared/consts/accountType";
 import {ROUTES} from "@/shared/consts/routes";
 import {formatAmountOfMoney} from "@/shared/services/moneyService";
 
@@ -24,26 +23,27 @@ import "./accountDetails.scss";
 import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal/RemoveConfirmationModal";
 import {filterTransactionByAccount, useTransactionsController} from "@/modules/transactions";
 import TransactionRow from "../../../transactions/components/TransactionRow/TransactionRow";
-import TRANSACTION_TYPE, {TRANSACTION_COLUMNS} from "@/shared/consts/transactionTypes";
+import {TRANSACTION_COLUMNS, TRANSACTION_TYPE} from "@/shared/consts/transactionTypes";
 import TransactionCol from "../../../transactions/components/TransactionCol/TransactionCol";
 import {useAccountsController} from "@/modules/wallet-accounts/hooks/useAccountsController";
 import MoreActionsModal from "../../../transactions/components/MoreActionsModal/MoreActionsModal";
 import TransactionModal from "../../../transactions/components/CreateTransactionModal/TransactionModal";
 import {getDayAgo} from "@/shared/services/dateTimeService";
+import {useAppSelector} from "@/shared/hooks/useAppSelector";
 
 const AccountDetails = () => {
     const accountsController = useAccountsController();
     const transactionsController = useTransactionsController();
 
-    const transactions = useSelector(state => state.transactions.transactions);
+    const transactions = useAppSelector(state => state.transactions.transactions);
 
     const navigate = useNavigate();
 
     const {id} = useParams();
     const isWallet = !!useMatch(`${ROUTES.WALLET}/:id`);
-    const account = useSelector(state => {
+    const account = useAppSelector(state => {
         if (isWallet) return state.wallet.wallet;
-        return state.accounts.accounts?.find(acc => acc.id === Number(id));
+        return state.accounts.creditCards?.find(acc => acc.id === Number(id));
     });
 
     const filteredTransactions = useMemo(() => {
@@ -83,7 +83,7 @@ const AccountDetails = () => {
         if (isWallet) {
             accountsController.getWallet();
         } else {
-            accountsController.getAccountById(id);
+            accountsController.getCreditCardById(Number(id));
         }
 
         transactionsController.getAll();

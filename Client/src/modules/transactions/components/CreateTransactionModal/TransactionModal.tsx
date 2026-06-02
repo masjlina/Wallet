@@ -4,7 +4,7 @@ import {type ChangeEvent, useEffect, useMemo, useState} from "react";
 // App (modules)
 import {type ITransaction} from "@/domain/transaction";
 import getInitialTransactionFormState from "../../helpers/getInitialTransactionFormState.ts";
-import {getAllWalletAccounts, getUserWallet} from "@/modules/wallet-accounts";
+import {getAllWalletCreditCards, getUserWallet} from "@/modules/wallet-accounts";
 
 // Shared
 import FieldWithIcon from "@/shared/components/FieldWithIcon/FieldWithIcon";
@@ -47,7 +47,7 @@ const TransactionModal = ({
                           }: IProps) => {
     const dispatch = useAppDispatch();
 
-    const accounts = useAppSelector(state => state.accounts.accounts);
+    const accounts = useAppSelector(state => state.accounts.creditCards);
     const wallet = useAppSelector(state => state.wallet.wallet);
 
     const initialForm = useMemo(
@@ -87,7 +87,7 @@ const TransactionModal = ({
     }, [transaction, wallet]);
 
     useEffect(() => {
-        dispatch(getAllWalletAccounts());
+        dispatch(getAllWalletCreditCards());
         dispatch(getUserWallet());
     }, [dispatch]);
 

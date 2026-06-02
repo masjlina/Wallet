@@ -1,14 +1,24 @@
 // Shared
 import Modal from "@/shared/components/Modal/Modal";
 import NameField from "@/shared/components/NameField/NameField";
-import MODAL_VARIANT from "@/shared/consts/modalVariants";
+import {MODAL_VARIANT} from "@/shared/consts/modalVariants";
 import useInput from "@/shared/hooks/useInput";
 
 // Styles
 import "./walletModal.scss";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE, type AccountType} from "@/shared/consts/accountType";
+import type {ICreateWalletRequest} from "@/modules/wallet-accounts/api/types/createWalletRequest.ts";
 
-const WalletModal = ({isOpen, onClose, onSubmit}) => {
+interface IProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (type: AccountType, data: ICreateWalletRequest) => void;
+}
+
+const WalletModal = ({
+                         isOpen,
+                         onClose,
+                         onSubmit}: IProps) => {
     const name = useInput("");
 
     return (
@@ -23,9 +33,10 @@ const WalletModal = ({isOpen, onClose, onSubmit}) => {
                     id="create-wallet"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        onSubmit(ACCOUNT_TYPE.CASH, name.value);
+                        onSubmit(ACCOUNT_TYPE.CASH, {name: name.value});
                     }}>
                     <NameField
+                        id="name-input"
                         value={name.value}
                         onChange={name.onChange}
                         placeholder="Wallet name"/>

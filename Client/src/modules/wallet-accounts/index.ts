@@ -10,15 +10,17 @@ export {formatCardNumber, isValidCardNumber, maskCardNumber} from "./helpers/cre
 export {checkAccountType} from "./helpers/checkAccountType";
 
 export {
-    createWalletAccount,
-    getAllWalletAccounts,
-    getWalletAccount,
-    removeWalletAccount,
-    updateWalletAccount
-} from "./store/accountsThunks";
+    createWalletCreditCard,
+    getAllWalletCreditCards,
+    getWalletCreditCard,
+    removeWalletCreditCard,
+    updateWalletCreditCard
+} from "./store/creditCardsThunks";
 export {createUserWallet, getUserWallet, updateUserWallet} from "./store/walletThunks";
-export {default as accountsSlice} from "./store/accountsSlice";
+export {default as accountsSlice} from "./store/creditCardsSlice";
 export {default as walletSlice} from "./store/walletSlice";
 
-export {createAccount, getAccount, getAllAccounts, removeAccount, updateAccount} from "./api/accountsApi";
+export {
+    createCreditCard, getCreditCard, getAllCreditCards, removeCreditCard, updateCreditCard
+} from "./api/creditCardsApi";
 export {createWallet, getWallet, updateWallet} from "./api/walletApi";

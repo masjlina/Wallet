@@ -3,7 +3,7 @@ import {maskCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import {Widget} from "@/shared/components/Widget/Widget";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE, type AccountType} from "@/shared/consts/accountType";
 import {formatAmountOfMoney} from "@/shared/services/moneyService";
 
 // UI
@@ -16,13 +16,25 @@ import mastercardLogo from "../../../../assets/icons/logo-mastercard.svg";
 // Styles
 import "./cardWidget.scss";
 
+export type NavigationParams = Partial<Record<keyof typeof ACCOUNT_TYPE, number>>;
+
+interface IProps {
+    id: number;
+    amount: number;
+    name: string;
+    accountType?: AccountType;
+    openConfirmationModal?: () => void;
+    onNavigateToDetails: (params: any) => void;
+}
+
 const AccountWidget = ({
+                           id,
                            amount,
                            name,
                            accountType = ACCOUNT_TYPE.CARD,
                            openConfirmationModal,
                             onNavigateToDetails
-                       }) => {
+                       }: IProps) => {
     const isCard = accountType === ACCOUNT_TYPE.CARD;
 
     const maskedCardNumber = isCard
@@ -67,7 +79,7 @@ const AccountWidget = ({
                     >Remove</button>}
                 <Button
                     className="account__button"
-                onClick={onNavigateToDetails}>
+                    onClick={() => onNavigateToDetails({ [accountType]: id })}>
                     <p>Details</p>
                     <img
                         className="button__arrow"

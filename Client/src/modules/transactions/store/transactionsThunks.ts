@@ -11,7 +11,6 @@ import {
 } from "../api/transactionsApi";
 import type {IRemoveTransactionResponse} from "@/modules/transactions/api/types/removeTransactionResponse.ts";
 import type {IUpsertTransactionRequest} from "@/modules/transactions/api/types/upsertTransactionRequest.ts";
-import {getAllWalletAccounts} from "@/modules/wallet-accounts/store/accountsThunks";
 import {getUserWallet} from "@/modules/wallet-accounts/store/walletThunks";
 import {showNotification} from "@/app/store/notificationSlice";
 import {returnRejectOrResult} from "@/app/store/returnRejectOrResult.ts";
@@ -19,6 +18,7 @@ import type {ITransaction} from "@/domain/transaction.ts";
 
 // Shared
 import {NOTIFICATION_INTENT} from "@/shared/consts/notificationIntentTypes";
+import {getAllWalletCreditCards} from "@/modules/wallet-accounts";
 
 interface IUpdateUserTransactionRequest {
     transactionId: number;
@@ -54,7 +54,7 @@ export const createUserTransaction = createAsyncThunk<ITransaction, IUpsertTrans
             message: "Transaction was created"
         }));
 
-        await dispatch(getAllWalletAccounts());
+        await dispatch(getAllWalletCreditCards());
         await dispatch(getUserWallet());
 
         return result;
@@ -72,7 +72,7 @@ export const updateUserTransaction = createAsyncThunk<ITransaction, IUpdateUserT
             message: "Transaction was updated"
         }));
 
-        await dispatch(getAllWalletAccounts());
+        await dispatch(getAllWalletCreditCards());
         await dispatch(getUserWallet());
 
         return result;
@@ -90,7 +90,7 @@ export const removeUserTransaction = createAsyncThunk<IRemoveTransactionResponse
             message: "Transaction was deleted"
         }));
 
-        await dispatch(getAllWalletAccounts());
+        await dispatch(getAllWalletCreditCards());
         await dispatch(getUserWallet());
 
         return result;

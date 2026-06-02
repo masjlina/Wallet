@@ -21,8 +21,8 @@ const NameField = ({
                 name="name"
                 placeholder={inputPlaceholder}
                 required
-                minLength="1"
-                maxLength="50"
+                minLength={1}
+                maxLength={50}
             />
         </>
     )

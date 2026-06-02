@@ -3,10 +3,22 @@ import {formatCardNumber} from "@/modules/wallet-accounts";
 
 // Shared
 import FieldWithLabel from "@/shared/components/FieldWithLabel/FieldWithLabel";
+import type {ChangeEvent} from "react";
 
-const CardField = ({ value, onChange, placeholder = "1234 5678 9012 3456", ...props }) => {
+interface IProps {
+    value: string;
+    onChange: (newValue: string) => void;
+    placeholder?: string;
+}
 
-    const handleChange = (e) => {
+const CardField = ({
+                       value,
+                       onChange,
+                       placeholder = "1234 5678 9012 3456",
+                       ...restProps
+                   }: IProps) => {
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value;
         const formatted = formatCardNumber(raw);
 
@@ -15,7 +27,7 @@ const CardField = ({ value, onChange, placeholder = "1234 5678 9012 3456", ...pr
 
     return (
         <FieldWithLabel
-            {...props}
+            {...restProps}
             id="card-number"
             labelText="Card number"
             type="text"

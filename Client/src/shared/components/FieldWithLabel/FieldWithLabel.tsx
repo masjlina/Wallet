@@ -16,7 +16,7 @@ type AsComponents = {
 
 export type IFieldWithLabelProps<T extends keyof AsComponents = "input"> = {
     id: string;
-    labelText: string;
+    labelText?: string;
     as?: "input" | "select" | "textarea";
     variant?: "default" | "password";
     children?: ReactNode;
@@ -44,7 +44,7 @@ const FieldWithLabel = <T extends keyof AsComponents = "input">({
 
     return (
         <div className="input-section__field">
-            <Label id={id} labelText={labelText}></Label>
+            <Label id={id} labelText={labelText ?? ""}></Label>
             {renderControl()}
         </div>
     );

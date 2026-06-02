@@ -2,7 +2,6 @@
 import {useEffect} from "react";
 
 // External libs
-import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 // App (modules)
@@ -16,7 +15,7 @@ import RemoveConfirmationModal from "@/shared/components/RemoveConfirmationModal
 import ButtonCreateEntity from "@/shared/components/Toolbar/components/ButtonCreateEntity/ButtonCreateEntity";
 import Toolbar from "@/shared/components/Toolbar/Toolbar";
 import {Widget} from "@/shared/components/Widget/Widget";
-import ACCOUNT_TYPE from "@/shared/consts/accountType";
+import {ACCOUNT_TYPE} from "@/shared/consts/accountType";
 import {ROUTES} from "@/shared/consts/routes";
 
 // UI
@@ -25,12 +24,15 @@ import Button from "@/ui/Button/Button";
 // Styles
 import "./wallet.scss";
 import {useAccountsController} from "@/modules/wallet-accounts/hooks/useAccountsController";
+import {useAppSelector} from "@/shared/hooks/useAppSelector";
+import type {IWallet} from "@/domain/wallet.ts";
+import type {ICreditCard} from "@/domain/creditCard.ts";
 
 const Wallet = () => {
     const accountsController = useAccountsController();
 
-    const wallet = useSelector(state => state.wallet.wallet);
-    const accounts = useSelector(state => state.accounts.accounts);
+    const wallet = useAppSelector(state => state.wallet.wallet);
+    const accounts = useAppSelector(state => state.accounts.creditCards);
 
     const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const Wallet = () => {
         accountsController.getAll();
     }, []);
 
-    const onNavigateToDetails = (account) => {
+    const onNavigateToDetails = (account: IWallet | ICreditCard) => {
         const [[type, id]] = Object.entries(account);
 
         if (type === ACCOUNT_TYPE.CASH)
@@ -62,13 +64,13 @@ const Wallet = () => {
         let accountsToRender = [
             <AccountWidget
                 key="cash"
+                id={wallet.id}
                 accountType={ACCOUNT_TYPE.CASH}
                 name={wallet.name}
                 amount={wallet.balance}
-                onNavigateToDetails={() => onNavigateToDetails({
-                    [ACCOUNT_TYPE.CASH]: wallet.id
-                })}
-                />
+                onNavigateToDetails={onNavigateToDetails}
+
+            />
         ];
 
         if (Array.isArray(accounts)) {
@@ -77,12 +79,11 @@ const Wallet = () => {
                 ...accounts.map(card => (
                     <AccountWidget
                         key={card.id}
+                        id={card.id}
                         amount={card.balance}
                         name={formatCardNumber(card.name)}
                         openConfirmationModal={() => accountsController.openConfirm(card)}
-                        onNavigateToDetails={() => onNavigateToDetails({
-                            [ACCOUNT_TYPE.CARD]: card.id
-                        })}
+                        onNavigateToDetails={onNavigateToDetails}
                     />
                 ))
             ];
